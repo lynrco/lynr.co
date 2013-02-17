@@ -16,6 +16,7 @@ module Quicklist
     set :views, File.dirname(__FILE__) + '/views'
 
     get '/' do
+      erb :index
     end
 
     def self.log
