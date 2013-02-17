@@ -32,10 +32,6 @@ guard 'shell' do
     end
   end
 
-  watch('Gemfile') { |m|
-    restart_unicorn(m)
-  }
-
   watch(/^(.*)\.rb$/) { |m|
     syntax_ok = true
     if File.exist? m[0]
@@ -43,7 +39,23 @@ guard 'shell' do
       syntax_ok = $? == 0
       puts "#{m[0]} -- #{out}" if !syntax_ok
     end
-    restart_unicorn(m) if syntax_ok
   }
 
+  watch('Gemfile') { |m|
+    restart_unicorn(m)
+  }
+
+  watch('app.rb') { |m|
+    restart_unicorn(m)
+  }
+
+  watch(%r{^lib/(.+)\.rb$}) { |m|
+    restart_unicorn(m)
+  }
+
+end
+
+guard 'rspec', :version => 2 do
+  watch(%r{^spec/.+_spec\.rb$})
+  watch(%r{^lib/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end
