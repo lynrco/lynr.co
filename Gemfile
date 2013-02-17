@@ -15,8 +15,6 @@ group :development do
   gem 'guard-shell'
   gem 'guard-bundler'
 
-  gem 'rspec',      '2.12'
-
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
@@ -24,3 +22,6 @@ group :development do
   gem 'pry'
 end
 
+group :test do
+  gem 'rspec',      '2.12'
+end
