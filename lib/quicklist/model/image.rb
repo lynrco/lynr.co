@@ -16,6 +16,11 @@ module Quicklist; module Model;
       { width: @width, height: @height, url: @url }
     end
 
+    def ==(obj)
+      obj.respond_to?(:width) && obj.respond_to?(:height) && obj.respond_to?(:url) &&
+          obj.width == @width && obj.height == @height && obj.url == @url
+    end
+
   end
 
 end; end;
