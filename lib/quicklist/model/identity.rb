@@ -1,36 +1,34 @@
 require 'bcrypt'
 
-module Quicklist
+module Quicklist; module Model;
 
-  module Model
+  class Identity
 
-    class Identity
+    attr_reader :id
+    attr_reader :email, :password
 
-      attr_reader :email, :password
+    def initialize(email, password, id=nil)
+      @id = id
+      @email = email
+      @password = BCrypt::Password.create(password, :cost => 13)
+    end
 
-      def initialize(email, password)
-        @email = email
-        @password = BCrypt::Password.create(password, :cost => 13)
+    def auth?(e, p)
+      self == { email: e, password: p }
+    end
+
+    def view
+      { email: @email, password: @password }
+    end
+
+    def ==(ident)
+      if (ident.is_a? Hash)
+        @email == ident[:email] && @password == ident[:password]
+      else
+        false
       end
-
-      def auth?(e, p)
-        self == { email: e, password: p }
-      end
-
-      def view
-        { email: @email }
-      end
-
-      def ==(ident)
-        if (ident.is_a? Hash)
-          self.email == ident[:email] && self.password == ident[:password]
-        else
-          false
-        end
-      end
-
     end
 
   end
 
-end
+end; end;
