@@ -10,7 +10,11 @@ module Quicklist; module Model;
     def initialize(email, password, id=nil)
       @id = id
       @email = email
-      @password = BCrypt::Password.create(password, :cost => 13)
+      begin
+        @password = BCrypt::Password.new(password)
+      rescue BCrypt::Errors::InvalidHash
+        @password = BCrypt::Password.create(password, :cost => 13)
+      end
     end
 
     def auth?(e, p)

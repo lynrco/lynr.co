@@ -22,4 +22,17 @@ describe Quicklist::Model::Identity do
     @ident.auth?(@valid[:email], 'this is not my password').should be_false
   end
 
+  it "has a view of it's data properties" do
+    view = @ident.view
+    view.keys.should include(:email, :password)
+    view.values.should include(@email)
+  end
+
+  it "can be created from an existing password hash" do
+    pass = BCrypt::Password.create('this is a fake password')
+    tmp_ident = Quicklist::Model::Identity.new(@email, pass)
+    (tmp_ident == @valid).should be_true
+    tmp_ident.auth?(@valid[:email], 'invalid password').should be_false
+  end
+
 end
