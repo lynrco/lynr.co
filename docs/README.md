@@ -18,6 +18,6 @@ After logging in to the application a dealer administrator is shown a list of th
 
 ![Manage Vehicles][home_manage]
 
-[home_list]: docs/img/1_home_list.jpeg
-[home_menu]: docs/img/3_menu.jpeg
-[home_manage]: docs/img/2_home_manage.jpeg
+[home_list]: img/1_home_list.jpeg
+[home_menu]: img/3_menu.jpeg
+[home_manage]: img/2_home_manage.jpeg
