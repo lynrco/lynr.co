@@ -18,7 +18,7 @@ module Quicklist; module Model;
     end
 
     def auth?(e, p)
-      self == { email: e, password: p }
+      @email == e && @password == p
     end
 
     def view
@@ -27,7 +27,7 @@ module Quicklist; module Model;
 
     def ==(ident)
       if (ident.is_a? Hash)
-        @email == ident[:email] && @password == ident[:password]
+        self.auth?(ident[:email], ident[:password])
       else
         false
       end
