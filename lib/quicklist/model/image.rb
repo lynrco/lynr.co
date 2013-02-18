@@ -7,8 +7,8 @@ module Quicklist; module Model;
 
     def initialize(width, height, url, id=nil)
       @id = id
-      @width = width
-      @height = height
+      @width = width.to_i
+      @height = height.to_i
       @url = url
     end
 
