@@ -12,8 +12,8 @@ module Quicklist; module Model;
       @model = data[:model] || ""
       @price = data[:price] || nil
       @condition = data[:condition] || 0
-      @mpg = data[:mpg] || nil
-      @vin = data[:vin] || nil
+      @mpg = data[:mpg] || nil # Should be an instance of Quicklist::Model::Mpg
+      @vin = data[:vin] || nil # Should be an instance of Quicklist::Model::Vin
       @images = data[:images] || []
     end
 
