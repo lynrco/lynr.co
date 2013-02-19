@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require_relative '../../../lib/quicklist/model/image'
+require './lib/quicklist/model/image'
 
 describe Quicklist::Model::Image do
 

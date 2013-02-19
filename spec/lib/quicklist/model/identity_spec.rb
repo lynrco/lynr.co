@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require_relative '../../../lib/quicklist/model/identity'
+require './lib/quicklist/model/identity'
 
 describe Quicklist::Model::Identity do
 
