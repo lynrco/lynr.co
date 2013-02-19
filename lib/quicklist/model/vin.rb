@@ -3,6 +3,7 @@ require './lib/quicklist/model/base'
 module Quicklist; module Model;
 
   class Vin
+
     include Base
 
     attr_reader :number, :raw
