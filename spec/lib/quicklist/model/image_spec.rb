@@ -8,9 +8,9 @@ describe Quicklist::Model::Image do
     @image = Quicklist::Model::Image.new(300, 150, @url)
   end
 
-  describe "#initialize" do
+  let(:image) { Quicklist::Model::Image.new("300", "150", @url) }
 
-    let(:image) { Quicklist::Model::Image.new("300", "150", @url) }
+  describe "#initialize" do
 
     it "converts width to integer" do
       image.width.should be(300)
@@ -44,6 +44,19 @@ describe Quicklist::Model::Image do
       expect(view[:width]).to eq(300)
       expect(view[:height]).to eq(150)
       expect(view[:url]).to eq(@url)
+    end
+
+  end
+
+  describe "#==" do
+
+    it "is true if properties are the same" do
+      expect(image == @image).to be_true
+      expect(image.equal?(@image)).to be_false
+    end
+
+    it "is true if compared to a Hash representing the view" do
+      expect(image == image.view).to be_true
     end
 
   end
