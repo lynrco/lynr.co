@@ -10,10 +10,13 @@ describe Quicklist::Model::Identity do
     @valid = { email: @email, password: @password }
   end
 
-  describe "#==" do
+  describe "#initialize" do
 
-    it "compares to a Hash with email/password" do
-      (@ident == @valid).should be_true
+    it "can be created from an existing password hash" do
+      pass = BCrypt::Password.create('this is a fake password')
+      tmp_ident = Quicklist::Model::Identity.new(@email, pass)
+      (tmp_ident == @valid).should be_true
+      tmp_ident.auth?(@valid[:email], 'invalid password').should be_false
     end
 
   end
@@ -40,13 +43,10 @@ describe Quicklist::Model::Identity do
 
   end
 
-  describe "#initialize" do
+  describe "#==" do
 
-    it "can be created from an existing password hash" do
-      pass = BCrypt::Password.create('this is a fake password')
-      tmp_ident = Quicklist::Model::Identity.new(@email, pass)
-      (tmp_ident == @valid).should be_true
-      tmp_ident.auth?(@valid[:email], 'invalid password').should be_false
+    it "compares to a Hash with email/password" do
+      (@ident == @valid).should be_true
     end
 
   end
