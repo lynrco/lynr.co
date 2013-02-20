@@ -50,6 +50,11 @@ module Quicklist; module Persist;
       @coll.update({ _id: id }, record, { j: true })
     end
 
+    # Returns `true` or the last error
+    def delete(id)
+      @coll.remove({ _id: id }, { j: true })
+    end
+
   end
 
 end; end;
