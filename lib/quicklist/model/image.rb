@@ -6,11 +6,9 @@ module Quicklist; module Model;
 
     include Base
 
-    attr_reader :id
     attr_reader :width, :height, :url
 
-    def initialize(width, height, url, id=nil)
-      @id = id
+    def initialize(width, height, url)
       @width = width.to_i
       @height = height.to_i
       @url = url
