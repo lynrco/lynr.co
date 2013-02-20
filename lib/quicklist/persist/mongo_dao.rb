@@ -30,7 +30,7 @@ module Quicklist; module Persist;
       result
     end
 
-    private
+    protected
 
     def create(record)
       @coll.insert(record, { j: true })
