@@ -6,23 +6,16 @@ module Quicklist; module Model;
   # `Vehicle.new` takes a `Hash` containing specific data properties to set.
   #
   # * `:year`, `String` car year
-  #
   # * `:make`, `String` car make
-  #
   # * `:model`, `String` car model
-  #
   # * `:price`, an integer price in whole dollars (USD)
-  #
   # * `:condition`, an integer from 0-5, inclusive, representing condition of the
   #   vehicle. 0 indicates no rating
-  #
   # * `:mpg`, a `Quicklist::Model::Mpg` object containing information about highway
   #   and city mileage information.
-  #
   # * `:vin`, a `Quicklist::Model::Vin` object containing all the information
   #   that would be retrieved with a vin lookup. The object may or may not contain
   #   the actual vin number.
-  #
   # * `:images`, an `Array` of `Quicklist::Model::Image` objects.
   class Vehicle
 
@@ -54,12 +47,8 @@ module Quicklist; module Model;
         condition: @condition,
         images: @images.map { |image| image.view }
       }
-      if (@mpg)
-        data[:mpg] = @mpg.view
-      end
-      if (@vin)
-        data[:vin] = @vin.view
-      end
+      data[:mpg] = @mpg.view if (@mpg)
+      data[:vin] = @vin.view if (@vin)
       data
     end
 
