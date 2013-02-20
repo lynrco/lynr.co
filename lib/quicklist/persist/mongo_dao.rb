@@ -18,6 +18,10 @@ module Quicklist; module Persist;
       @coll = @db.collection(collection)
     end
 
+    def get(id)
+      read(id)
+    end
+
     def save(obj)
       id = obj['id'] || obj[:id]
       result = obj.dup
@@ -34,6 +38,11 @@ module Quicklist; module Persist;
 
     def create(record)
       @coll.insert(record, { j: true })
+    end
+
+    # Returns the record
+    def read(id)
+      @coll.find_one({ _id: id })
     end
 
     def update(id, obj)
