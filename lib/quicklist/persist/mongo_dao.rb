@@ -36,6 +36,7 @@ module Quicklist; module Persist;
 
     protected
 
+    # Returns the `_id` value for the new record
     def create(record)
       @coll.insert(record, { j: true })
     end
@@ -45,6 +46,7 @@ module Quicklist; module Persist;
       @coll.find_one({ _id: id })
     end
 
+    # Returns `true` or the last error
     def update(id, obj)
       record = obj.reject { |k, v| k == 'id' || k == :id }
       @coll.update({ _id: id }, record, { j: true })
