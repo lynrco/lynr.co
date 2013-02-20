@@ -38,6 +38,9 @@ module Quicklist; module Model;
       Quicklist::Model::Vehicle.new(self.view.merge(data), @id)
     end
 
+    # `Vehicle#view` is essentially the opposite of `Vehicle.inflate`. It
+    # operates on the current Vehicle and deflates it down to a `Hash` of
+    # properties.
     def view
       data = {
         year: @year,
@@ -50,6 +53,15 @@ module Quicklist; module Model;
       data[:mpg] = @mpg.view if (@mpg)
       data[:vin] = @vin.view if (@vin)
       data
+    end
+
+    # `Vehicle.inflate` takes a database record and inflates the properties
+    # into Quicklist objects to be used elsewhere
+    def self.inflate(record)
+      data = record.dup
+      data[:vin] = Quicklist::Model::Vin.inflate(data[:vin])
+      data[:mpg] = Quicklist::Model::Mpg.inflate(data[:mpg])
+      Quicklist::Model::Vehicle.new(data, data[:_id])
     end
 
   end
