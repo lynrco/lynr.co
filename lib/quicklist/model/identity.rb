@@ -31,6 +31,10 @@ module Quicklist; module Model;
       end
     end
 
+    def self.inflate(record)
+      Quicklist::Model::Identity.new(record[:email], record[:password])
+    end
+
   end
 
 end; end;
