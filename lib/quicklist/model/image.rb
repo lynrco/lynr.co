@@ -20,6 +20,10 @@ module Quicklist; module Model;
       { width: @width, height: @height, url: @url }
     end
 
+    def self.inflate(record)
+      Quicklist::Model::Image.new(record[:width], record[:height], record[:url])
+    end
+
   end
 
 end; end;

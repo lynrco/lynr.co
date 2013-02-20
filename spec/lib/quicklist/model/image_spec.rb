@@ -61,4 +61,13 @@ describe Quicklist::Model::Image do
 
   end
 
+  describe ".inflate" do
+
+    it "creates equivalent Image instances from properties" do
+      image_props = { width: "300", height: "150", url: @url }
+      expect(Quicklist::Model::Image.inflate(image_props)).to eq(image)
+    end
+
+  end
+
 end
