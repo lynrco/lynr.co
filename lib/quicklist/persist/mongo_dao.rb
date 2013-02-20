@@ -22,13 +22,12 @@ module Quicklist; module Persist;
       read(id)
     end
 
-    def save(obj)
-      id = obj['id'] || obj[:id]
-      result = obj.dup
+    def save(record, id=nil)
+      result = record.dup
       if (id)
-        update(id, obj)
+        update(id, record)
       else
-        id = create(obj)
+        id = create(record)
         result[:id] = id
       end
       result
