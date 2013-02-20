@@ -34,6 +34,13 @@ module Quicklist; module Persist;
       result
     end
 
+    def search(query, skip=nil, limit=nil)
+      options = { }
+      options[:skip] = skip if skip.is_a? Numeric
+      options[:limit] = limit if limit.is_a? Numeric
+      @coll.find(query, options)
+    end
+
     protected
 
     # Returns the `_id` value for the new record
