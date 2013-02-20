@@ -20,6 +20,16 @@ module Quicklist; module Model;
       { line_one: @line_one, line_two: @line_two, city: @city, state: @state, zip: @zip }
     end
 
+    def self.inflate(record)
+      Quicklist::Model::Address.new(
+        line_one=record[:line_one],
+        line_two=record[:line_two],
+        city=record[:city],
+        state=record[:state],
+        zip=record[:zip]
+      )
+    end
+
   end
 
 end; end;
