@@ -1,0 +1,6 @@
+mongo:
+  host: 'db.host.name'
+  port: 10059
+  database: 'quicklistit_test'
+  user: 'db username'
+  pass: 'db password'
