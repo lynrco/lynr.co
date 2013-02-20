@@ -4,11 +4,9 @@ module Quicklist; module Model;
 
   class Identity
 
-    attr_reader :id
     attr_reader :email, :password
 
-    def initialize(email, password, id=nil)
-      @id = id
+    def initialize(email, password)
       @email = email
       begin
         @password = BCrypt::Password.new(password)
