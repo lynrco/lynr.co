@@ -1,3 +1,7 @@
+require './lib/quicklist/model/address'
+require './lib/quicklist/model/identity'
+require './lib/quicklist/model/image'
+
 module Quicklist; module Model;
 
   # `Dealership.new` takes a `Hash` containing data to set into the object.
@@ -28,6 +32,18 @@ module Quicklist; module Model;
       data[:address] = @address.view if @address
       data[:image] = @image.view if @image
       data
+    end
+
+    def self.inflate(record)
+      if (record)
+        data = record.dup
+        data[:identity] = Quicklist::Model::Identity.inflate(record[:identity])
+        data[:address] = Quicklist::Model::Address.inflate(record[:address])
+        data[:image] = Quicklist::Model::Image.inflate(record[:image])
+        Quicklist::Model::Dealership.new(data, record[:id])
+      else
+        nil
+      end
     end
 
   end
