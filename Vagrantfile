@@ -11,7 +11,8 @@ Vagrant::Config.run do |config|
     api_config.vm.box = BOX_NAME
     api_config.vm.box_url = BOX_URL
     api_config.vm.network :hostonly, "10.11.12.120"
-    api_config.vm.forward_port 80, 7887
+    api_config.vm.forward_port    80,  7887
+    api_config.vm.forward_port 27017, 10059
     api_config.vm.provision :shell do |sh|
       sh.inline = <<-EOF
         export PUPPETMASTER="54.242.244.213"
