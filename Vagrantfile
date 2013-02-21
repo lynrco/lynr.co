@@ -6,6 +6,12 @@ Vagrant::Config.run do |config|
   BOX_NAME = "precise64"
   BOX_URL = "http://files.vagrantup.com/precise64.box"
 
+  config.vm.define :test do |test_config|
+    test_config.vm.box = BOX_NAME
+    test_config.vm.box_url = BOX_URL
+    test_config.vm.network :bridged
+  end
+
   config.vm.define :api do |api_config|
 
     api_config.vm.box = BOX_NAME
