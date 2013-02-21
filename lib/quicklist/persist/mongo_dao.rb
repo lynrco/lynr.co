@@ -43,13 +43,16 @@ module Quicklist; module Persist;
 
     def save(record, id=nil)
       result = record.dup
+      success = false
       if (id)
-        update(id, record)
+        success = update(id, record)
       else
         id = create(record)
+        success = !!id
         result[:id] = id
       end
-      result
+
+      success ? result : nil
     end
 
     def search(query, skip=nil, limit=nil)
