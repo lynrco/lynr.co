@@ -10,6 +10,7 @@ Vagrant::Config.run do |config|
 
     api_config.vm.box = BOX_NAME
     api_config.vm.box_url = BOX_URL
+    api_config.vm.network :bridged, :bridge => "en0: Wi-Fi (AirPort)"
     api_config.vm.network :hostonly, "10.11.12.120"
     api_config.vm.forward_port    80,  7887
     api_config.vm.forward_port 27017, 10059
