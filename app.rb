@@ -1,11 +1,11 @@
 require 'bundler/setup'
-require 'sinatra'
+require 'sinatra/base'
 
 require './lib/quicklist/logger'
 
 module Quicklist
 
-  class App < Sinatra::Application
+  class App < Sinatra::Base
 
     include Quicklist::Logging
 
