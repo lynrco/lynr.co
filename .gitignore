@@ -1,4 +1,6 @@
 .vagrant
 /tmp/
 /config/database.*.yaml
+/config/librato.*.yaml
 !/config/database.example.yaml
+!/config/librato.example.yaml
