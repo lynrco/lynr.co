@@ -1,10 +1,13 @@
 require 'bundler/setup'
-require 'log4r'
 require 'sinatra'
+
+require './lib/quicklist/logger'
 
 module Quicklist
 
   class App < Sinatra::Application
+
+    include Quicklist::Logging
 
     ROOT = '/api'
     VERSION = 'v1'
@@ -16,21 +19,11 @@ module Quicklist
     set :views, File.dirname(__FILE__) + '/views'
 
     get '/' do
+      log.info 'Requested /'
       erb :index
     end
 
-    def self.log
-      Log4r::Logger['api_log'] || create_log('api_log')
-    end
-
-    def self.create_log(log_name)
-      log = Log4r::Logger.new log_name
-      log.outputters = Log4r::Outputter.stdout
-      log
-    end
 
   end
 
 end
-
-Quicklist::App.log.info 'App Started'
