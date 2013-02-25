@@ -1,14 +1,14 @@
 require 'rspec/autorun'
 require './lib/quicklist/model/image'
 
-describe Quicklist::Model::Image do
+describe Lynr::Model::Image do
 
   before(:all) do
     @url = "//quicklist.it/assets/image.gif"
-    @image = Quicklist::Model::Image.new(300, 150, @url)
+    @image = Lynr::Model::Image.new(300, 150, @url)
   end
 
-  let(:image) { Quicklist::Model::Image.new("300", "150", @url) }
+  let(:image) { Lynr::Model::Image.new("300", "150", @url) }
 
   describe "#initialize" do
 
@@ -65,7 +65,7 @@ describe Quicklist::Model::Image do
 
     it "creates equivalent Image instances from properties" do
       image_props = { width: "300", height: "150", url: @url }
-      expect(Quicklist::Model::Image.inflate(image_props)).to eq(image)
+      expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
     end
 
   end

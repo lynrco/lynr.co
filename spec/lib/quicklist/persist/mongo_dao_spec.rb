@@ -2,14 +2,14 @@ require 'rspec/autorun'
 require 'yaml'
 require './lib/quicklist/persist/mongo_dao'
 
-describe Quicklist::Persist::MongoDao do
+describe Lynr::Persist::MongoDao do
 
   before(:each) do
     ENV['whereami'] = 'test'
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
-  let(:dao) { Quicklist::Persist::MongoDao.new(collection='dummy') }
+  let(:dao) { Lynr::Persist::MongoDao.new(collection='dummy') }
 
   describe "#initialize" do
 
@@ -17,7 +17,7 @@ describe Quicklist::Persist::MongoDao do
 
       it "raises an Error in an unknown environment" do
         ENV['whereami'] = 'neverland'
-        expect { Quicklist::Persist::MongoDao.new }.to raise_error(Errno::ENOENT)
+        expect { Lynr::Persist::MongoDao.new }.to raise_error(Errno::ENOENT)
       end
 
     end

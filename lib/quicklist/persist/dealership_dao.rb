@@ -1,7 +1,7 @@
 require './lib/quicklist/persist/mongo_dao'
 require './lib/quicklist/model/dealership'
 
-module Quicklist; module Persist;
+module Lynr; module Persist;
 
   class DealershipDao
 
@@ -13,12 +13,12 @@ module Quicklist; module Persist;
       record = @dao.get(id)
       # Mongo is going to give me a record with the _id property set, not id
       record[:id] = record.delete(:_id)
-      Quicklist::Model::Dealership.inflate(record)
+      Lynr::Model::Dealership.inflate(record)
     end
 
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
-      Quicklist::Model::Dealership.inflate(record)
+      Lynr::Model::Dealership.inflate(record)
     end
 
   end

@@ -3,11 +3,11 @@ require 'sinatra/base'
 
 require './lib/quicklist/logger'
 
-module Quicklist
+module Lynr
 
   class App < Sinatra::Base
 
-    include Quicklist::Logging
+    include Lynr::Logging
 
     ROOT = '/api'
     VERSION = 'v1'
@@ -32,7 +32,7 @@ module Quicklist
       erb :index
     end
 
-    # Call `use Quicklist::ControllerName` to use routes from other class definitions
+    # Call `use Lynr::ControllerName` to use routes from other class definitions
 
   end
 

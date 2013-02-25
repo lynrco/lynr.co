@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 require './lib/quicklist/model/vehicle'
 
-describe Quicklist::Model::Vehicle do
+describe Lynr::Model::Vehicle do
 
   before(:all) do
     @make = "Honda"
@@ -9,7 +9,7 @@ describe Quicklist::Model::Vehicle do
     @year = "2009"
   end
 
-  let(:vehicle) { Quicklist::Model::Vehicle.new({ year: @year, make: @make, model: @model }) }
+  let(:vehicle) { Lynr::Model::Vehicle.new({ year: @year, make: @make, model: @model }) }
 
   describe "#initialize" do
 

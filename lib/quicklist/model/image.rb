@@ -1,6 +1,6 @@
 require './lib/quicklist/model/base'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   class Image
 
@@ -19,7 +19,7 @@ module Quicklist; module Model;
     end
 
     def self.inflate(record)
-      Quicklist::Model::Image.new(record[:width], record[:height], record[:url])
+      Lynr::Model::Image.new(record[:width], record[:height], record[:url])
     end
 
   end

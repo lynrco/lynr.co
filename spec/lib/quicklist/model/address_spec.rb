@@ -1,14 +1,14 @@
 require 'rspec/autorun'
 require './lib/quicklist/model/address'
 
-describe Quicklist::Model::Address do
+describe Lynr::Model::Address do
 
   let(:address_props) {
     { line_one: "Addr L1", line_two: "Addr L2", city: "New York", state: "NY", zip: "10002" }
   }
 
   let(:address) {
-    Quicklist::Model::Address.new(
+    Lynr::Model::Address.new(
       line_one="Addr L1",
       line_two="Addr L2",
       city="New York",
@@ -62,7 +62,7 @@ describe Quicklist::Model::Address do
   describe "#==" do
 
     let(:a2) {
-      Quicklist::Model::Address.new(
+      Lynr::Model::Address.new(
         line_one="Addr L1",
         line_two="Addr L2",
         city="New York",
@@ -85,7 +85,7 @@ describe Quicklist::Model::Address do
   describe ".inflate" do
 
     it "creates equivalent instances from properties" do
-      expect(Quicklist::Model::Address.inflate(address_props)).to eq(address)
+      expect(Lynr::Model::Address.inflate(address_props)).to eq(address)
     end
 
   end

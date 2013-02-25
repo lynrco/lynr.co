@@ -1,6 +1,6 @@
 require 'bcrypt'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   class Identity
 
@@ -32,7 +32,7 @@ module Quicklist; module Model;
     end
 
     def self.inflate(record)
-      Quicklist::Model::Identity.new(record[:email], record[:password])
+      Lynr::Model::Identity.new(record[:email], record[:password])
     end
 
   end

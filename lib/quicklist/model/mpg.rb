@@ -1,6 +1,6 @@
 require './lib/quicklist/model/base'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   class Mpg
 
@@ -18,7 +18,7 @@ module Quicklist; module Model;
     end
 
     def self.inflate(record)
-      Quicklist::Model::Mpg.new(record)
+      Lynr::Model::Mpg.new(record)
     end
 
   end

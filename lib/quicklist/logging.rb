@@ -1,6 +1,6 @@
 require 'log4r'
 
-module Quicklist
+module Lynr
 
   # From https://gist.github.com/mindscratch/1145954
   module Logging

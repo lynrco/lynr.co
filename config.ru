@@ -1,3 +1,3 @@
 require './app'
 
-run Quicklist::App
+run Lynr::App

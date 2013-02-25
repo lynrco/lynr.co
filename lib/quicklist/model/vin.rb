@@ -1,6 +1,6 @@
 require './lib/quicklist/model/base'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   class Vin
 

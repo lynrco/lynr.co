@@ -1,12 +1,12 @@
 require 'rspec/autorun'
 require './lib/quicklist/model/identity'
 
-describe Quicklist::Model::Identity do
+describe Lynr::Model::Identity do
 
   before(:all) do
     @email = 'bryan@quicklist.it'
     @password = 'this is a fake password'
-    @ident = Quicklist::Model::Identity.new(@email, @password)
+    @ident = Lynr::Model::Identity.new(@email, @password)
     @valid = { email: @email, password: @password }
   end
 
@@ -14,7 +14,7 @@ describe Quicklist::Model::Identity do
 
     it "can be created from an existing password hash" do
       pass = BCrypt::Password.create('this is a fake password')
-      tmp_ident = Quicklist::Model::Identity.new(@email, pass)
+      tmp_ident = Lynr::Model::Identity.new(@email, pass)
       (tmp_ident == @valid).should be_true
       tmp_ident.auth?(@valid[:email], 'invalid password').should be_false
     end
@@ -55,7 +55,7 @@ describe Quicklist::Model::Identity do
 
     it "creates auth? capable instances from properties" do
       props = @ident.view
-      inflated = Quicklist::Model::Identity.inflate(props)
+      inflated = Lynr::Model::Identity.inflate(props)
       expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true
     end
 

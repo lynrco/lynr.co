@@ -1,9 +1,9 @@
 require 'rspec/autorun'
 require './lib/quicklist/model/vin'
 
-describe Quicklist::Model::Vin do
+describe Lynr::Model::Vin do
 
-  let(:vin) { Quicklist::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
+  let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
 
   describe "#view" do
 
@@ -40,7 +40,7 @@ describe Quicklist::Model::Vin do
   describe "#==" do
 
     it "is true if properties are the same" do
-      vin2 = Quicklist::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal")
+      vin2 = Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal")
       expect(vin == vin2).to be_true
       expect(vin.equal?(vin2)).to be_false
     end

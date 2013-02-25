@@ -1,6 +1,6 @@
 require './lib/quicklist/model/base'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   class Address
 
@@ -21,7 +21,7 @@ module Quicklist; module Model;
     end
 
     def self.inflate(record)
-      Quicklist::Model::Address.new(
+      Lynr::Model::Address.new(
         line_one=record[:line_one],
         line_two=record[:line_two],
         city=record[:city],

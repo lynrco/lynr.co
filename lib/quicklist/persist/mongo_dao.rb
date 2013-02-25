@@ -1,7 +1,7 @@
 require 'yaml'
 require 'mongo'
 
-module Quicklist; module Persist;
+module Lynr; module Persist;
 
   class MongoDao
 

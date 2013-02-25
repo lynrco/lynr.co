@@ -2,13 +2,13 @@ require './lib/quicklist/model/address'
 require './lib/quicklist/model/identity'
 require './lib/quicklist/model/image'
 
-module Quicklist; module Model;
+module Lynr; module Model;
 
   # `Dealership.new` takes a `Hash` containing data to set into the object.
   #
   # * `:name` of the dealership
   # * `:phone` number to reach the dealership
-  # * `:identity` instance of `Quicklist::Model::Identity containing credentials
+  # * `:identity` instance of `Lynr::Model::Identity containing credentials
   #   for logging in as this dealership
   # * `:address` on the street of the dealership, where to find the vehicles
   # * `:image` object pointing to the dealership logo or icon
@@ -37,10 +37,10 @@ module Quicklist; module Model;
     def self.inflate(record)
       if (record)
         data = record.dup
-        data[:identity] = Quicklist::Model::Identity.inflate(record[:identity])
-        data[:address] = Quicklist::Model::Address.inflate(record[:address])
-        data[:image] = Quicklist::Model::Image.inflate(record[:image])
-        Quicklist::Model::Dealership.new(data, record[:id])
+        data[:identity] = Lynr::Model::Identity.inflate(record[:identity])
+        data[:address] = Lynr::Model::Address.inflate(record[:address])
+        data[:image] = Lynr::Model::Image.inflate(record[:image])
+        Lynr::Model::Dealership.new(data, record[:id])
       else
         nil
       end

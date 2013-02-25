@@ -1,4 +1,4 @@
-module Quicklist; module Model;
+module Lynr; module Model;
 
   # This is the primary object of the Application. Most of the data retrieval
   # will result in Vehicle objects.
@@ -11,12 +11,12 @@ module Quicklist; module Model;
   # * `:price`, an integer price in whole dollars (USD)
   # * `:condition`, an integer from 0-5, inclusive, representing condition of the
   #   vehicle. 0 indicates no rating
-  # * `:mpg`, a `Quicklist::Model::Mpg` object containing information about highway
+  # * `:mpg`, a `Lynr::Model::Mpg` object containing information about highway
   #   and city mileage information.
-  # * `:vin`, a `Quicklist::Model::Vin` object containing all the information
+  # * `:vin`, a `Lynr::Model::Vin` object containing all the information
   #   that would be retrieved with a vin lookup. The object may or may not contain
   #   the actual vin number.
-  # * `:images`, an `Array` of `Quicklist::Model::Image` objects.
+  # * `:images`, an `Array` of `Lynr::Model::Image` objects.
   class Vehicle
 
     attr_reader :id
@@ -29,13 +29,13 @@ module Quicklist; module Model;
       @model = data[:model] || ""
       @price = data[:price] || nil
       @condition = data[:condition] || 0
-      @mpg = data[:mpg] || nil # Should be an instance of Quicklist::Model::Mpg
-      @vin = data[:vin] || nil # Should be an instance of Quicklist::Model::Vin
+      @mpg = data[:mpg] || nil # Should be an instance of Lynr::Model::Mpg
+      @vin = data[:vin] || nil # Should be an instance of Lynr::Model::Vin
       @images = data[:images] || []
     end
 
     def set(data)
-      Quicklist::Model::Vehicle.new(self.view.merge(data), @id)
+      Lynr::Model::Vehicle.new(self.view.merge(data), @id)
     end
 
     # `Vehicle#view` is essentially the opposite of `Vehicle.inflate`. It
@@ -56,12 +56,12 @@ module Quicklist; module Model;
     end
 
     # `Vehicle.inflate` takes a database record and inflates the properties
-    # into Quicklist objects to be used elsewhere
+    # into Lynr objects to be used elsewhere
     def self.inflate(record)
       data = record.dup
-      data[:vin] = Quicklist::Model::Vin.inflate(data[:vin])
-      data[:mpg] = Quicklist::Model::Mpg.inflate(data[:mpg])
-      Quicklist::Model::Vehicle.new(data, data[:_id])
+      data[:vin] = Lynr::Model::Vin.inflate(data[:vin])
+      data[:mpg] = Lynr::Model::Mpg.inflate(data[:mpg])
+      Lynr::Model::Vehicle.new(data, data[:_id])
     end
 
   end

@@ -1,4 +1,4 @@
-module Quicklist; module Model;
+module Lynr; module Model;
 
   module Base
 
