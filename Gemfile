@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '1.9.3'
 
 gem 'sinatra',      '1.3.3'
-gem 'json',         '1.7.5'
+gem 'json',         '1.7.7'
 gem 'log4r',        '1.1.10'
 gem 'bson_ext',     '1.8.2'
 gem 'mongo',        '1.8.2'
