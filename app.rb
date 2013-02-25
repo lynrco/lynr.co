@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'sinatra/base'
+require 'sinatra/partial'
 
 require './lib/lynr/logging'
 require './lib/lynr/controller/root'
@@ -8,6 +9,7 @@ module Lynr
 
   class App < Sinatra::Base
 
+    register Sinatra::Partial
     include Lynr::Logging
 
     ROOT = '/api'
@@ -32,6 +34,7 @@ module Lynr
     set :root, File.dirname(__FILE__)
     set :public_folder, settings.root + '/public'
     set :views, settings.root + '/views'
+    set :partial_template_engine, :erb
 
     # Call `use Lynr::ControllerName` to use routes from other class definitions
     use Lynr::Controller::Root
