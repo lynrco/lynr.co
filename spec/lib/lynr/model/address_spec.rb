@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/address'
+require './lib/lynr/model/address'
 
 describe Lynr::Model::Address do
 

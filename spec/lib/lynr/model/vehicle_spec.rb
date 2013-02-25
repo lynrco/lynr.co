@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/vehicle'
+require './lib/lynr/model/vehicle'
 
 describe Lynr::Model::Vehicle do
 

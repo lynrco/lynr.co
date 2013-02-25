@@ -1,5 +1,5 @@
-require './lib/quicklist/persist/mongo_dao'
-require './lib/quicklist/model/dealership'
+require './lib/lynr/persist/mongo_dao'
+require './lib/lynr/model/dealership'
 
 module Lynr; module Persist;
 

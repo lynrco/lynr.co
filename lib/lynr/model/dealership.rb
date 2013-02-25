@@ -1,6 +1,6 @@
-require './lib/quicklist/model/address'
-require './lib/quicklist/model/identity'
-require './lib/quicklist/model/image'
+require './lib/lynr/model/address'
+require './lib/lynr/model/identity'
+require './lib/lynr/model/image'
 
 module Lynr; module Model;
 

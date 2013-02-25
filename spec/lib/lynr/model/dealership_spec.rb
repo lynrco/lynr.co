@@ -1,8 +1,8 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/address'
-require './lib/quicklist/model/dealership'
-require './lib/quicklist/model/identity'
-require './lib/quicklist/model/image'
+require './lib/lynr/model/address'
+require './lib/lynr/model/dealership'
+require './lib/lynr/model/identity'
+require './lib/lynr/model/image'
 
 describe Lynr::Model::Dealership do
 

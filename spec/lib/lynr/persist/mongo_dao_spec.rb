@@ -1,6 +1,6 @@
 require 'rspec/autorun'
 require 'yaml'
-require './lib/quicklist/persist/mongo_dao'
+require './lib/lynr/persist/mongo_dao'
 
 describe Lynr::Persist::MongoDao do
 

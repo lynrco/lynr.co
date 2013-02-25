@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/mpg'
+require './lib/lynr/model/mpg'
 
 describe Lynr::Model::Mpg do
 

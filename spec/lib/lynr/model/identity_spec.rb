@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/identity'
+require './lib/lynr/model/identity'
 
 describe Lynr::Model::Identity do
 

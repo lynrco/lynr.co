@@ -1,4 +1,4 @@
-require './lib/quicklist/model/base'
+require './lib/lynr/model/base'
 
 module Lynr; module Model;
 

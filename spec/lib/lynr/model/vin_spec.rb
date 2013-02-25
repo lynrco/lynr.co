@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/vin'
+require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vin do
 

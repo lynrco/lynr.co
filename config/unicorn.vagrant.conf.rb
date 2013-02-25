@@ -1,6 +1,6 @@
 worker_processes 1
 
-listen "/tmp/.quicklist.unicorn.sock", :backlog => 64
+listen "/tmp/.lynr.unicorn.sock", :backlog => 64
 listen 8080
 
 timeout 30

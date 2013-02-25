@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/quicklist/model/image'
+require './lib/lynr/model/image'
 
 describe Lynr::Model::Image do
 
