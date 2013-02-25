@@ -5,8 +5,7 @@ module Lynr; module Controller;
   class Root < Lynr::Controller::Base
 
     get '/' do
-      log.info "Request  - '#{request.path_info}'"
-      erb :index
+      erb :index, layout: :'layout/mobile_default'
     end
 
   end
