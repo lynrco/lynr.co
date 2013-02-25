@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'sinatra/base'
 
 require './lib/lynr/logging'
+require './lib/lynr/controller/root'
 
 module Lynr
 
@@ -28,12 +29,8 @@ module Lynr
     set :public_folder, settings.root + '/public'
     set :views, settings.root + '/views'
 
-    get '/' do
-      log.info 'Requested /'
-      erb :index
-    end
-
     # Call `use Lynr::ControllerName` to use routes from other class definitions
+    use Lynr::Controller::Root
 
   end
 
