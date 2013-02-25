@@ -4,7 +4,7 @@ require './lib/quicklist/model/image'
 describe Lynr::Model::Image do
 
   before(:all) do
-    @url = "//quicklist.it/assets/image.gif"
+    @url = "//lynr.co/assets/image.gif"
     @image = Lynr::Model::Image.new(300, 150, @url)
   end
 

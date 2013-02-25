@@ -11,8 +11,8 @@ describe Lynr::Model::Dealership do
       line_one="Addr L1", line_two="Addr L2", city="New York", state="NY", zip="10002"
     )
   }
-  let(:identity) { Lynr::Model::Identity.new('bryan@quicklist.it', 'this is a fake password') }
-  let(:image) { Lynr::Model::Image.new("300", "150", "//quicklist.it/assets/image.gif") }
+  let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
+  let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
 
   describe ".inflate" do
 
@@ -46,8 +46,8 @@ describe Lynr::Model::Dealership do
       end
 
       it "auths the same as the constructing identity" do
-        expect(dealer.identity.auth?('bryan@quicklist.it', 'this is a fake password')).to be_true
-        expect(dealer.identity.auth?('bryan@quicklist.it', 'this is not a fake password')).to be_false
+        expect(dealer.identity.auth?('bryan@lynr.co', 'this is a fake password')).to be_true
+        expect(dealer.identity.auth?('bryan@lynr.co', 'this is not a fake password')).to be_false
       end
 
     end

@@ -4,7 +4,7 @@ require './lib/quicklist/model/identity'
 describe Lynr::Model::Identity do
 
   before(:all) do
-    @email = 'bryan@quicklist.it'
+    @email = 'bryan@lynr.co'
     @password = 'this is a fake password'
     @ident = Lynr::Model::Identity.new(@email, @password)
     @valid = { email: @email, password: @password }

@@ -23,7 +23,7 @@ Vagrant::Config.run do |config|
     api_config.vm.provision :shell do |sh|
       sh.inline = <<-EOF
         export PUPPETMASTER="54.242.244.213"
-        export FQDN="vm.quicklist.it"
+        export FQDN="vm.lynr.co"
         export PUPPETENV="production"
         sh /vagrant/vm/vmsetup.sh
       EOF
@@ -31,7 +31,7 @@ Vagrant::Config.run do |config|
 
 #    api_config.vm.provision :puppet_server do |puppet|
 #      puppet.puppet_server = 'puppet.bryanwrit.es'
-#      puppet.puppet_node = 'vm.quicklist.it'
+#      puppet.puppet_node = 'vm.lynr.co'
 #      puppet.options = ['--verbose', '--debug']
 #    end
 

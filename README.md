@@ -1,6 +1,6 @@
-# quicklist.it API
+# lynr.co API
 
-API project setup for quicklist.it service.
+API project setup for lynr.co service.
 
 ## Vagrant
 
@@ -10,7 +10,7 @@ Get up and running with these files locally using vagrant
 1. Install [Vagrant][vagrant]
 1. Open Terminal or iTerm or whatever command line program tickles your fancy
 1. Navigate to your working directory
-1. Edit `/etc/hosts` file and append `127.0.0.1       api.quicklist.it.local`
+1. Edit `/etc/hosts` file and append `127.0.0.1       api.lynr.co.local`
 1. Execute `vagrant api up`
 
 This gets a basic Ubuntu box up and running but there are extra steps to get
@@ -30,7 +30,7 @@ the box ready to server the application.
    web server when files change
 
 Now the server is up and running open a browser to
-[http://api.quicklist.it.local:7887](http://newproject.ipglab.local:7878)
+[http://api.lynr.co.local:7887](http://api.lynr.co.local:7887)
 
 ## EditorConfig
 

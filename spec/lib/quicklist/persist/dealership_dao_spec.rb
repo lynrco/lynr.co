@@ -13,8 +13,8 @@ describe Lynr::Persist::DealershipDao do
       line_one="Addr L1", line_two="Addr L2", city="New York", state="NY", zip="10002"
     )
   }
-  let(:identity) { Lynr::Model::Identity.new('bryan@quicklist.it', 'this is a fake password') }
-  let(:image) { Lynr::Model::Image.new("300", "150", "//quicklist.it/assets/image.gif") }
+  let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
+  let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:dao) { Lynr::Persist::DealershipDao.new }
 
   describe "#get result" do
@@ -79,7 +79,7 @@ describe Lynr::Persist::DealershipDao do
       expect(saved.phone).to eq(dealer_data[:phone])
       expect(saved.address).to eq(address)
       expect(saved.image).to eq(image)
-      expect(saved.identity.auth?('bryan@quicklist.it', 'this is a fake password')).to be_true
+      expect(saved.identity.auth?('bryan@lynr.co', 'this is a fake password')).to be_true
     end
 
   end
