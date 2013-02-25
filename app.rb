@@ -22,6 +22,10 @@ module Lynr
     #  [ halt 500, { 'Content-Type' => 'text/plain' }, "Internal Server Error - #{e.message}\n"
     #end
 
+    error(404) do
+      erb :fourohfour
+    end
+
     # For request logging write Rack middleware that replaces env['rack.errors'] and env['rack.logger']
     # This will likely require `enable :logging` to have it work
 
