@@ -1,7 +1,7 @@
 require 'bundler/setup'
 require 'sinatra/base'
 
-require './lib/lynr/logger'
+require './lib/lynr/logging'
 
 module Lynr
 
