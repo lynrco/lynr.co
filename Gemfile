@@ -10,6 +10,7 @@ gem 'bcrypt-ruby',  '3.0.1'
 
 group :development do
   gem 'unicorn',    '4.5.0'
+  gem 'shotgun',    '0.9'
 
   gem 'guard'
   gem 'guard-shell'
