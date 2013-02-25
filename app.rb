@@ -24,8 +24,9 @@ module Lynr
     # For request logging write Rack middleware that replaces env['rack.errors'] and env['rack.logger']
     # This will likely require `enable :logging` to have it work
 
-    set :public_folder, File.dirname(__FILE__) + '/public'
-    set :views, File.dirname(__FILE__) + '/views'
+    set :root, File.dirname(__FILE__)
+    set :public_folder, settings.root + '/public'
+    set :views, settings.root + '/views'
 
     get '/' do
       log.info 'Requested /'
