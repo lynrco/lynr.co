@@ -3,16 +3,12 @@ ruby '1.9.3'
 
 gem 'sinatra',         '1.3.3'
 gem 'sinatra-partial', '0.4.0'
-gem 'json',            '1.7.7'
 gem 'log4r',           '1.1.10'
 gem 'bson_ext',        '1.8.2'
 gem 'mongo',           '1.8.2'
 gem 'bcrypt-ruby',     '3.0.1'
 
 group :development do
-  gem 'unicorn',       '4.5.0'
-  gem 'shotgun',       '0.9'
-
   gem 'guard'
   gem 'guard-shell'
   gem 'guard-bundler'
@@ -22,6 +18,14 @@ group :development do
   gem 'rb-fchange', :require => false
 
   gem 'pry'
+end
+
+group :local do
+  gem 'shotgun',       '0.9'
+end
+
+group :vagrant do
+  gem 'unicorn',       '4.5.0'
 end
 
 group :test do
