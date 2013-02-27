@@ -5,8 +5,8 @@
     <title><%= @title %></title>
   </head>
   <body>
-<%= render_view :'partials/header' %>
+<%= render_file 'partials/header.erb' %>
 <%= @content %>
-<%= render_view :'partials/footer' %>
+<%= render_file 'partials/footer.erb' %>
   </body>
 </html>
