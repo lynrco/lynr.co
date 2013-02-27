@@ -16,7 +16,7 @@ module Lynr
 
     def self.setup
       Ramaze.options.roots = [__DIR__]
-      Ramaze.options.views = ["views"]
+      Ramaze.options.views = ['views']
     end
 
   end
