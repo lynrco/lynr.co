@@ -12,6 +12,14 @@ module Lynr; module Controller;
 
     layout :mobile_default
 
+    before(:index) do
+      log.info "Request  - '#{request.path_info}'"
+    end
+
+    after(:index) do
+      log.info "Response - '#{request.path_info}' -- #{response.status}"
+    end
+
     # ## `Lynr::Controller::Root#index`
     #
     # Homepage. Automagically renders `views/index.erb` based on the method name

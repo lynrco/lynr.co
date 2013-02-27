@@ -8,12 +8,9 @@ module Lynr; module Controller;
 
     engine :erb
 
-    before_all do
-      log.info "Request  - '#{request.path_info}'"
-    end
-
+    # Executed after each `Innate::Action`. Every render_* method creates an
+    # `Innate::Action`. So don't do anything complex in here.
     after_all do
-      log.info "Response - '#{request.path_info}' -- #{response.status}"
       response['Server'] = 'Lynr.co Application Server'
     end
 
