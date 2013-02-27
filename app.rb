@@ -11,9 +11,11 @@ module Lynr
     include Lynr::Logging
 
     @app = false
-    ROOT = '/api'
-    VERSION = 'v1'
-    BASE = "#{ROOT}/#{VERSION}"
+    API_ROOT = '/api'
+    API_VERSION = 'v1'
+    API_BASE = "#{API_ROOT}/#{API_VERSION}"
+
+    VERSION = '0.0.1'
 
     def self.setup
       Ramaze.options.roots = [__DIR__]
