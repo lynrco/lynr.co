@@ -1,12 +1,12 @@
 require 'log4r'
+require './lib/log4r/json_formatter'
 
 module Lynr
 
-  # From https://gist.github.com/mindscratch/1145954
+  # Based on code from https://gist.github.com/mindscratch/1145954
   module Logging
 
-    FORMATTER = Log4r::PatternFormatter.new(:pattern => '[%d] %l %C: %M')
-   
+    FORMATTER = Log4r::JsonFormatter.new
     OPTS = { formatter: FORMATTER }
     
     # Get an instance to a logger configured for the class that includes it.
@@ -17,7 +17,8 @@ module Lynr
       @logger = Log4r::Logger.new(self.class.name)
       @logger.outputters << Log4r::StdoutOutputter.new("console", OPTS)
       if (ENV['logfile'])
-        @logger.outputters << Log4r::FileOutputter.new("file", OPTS.merge({ filename: ENV['logfile'] }))
+        opts = OPTS.merge({ filename: ENV['logfile'] })
+        @logger.outputters << Log4r::FileOutputter.new("file", opts)
       end
    
       @logger
