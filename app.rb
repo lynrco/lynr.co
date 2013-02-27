@@ -3,6 +3,7 @@ require 'ramaze'
 
 require './lib/lynr/logging'
 require './lib/lynr/controller/root'
+require './lib/lynr/controller/admin'
 
 module Lynr
 
