@@ -6,6 +6,7 @@ gem 'log4r',           '1.1.10'
 gem 'bson_ext',        '1.8.2'
 gem 'mongo',           '1.8.2'
 gem 'bcrypt-ruby',     '3.0.1'
+gem 'yajl-ruby',       '1.1.0'
 
 group :development do
   gem 'guard'

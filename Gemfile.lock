@@ -63,6 +63,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -84,3 +85,4 @@ DEPENDENCIES
   rspec (= 2.12)
   shotgun (= 0.9)
   unicorn (= 4.5.0)
+  yajl-ruby (= 1.1.0)
