@@ -12,9 +12,9 @@ module Rack; module Middleware;
     def call(env)
       path = env['PATH_INFO']
       @log.info JSON.pretty_generate({ type: 'request', path: path })
-      @status, @headers, @response = @app.call(env)
-      @log.info JSON.pretty_generate({ type: 'response', path: path, status: @status })
-      [@status, @headers, self]
+      status, headers, @response = @app.call(env)
+      @log.info JSON.pretty_generate({ type: 'response', path: path, status: status })
+      [status, headers, self]
     end
 
     def each(&block)
