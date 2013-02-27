@@ -1,3 +1,6 @@
 require './app'
 
-run Lynr::App
+Ramaze.start(:root => Ramaze.options.roots, :started => true)
+
+run Ramaze
+

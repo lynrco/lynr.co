@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 ruby '1.9.3'
 
-gem 'sinatra',         '1.3.3'
-gem 'sinatra-partial', '0.4.0'
+gem 'ramaze',          '2012.12.08'
 gem 'log4r',           '1.1.10'
 gem 'bson_ext',        '1.8.2'
 gem 'mongo',           '1.8.2'

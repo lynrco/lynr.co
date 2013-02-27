@@ -4,8 +4,12 @@ module Lynr; module Controller;
 
   class Root < Lynr::Controller::Base
 
-    get '/' do
-      erb :index, layout: :'layout/mobile_default'
+    map '/'
+
+    layout :mobile_default
+
+    def index
+      @title = "Hi there!"
     end
 
   end
