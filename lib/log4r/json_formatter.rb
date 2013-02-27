@@ -6,8 +6,6 @@ module Log4r
 
   class JsonFormatter < Log4r::BasicFormatter
 
-    attr_reader :date_pattern
-
     # default date format
     ISO8601 = "%Y-%m-%d %H:%M:%S"
 
@@ -31,7 +29,7 @@ module Log4r
     end
 
     def format_date
-      Time.now.strftime date_pattern
+      Time.now.strftime @date_pattern
     end
 
   end
