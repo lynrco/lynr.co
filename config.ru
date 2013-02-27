@@ -1,7 +1,9 @@
 require './app'
+require './lib/rack/middleware/logger'
 
 Lynr::App.setup
 
 Ramaze.start(:root => Ramaze.options.roots, :started => true)
 
-run Ramaze
+use Rack::Middleware::Logger, Lynr::App.instance.log
+run Ramaze.core
