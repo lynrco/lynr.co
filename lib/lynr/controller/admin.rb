@@ -11,7 +11,7 @@ module Lynr; module Controller;
 
     map '/admin'
 
-    layout :mobile_default
+    layout :default
 
     def initialize
       # Let Ramaze do its thing

@@ -10,7 +10,7 @@ module Lynr; module Controller;
 
     map '/'
 
-    layout :mobile_default
+    layout :default
 
     # ## `Lynr::Controller::Root#index`
     #

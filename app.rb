@@ -20,6 +20,13 @@ module Lynr
 
     def self.setup
       Ramaze.options.roots = [__DIR__]
+      # What if views is set from configuration file?
+      # There could be a different 'app' running for each type or at least
+      # for the mobile site.
+      #
+      # Each controller can set options specific to itself but only at startup.
+      # Can I add specific controller instances with options set? Options don't
+      # seem to be set in `#initialize` method invocations.
       Ramaze.options.views = ['views']
     end
 
