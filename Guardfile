@@ -8,7 +8,7 @@ guard 'bundler' do
   watch('Gemfile')
 end
 
-group :unicorn do
+group :vagrant do
 
   guard 'shell' do
 
@@ -59,11 +59,17 @@ group :unicorn do
 
 end
 
-group :specs do
+group :local do
 
-  guard 'rspec', :version => 2 do
+  guard 'rspec' do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$}) { |m| "spec/lib/#{m[1]}_spec.rb" }
+  end
+
+  guard 'shell' do
+    watch(%r{^public/less/(.+)\.less$}) do |m|
+      `lessc #{m[0]} public/css/#{m[1]}.css`
+    end
   end
 
 end
