@@ -29,8 +29,8 @@ fi
 
 # By downloading the ssl certs we created this directory
 if [ ! -d /var/lib/puppet/ssl ]; then
-  tar xfz /vagrant/vm/cert/${FQDN}.pem.tgz -C /var/lib/puppet/
-  cp /vagrant/vm/puppet.conf /etc/puppet/puppet.conf
+  sudo tar xfz /vagrant/vm/cert/${FQDN}.pem.tgz -C /var/lib/puppet/
+  sudo cp /vagrant/vm/puppet.conf /etc/puppet/puppet.conf
 fi
 
-puppet agent --server=puppet.bryanwrit.es --environment=$PUPPETENV --no-daemonize --onetime
+sudo puppet agent --server=puppet.bryanwrit.es --environment=$PUPPETENV --no-daemonize --onetime
