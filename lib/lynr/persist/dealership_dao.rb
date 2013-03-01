@@ -12,7 +12,7 @@ module Lynr; module Persist;
     def get(id)
       record = @dao.get(id)
       # Mongo is going to give me a record with the _id property set, not id
-      record[:id] = record.delete(:_id)
+      record[:id] = record.delete(:_id) if !record.nil?
       Lynr::Model::Dealership.inflate(record)
     end
 
