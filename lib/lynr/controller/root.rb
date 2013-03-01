@@ -20,6 +20,12 @@ module Lynr; module Controller;
       @title = "Hi there!"
     end
 
+    def fourohfour
+    end
+
+    def fivehundy
+    end
+
   end
 
 end; end;

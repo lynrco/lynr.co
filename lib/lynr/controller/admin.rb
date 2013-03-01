@@ -11,7 +11,7 @@ module Lynr; module Controller;
 
     map '/admin'
 
-    layout :default
+    layout :admin
 
     def initialize
       # Let Ramaze do its thing
@@ -29,6 +29,8 @@ module Lynr; module Controller;
       # TODO: Find some kind of confirmation that Rack applications are single threaded.
       @title = "Hi there Admin!"
       @owner = "CarMax"
+      @dealership = @dao.get(slug)
+      render_full('/fourohfour') if @dealership.nil?
     end
 
   end

@@ -14,6 +14,11 @@ module Lynr; module Controller;
       response['Server'] = 'Lynr.co Application Server'
     end
 
+    def self.action_missing(path)
+      return if path == '/fourohfour'
+      try_resolve('/fourohfour')
+    end
+
   end
 
 end; end;
