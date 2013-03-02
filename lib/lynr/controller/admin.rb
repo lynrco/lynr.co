@@ -27,10 +27,10 @@ module Lynr; module Controller;
     def index(slug='default')
       # Setting instance variables for templates to access makes me very nervous
       # TODO: Find some kind of confirmation that Rack applications are single threaded.
-      @title = "Hi there Admin!"
-      @owner = "CarMax"
       @dealership = @dao.get(slug)
-      render_full('/fourohfour') if @dealership.nil?
+      return not_found if @dealership.nil?
+      @title = "Welcome back #{@dealership.name}"
+      @owner = @dealership.name
     end
 
   end
