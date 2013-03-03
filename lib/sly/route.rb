@@ -4,11 +4,14 @@ module Sly
 
   class Route
 
+    attr_reader :path
+
     ##
     # Consruct a new `Sly::Route` 
     def initialize(verb, path, handler)
       @verb = verb
-      @path = make_r(path)
+      @path = path
+      @path_r = make_r(path)
       @handler = handler
     end
 
@@ -17,15 +20,18 @@ module Sly
     end
 
     def call(env)
+      # This is going to get expensive in large apps
       request = Rack::Request.new(env)
       if (matches_filters?(request))
         handle(request)
       else
-        bod = ["Wrong Route for #{request.path}"]
-        res = Rack::Response.new(body = bod, status = 404)
-        res['Content-Type'] = 'text/plain'
-        res['Content-Length'] = bod[0].length.to_s
-        res['X-Cascade'] = 'pass'
+        body = "Wrong Route for #{request.path}\n"
+        headers = {
+          'Content-Type' => 'text/plain',
+          'Content-Length' => body.size.to_s,
+          'X-Cascade' => 'pass'
+        }
+        res = Rack::Response.new(body = [body], status = 404, header = headers)
         res.finish
       end
     end
@@ -33,7 +39,7 @@ module Sly
     private
 
     def matches_filters?(req)
-      req.request_method == @verb && req.path =~ @path
+      req.request_method == @verb && req.path =~ @path_r
     end
 
     def make_r(p)
