@@ -8,7 +8,7 @@ module Sly
     # Consruct a new `Sly::Route` 
     def initialize(verb, path, handler)
       @verb = verb
-      @path = path
+      @path = make_r(path)
       @handler = handler
     end
 
@@ -30,8 +30,15 @@ module Sly
       end
     end
 
+    private
+
     def matches_filters?(req)
-      req.request_method == @verb && req.path == @path
+      req.request_method == @verb && req.path =~ @path
+    end
+
+    def make_r(p)
+      return p if p.is_a? Regexp
+      %r(^#{p.to_s}(/.*)?$)
     end
 
   end
