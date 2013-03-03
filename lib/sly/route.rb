@@ -25,6 +25,7 @@ module Sly
         res = Rack::Response.new(body = bod, status = 404)
         res['Content-Type'] = 'text/plain'
         res['Content-Length'] = bod[0].length.to_s
+        res['X-Cascade'] = 'pass'
         res.finish
       end
     end
