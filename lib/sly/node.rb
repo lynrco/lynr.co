@@ -4,7 +4,7 @@ require './lib/sly/route'
 
 module Sly
 
-  class Controller
+  class Node
 
     ##
     # Mapped methods must return an Array with the form
