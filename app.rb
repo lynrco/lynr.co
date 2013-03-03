@@ -5,6 +5,9 @@ require './lib/lynr/logging'
 require './lib/lynr/controller/root'
 require './lib/lynr/controller/admin'
 
+require './lib/sly'
+require './lib/lynr/controller/test'
+
 module Lynr
 
   class App
