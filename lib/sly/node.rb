@@ -12,13 +12,14 @@ module Sly
     # recognized as the result of `Rack::Response#finish`
     #
     def self.map(path, method_name, verb='GET')
+      route = nil
       if method_name.is_a? Sly::Route
         route = method_name
-        DynaMap.map(path, route)
       else
         method = method_name.to_sym
-        DynaMap.map(path, Route.new(verb, path, lambda { |req| self.new.send(method, req) }))
+        route = Route.new(verb, path, lambda { |req| self.new.send(method, req) })
       end
+      Sly::App.add(path, route)
     end
 
     def error(code = 500)
