@@ -20,7 +20,7 @@ module Sly
     end
 
     def call(env)
-      # This is going to get expensive in large apps
+      # TODO: This is going to get expensive in large apps
       request = Rack::Request.new(env)
       if (matches_filters?(request))
         handle(request)
@@ -31,6 +31,7 @@ module Sly
           'Content-Length' => body.size.to_s,
           'X-Cascade' => 'pass'
         }
+        # TODO: This is going to get expensive in large apps
         res = Rack::Response.new(body = [body], status = 404, header = headers)
         res.finish
       end
