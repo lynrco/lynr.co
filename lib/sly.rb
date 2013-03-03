@@ -16,12 +16,17 @@ module Sly
       Sly::Cascade.add(route)
     end
 
-    def initialize(apps)
-      @apps = apps
+    def initialize(app)
+      @app = app
     end
 
     def call(env)
-      Sly::DynaMap.call(env)
+      res = Sly::DynaMap.call(env)
+      if (res[0].to_i == 404)
+        @app.call(env)
+      else
+        res
+      end
     end
 
   end
