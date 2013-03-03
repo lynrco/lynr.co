@@ -11,8 +11,8 @@ module Sly
 
   class App
 
-    def self.add(path, route)
-      Sly::DynaMap.map(path, route)
+    def self.add(route)
+      Sly::DynaMap.map(route.path, route)
       Sly::Cascade.add(route)
     end
 
@@ -21,7 +21,7 @@ module Sly
     end
 
     def call(env)
-      res = Sly::DynaMap.call(env)
+      res = Sly::Cascade.call(env)
       if (res[0].to_i == 404)
         @app.call(env)
       else

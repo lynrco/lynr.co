@@ -19,7 +19,7 @@ module Sly
         method = method_name.to_sym
         route = Route.new(verb, path, lambda { |req| self.new.send(method, req) })
       end
-      Sly::App.add(path, route)
+      Sly::App.add(route)
     end
 
     def self.get(path, method_name)
