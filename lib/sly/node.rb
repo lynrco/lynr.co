@@ -22,6 +22,14 @@ module Sly
       Sly::App.add(path, route)
     end
 
+    def self.get(path, method_name)
+      map(path, method_name, 'GET')
+    end
+
+    def self.post(path, method_name)
+      map(path, method_name, 'POST')
+    end
+
     def error(code = 500)
       Rack::Response.new(status = code)
     end
