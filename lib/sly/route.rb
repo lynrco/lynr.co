@@ -21,16 +21,16 @@ module Sly
       if (matches_filters?(request))
         handle(request)
       else
-        bod = ["Wrong Route for #{env['PATH_INFO']}"]
-        res = Rack::Response.new(status = 500, body = bod)
+        bod = ["Wrong Route for #{request.path}"]
+        res = Rack::Response.new(body = bod, status = 404)
         res['Content-Type'] = 'text/plain'
-        res['Content-Length'] = bod[0].length
+        res['Content-Length'] = bod[0].length.to_s
         res.finish
       end
     end
 
     def matches_filters?(req)
-      req.request_method == @verb && req.path_info == @path
+      req.request_method == @verb && req.path == @path
     end
 
   end
