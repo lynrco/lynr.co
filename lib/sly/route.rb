@@ -6,11 +6,14 @@ module Sly
 
     attr_reader :path
 
+    PATH_PARAMS_REGEX = %r(/:([-_a-z]+))
+    PATH_BASE_REGEX = %r((/.+?)(/:.*)?$)
+
     ##
     # Consruct a new `Sly::Route` 
     def initialize(verb, path, handler)
       @verb = verb
-      @path = path
+      @path = base_path(path)
       @path_r = make_r(path)
       @handler = handler
     end
@@ -37,15 +40,18 @@ module Sly
       end
     end
 
-    private
+    def base_path(uri)
+      uri.match(PATH_BASE_REGEX)[1]
+    end
+
+    def make_r(uri)
+      return uri if uri.is_a? Regexp
+      param_names = uri.scan(PATH_PARAMS_REGEX).flatten
+      Regexp.new(param_names.reduce(@path) { |base, name| base + "/(?<#{name}>[^/]+)/?" })
+    end
 
     def matches_filters?(req)
       req.request_method == @verb && req.path =~ @path_r
-    end
-
-    def make_r(p)
-      return p if p.is_a? Regexp
-      %r(^#{p.to_s}(/.*)?$)
     end
 
   end
