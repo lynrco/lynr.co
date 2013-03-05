@@ -38,15 +38,20 @@ module Sly
       Sly::Cascade.add(route)
     end
 
-    def initialize(app)
+    def self.setup(opts={})
+      options.merge! opts
+    end
+
+    def initialize(app, opts={})
       @app = app
+      Sly::App.setup opts
     end
 
     def call(env)
       res = Sly::DynaMap.call(env)
       # Behave like a cascade
-      # TODO: Make this an option
-      if (res[0].to_i == 404)
+      # TODO: Make cascade behavior an option
+      if (Sly::App.options.cascade && Sly::App.options.cascade.include?(res[0].to_i))
         @app.call(env)
       else
         res
