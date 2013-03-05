@@ -12,6 +12,27 @@ module Sly
 
   class App
 
+    include Innate::Optioned
+
+    options.dsl do
+
+      o "Array of codes to Cascade if status is included",
+        :cascade, false
+
+      o "The directories this application resides in",
+        :root, File.dirname($0)
+
+      o "The directories containing static files to be served",
+        :publics, 'publics'
+
+      o "Directories containing the view templates",
+        :views, 'views'
+
+      o "Directories containing the layout templates",
+        :layouts, 'layouts'
+
+    end
+
     def self.add(route)
       Sly::DynaMap.map(route.path, route)
       Sly::Cascade.add(route)
