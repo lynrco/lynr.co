@@ -46,7 +46,7 @@ module Sly
       file_name = ::File.join(Sly::App.options.root, Sly::App.options.views, view)
       str = ::File.read(file_name)
       template = ::ERB.new(str, nil, '%<>')
-      Rack::Response.new(template.result(binding), 200, @headers).finish
+      Rack::Response.new(template.result(binding), 200, @headers)
     end
 
   end
