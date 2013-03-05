@@ -19,7 +19,7 @@ module Sly
     end
 
     def handle(request)
-      @handler.call(request)
+      @handler.call(request).finish
     end
 
     def call(env)
