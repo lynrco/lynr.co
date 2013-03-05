@@ -30,12 +30,23 @@ module Sly
       map(path, method_name, 'POST')
     end
 
+    def initialize
+      @headers = {}
+    end
+
     def error(code = 500)
       Rack::Response.new(status = code)
     end
 
     def not_found
       error(404)
+    end
+
+    def render(view)
+      file_name = ::File.join(Sly::App.options.root, Sly::App.options.views, view)
+      str = ::File.read(file_name)
+      template = ::ERB.new(str, nil, '%<>')
+      Rack::Response.new(template.result(binding), 200, @headers).finish
     end
 
   end
