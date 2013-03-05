@@ -14,18 +14,16 @@ module Lynr; module Controller;
     get '/test', :index
 
     def index(req)
-      Rack::Response.new(["hi"], 200, { "Content-Type" => "text/plain" }).finish
+      Rack::Response.new(["hi"], 200, { "Content-Type" => "text/plain" })
     end
 
     def vehicle(req)
-      log.info({ path_info: req.path })
       @headers = { "Content-Type" => "text/plain" }
       render('index.erb')
     end
 
     def vehicle2(req)
-      log.info({ path_info: req.path })
-      Rack::Response.new(["hi car2"], 200, { "Content-Type" => "text/plain" }).finish
+      Rack::Response.new(["hi car2"], 200, { "Content-Type" => "text/plain" })
     end
 
   end
