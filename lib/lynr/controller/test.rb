@@ -19,7 +19,8 @@ module Lynr; module Controller;
 
     def vehicle(req)
       log.info({ path_info: req.path })
-      Rack::Response.new(["hi car"], 200, { "Content-Type" => "text/plain" }).finish
+      @headers = { "Content-Type" => "text/plain" }
+      render('index.erb')
     end
 
     def vehicle2(req)
