@@ -1,10 +1,13 @@
 require 'rack'
 
 require './lib/sly/route'
+require './lib/sly/view/erb'
 
 module Sly
 
   class Node
+
+    include ERB::Util
 
     ##
     # Mapped methods must return an Array with the form
@@ -34,6 +37,17 @@ module Sly
       @headers = {}
     end
 
+    ##
+    # This might be dangerous but it doesn't seem like it ought to be. This is
+    # a redefinition of a method that exists on all objects, the redefinition
+    # is to expose it in the public API for Sly::Node because Sly::View::*
+    # instances will need access to it.
+    #
+    # See `Kernel#binding`
+    def binding
+      super
+    end
+
     def error(code = 500)
       Rack::Response.new(status = code)
     end
@@ -42,11 +56,11 @@ module Sly
       error(404)
     end
 
-    def render(view)
-      file_name = ::File.join(Sly::App.options.root, Sly::App.options.views, view)
-      str = ::File.read(file_name)
-      template = ::ERB.new(str, nil, '%<>')
-      Rack::Response.new(template.result(binding), 200, @headers)
+    def render(view, opts={})
+      template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
+      layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, opts[:layout].to_s) if opts.has_key?(:layout)
+      view = Sly::View::Erb.new(template, { layout: layout, context: self })
+      Rack::Response.new(view.result, 200, @headers)
     end
 
   end
