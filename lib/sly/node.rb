@@ -63,6 +63,12 @@ module Sly
       Rack::Response.new(view.result, 200, @headers)
     end
 
+    def render_partial(path)
+      partial = ::File.join(Sly::App.options.root, Sly::App.options.partials, path.to_s)
+      partial_view = Sly::View::Erb.new(partial, { context: self })
+      partial_view.result
+    end
+
   end
 
 end
