@@ -19,7 +19,7 @@ module Lynr; module Controller;
 
     def vehicle(req)
       @headers = { "Content-Type" => "text/plain" }
-      render('index.erb')
+      render :index, :layout => 'default_sly'
     end
 
     def vehicle2(req)
