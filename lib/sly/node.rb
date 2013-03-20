@@ -10,9 +10,9 @@ module Sly
     include ERB::Util
 
     ##
-    # Mapped methods must return an Array with the form
-    # `[status_code (int), headers (Hash), body (Iterable)]`. This may be
-    # recognized as the result of `Rack::Response#finish`
+    # Mapped methods must return an object that will respond to `:finish` message
+    # with the form # `[status_code (int), headers (Hash), body (Iterable)]`.
+    # This may be recognized as the contract of `Rack::Response`
     #
     def self.map(path, method_name, verb='GET')
       route = nil
@@ -33,19 +33,23 @@ module Sly
       map(path, method_name, 'POST')
     end
 
+    ##
+    # Create a new Node instance making sure `@headers` is initialized
+    #
     def initialize
-      @headers = {}
+      @headers = {} if @headers.nil?
     end
 
     ##
     # This might be dangerous but it doesn't seem like it ought to be. This is
-    # a redefinition of a method that exists on all objects, the redefinition
-    # is to expose it in the public API for Sly::Node because Sly::View::*
-    # instances will need access to it.
+    # a method to proxy to the inherited binding method to expose it in the
+    # public API for Sly::Node because Sly::View::* instances will need access
+    # to it.
     #
     # See `Kernel#binding`
-    def binding
-      super
+    #
+    def ctx
+      binding
     end
 
     def error(code = 500)
