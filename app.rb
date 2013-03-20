@@ -31,6 +31,8 @@ module Lynr
       # Can I add specific controller instances with options set? Options don't
       # seem to be set in `#initialize` method invocations.
       Ramaze.options.views = ['views']
+
+      Sly::App.options.layouts = 'layout'
     end
 
     def self.instance
