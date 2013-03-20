@@ -12,8 +12,10 @@ module Sly; module View;
     def result
       if (@layout)
         @layout.result(@context.binding { @template.result(@context.binding) })
-      else
+      elsif (@context)
         @template.result(@context.binding)
+      else
+        @template.result(binding)
       end
     end
 
