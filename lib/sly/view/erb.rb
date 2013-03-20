@@ -7,6 +7,9 @@ module Sly; module View;
       @layout = get_template(layout_path) if layout_path
       @template = get_template(path) if path
       @context = opts[:context] || nil
+      if !@context.respond_to? :binding
+        raise ArgumentError.new(":context option must have a public binding method")
+      end
     end
 
     def result
