@@ -10,8 +10,6 @@ module Sly; module View;
     end
 
     def result
-      require 'pry'
-      binding.pry
       if (@layout)
         @layout.result(@context.binding { @template.result(@context.binding) })
       else
