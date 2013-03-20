@@ -18,7 +18,8 @@ module Lynr; module Controller;
     end
 
     def vehicle(req)
-      @headers = { "Content-Type" => "text/plain" }
+      @headers["Content-Type"] = "text/html; charset=utf-8"
+      @section = "test"
       render :index, :layout => 'default_sly'
     end
 
