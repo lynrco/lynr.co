@@ -31,6 +31,9 @@ module Sly
       o "Directory containing the layout templates",
         :layouts, 'layouts'
 
+      o "The directory containing partial views",
+        :partials, 'partials'
+
     end
 
     def self.add(route)
