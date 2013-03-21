@@ -7,8 +7,6 @@ module Sly
 
   class Node
 
-    include ERB::Util
-
     ##
     # Mapped methods must return an object that will respond to `:finish` message
     # with the form # `[status_code (int), headers (Hash), body (Iterable)]`.
@@ -52,25 +50,20 @@ module Sly
       binding
     end
 
+    ##
+    # Method which creates an error Response object. This is included to help
+    # define the API of a controller and is intended to be overwritten by the
+    # extending application.
     def error(code = 500)
       Rack::Response.new(status = code)
     end
 
+    ##
+    # Method which creates a 404 response object. This is included to help
+    # define the API of a controller and is intended to be overwritten by the
+    # extending application.
     def not_found
       error(404)
-    end
-
-    def render(view, opts={})
-      template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
-      layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, opts[:layout].to_s) if opts.has_key?(:layout)
-      view = Sly::View::Erb.new(template, { layout: layout, context: self })
-      Rack::Response.new(view.result, 200, @headers)
-    end
-
-    def render_partial(path)
-      partial = ::File.join(Sly::App.options.root, Sly::App.options.partials, path.to_s)
-      partial_view = Sly::View::Erb.new(partial, { context: self })
-      partial_view.result
     end
 
   end
