@@ -4,6 +4,8 @@ module Sly; module View;
 
   module ErbHelpers
 
+    include ERB::Util
+
     def render(view, opts={})
       template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
       layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, opts[:layout].to_s) if opts.has_key?(:layout)

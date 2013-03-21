@@ -5,6 +5,12 @@ require './lib/sly/view/erb'
 
 module Sly
 
+  ##
+  # Nodes are responsible for handling and creating Route definitions and
+  # adding them to the Rack application to be used in processing.
+  #
+  # `Sly::Node` is meant to be extended by controller type objects in an
+  # application.
   class Node
 
     ##
