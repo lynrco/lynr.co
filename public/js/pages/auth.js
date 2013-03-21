@@ -21,10 +21,10 @@ define(function(require) {
 
   function handleStripeResponse(code, res) {
     console.log(code, res);
-    if (response.error) {
-      handleStripResponseError(res);
+    if (res.error) {
+      handleStripeResponseError(res);
     } else {
-      handleStripResponseSuccess(res);
+      handleStripeResponseSuccess(res);
     }
   }
 
@@ -33,7 +33,7 @@ define(function(require) {
     var messages = document.getElementById('messages');
     var error = document.createElement('p');
     error.className = 'error';
-    error.innerHTML = response.error.message;
+    error.innerHTML = res.error.message;
     form.querySelector('button[type=submit]').setAttribute('disabled', false);
   }
 
