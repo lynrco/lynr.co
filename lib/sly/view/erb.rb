@@ -25,7 +25,8 @@ module Sly; module View;
     private
 
     def get_template(path)
-      file_name = "#{path.to_s}.erb"
+      file_name = path.to_s
+      file_name = "#{file_name}.erb" unless file_name.end_with? ".erb"
       str = ::File.read(file_name)
       ::ERB.new(str, nil, '%<>')
     end
