@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
+source 'https://code.stripe.com'
+
 ruby '1.9.3'
 
-gem 'ramaze',          '2012.12.08'
-gem 'log4r',           '1.1.10'
-gem 'bson_ext',        '1.8.2'
-gem 'mongo',           '1.8.2'
-gem 'bcrypt-ruby',     '3.0.1'
-gem 'yajl-ruby',       '1.1.0'
+gem 'ramaze',           '2012.12.08'
+gem 'log4r',            '1.1.10'
+gem 'bson_ext',         '1.8.2'
+gem 'mongo',            '1.8.2'
+gem 'bcrypt-ruby',      '3.0.1'
+gem 'yajl-ruby',        '1.1.0'
+gem 'stripe',           '1.7.11'
 
 group :development do
   gem 'guard'
