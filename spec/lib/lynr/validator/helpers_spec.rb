@@ -47,6 +47,11 @@ describe Lynr::Validator::Helpers do
       expect(helpers.is_valid_email?("hi.there@gmail..com")).to be_false
     end
 
+#    Valid test but causes network traffic which can be slow
+#    it "fails with invalid domain" do
+#      expect(helpers.is_valid_email?("hi.there@idonthinkthisdomainwillhavedns.com")).to be_false
+#    end
+
   end
 
 end
