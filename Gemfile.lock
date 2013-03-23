@@ -92,6 +92,6 @@ DEPENDENCIES
   rb-inotify
   rspec (= 2.12)
   shotgun (= 0.9)
-  stripe
+  stripe (= 1.7.11)
   unicorn (= 4.5.0)
   yajl-ruby (= 1.1.0)
