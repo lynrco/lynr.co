@@ -54,4 +54,16 @@ describe Lynr::Validator::Helpers do
 
   end
 
+  describe "#is_valid_password?" do
+
+    it "passes a sufficient assword" do
+      expect(helpers.is_valid_password?("hi there")).to be_true
+    end
+
+    it "fails a short password" do
+      expect(helpers.is_valid_password?("hi")).to be_false
+    end
+
+  end
+
 end

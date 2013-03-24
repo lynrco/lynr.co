@@ -36,6 +36,10 @@ module Lynr; module Validator;
       valid
     end
 
+    def is_valid_password?(password)
+      password.length > 3
+    end
+
   end
 
 end; end;
