@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'ramaze'
+require 'stripe'
 
 require './lib/lynr/logging'
 require './lib/lynr/controller/root'
@@ -22,6 +23,13 @@ module Lynr
 
     VERSION = '0.0.1'
 
+    attr_reader :config
+
+    def initialize
+      environment = ENV['whereami'] || 'development'
+      @config = YAML.load_file("config/app.#{environment}.yaml")
+    end
+
     def self.setup
       Ramaze.options.roots = [__DIR__]
       # What if views is set from configuration file?
@@ -34,6 +42,8 @@ module Lynr
       Ramaze.options.views = ['views']
 
       Sly::App.options.layouts = 'layout'
+
+      Stripe.api_key = instance.config['stripe_key']
     end
 
     def self.instance
