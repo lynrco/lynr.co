@@ -1,8 +1,6 @@
 .vagrant
 !.giturd
 /tmp/
-/config/database.*.yaml
-!/config/database.example.yaml
-/config/librato.*.yaml
-!/config/librato.example.yaml
+/config/*.yaml
+!/config/*.example.yaml
 /public/css/*.css
