@@ -59,6 +59,10 @@ describe Lynr::Model::Identity do
       expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true
     end
 
+    it "raises an error when given nil" do
+      expect { Lynr::Model::Identity.inflate(nil) }.to raise_error(ArgumentError)
+    end
+
   end
 
 end

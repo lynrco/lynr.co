@@ -32,6 +32,7 @@ module Lynr; module Model;
     end
 
     def self.inflate(record)
+      raise ArgumentError.new("Can't inflate a nil record") if record.nil?
       Lynr::Model::Identity.new(record[:email], record[:password])
     end
 
