@@ -12,10 +12,11 @@ module Lynr; module Model;
   #   for logging in as this dealership
   # * `:address` on the street of the dealership, where to find the vehicles
   # * `:image` object pointing to the dealership logo or icon
+  # * `:customer_id` from payment processor, how to identify payment details
   class Dealership
 
     attr_reader :id
-    attr_reader :name, :phone, :identity, :address, :image
+    attr_reader :name, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data, id=nil)
       @id = id
@@ -24,10 +25,11 @@ module Lynr; module Model;
       @identity = data[:identity]
       @address = data[:address]
       @image = data[:image]
+      @customer_id = data[:customer_id]
     end
 
     def view
-      data = { name: @name, phone: @phone }
+      data = { name: @name, phone: @phone, customer_id: @customer_id }
       data[:identity] = @identity.view if @identity
       data[:address] = @address.view if @address
       data[:image] = @image.view if @image
