@@ -9,6 +9,7 @@ describe Lynr::Model::Image do
   end
 
   let(:image) { Lynr::Model::Image.new("300", "150", @url) }
+  let(:empty_image) { Lynr::Model::Image.new(nil, nil, nil) }
 
   describe "#initialize" do
 
@@ -66,6 +67,10 @@ describe Lynr::Model::Image do
     it "creates equivalent Image instances from properties" do
       image_props = { width: "300", height: "150", url: @url }
       expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
+    end
+
+    it "provides an empty image for nil" do
+      expect(Lynr::Model::Image.inflate(nil)).to eq(empty_image)
     end
 
   end
