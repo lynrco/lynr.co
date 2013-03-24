@@ -21,6 +21,7 @@ module Lynr; module Model;
     end
 
     def self.inflate(record)
+      record = {} if record.nil?
       Lynr::Model::Address.new(
         line_one=record[:line_one],
         line_two=record[:line_two],

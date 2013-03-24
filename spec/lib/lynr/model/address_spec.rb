@@ -6,6 +6,9 @@ describe Lynr::Model::Address do
   let(:address_props) {
     { line_one: "Addr L1", line_two: "Addr L2", city: "New York", state: "NY", zip: "10002" }
   }
+  let(:empty_address) {
+    Lynr::Model::Address.new(line_one=nil, line_two=nil, city=nil, state=nil, zip=nil)
+  }
 
   let(:address) {
     Lynr::Model::Address.new(
@@ -86,6 +89,10 @@ describe Lynr::Model::Address do
 
     it "creates equivalent instances from properties" do
       expect(Lynr::Model::Address.inflate(address_props)).to eq(address)
+    end
+
+    it "creates empty instance from nil" do
+      expect(Lynr::Model::Address.inflate(nil)).to eq(empty_address)
     end
 
   end
