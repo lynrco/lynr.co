@@ -5,8 +5,6 @@ module Lynr; module Validator;
   module Helpers
 
     def is_valid_email?(email)
-      mx_records = []
-      a_records = []
       parts = email.partition('@')
       local = parts[0]
       domain = parts[2]
@@ -18,15 +16,17 @@ module Lynr; module Validator;
                 (domain.index(%r(^[A-Za-z0-9\-\.]+$)) != 0) || # invalid character in domain part
                 (!domain.index(%r(\.\.)).nil?)) # domain part has two consecutive dots
 
-      if (valid)
-        Resolv::DNS.open do |dns|
-          mx_records = dns.getresources(domain, Resolv::DNS::Resource::IN::MX)
-          a_records = dns.getresources(domain, Resolv::DNS::Resource::IN::A)
-        end
-        valid = mx_records.size > 0 || a_records.size > 0
-      end
+      valid && is_valid_email_domain?(domain)
+    end
 
-      valid
+    def is_valid_email_domain?(domain)
+      mx_records = []
+      a_records = []
+      Resolv::DNS.open do |dns|
+        mx_records = dns.getresources(domain, Resolv::DNS::Resource::IN::MX)
+        a_records = dns.getresources(domain, Resolv::DNS::Resource::IN::A)
+      end
+      mx_records.size > 0 || a_records.size > 0
     end
 
     def is_valid_password?(password)
