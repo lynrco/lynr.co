@@ -29,12 +29,30 @@ module Sly
       Sly::App.add(route)
     end
 
+    ##
+    # Delegates to `Sly::Node#map` with a 'GET' verb
     def self.get(path, method_name)
       map(path, method_name, 'GET')
     end
 
+    ##
+    # Delegates to `Sly::Node#map` with a 'POST' verb
     def self.post(path, method_name)
       map(path, method_name, 'POST')
+    end
+
+    ##
+    # Create a Route based on the path, method_name and verb
+    #
+    # `Sly::Node#create_route` is a hook or override point so Route creation
+    # can be customized either with a new Route class or with special logic.
+    #
+    # The created `Route` instances are Rack middleware. In addition to the
+    # standard `#call` method they must have a `#path` method which identifies
+    # the base path for which the Route should process requests.
+    def self.create_route(path, method_name, verb)
+      method = method_name.to_sym
+      Route.new(verb, path, lambda { |req| self.new.send(method, req) })
     end
 
     ##
@@ -42,11 +60,6 @@ module Sly
     #
     def initialize
       @headers = {} if @headers.nil?
-    end
-
-    def create_route(path, method_name, verb)
-      method = method_name.to_sym
-      Route.new(verb, path, lambda { |req| self.new.send(method, req) })
     end
 
     ##
