@@ -15,6 +15,10 @@ describe Lynr::Validator::Helpers do
       expect(helpers.is_valid_email?("help@gmail.com")).to be_true
     end
 
+    it "fails with no @ in email" do
+      expect(helpers.is_valid_email?("hitheregmail.om")).to be_false
+    end
+
     it "fails emails with no local/username part" do
       expect(helpers.is_valid_email?("@gmail.com")).to be_false
     end
