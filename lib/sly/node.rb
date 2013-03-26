@@ -24,7 +24,7 @@ module Sly
         route = method_name
       else
         method = method_name.to_sym
-        route = Route.new(verb, path, lambda { |req| self.new.send(method, req) })
+        route = create_route(path, method_name, verb)
       end
       Sly::App.add(route)
     end
@@ -42,6 +42,11 @@ module Sly
     #
     def initialize
       @headers = {} if @headers.nil?
+    end
+
+    def create_route(path, method_name, verb)
+      method = method_name.to_sym
+      Route.new(verb, path, lambda { |req| self.new.send(method, req) })
     end
 
     ##
