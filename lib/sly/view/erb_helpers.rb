@@ -20,6 +20,14 @@ module Sly; module View;
       partial_view.result
     end
 
+    
+    ##
+    # Extends the class that included this module so that the methods that
+    # this helper provides can be called outside of a class instance.
+    #
+    # Taken from [Ramaze's layout module][layout_module]
+    #
+    # [layout_module]: https://github.com/Ramaze/ramaze/blob/5eca0714b37e3d3b618929e35a7b0a447ff16ec3/lib/ramaze/helper/layout.rb
     def self.included(into)
       into.extend SingletonMethods
     end
