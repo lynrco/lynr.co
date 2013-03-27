@@ -15,6 +15,7 @@ group :development do
   gem 'guard'
   gem 'guard-shell'
   gem 'guard-bundler'
+  gem 'guard-rake'
 
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false

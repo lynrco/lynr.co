@@ -19,6 +19,9 @@ GEM
     guard-bundler (1.0.0)
       bundler (~> 1.0)
       guard (~> 1.1)
+    guard-rake (0.0.7)
+      guard
+      rake
     guard-rspec (2.4.0)
       guard (>= 1.1)
       rspec (~> 2.11)
@@ -89,6 +92,7 @@ DEPENDENCIES
   bson_ext (= 1.8.2)
   guard
   guard-bundler
+  guard-rake
   guard-rspec
   guard-shell
   less (= 2.3.1)
