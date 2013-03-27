@@ -24,15 +24,20 @@ group :development do
 end
 
 group :local do
-  gem 'shotgun',       '0.9'
+  gem 'shotgun',        '0.9'
 end
 
 group :vagrant do
-  gem 'unicorn',       '4.5.0'
+  gem 'unicorn',        '4.5.0'
+end
+
+group :heroku do
+  gem 'less',           '2.3.1'
+  gem 'therubyracer'
 end
 
 group :test do
-  gem 'rspec',      '2.12'
+  gem 'rspec',          '2.12'
 
   gem 'guard-rspec'
 end
