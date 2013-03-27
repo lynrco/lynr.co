@@ -3,4 +3,5 @@
 /tmp/
 /config/*.yaml
 !/config/*.example.yaml
+!/config/*.heroku.yaml
 /public/css/*.css

@@ -1,0 +1,6 @@
+mongo:
+  host: 'linus.mongohq.com'
+  port: 10059
+  database: 'test_quicklistit'
+  user: 'quicklister'
+  pass: 'env:mongo_pass'
