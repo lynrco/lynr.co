@@ -28,10 +28,12 @@ module Lynr; module Controller;
     get  '/signup', :get_signup
     post '/signup', :post_signup
 
+    set_render_options({ layout: 'default_sly.erb' })
+
     def get_signup(req)
       @subsection = "signup"
       @posted = {}
-      render 'auth/signup', :layout => 'default_sly'
+      render 'auth/signup'
     end
 
     def post_signup(req)
@@ -51,14 +53,14 @@ module Lynr; module Controller;
         dealership = Lynr::Model::Dealership.new({ identity: identity, customer_id: customer.id })
         @dealership = dao.save(dealership)
         # Send to admin pages?
-        render 'auth/signed_up.erb', :layout => 'default_sly'
+        render 'auth/signed_up.erb'
       else
-        render 'auth/signup.erb', :layout => 'default_sly'
+        render 'auth/signup.erb'
       end
     rescue Stripe::InvalidRequestError => sire
       log.warn { sire }
       @errors['stripeToken'] = "You might have submitted the form more than once."
-      render 'auth/signup.erb', :layout => 'default_sly'
+      render 'auth/signup.erb'
     end
 
     def validate_signup(posted)
