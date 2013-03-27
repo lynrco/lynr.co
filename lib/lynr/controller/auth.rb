@@ -1,5 +1,3 @@
-require 'rack'
-
 require './lib/sly'
 require './lib/sly/view/erb_helpers'
 require './lib/lynr/validator/helpers'
@@ -19,7 +17,10 @@ module Lynr; module Controller;
 
     def initialize
       super
-      @headers = { "Content-Type" => "text/html; charset=utf-8" }
+      @headers = {
+        "Content-Type" => "text/html; charset=utf-8",
+        "Header" => "Lynr.co Application Server"
+      }
       @section = "auth"
 
       @dao = Lynr::Persist::DealershipDao.new
