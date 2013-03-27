@@ -4,7 +4,6 @@ namespace :assets do
   task :precompile do
     require 'bundler/setup'
     require 'less'
-    require 'pry'
 
     compress = true
     yuicompress = false
