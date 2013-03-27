@@ -17,7 +17,8 @@ module Lynr; module Controller;
     # Homepage. Automagically renders `views/index.erb` based on the method name
     # servicing the request, in this case `index`
     def index
-      @title = "Hi there!"
+      @title = "Welcome to Lynr.co"
+      @section = "home"
     end
 
     def fourohfour
