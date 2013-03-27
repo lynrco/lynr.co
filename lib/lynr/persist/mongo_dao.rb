@@ -1,5 +1,5 @@
-require 'yaml'
 require 'mongo'
+require './lib/lynr/config'
 
 module Lynr; module Persist;
 
@@ -9,7 +9,7 @@ module Lynr; module Persist;
 
     def initialize(collection='default')
       environment = ENV['whereami'] || 'development'
-      @config = YAML.load_file("config/database.#{environment}.yaml")['mongo']
+      @config = Lynr::Config.new('database', ENV['whereami'])['mongo']
       @collection_name = collection
     end
 
