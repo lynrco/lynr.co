@@ -2,11 +2,12 @@ require 'bundler/setup'
 require 'ramaze'
 require 'stripe'
 
+require './lib/sly'
 require './lib/lynr/logging'
+require './lib/lynr/config'
 require './lib/lynr/controller/root'
 require './lib/lynr/controller/admin'
 
-require './lib/sly'
 require './lib/lynr/controller/test'
 require './lib/lynr/controller/auth'
 
@@ -26,8 +27,7 @@ module Lynr
     attr_reader :config
 
     def initialize
-      environment = ENV['whereami'] || 'development'
-      @config = YAML.load_file("config/app.#{environment}.yaml")
+      @config = Lynr::Config.new('app', ENV['whereami'])
     end
 
     def self.setup
