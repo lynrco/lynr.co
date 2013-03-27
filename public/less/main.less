@@ -33,7 +33,7 @@
 .inner_glow(@color, @blur:2px, @spread:2px) {
   .box_shadow(0px, 0px, @blur, @spread, @color, inset);
 }
-.border_box {
+.border_box() {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -56,7 +56,7 @@ a { color: @font_color; text-decoration: none; }
   display: inline-block; border: 1px solid #fff; border-radius: 6px; padding: 1.25rem 0 0.9375rem;
   height: 5.625rem; text-align: center; /*text-shadow: 0px 1px 1px rgba(0,0,0,0.4);*/
   font-size: 2.25rem; font-weight: 100; color: lighten(@font_color, 40%);
-  .linear_gradient(#ffffff, #ededed); .outer_glow(rgba(0,0,0,0.15)); .border_box;
+  .linear_gradient(#ffffff, #ededed); .outer_glow(rgba(0,0,0,0.15)); .border_box();
 
   &:hover { .linear_gradient(#ededed, #ffffff); }
 }
