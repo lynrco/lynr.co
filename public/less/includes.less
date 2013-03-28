@@ -40,6 +40,11 @@
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
+.border_radius(@radius: 6px) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
 .bg(@path, @hpos:left, @vpos:top) {
   background: url("/img/@{path}") no-repeat @hpos @vpos;
 }
