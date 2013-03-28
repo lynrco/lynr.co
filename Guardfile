@@ -70,4 +70,11 @@ group :local do
     watch(%r{^public/less/(.+)\.less$})
   end
 
+#  guard 'shell' do
+#    watch(%r{^public/less/(.+)\.less$}) do |m|
+#      puts "Compiling #{m[0]} to public/css/#{m[1]}.css"
+#      `lessc -x #{m[0]} public/css/#{m[1]}.css`
+#    end
+#  end
+
 end
