@@ -1,0 +1,48 @@
+/* Includes */
+@highlight: #fff;
+@font_color: #646464;
+@font_stack: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+.depth(@padding:50px) {
+  position: relative; padding: @padding;
+
+  &:after {
+    content: attr(title); position: absolute; top: 1px; left: 1px; padding: @padding;
+    color: transparent; text-shadow: rgba(255,255,255,0.1) 0px 0px 1.5px;
+  }
+}
+.linear_gradient(@start, @stop, @color:~'transparent') {
+  background: #ffffff; /* Old browsers */
+  background: @color linear-gradient(to bottom, @start 0%,@stop 100%); /* W3C */
+  background: @color -webkit-gradient(linear, left top, left bottom, color-stop(0%,@start), color-stop(100%,@stop)); /* Chrome,Safari4+ */
+  background: @color -webkit-linear-gradient(top, @start 0%,@stop 100%); /* Chrome10+,Safari5.1+ */
+  background: @color -moz-linear-gradient(top, @start 0%, @stop 100%); /* FF3.6+ */
+  background: @color -ms-linear-gradient(top, @start 0%,@stop 100%); /* IE10+ */
+  background: @color -o-linear-gradient(top, @start 0%,@stop 100%); /* Opera 11.10+ */
+  filter: %("progid:DXImageTransform.Microsoft.gradient( startColorstr='%t', endColorstr='%p',GradientType=0 );", @start, @stop) /* IE6-9 */
+}
+.box_shadow(@xoff, @yoff, @blur, @spread, @color, @inset:~'') {
+  box-shadow: @inset @xoff @yoff @blur @spread @color;
+  -webkit-box-shadow: @inset @xoff @yoff @blur @spread @color;
+  -moz-box-shadow: @inset @xoff @yoff @blur @spread @color;
+  -ms-box-shadow: @inset @xoff @yoff @blur @spread @color;
+  -o-box-shadow: @inset @xoff @yoff @blur @spread @color;
+}
+.outer_glow(@color, @blur:2px, @spread:2px) {
+  .box_shadow(0px, 0px, @blur, @spread, @color);
+}
+.inner_glow(@color, @blur:2px, @spread:2px) {
+  .box_shadow(0px, 0px, @blur, @spread, @color, inset);
+}
+.border_box() {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.bg(@path, @hpos:left, @vpos:top) {
+  background: url("/img/@{path}") no-repeat @hpos @vpos;
+}
+.txt-replace(@width, @height, @path) {
+  width: @width; height: @height; text-indent: -9999px; overflow: hidden; .bg(@path);
+}
