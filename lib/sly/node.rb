@@ -16,9 +16,29 @@ module Sly
   class Node
 
     ##
-    # Mapped methods must return an object that will respond to `:finish` message
-    # with the form # `[status_code (int), headers (Hash), body (Iterable)]`.
+    # ## `Sly::Node.map`
+    #
+    # Creates a `Sly::Route` for the given path and registers the `Route` with
+    # `Sly::App` which is the Middleware used with a Sly application.
+    #
+    # Mapped methods must return an object that will respond to `:finish`
+    # message/method with the form
+    # `[status_code (int), headers (Hash), body (Iterable)]`.
+    #
     # This may be recognized as the contract of `Rack::Response`
+    #
+    # ### Params
+    #
+    # * `path` the request must match this string for the route to be considered
+    #   for handling
+    # * `method_name` String or Symbol identifying the controller method to be
+    #   invoked
+    # * `verb` to match when determining if the created route can handles the
+    #   request. *Default*: GET
+    #
+    # ### Returns
+    #
+    # The result of `Sly::App.add` which is, thus far, indeterminate
     #
     def self.map(path, method_name, verb='GET')
       route = nil
@@ -32,13 +52,19 @@ module Sly
     end
 
     ##
+    # ## `Sly::Node.get`
+    #
     # Delegates to `Sly::Node#map` with a 'GET' verb
+    #
     def self.get(path, method_name)
       map(path, method_name, 'GET')
     end
 
     ##
+    # ## `Sly::Node.post`
+    #
     # Delegates to `Sly::Node#map` with a 'POST' verb
+    #
     def self.post(path, method_name)
       map(path, method_name, 'POST')
     end
@@ -63,6 +89,11 @@ module Sly
     #   invoked
     # * `verb` to match when determining if the created route can handles the
     #   request
+    #
+    # ### Returns
+    #
+    # A newly created `Sly::Route` instance
+    #
     def self.create_route(path, method_name, verb)
       method = method_name.to_sym
       Route.new(verb, path, lambda { |req| self.new.send(method, req) })
@@ -71,7 +102,9 @@ module Sly
     ##
     # ## `Sly::Node.new`
     #
-    # Create a new Node instance making sure `@headers` is initialized
+    # Create a new Node instance making sure `@headers` is initialized. Can
+    # be overridden to perform additional setup or to set application/controller
+    # specific attribute values.
     #
     def initialize
       @headers = {} if @headers.nil?
