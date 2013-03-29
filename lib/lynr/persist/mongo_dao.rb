@@ -9,7 +9,14 @@ module Lynr; module Persist;
 
     def initialize(collection='default')
       environment = ENV['whereami'] || 'development'
-      @config = Lynr::Config.new('database', ENV['whereami'])['mongo']
+      defaults = {
+        'mongo' => {
+          'host'     => '127.0.0.1',
+          'port'     => '27017',
+          'database' => 'lynr'
+        }
+      }
+      @config = Lynr::Config.new('database', ENV['whereami'], defaults)['mongo']
       @collection_name = collection
     end
 
