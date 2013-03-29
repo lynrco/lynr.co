@@ -28,6 +28,7 @@ module Lynr; module Controller;
 
     get  '/signup', :get_signup
     post '/signup', :post_signup
+    get  '/signin', :get_signin
 
     set_render_options({ layout: 'default_sly.erb' })
 
@@ -35,7 +36,7 @@ module Lynr; module Controller;
       @subsection = "signup"
       @posted = {}
       @title = "Sign Up for Lynr"
-      render 'auth/signup'
+      render 'auth/signup.erb'
     end
 
     def post_signup(req)
@@ -65,6 +66,23 @@ module Lynr; module Controller;
       render 'auth/signup.erb'
     end
 
+    def get_signin(req)
+      @subsection = "signin"
+      @posted = {}
+      @title = "Sign In for Lynr"
+      render 'auth/signin.erb'
+    end
+
+    def post_signin(req)
+      @subsection = "signup submitted"
+      @posted = req.POST
+      @errors = validate_signin(@posted)
+      if (@errors.empty?)
+      else
+        render 'auth/signin.erb'
+      end
+    end
+
     def validate_signup(posted)
       email = posted['email']
       password = posted['password']
@@ -84,6 +102,17 @@ module Lynr; module Controller;
       end
       if (posted['stripeToken'].nil?)
         errors['stripeToken'] = "Your card wasn't accepted."
+      end
+
+      errors
+    end
+
+    def validate_signin(posted)
+      errors = {}
+      ['email', 'password'].each do |key|
+        if (!(posted.include?(key) && posted[key].length > 0))
+          errors[key] = 'Required'
+        end
       end
 
       errors

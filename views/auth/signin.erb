@@ -1,0 +1,15 @@
+      <div id="messages">
+        <% if @msg %><p class="msg"><%= @msg %></p><% end %>
+        <% if @error %><p class="error"><%= @error %></p><% end %>
+      </div>
+      <form class="signup" action="/signup" method="POST">
+        <h2 class="fs-title">Sign In</h2>
+        <fieldset class="fs">
+          <label for="email">Email Address</label>
+          <input class="fs-top fs-full" type="email" name="email" id="email" class="fs-top fs-full" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
+          <label for="password">Password</label>
+          <input class="fs-bottom fs-full" type="password"
+                 name="password" id="password" value="" placeholder="****" />
+        </fieldset>
+        <button class="btn btn-full btn-create" type="submit">Sign In</button>
+      </form>
