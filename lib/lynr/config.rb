@@ -6,11 +6,13 @@ module Lynr
 
     attr_reader :environment, :type
 
-    def initialize(type, whereami='development', config=nil)
+    def initialize(type, whereami='development', config={})
       @type = type
       @environment = whereami || 'development'
       @config = config
-      @config = YAML.load_file("config/#{type}.#{environment}.yaml") if @config.nil?
+      if !type.nil? && !whereami.nil?
+        @config = @config.merge(YAML.load_file("config/#{type}.#{environment}.yaml"))
+      end
     end
 
     def [](key)

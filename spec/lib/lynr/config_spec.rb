@@ -25,6 +25,12 @@ describe Lynr::Config do
       expect(c.type).to eq(config_type)
     end
 
+    it "can be set up with defaults" do
+      c = Lynr::Config.new(config_type, config_env, { 'default_value' => 'this is my default value' })
+      expect(@config['default_value']).to be_nil
+      expect(c['default_value']).to eq('this is my default value')
+    end
+
   end
 
   describe ".[]" do
