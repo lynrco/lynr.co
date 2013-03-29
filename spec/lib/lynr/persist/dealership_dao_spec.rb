@@ -30,7 +30,7 @@ describe Lynr::Persist::DealershipDao do
     }
 
     before(:each) do
-      Lynr::Persist::MongoDao.any_instance.stub(:get) do |id|
+      Lynr::Persist::MongoDao.any_instance.stub(:read) do |id|
         record[:_id] = id
         record
       end
