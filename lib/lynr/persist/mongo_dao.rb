@@ -37,10 +37,6 @@ module Lynr; module Persist;
 
     # ## Operate on the collection
     #
-    def get(id)
-      read(id)
-    end
-
     def save(record, id=nil)
       result = record.dup
       success = false
