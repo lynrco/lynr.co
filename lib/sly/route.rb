@@ -12,7 +12,7 @@ module Sly
     ##
     # Consruct a new `Sly::Route` 
     def initialize(verb, path, handler)
-      @verb = verb
+      @verb = verb.upcase
       @path = base_path(path)
       @path_r = make_r(path)
       @handler = handler
