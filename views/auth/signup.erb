@@ -1,24 +1,38 @@
-    <div id="messages">
-      <% if @msg %><p class="msg"><%= @msg %></p><% end %>
-      <% if @error %><p class="error"><%= @error %></p><% end %>
-    </div>
-    <form class="signup" action="/signup" method="POST">
-      <h2>1. Create an account</h2>
-      <label for="email">Email Address</label>
-      <input type="email" name="email" id="email" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" value="" placeholder="****" />
-      <input type="password" name="password_confirm" id="password_confirm" value="" placeholder="****" />
-      <label for="agree_terms">I agree to the <a href="/terms-of-use">Terms &amp; Conditions</a></label>
-      <input type="checkbox" name="agree_terms" id="agree_terms" />
-      <h2>2. Enter payment details</h2>
-      <label for="card_number">Card Number</label>
-      <input type="number" id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number" />
-      <label for="card_expiry_month">Card Expiration Date</label>
-      <input type="number" id="card_expiry_month" size="2" data-stripe="exp-month" />
-      <input type="number" id="card_expiry_year" size="2" data-stripe="exp-year" />
-      <label for="card_cvv">CVV</label>
-      <input type="number" id="card_cvv" placeholder="CVV" data-strip="cvc" />
-      <input type="hidden" name="stripeToken" id="stripeToken" value="" />
-      <button type="submit">Sign Up</button>
-    </form>
+      <div id="messages">
+        <% if @msg %><p class="msg"><%= @msg %></p><% end %>
+        <% if @error %><p class="error"><%= @error %></p><% end %>
+      </div>
+      <form class="signup" action="/signup" method="POST">
+        <h2 class="fs-title">1. Create an account</h2>
+        <fieldset class="fs">
+          <label for="email">Email Address</label>
+          <input class="fs-top fs-full" type="email" name="email" id="email" class="fs-top fs-full" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
+          <label for="password">Password</label>
+          <input class="fs-bottom fs-half" type="password"
+                 name="password" id="password" value="" placeholder="****" />
+          <input class="fs-bottom fs-half" type="password"
+                 name="password_confirm" id="password_confirm" value="" placeholder="****" />
+        </fieldset>
+        <label for="agree_terms">
+          I agree to the <a href="/terms-of-use">Terms &amp; Conditions</a>
+          <input type="checkbox" name="agree_terms" id="agree_terms" />
+        </label>
+        <h2 class="fs-title">2. Enter payment details</h2>
+        <fieldset class="fs">
+          <label for="card_number">Card Number</label>
+          <input class="fs-top fs-full" type="text"
+                 id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number" />
+          <div id="card_expiry" class="fs-half fs-bottom">
+            <label for="card_expiry_month">Card Expiration Date</label>
+            <input class="fs-half" type="text"
+                   id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM" />
+            <input class="fs-half" type="text"
+                   id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY" />
+          </div>
+          <label for="card_cvv">CVV</label>
+          <input class="fs-bottom fs-half" type="text"
+                 id="card_cvv" placeholder="CVV" data-strip="cvc" />
+        </fieldset>
+        <input type="hidden" name="stripeToken" id="stripeToken" value="" />
+        <button class="btn btn-full btn-create" type="submit">Create Account</button>
+      </form>
