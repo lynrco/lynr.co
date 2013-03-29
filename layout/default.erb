@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title><%= @title %></title>
     <link rel="stylesheet" href="/css/main.css" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.5" />
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
 <%= render_file 'partials/header.erb' unless @section == 'home' %>
