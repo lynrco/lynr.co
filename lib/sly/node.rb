@@ -6,6 +6,8 @@ require './lib/sly/view/erb'
 module Sly
 
   ##
+  # # Sly::Node
+  #
   # Nodes are responsible for handling and creating Route definitions and
   # adding them to the Rack application to be used in processing.
   #
@@ -42,20 +44,33 @@ module Sly
     end
 
     ##
+    # ## `Sly::Node.create_route`
+    #
     # Create a Route based on the path, method_name and verb
     #
-    # `Sly::Node#create_route` is a hook or override point so Route creation
+    # `Sly::Node.create_route` is a hook or override point so Route creation
     # can be customized either with a new Route class or with special logic.
     #
     # The created `Route` instances are Rack middleware. In addition to the
     # standard `#call` method they must have a `#path` method which identifies
     # the base path for which the Route should process requests.
+    #
+    # ### Params
+    #
+    # * `path` the request must match this string for the route to be considered
+    #   for handling
+    # * `method_name` String or Symbol identifying the controller method to be
+    #   invoked
+    # * `verb` to match when determining if the created route can handles the
+    #   request
     def self.create_route(path, method_name, verb)
       method = method_name.to_sym
       Route.new(verb, path, lambda { |req| self.new.send(method, req) })
     end
 
     ##
+    # ## `Sly::Node.new`
+    #
     # Create a new Node instance making sure `@headers` is initialized
     #
     def initialize
@@ -63,29 +78,49 @@ module Sly
     end
 
     ##
+    # ## `Sly::Node#ctx`
+    #
     # This might be dangerous but it doesn't seem like it ought to be. This is
     # a method to proxy to the inherited binding method to expose it in the
     # public API for Sly::Node because Sly::View::* instances will need access
     # to it.
     #
-    # See `Kernel#binding`
+    # *See* `Kernel#binding`
     #
     def ctx
       binding
     end
 
     ##
-    # Method which creates an error Response object. This is included to help
-    # define the API of a controller and is intended to be overwritten by the
-    # extending application.
+    # ## `Sly::Node#error`
+    #
+    # Creates an error Response object. This is included to help define the API
+    # of a controller and is intended to be overwritten by the extending
+    # application in a parent controller.
+    #
+    # ### Params
+    #
+    # * `code` response status code. *Default*: 302
+    #
+    # ### Returns
+    #
+    # A `Rack::Response` instance
+    #
     def error(code = 500)
       Rack::Response.new(status = code)
     end
 
     ##
-    # Method which creates a 404 response object. This is included to help
-    # define the API of a controller and is intended to be overwritten by the
-    # extending application.
+    # ## `Sly::Node#not_found`
+    #
+    # Creates a 404 response object. This is included to help define the API
+    # of a controller and is intended to be overwritten by the extending
+    # application in a parent controller.
+    #
+    # ### Returns
+    #
+    # A `Rack::Response` instance
+    #
     def not_found
       error(404)
     end
