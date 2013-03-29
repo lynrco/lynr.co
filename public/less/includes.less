@@ -41,7 +41,9 @@
   -o-box-sizing: border-box;
 }
 .border_radius(@radius: 6px) {
-  .border_radius(@radius, @radius, @radius, @radius);
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
 }
 .border_radius(@tl:6px, @tr:6px, @br:6px, @bl:6px) {
   border-radius: @tl @tr @br @bl;
