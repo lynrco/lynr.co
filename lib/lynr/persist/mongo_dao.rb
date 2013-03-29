@@ -55,7 +55,11 @@ module Lynr; module Persist;
       options = { }
       options[:skip] = skip if skip.is_a? Numeric
       options[:limit] = limit if limit.is_a? Numeric
-      collection.find(query, options)
+      if (!limit.nil? && limit == 1)
+        collection.find_one(query)
+      else
+        collection.find(query, options)
+      end
     end
 
     # ## CRUD
