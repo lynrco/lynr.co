@@ -16,6 +16,12 @@ module Lynr; module Persist;
       Lynr::Model::Dealership.inflate(record)
     end
 
+    def get_by_email(email)
+      record = @dao.search({ email: email }, limit = 1)
+      record[:id] = record.delete(:_id) if !record.nil?
+      Lynr::Model::Dealership.inflate(record)
+    end
+
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
       Lynr::Model::Dealership.inflate(record)
