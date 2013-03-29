@@ -41,13 +41,22 @@
   -o-box-sizing: border-box;
 }
 .border_radius(@radius: 6px) {
-  border-radius: @radius;
-  -moz-border-radius: @radius;
-  -webkit-border-radius: @radius;
+  .border_radius(@radius, @radius, @radius, @radius);
+}
+.border_radius(@tl:6px, @tr:6px, @br:6px, @bl:6px) {
+  border-radius: @tl @tr @br @bl;
+  -moz-border-radius: @tl @tr @br @bl;
+  -webkit-border-radius: @tl @tr @br @bl;
 }
 .bg(@path, @hpos:left, @vpos:top) {
   background: url("/img/@{path}") no-repeat @hpos @vpos;
 }
 .txt-replace(@width, @height, @path) {
   width: @width; height: @height; text-indent: -9999px; overflow: hidden; .bg(@path);
+}
+.clearfix() {
+  &:after {
+    content: ' '; display: block; position: relative; height: 0;
+    overflow: hidden; visibility: hidden; clear: both;
+  }
 }
