@@ -125,6 +125,25 @@ module Sly
       error(404)
     end
 
+    ##
+    # ## `Sly::Node#redirect`
+    #
+    # Creates a `Rack::Response` instance which a redirect
+    # status and the specified destination.
+    #
+    # ### Params
+    #
+    # * `target` value for the Location header
+    # * `status` response status code. *Default*: 302
+    #
+    # ### Returns
+    #
+    # A `Rack::Response` instance
+    #
+    def redirect(target, status=302)
+      Rack::Response.new.redirect(target, status)
+    end
+
   end
 
 end
