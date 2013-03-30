@@ -17,15 +17,20 @@ module Lynr; module Persist;
         }
       }
       @config = Lynr::Config.new('database', environment, defaults)['mongo']
-      @needs_auth = @config['user'] && @config['pass']
+      @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
       @collection_name = collection
     end
 
     # ## Manage the connection
     #
     def active?
-      self.db if @db.nil?
-      @authed && self.client.active?
+      active = true
+      begin
+        self.db if @db.nil?
+      rescue
+        active = false
+      end
+      @authed && active && self.client.active?
     end
 
     def client
@@ -39,7 +44,7 @@ module Lynr; module Persist;
     end
 
     def db
-      if (@db == nil)
+      if (@db.nil?)
         @db = client.db(@config['database'])
         self.authenticate if @needs_auth
       end
@@ -104,6 +109,8 @@ module Lynr; module Persist;
           self.db.authenticate(@config['user'], @config['pass'])
           @authed = true
         rescue Mongo::AuthenticationError => mae
+          @authed = false
+        rescue Mongo::ConnectionFailure => mcf
           @authed = false
         end
       else
