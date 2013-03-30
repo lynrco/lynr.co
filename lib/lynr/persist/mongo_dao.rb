@@ -16,30 +16,34 @@ module Lynr; module Persist;
           'database' => 'lynr'
         }
       }
-      @config = Lynr::Config.new('database', ENV['whereami'], defaults)['mongo']
+      @config = Lynr::Config.new('database', environment, defaults)['mongo']
+      @needs_auth = @config['user'] && @config['pass']
       @collection_name = collection
     end
 
     # ## Manage the connection
     #
+    def active?
+      self.db if @db.nil?
+      @authed && self.client.active?
+    end
+
     def client
       @client = Mongo::MongoClient.new(@config['host'], @config['port']) if @client == nil
       @client
     end
 
-    def db
-      if (@db == nil)
-        @db = client.db(@config['database'])
-        if (@config['user'] && @config['pass'])
-          @db.authenticate(@config['user'], @config['pass'])
-        end
-      end
-      @db
-    end
-
     def collection
       @collection = db.collection(@collection_name) if @coll == nil
       @collection
+    end
+
+    def db
+      if (@db == nil)
+        @db = client.db(@config['database'])
+        self.authenticate if @needs_auth
+      end
+      @db
     end
 
     # ## Operate on the collection
@@ -90,6 +94,21 @@ module Lynr; module Persist;
     # Returns `true` or the last error
     def delete(id)
       collection.remove({ _id: id }, { j: true })
+    end
+
+    protected
+
+    def authenticate
+      if (@needs_auth)
+        begin
+          self.db.authenticate(@config['user'], @config['pass'])
+          @authed = true
+        rescue Mongo::AuthenticationError => mae
+          @authed = false
+        end
+      else
+        @authed = true
+      end
     end
 
   end
