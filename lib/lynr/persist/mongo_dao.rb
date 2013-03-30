@@ -68,6 +68,28 @@ module Lynr; module Persist;
       success ? result : nil
     end
 
+    ##
+    # ## `MongoDao#search`
+    #
+    # Generic method to look for records using any query. It is and exercise
+    # for the user to make sure these aren't abused (e.g. they have indexes).
+    #
+    # *Note*: The return type of this method changes depending on the value
+    # of the `:limit` option.
+    #
+    # ### Params
+    #
+    # * `query` Hash representing the type of record to search for
+    # * `options` Hash options to pass along to the Mongo find query
+    #   * `:limit` Numeric value restricting the number of results returned
+    #   * `:skip` Numeric value telling how many matching records to skip
+    #
+    # ### Returns
+    #
+    # An Enumerable set of records matching `query` unless the `:limit` option
+    # is passed and has a numeric value of one (1) in which case it returns a
+    # single record.
+    #
     def search(query, options={})
       limit = options[:limit] if options[:limit].is_a? Numeric
       if (!limit.nil? && limit == 1)
