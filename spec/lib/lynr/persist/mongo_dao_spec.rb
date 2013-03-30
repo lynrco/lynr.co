@@ -53,13 +53,21 @@ describe Lynr::Persist::MongoDao do
     let(:record) { { price: 13532 } }
 
     before(:each) do
-      # This requires a little inside baseball on what MongoDao does
-      # calls to save use create to actually hit the database if there
-      # isn't already an id field
-      # Note: this is kind of cheating
-      dao.stub(:create) do |record|
-        record[:id] = 789
-        record
+      if (!dao.active?)
+        # This requires a little inside baseball on what MongoDao does
+        # calls to save use create to actually hit the database if there
+        # isn't already an id field
+        # Note: this is kind of cheating
+        dao.stub(:create) do |record|
+          record[:id] = 789
+          record
+        end
+      end
+    end
+
+    after(:each) do
+      if (dao.active?)
+        dao.collection.remove()
       end
     end
 
