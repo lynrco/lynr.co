@@ -76,7 +76,7 @@ describe Lynr::Persist::MongoDao do
         expect(dao.read(id)['price']).to eq(record[:price] * 1.05)
       end
 
-    end
+    end # save
 
     describe "#search" do
 
@@ -98,6 +98,43 @@ describe Lynr::Persist::MongoDao do
 
       it "Gives multiple records (Enumerable) when limit != 1" do
         expect(dao.search({})).to be_kind_of(Enumerable)
+      end
+
+    end # search
+
+    describe "CRUD" do
+
+      let(:record) { { name: 'Bryan', role: 'Technology' } }
+
+      it "creates records and assigns ids" do
+        id = dao.create(record)
+        expect(id).to be_instance_of(BSON::ObjectId)
+      end
+
+      it "reads existing records" do
+        id = dao.create(record)
+        read = dao.read(id)
+        expect(read['_id']).to eq(id)
+      end
+
+      it "updates existing records" do
+        id = dao.create(record)
+        record[:role] = 'Different'
+        expect(dao.update(id, record)).to be_true
+        read = dao.read(id)
+        expect(read['role']).to eq('Different')
+      end
+
+      it "deletes existing records" do
+        id = dao.create(record)
+        expect(dao.delete(id)).to be_true
+        read = dao.read(id)
+        expect(read).to be_nil
+      end
+
+      it "reads nil for non-existent ids" do
+        read = dao.read('test_id')
+        expect(read).to be_nil
       end
 
     end
