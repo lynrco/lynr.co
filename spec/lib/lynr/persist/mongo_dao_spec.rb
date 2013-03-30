@@ -2,6 +2,12 @@ require 'rspec/autorun'
 require 'yaml'
 require './lib/lynr/persist/mongo_dao'
 
+class MongoHelpers
+  def self.dao
+    Lynr::Persist::MongoDao.new(collection='dummy')
+  end
+end
+
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
@@ -9,7 +15,7 @@ describe Lynr::Persist::MongoDao do
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
-  let(:dao) { Lynr::Persist::MongoDao.new(collection='dummy') }
+  let!(:dao) { MongoHelpers.dao }
 
   describe "#initialize" do
 
@@ -48,31 +54,28 @@ describe Lynr::Persist::MongoDao do
 
   end
 
-  describe "#save" do
+  context "with active connection", :if => (MongoHelpers.dao.active?) do
 
-    let(:record) { { price: 13532 } }
+    describe "#save" do
 
-    before(:each) do
-      if (!dao.active?)
-        # This requires a little inside baseball on what MongoDao does
-        # calls to save use create to actually hit the database if there
-        # isn't already an id field
-        # Note: this is kind of cheating
-        dao.stub(:create) do |record|
-          record[:id] = 789
-          record
-        end
+      let(:record) { { price: 13532 } }
+
+      after(:each) do
+        dao.collection.remove() if MongoHelpers.dao.active?
       end
-    end
 
-    after(:each) do
-      if (dao.active?)
-        dao.collection.remove()
+      it "gives an object the id property" do
+        expect(dao.save(record)[:id]).not_to eq(nil)
       end
-    end
 
-    it "gives an object the id property" do
-      expect(dao.save(record)[:id]).not_to eq(nil)
+      it "updates a record with an id" do
+        car = dao.save(record)
+        id = car[:id]
+        car[:price] = record[:price] * 1.05
+        expect(dao.save(car, id)[:price]).to eq(record[:price] * 1.05)
+        expect(dao.read(id)['price']).to eq(record[:price] * 1.05)
+      end
+
     end
 
   end
