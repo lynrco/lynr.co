@@ -60,7 +60,7 @@ describe Lynr::Validator::Helpers do
 
   describe "#is_valid_password?" do
 
-    it "passes a sufficient assword" do
+    it "passes a sufficient password" do
       expect(helpers.is_valid_password?("hi there")).to be_true
     end
 
