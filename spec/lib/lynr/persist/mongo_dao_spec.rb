@@ -56,13 +56,13 @@ describe Lynr::Persist::MongoDao do
 
   context "with active connection", :if => (MongoHelpers.dao.active?) do
 
+    after(:each) do
+      dao.collection.remove() if MongoHelpers.dao.active?
+    end
+
     describe "#save" do
 
       let(:record) { { price: 13532 } }
-
-      after(:each) do
-        dao.collection.remove() if MongoHelpers.dao.active?
-      end
 
       it "gives an object the id property" do
         expect(dao.save(record)[:id]).not_to eq(nil)
@@ -74,6 +74,30 @@ describe Lynr::Persist::MongoDao do
         car[:price] = record[:price] * 1.05
         expect(dao.save(car, id)[:price]).to eq(record[:price] * 1.05)
         expect(dao.read(id)['price']).to eq(record[:price] * 1.05)
+      end
+
+    end
+
+    describe "#search" do
+
+      let(:records) {
+        [
+          { name: 'Bryan', role: 'Technology' },
+          { name: 'Darrell', role: 'Creative' },
+          { name: 'Kevin', role: 'Legal' }
+        ]
+      }
+
+      before(:each) do
+        records.map { |record| dao.save(record) }
+      end
+
+      it "Gives one record when limit = 1" do
+        expect(dao.search({ name: 'Bryan' }, limit: 1)).to be_kind_of(Hash)
+      end
+
+      it "Gives multiple records (Enumerable) when limit != 1" do
+        expect(dao.search({})).to be_kind_of(Enumerable)
       end
 
     end

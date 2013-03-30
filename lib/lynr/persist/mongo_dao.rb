@@ -68,10 +68,8 @@ module Lynr; module Persist;
       success ? result : nil
     end
 
-    def search(query, skip=nil, limit=nil)
-      options = { }
-      options[:skip] = skip if skip.is_a? Numeric
-      options[:limit] = limit if limit.is_a? Numeric
+    def search(query, options={})
+      limit = options[:limit] if options[:limit].is_a? Numeric
       if (!limit.nil? && limit == 1)
         collection.find_one(query)
       else
