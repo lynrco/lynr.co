@@ -1,13 +1,8 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require 'yaml'
 require './lib/lynr/persist/mongo_dao'
-
-class MongoHelpers
-  def self.dao
-    ENV['whereami'] = 'spec'
-    Lynr::Persist::MongoDao.new({ 'collection' => 'dummy' })
-  end
-end
 
 describe Lynr::Persist::MongoDao do
 
@@ -55,7 +50,7 @@ describe Lynr::Persist::MongoDao do
 
   end
 
-  context "with active connection", :if => (MongoHelpers.dao.active?) do
+  context "with active connection", :if => (MongoHelpers.connected?) do
 
     after(:each) do
       dao.collection.remove() if MongoHelpers.dao.active?
