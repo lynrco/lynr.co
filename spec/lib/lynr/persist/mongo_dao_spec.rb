@@ -21,9 +21,9 @@ describe Lynr::Persist::MongoDao do
 
     context "unconfigured environment" do
 
-      it "raises an Error in an unknown environment" do
+      it "uses defaults" do
         ENV['whereami'] = 'neverland'
-        expect { Lynr::Persist::MongoDao.new }.to raise_error(Errno::ENOENT)
+        expect { Lynr::Persist::MongoDao.new }.to be
       end
 
     end
