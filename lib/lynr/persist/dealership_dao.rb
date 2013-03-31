@@ -6,7 +6,7 @@ module Lynr; module Persist;
   class DealershipDao
 
     def initialize
-      @dao = MongoDao.new('dealers')
+      @dao = MongoDao.new('collection' => 'dealers')
     end
 
     def get(id)
