@@ -4,4 +4,5 @@
 /config/*.yaml
 !/config/*.example.yaml
 !/config/*.heroku.yaml
+!/config/database.spec.yaml
 /public/css/*.css
