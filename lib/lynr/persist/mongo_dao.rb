@@ -3,10 +3,30 @@ require './lib/lynr/config'
 
 module Lynr; module Persist;
 
+  ##
+  # # Lynr::Persist::MongoDao
+  #
+  # Interface for use within other Data Access Objects to handle the interaction
+  # with a MongoDB server or replica set. This allows the creation of an
+  # abstract API so the nitty gritty of the [mongo-ruby-driver][mrd]
+  # implementation can be hidden.
+  #
+  # [mrd]: https://github.com/mongodb/mongo-ruby-driver
+  #
   class MongoDao
 
     attr_reader :config
 
+    ##
+    # ## `Lynr::Persist::MongoDao.new`
+    #
+    # Create a new instance that is connected to the specified collection. Sets
+    # up the configuration based on the environment.
+    #
+    # ### Params
+    #
+    # * `collection` name to connect to on the MongoDB instance
+    #
     def initialize(collection='default')
       environment = ENV['whereami'] || 'development'
       defaults = {
