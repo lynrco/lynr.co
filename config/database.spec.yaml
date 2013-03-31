@@ -2,8 +2,6 @@ mongo:
   host: '127.0.0.1'
   port: 10059
   database: 'lynr_spec'
-  user: 'quicklister'
-  pass: 'firing-serenity-forges-toes'
 int_val: 1234
 bool_val: true
 string_val: 'hithere'
