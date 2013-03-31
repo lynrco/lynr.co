@@ -4,6 +4,8 @@ module Lynr; module Model;
 
   class Identity
 
+    DEFAULT_COST = 13
+
     attr_reader :email, :password
 
     def initialize(email, password)
@@ -11,7 +13,7 @@ module Lynr; module Model;
       begin
         @password = BCrypt::Password.new(password)
       rescue BCrypt::Errors::InvalidHash
-        @password = BCrypt::Password.create(password, :cost => 13)
+        @password = BCrypt::Password.create(password, :cost => DEFAULT_COST)
       end
     end
 
