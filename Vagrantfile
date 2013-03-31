@@ -6,21 +6,22 @@ Vagrant::Config.run do |config|
   BOX_NAME = "precise64"
   BOX_URL = "http://files.vagrantup.com/precise64.box"
 
-  config.vm.define :test do |test_config|
-    test_config.vm.box = BOX_NAME
-    test_config.vm.box_url = BOX_URL
-    test_config.vm.network :bridged
+  config.vm.define :web do |web_config|
+    web_config.vm.box = BOX_NAME
+    web_config.vm.box_url = BOX_URL
+    web_config.vm.network :bridged
+    web_config.vm.network :hostonly, "10.11.12.120"
+    web_config.vm.forward_port    80,  7887
   end
 
-  config.vm.define :api do |api_config|
+  config.vm.define :db do |db_config|
 
-    api_config.vm.box = BOX_NAME
-    api_config.vm.box_url = BOX_URL
-    api_config.vm.network :bridged, :bridge => "en0: Wi-Fi (AirPort)"
-    api_config.vm.network :hostonly, "10.11.12.120"
-    api_config.vm.forward_port    80,  7887
-    api_config.vm.forward_port 27017, 10059
-    api_config.vm.provision :shell do |sh|
+    db_config.vm.box = BOX_NAME
+    db_config.vm.box_url = BOX_URL
+    db_config.vm.network :bridged
+    db_config.vm.network :hostonly, "10.11.12.220"
+    db_config.vm.forward_port 27017, 10059
+    db_config.vm.provision :shell do |sh|
       sh.inline = <<-EOF
         export PUPPETMASTER="54.242.244.213"
         export FQDN="vm.lynr.co"
@@ -28,34 +29,6 @@ Vagrant::Config.run do |config|
         sh /vagrant/vm/vmsetup.sh
       EOF
     end
-
-#    api_config.vm.provision :puppet_server do |puppet|
-#      puppet.puppet_server = 'puppet.bryanwrit.es'
-#      puppet.puppet_node = 'vm.lynr.co'
-#      puppet.options = ['--verbose', '--debug']
-#    end
-
-#    api_config.vm.provision :shell do |sh|
-#      sh.inline = <<-EOF
-#        # dotdeb.org
-#        echo "deb http://packages.dotdeb.org squeeze all" | sudo tee /etc/apt/sources.list.d/dotdeb.list > /dev/null
-#        echo "deb-src http://packages.dotdeb.org squeeze all" | sudo tee -a /etc/apt/sources.list.d/dotdeb.list > /dev/null
-#        wget http://www.dotdeb.org/dotdeb.gpg
-#        cat dotdeb.gpg | sudo apt-key add -
-#        rm dotdeb.gpg
-#        # mongodb
-#        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-#        echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee /etc/apt/sources.list.d/10gen.list > /dev/null
-#        # Basic update/upgrade
-#        sudo apt-get update
-#        sudo apt-get upgrade -y
-#        # Install Ruby
-#        sudo apt-get install -y build-essential ruby1.9.1
-#        gem install bundler -v 1.2.4
-#        # Install nginx and mongodb
-#        sudo apt-get install -y nginx mongodb-10gen
-#      EOF
-#    end
 
   end
 
