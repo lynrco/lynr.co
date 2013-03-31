@@ -10,15 +10,7 @@ module Lynr
       @type = type
       @environment = whereami || 'development'
       @config = config
-      if !type.nil? && !whereami.nil?
-        @config = @config.merge(YAML.load_file("config/#{type}.#{environment}.yaml")) do |key, oldval, newval|
-          if (oldval.is_a?(Hash))
-            oldval.merge(newval)
-          else
-            newval
-          end
-        end
-      end
+      merge_external if has_external?
     end
 
     def [](key)
@@ -29,6 +21,27 @@ module Lynr
         val = Config.new(type=nil, whereami=nil, config=val)
       end
       val
+    end
+
+    private
+    
+    def external_name
+      "config/#{@type}.#{@environment}.yaml"
+    end
+
+    def has_external?
+      !@type.nil? && !@environment.nil? && ::File.exist?(external_name)
+    end
+
+    def merge_external
+      external = YAML.load_file(external_name)
+      @config = @config.merge(external) do |key, configval, externalval|
+        if (configval.is_a?(Hash))
+          configval.merge(externalval)
+        else
+          externalval
+        end
+      end
     end
 
   end
