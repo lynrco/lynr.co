@@ -3,6 +3,13 @@ require './lib/lynr/config'
 
 module Lynr; module Persist;
 
+  MongoDefaults = {
+    'host'       => '127.0.0.1',
+    'port'       => '27017',
+    'database'   => 'lynr',
+    'collection' => 'default'
+  }
+
   ##
   # # Lynr::Persist::MongoDao
   #
@@ -24,21 +31,22 @@ module Lynr; module Persist;
     # up the configuration based on the environment.
     #
     # ### Params
+    # 
+    # * `config` map of configuration options
     #
-    # * `collection` name to connect to on the MongoDB instance
+    # ### Config
     #
-    def initialize(collection='default')
+    # * 'host' ip or hostname to reach MongoDB instance
+    # * 'port' number to access MongoDB on 'host'
+    # * 'database' to which MongoDao will connect
+    # * 'collection' name to interact with to on the MongoDB instance
+    #
+    def initialize(config={})
       environment = ENV['whereami'] || 'development'
-      defaults = {
-        'mongo' => {
-          'host'     => '127.0.0.1',
-          'port'     => '27017',
-          'database' => 'lynr'
-        }
-      }
-      @config = Lynr::Config.new('database', environment, defaults)['mongo']
+      defaults = Lynr::Persist::MongoDefaults.merge(config)
+      @config = Lynr::Config.new('database', environment, { 'mongo' => defaults })['mongo']
       @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
-      @collection_name = collection
+      @collection_name = @config['collection']
     end
 
     # ## Manage the connection

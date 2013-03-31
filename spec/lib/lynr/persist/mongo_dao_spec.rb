@@ -4,14 +4,14 @@ require './lib/lynr/persist/mongo_dao'
 
 class MongoHelpers
   def self.dao
-    Lynr::Persist::MongoDao.new(collection='dummy')
+    Lynr::Persist::MongoDao.new({ 'collection' => 'dummy' })
   end
 end
 
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
-    ENV['whereami'] = 'test'
+    ENV['whereami'] = 'spec'
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
