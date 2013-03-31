@@ -7,7 +7,6 @@ require './lib/lynr/persist/mongo_dao'
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
-    ENV['whereami'] = 'spec'
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
@@ -16,6 +15,10 @@ describe Lynr::Persist::MongoDao do
   describe "#initialize" do
 
     context "unconfigured environment" do
+
+      after(:each) do
+        ENV['whereami'] = 'spec'
+      end
 
       it "uses defaults" do
         ENV['whereami'] = 'neverland'
