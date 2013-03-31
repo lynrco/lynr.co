@@ -46,6 +46,7 @@ module Lynr; module Persist;
       defaults = Lynr::Persist::MongoDefaults.merge(config)
       @config = Lynr::Config.new('database', environment, { 'mongo' => defaults })['mongo']
       @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
+      @authed = !@needs_auth
       @collection_name = @config['collection']
     end
 
@@ -54,11 +55,16 @@ module Lynr; module Persist;
     def active?
       active = true
       begin
+        self.client.connect
         self.db if @db.nil?
       rescue
         active = false
       end
-      @authed && active && self.client.active?
+      self.authed? && active && self.client.connected? && self.client.active?
+    end
+
+    def authed?
+      if @needs_auth then @authed else true end
     end
 
     def client
