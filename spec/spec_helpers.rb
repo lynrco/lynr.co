@@ -14,3 +14,10 @@ class MongoHelpers
   end
 end
 
+# Lower the cost of creating identity objects by lowering the work factor
+# used by BCrypt
+module Lynr; module Model;
+  class Identity
+    DEFAULT_COST = 5
+  end
+end; end;
