@@ -11,7 +11,13 @@ module Lynr
       @environment = whereami || 'development'
       @config = config
       if !type.nil? && !whereami.nil?
-        @config = @config.merge(YAML.load_file("config/#{type}.#{environment}.yaml"))
+        @config = @config.merge(YAML.load_file("config/#{type}.#{environment}.yaml")) do |key, oldval, newval|
+          if (oldval.is_a?(Hash))
+            oldval.merge(newval)
+          else
+            newval
+          end
+        end
       end
     end
 

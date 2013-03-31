@@ -5,7 +5,7 @@ require './lib/lynr/config'
 describe Lynr::Config do
 
   before(:each) do
-    ENV['whereami'] = 'test'
+    ENV['whereami'] = 'spec'
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
@@ -29,6 +29,12 @@ describe Lynr::Config do
       c = Lynr::Config.new(config_type, config_env, { 'default_value' => 'this is my default value' })
       expect(@config['default_value']).to be_nil
       expect(c['default_value']).to eq('this is my default value')
+    end
+
+    it "merges hashes one level deep with defaults" do
+      c = Lynr::Config.new(config_type, config_env, { 'mongo' => { 'collection' => 'hi' } })
+      expect(@config['mongo']['collection']).to be_nil
+      expect(c['mongo']['collection']).to eq('hi')
     end
 
   end
