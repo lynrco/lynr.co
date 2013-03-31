@@ -69,6 +69,11 @@ describe Lynr::Model::Image do
       expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
     end
 
+    it "creates equivalent Image instances from properties with String keys" do
+      image_props = { 'width' => "300", 'height' => "150", 'url' => @url }
+      expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
+    end
+
     it "provides an empty image for nil" do
       expect(Lynr::Model::Image.inflate(nil)).to eq(empty_image)
     end

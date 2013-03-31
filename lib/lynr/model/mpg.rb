@@ -9,8 +9,8 @@ module Lynr; module Model;
     attr_reader :city, :highway
 
     def initialize(data)
-      @city = data[:city] || 0.0
-      @highway = data[:highway] || 0.0
+      @city = data[:city] || data['city'] || 0.0
+      @highway = data[:highway] || data['highway'] || 0.0
     end
 
     def view

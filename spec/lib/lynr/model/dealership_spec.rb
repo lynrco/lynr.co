@@ -25,7 +25,16 @@ describe Lynr::Model::Dealership do
         identity: identity.view
       }
     }
-    let(:dealer) { Lynr::Model::Dealership.inflate(record) }
+    let(:recordString) {
+      {
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'image' => image.view,
+        'address' => address.view,
+        'identity' => identity.view
+      }
+    }
+    let(:dealer) { Lynr::Model::Dealership.inflate(recordString) }
 
     context ".address" do
 

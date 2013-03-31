@@ -12,6 +12,10 @@ describe Lynr::Model::Mpg do
       expect(Lynr::Model::Mpg.inflate(mpg_props)).to eq(mpg)
     end
 
+    it "creates an equivalent object from a Hash with String keys" do
+      expect(Lynr::Model::Mpg.inflate({ 'city' => 28.8, 'highway' => 33.2 })).to eq(mpg)
+    end
+
   end
 
 end

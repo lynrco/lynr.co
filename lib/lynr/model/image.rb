@@ -20,7 +20,7 @@ module Lynr; module Model;
 
     def self.inflate(record)
       record = {} if record.nil?
-      Lynr::Model::Image.new(record[:width], record[:height], record[:url])
+      Lynr::Model::Image.new(record[:width] || record['width'], record[:height] || record['height'], record[:url] || record['url'])
     end
 
   end

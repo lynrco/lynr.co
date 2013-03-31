@@ -39,9 +39,9 @@ module Lynr; module Model;
     def self.inflate(record)
       if (record)
         data = record.dup
-        data[:identity] = Lynr::Model::Identity.inflate(record[:identity])
-        data[:address] = Lynr::Model::Address.inflate(record[:address])
-        data[:image] = Lynr::Model::Image.inflate(record[:image])
+        data[:identity] = Lynr::Model::Identity.inflate(record[:identity] || record['identity'])
+        data[:address] = Lynr::Model::Address.inflate(record[:address] || record['address'])
+        data[:image] = Lynr::Model::Image.inflate(record[:image] || record['image'])
         Lynr::Model::Dealership.new(data, record[:id])
       else
         nil

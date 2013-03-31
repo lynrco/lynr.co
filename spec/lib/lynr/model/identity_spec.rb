@@ -59,6 +59,12 @@ describe Lynr::Model::Identity do
       expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true
     end
 
+    it "creates auth? capable instances from properties with String keys" do
+      props = { 'email' => @ident.email, 'password' => @ident.password }
+      inflated = Lynr::Model::Identity.inflate(props)
+      expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true
+    end
+
     it "raises an error when given nil" do
       expect { Lynr::Model::Identity.inflate(nil) }.to raise_error(ArgumentError)
     end
