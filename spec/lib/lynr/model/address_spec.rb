@@ -1,10 +1,12 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/address'
 
 describe Lynr::Model::Address do
 
   let(:address_props) {
-    { line_one: "Addr L1", line_two: "Addr L2", city: "New York", state: "NY", zip: "10002" }
+    { 'line_one' => "Addr L1", 'line_two' => "Addr L2", 'city' => "New York", 'state' => "NY", 'zip' => "10002" }
   }
   let(:empty_address) {
     Lynr::Model::Address.new(line_one=nil, line_two=nil, city=nil, state=nil, zip=nil)
@@ -49,15 +51,15 @@ describe Lynr::Model::Address do
     let(:view) { address.view }
 
     it "has keys for line_one, line_two, city, state, zip" do
-      expect(view.keys).to include(:line_one, :line_two, :city, :state, :zip)
+      expect(view.keys).to include('line_one', 'line_two', 'city', 'state', 'zip')
     end
 
     it "has values for line_one, line_two, city, state, zip" do
-      expect(view[:line_one]).to eq('Addr L1')
-      expect(view[:line_two]).to eq('Addr L2')
-      expect(view[:city]).to eq('New York')
-      expect(view[:state]).to eq('NY')
-      expect(view[:zip]).to eq('10002')
+      expect(view['line_one']).to eq('Addr L1')
+      expect(view['line_two']).to eq('Addr L2')
+      expect(view['city']).to eq('New York')
+      expect(view['state']).to eq('NY')
+      expect(view['zip']).to eq('10002')
     end
 
   end
