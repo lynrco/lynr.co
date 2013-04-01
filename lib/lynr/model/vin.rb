@@ -22,13 +22,13 @@ module Lynr; module Model;
 
     def view
       {
-        transmission: @transmission,
-        fuel: @fuel,
-        doors: @doors,
-        drivetrain: @drivetrain,
-        ext_color: @ext_color,
-        int_color: @int_color,
-        number: @number
+        'transmission' => @transmission,
+        'fuel' => @fuel,
+        'doors' => @doors,
+        'drivetrain' => @drivetrain,
+        'ext_color' => @ext_color,
+        'int_color' => @int_color,
+        'number' => @number
       }
     end
 

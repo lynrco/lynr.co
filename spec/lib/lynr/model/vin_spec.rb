@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vin do
@@ -8,31 +10,31 @@ describe Lynr::Model::Vin do
   describe "#view" do
 
     it "has a :transmission property" do
-      expect(vin.view.keys).to include(:transmission)
+      expect(vin.view.keys).to include('transmission')
     end
 
     it "has a :fuel property" do
-      expect(vin.view.keys).to include(:fuel)
+      expect(vin.view.keys).to include('fuel')
     end
 
     it "has a :doors property" do
-      expect(vin.view.keys).to include(:doors)
+      expect(vin.view.keys).to include('doors')
     end
 
     it "has a :drivetrain property" do
-      expect(vin.view.keys).to include(:drivetrain)
+      expect(vin.view.keys).to include('drivetrain')
     end
 
     it "has a :ext_color property" do
-      expect(vin.view.keys).to include(:ext_color)
+      expect(vin.view.keys).to include('ext_color')
     end
 
     it "has a :int_color property" do
-      expect(vin.view.keys).to include(:int_color)
+      expect(vin.view.keys).to include('int_color')
     end
 
     it "has a :number property" do
-      expect(vin.view.keys).to include(:number)
+      expect(vin.view.keys).to include('number')
     end
 
   end
