@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/image'
 
 describe Lynr::Model::Image do
@@ -34,7 +36,7 @@ describe Lynr::Model::Image do
     let(:view) { @image.view }
 
     it "has the right keys" do
-      view.keys.should include(:width, :height, :url)
+      view.keys.should include('width', 'height', 'url')
     end
 
     it "has the right values" do
@@ -42,9 +44,9 @@ describe Lynr::Model::Image do
     end
 
     it "has keys matching values" do
-      expect(view[:width]).to eq(300)
-      expect(view[:height]).to eq(150)
-      expect(view[:url]).to eq(@url)
+      expect(view['width']).to eq(300)
+      expect(view['height']).to eq(150)
+      expect(view['url']).to eq(@url)
     end
 
   end
@@ -65,11 +67,6 @@ describe Lynr::Model::Image do
   describe ".inflate" do
 
     it "creates equivalent Image instances from properties" do
-      image_props = { width: "300", height: "150", url: @url }
-      expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
-    end
-
-    it "creates equivalent Image instances from properties with String keys" do
       image_props = { 'width' => "300", 'height' => "150", 'url' => @url }
       expect(Lynr::Model::Image.inflate(image_props)).to eq(image)
     end

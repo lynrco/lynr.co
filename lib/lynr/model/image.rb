@@ -15,12 +15,12 @@ module Lynr; module Model;
     end
 
     def view
-      { width: @width, height: @height, url: @url }
+      { 'width' => @width, 'height' => @height, 'url' => @url }
     end
 
     def self.inflate(record)
       record = {} if record.nil?
-      Lynr::Model::Image.new(record[:width] || record['width'], record[:height] || record['height'], record[:url] || record['url'])
+      Lynr::Model::Image.new(record['width'], record['height'], record['url'])
     end
 
   end
