@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './spec/spec_helpers'
+require './spec/spec_helper'
 
 require 'yaml'
 require './lib/lynr/persist/dealership_dao'

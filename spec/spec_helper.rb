@@ -1,3 +1,4 @@
+require './lib/lynr/model/identity'
 require './lib/lynr/persist/mongo_dao'
 
 # Set the environment so we run under the 'spec' settings
