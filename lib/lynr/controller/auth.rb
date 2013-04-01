@@ -53,7 +53,7 @@ module Lynr; module Controller;
           email: identity.email
         )
         # Create and Save dealership
-        dealership = Lynr::Model::Dealership.new({ identity: identity, customer_id: customer.id })
+        dealership = Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer.id })
         @dealership = dao.save(dealership)
         # Send to admin pages?
         render 'auth/signed_up.erb'
