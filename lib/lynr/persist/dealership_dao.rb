@@ -12,13 +12,13 @@ module Lynr; module Persist;
     def get(id)
       record = @dao.read(id)
       # Mongo is going to give me a record with the _id property set, not id
-      record[:id] = record.delete(:_id) if !record.nil?
+      record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Dealership.inflate(record)
     end
 
     def get_by_email(email)
-      record = @dao.search({ email: email }, limit = 1)
-      record[:id] = record.delete(:_id) if !record.nil?
+      record = @dao.search({ 'identity.email' => email }, { limit: 1 })
+      record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Dealership.inflate(record)
     end
 

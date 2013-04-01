@@ -34,7 +34,7 @@ describe Lynr::Persist::DealershipDao do
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:read) do |id|
         record[:_id] = id
-        record
+        Hash[record.map { |k, v| [k.to_s, v] }]
       end
     end
 
@@ -54,11 +54,11 @@ describe Lynr::Persist::DealershipDao do
 
     let(:dealer_data) {
       {
-        name: 'CarMax San Diego',
-        phone: '+1 123-123-1234',
-        image: image,
-        address: address,
-        identity: identity
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'image' => image,
+        'address' => address,
+        'identity' => identity
       }
     }
 
@@ -66,7 +66,7 @@ describe Lynr::Persist::DealershipDao do
       Lynr::Persist::MongoDao.any_instance.stub(:save) do |record, id|
         result = record.dup
         result[:_id] = id
-        result
+        Hash[result.map { |k, v| [k.to_s, v] }]
       end
     end
 
@@ -77,8 +77,8 @@ describe Lynr::Persist::DealershipDao do
 
     it "has the same data" do
       saved = dao.save(Lynr::Model::Dealership.new(dealer_data))
-      expect(saved.name).to eq(dealer_data[:name])
-      expect(saved.phone).to eq(dealer_data[:phone])
+      expect(saved.name).to eq(dealer_data['name'])
+      expect(saved.phone).to eq(dealer_data['phone'])
       expect(saved.address).to eq(address)
       expect(saved.image).to eq(image)
       expect(saved.identity.auth?('bryan@lynr.co', 'this is a fake password')).to be_true
