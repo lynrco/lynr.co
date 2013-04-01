@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/identity'
 
 describe Lynr::Model::Identity do
@@ -37,7 +39,7 @@ describe Lynr::Model::Identity do
 
     it "has a view of it's data properties" do
       view = @ident.view
-      view.keys.should include(:email, :password)
+      view.keys.should include('email', 'password')
       view.values.should include(@email)
     end
 
@@ -54,12 +56,6 @@ describe Lynr::Model::Identity do
   describe ".inflate" do
 
     it "creates auth? capable instances from properties" do
-      props = @ident.view
-      inflated = Lynr::Model::Identity.inflate(props)
-      expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true
-    end
-
-    it "creates auth? capable instances from properties with String keys" do
       props = { 'email' => @ident.email, 'password' => @ident.password }
       inflated = Lynr::Model::Identity.inflate(props)
       expect(inflated.auth?(@valid[:email], @valid[:password])).to be_true

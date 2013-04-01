@@ -22,12 +22,14 @@ module Lynr; module Model;
     end
 
     def view
-      { email: @email, password: @password }
+      { 'email' => @email, 'password' => @password }
     end
 
     def ==(ident)
-      if (ident.is_a? Hash)
+      if (ident.is_a?(Hash) && ident.keys.include?(:email) && ident.keys.include?(:password))
         self.auth?(ident[:email], ident[:password])
+      elsif (ident.is_a?(Hash) && ident.keys.include?('email') && ident.keys.include?('password'))
+        self.auth?(ident['email'], ident['password'])
       else
         false
       end
@@ -35,7 +37,7 @@ module Lynr; module Model;
 
     def self.inflate(record)
       raise ArgumentError.new("Can't inflate a nil record") if record.nil?
-      Lynr::Model::Identity.new(record[:email] || record['email'], record[:password] || record['password'])
+      Lynr::Model::Identity.new(record['email'], record['password'])
     end
 
   end
