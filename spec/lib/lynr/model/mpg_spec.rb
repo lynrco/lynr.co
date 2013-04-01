@@ -1,9 +1,11 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/mpg'
 
 describe Lynr::Model::Mpg do
 
-  let(:mpg_props) { { city: 28.8, highway: 33.2 } }
+  let(:mpg_props) { { 'city' => 28.8, 'highway' => 33.2 } }
   let(:mpg) { Lynr::Model::Mpg.new(mpg_props) }
 
   describe ".inflate" do
