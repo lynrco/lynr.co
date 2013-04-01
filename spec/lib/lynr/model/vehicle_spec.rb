@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/vehicle'
 
 describe Lynr::Model::Vehicle do
@@ -9,7 +11,7 @@ describe Lynr::Model::Vehicle do
     @year = "2009"
   end
 
-  let(:vehicle) { Lynr::Model::Vehicle.new({ year: @year, make: @make, model: @model }) }
+  let(:vehicle) { Lynr::Model::Vehicle.new({ 'year' => @year, 'make' => @make, 'model' => @model }) }
 
   describe "#initialize" do
 

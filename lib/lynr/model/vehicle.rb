@@ -24,14 +24,14 @@ module Lynr; module Model;
 
     def initialize(data, id=nil)
       @id = id
-      @year = data[:year] || ""
-      @make = data[:make] || ""
-      @model = data[:model] || ""
-      @price = data[:price] || nil
-      @condition = data[:condition] || 0
-      @mpg = data[:mpg] || nil # Should be an instance of Lynr::Model::Mpg
-      @vin = data[:vin] || nil # Should be an instance of Lynr::Model::Vin
-      @images = data[:images] || []
+      @year = data['year'] || ""
+      @make = data['make'] || ""
+      @model = data['model'] || ""
+      @price = data['price'] || nil
+      @condition = data['condition'] || 0
+      @mpg = data['mpg'] || nil # Should be an instance of Lynr::Model::Mpg
+      @vin = data['vin'] || nil # Should be an instance of Lynr::Model::Vin
+      @images = data['images'] || []
     end
 
     def set(data)
@@ -43,15 +43,15 @@ module Lynr; module Model;
     # properties.
     def view
       data = {
-        year: @year,
-        make: @make,
-        model: @model,
-        price: @price,
-        condition: @condition,
-        images: @images.map { |image| image.view }
+        'year' => @year,
+        'make' => @make,
+        'model' => @model,
+        'price' => @price,
+        'condition' => @condition,
+        'images' => @images.map { |image| image.view }
       }
-      data[:mpg] = @mpg.view if (@mpg)
-      data[:vin] = @vin.view if (@vin)
+      data['mpg'] = @mpg.view if (@mpg)
+      data['vin'] = @vin.view if (@vin)
       data
     end
 
@@ -59,9 +59,9 @@ module Lynr; module Model;
     # into Lynr objects to be used elsewhere
     def self.inflate(record)
       data = record.dup
-      data[:vin] = Lynr::Model::Vin.inflate(data[:vin])
-      data[:mpg] = Lynr::Model::Mpg.inflate(data[:mpg])
-      Lynr::Model::Vehicle.new(data, data[:_id])
+      data['vin'] = Lynr::Model::Vin.inflate(data['vin'])
+      data['mpg'] = Lynr::Model::Mpg.inflate(data['mpg'])
+      Lynr::Model::Vehicle.new(data, data['_id'])
     end
 
   end
