@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require './spec/spec_helpers'
+
 require './lib/lynr/model/address'
 require './lib/lynr/model/dealership'
 require './lib/lynr/model/identity'
@@ -18,23 +20,14 @@ describe Lynr::Model::Dealership do
 
     let(:record) {
       {
-        name: 'CarMax San Diego',
-        phone: '+1 123-123-1234',
-        image: image.view,
-        address: address.view,
-        identity: identity.view
-      }
-    }
-    let(:recordString) {
-      {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
-        'image' => image.view,
-        'address' => address.view,
-        'identity' => identity.view
+        'image' => Hash[image.view.map { |k,v| [k.to_s, v] }],
+        'address' => Hash[address.view.map { |k,v| [k.to_s, v] }],
+        'identity' => Hash[identity.view.map { |k,v| [k.to_s, v] }]
       }
     }
-    let(:dealer) { Lynr::Model::Dealership.inflate(recordString) }
+    let(:dealer) { Lynr::Model::Dealership.inflate(record) }
 
     context ".address" do
 
