@@ -6,7 +6,9 @@ module Lynr
   # Based on code from https://gist.github.com/mindscratch/1145954
   module Logging
 
-    FORMATTER = Log4r::JsonFormatter.new
+    FORMATTER = Log4r::PatternFormatter.new(:pattern => '[%d] %l %C -- %M')
+    # Alternative formatter to print messages as JSON formatted data
+    # FORMATTER = Log4r::JsonFormatter.new
     OPTS = { formatter: FORMATTER }
     
     # Get an instance to a logger configured for the class that includes it.
