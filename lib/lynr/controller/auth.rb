@@ -32,6 +32,20 @@ module Lynr; module Controller;
 
     set_render_options({ layout: 'default_sly.erb' })
 
+    # ## View Helper Methods
+    def error_class(field)
+      if has_error(field) then 'error' else '' end
+    end
+
+    def error_message(field)
+      if has_error(field) then @errors[field] else "" end
+    end
+
+    def has_error(field)
+      !@errors.nil? && @errors.include?(field)
+    end
+
+    # ## Sign Up Handlers
     def get_signup(req)
       @subsection = "signup"
       @posted = {}
@@ -67,6 +81,7 @@ module Lynr; module Controller;
       render 'auth/signup.erb'
     end
 
+    # ## Sign In Handlers
     def get_signin(req)
       @subsection = "signin"
       @posted = {}
@@ -84,6 +99,7 @@ module Lynr; module Controller;
       end
     end
 
+    # ## Validation Helpers
     def validate_signup(posted)
       email = posted['email']
       password = posted['password']
