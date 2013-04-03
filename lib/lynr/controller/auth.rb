@@ -35,6 +35,7 @@ module Lynr; module Controller;
     def get_signup(req)
       @subsection = "signup"
       @posted = {}
+      @errors = {}
       @title = "Sign Up for Lynr"
       render 'auth/signup.erb'
     end
