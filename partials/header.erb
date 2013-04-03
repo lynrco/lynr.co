@@ -1,8 +1,8 @@
     <header class="hat">
       <h1 class="hat-title"><a class="logo" href="/">Lynr</a></h1>
-      <% if @dealership %><a class="menu-link" href="/menu">Menu</a><% end %>
+      <%- if @dealership %><a class="menu-link" href="/menu">Menu</a><% end -%>
     </header>
-    <% if @dealership %>
+    <%- if @dealership -%>
     <nav class="menu menu-account">
       <input class="menu-search" type="text" placeholder="Search" />
       <ul>
@@ -28,4 +28,4 @@
         </li>
       </ul>
     </nav>
-    <% end %>
+    <%- end -%>

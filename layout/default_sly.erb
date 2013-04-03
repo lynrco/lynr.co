@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5,target-densityDpi=device-dpi" />
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
-<%= render_partial :header unless @section == 'home' %>
+<%= render_partial :header unless @section == 'home' -%>
     <div class="main">
-<%= yield %>
+<%= yield -%>
     </div>
-<%= render_partial :footer %>
+<%= render_partial :footer -%>
     <script data-main="/js/main.js" src="/js/libs/require-2.1.5.js" async="async"></script>
   </body>
 </html>

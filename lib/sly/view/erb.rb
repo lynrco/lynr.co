@@ -28,7 +28,7 @@ module Sly; module View;
       file_name = path.to_s
       file_name = "#{file_name}.erb" unless file_name.end_with? ".erb"
       str = ::File.read(file_name)
-      ::ERB.new(str, nil, '%<>')
+      ::ERB.new(str, nil, '-')
     end
 
   end
