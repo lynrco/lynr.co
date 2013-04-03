@@ -1,16 +1,20 @@
       <div id="messages">
-        <% if @msg %><p class="msg"><%= @msg %></p><% end %>
-        <% if @error %><p class="error"><%= @error %></p><% end %>
+        <% if @msg %><p class="msg"><%= @msg %></p>
+        <% end %>
+        <% @errors.values.each do |error| %><p class="msg msg-error"><%= error %></p>
+        <% end %>
       </div>
       <form class="signup" action="/signup" method="POST">
         <h2 class="fs-title">1. Create an account</h2>
         <fieldset class="fs">
           <label for="email">Email Address</label>
-          <input class="fs-top fs-full" type="email" name="email" id="email" class="fs-top fs-full" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
+          <input class="fs-top fs-full <%= error_class('email') %>" type="email"
+                 name="email" id="email" class="fs-top fs-full"
+                 value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
           <label for="password">Password</label>
-          <input class="fs-bottom fs-half" type="password"
+          <input class="fs-bottom fs-half <%= error_class('password') %>" type="password"
                  name="password" id="password" value="" placeholder="****" />
-          <input class="fs-bottom fs-half" type="password"
+          <input class="fs-bottom fs-half <%= error_class('password_confirm') %>" type="password"
                  name="password_confirm" id="password_confirm" value="" placeholder="****" />
         </fieldset>
         <label for="agree_terms">
@@ -20,17 +24,17 @@
         <h2 class="fs-title">2. Enter payment details</h2>
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
-          <input class="fs-top fs-full" type="text"
+          <input class="fs-top fs-full <%= error_class('stripeToken') %>" type="text"
                  id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number" />
           <div id="card_expiry" class="fs-half fs-bottom">
             <label for="card_expiry_month">Card Expiration Date</label>
-            <input class="fs-half" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
                    id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM" />
-            <input class="fs-half" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
                    id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY" />
           </div>
           <label for="card_cvv">CVV</label>
-          <input class="fs-bottom fs-half" type="text"
+          <input class="fs-bottom fs-half <%= error_class('stripeToken') %>" type="text"
                  id="card_cvv" placeholder="CVV" data-strip="cvc" />
         </fieldset>
         <input type="hidden" name="stripeToken" id="stripeToken" value="" />
