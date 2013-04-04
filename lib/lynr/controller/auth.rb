@@ -103,23 +103,21 @@ module Lynr; module Controller;
 
     # ## Validation Helpers
     def validate_signup(posted)
-      email = posted['email']
-      password = posted['password']
-      errors = {}
+      errors = validate_required(posted, ['email', 'password'])
 
-      if (!is_valid_email?(posted['email']))
+      if (errors['email'].nil? && !is_valid_email?(posted['email']))
         errors['email'] = "Check your email address."
       end
-      if (!is_valid_password?(password))
+      if (errors['password'].nil? && !is_valid_password?(posted['password']))
         errors['password'] = "Your password is too short."
       end
-      if (password != posted['password_confirm'])
+      if (posted['password'] != posted['password_confirm'])
         errors['password'] = "Your passwords don't match."
       end
       if (posted['agree_terms'].nil?)
         errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
       end
-      if (posted['stripeToken'].nil?)
+      if (posted['stripeToken'].nil? || posted['stripeToken'].empty?)
         errors['stripeToken'] = "Your card wasn't accepted."
       end
 
@@ -127,13 +125,16 @@ module Lynr; module Controller;
     end
 
     def validate_signin(posted)
+      validate_required(posted, ['email', 'password'])
+    end
+
+    def validate_required(posted, fields)
       errors = {}
-      ['email', 'password'].each do |key|
+      fields.each do |key|
         if (!(posted.include?(key) && posted[key].length > 0))
-          errors[key] = 'Required'
+          errors[key] = "#{key.capitalize} is required."
         end
       end
-
       errors
     end
 
