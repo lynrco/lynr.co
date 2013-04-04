@@ -34,7 +34,7 @@ module Lynr; module Controller;
 
     # ## View Helper Methods
     def error_class(field)
-      if has_error(field) then 'error' else '' end
+      if has_error(field) then 'fs-error' else '' end
     end
 
     def error_message(field)
