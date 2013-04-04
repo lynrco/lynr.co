@@ -10,9 +10,8 @@
         <h2 class="fs-title">1. Create an account</h2>
         <fieldset class="fs">
           <label for="email">Email Address</label>
-          <input class="fs-top fs-full <%= error_class('email') %>" type="email"
-                 name="email" id="email" class="fs-top fs-full"
-                 value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
+          <input class="fs-top fs-full <%= error_class('email') %>" type="email" name="email"
+                 id="email" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
           <label for="password">Password</label>
           <input class="fs-bottom fs-half <%= error_class('password') %>" type="password"
                  name="password" id="password" value="" placeholder="****" />
