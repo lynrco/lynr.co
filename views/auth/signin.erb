@@ -1,3 +1,4 @@
+      <%- if !@msg.nil? || !@errors.empty? -%>
       <div id="messages">
         <%- if @msg -%>
         <p class="msg"><%= @msg %></p>
@@ -6,6 +7,7 @@
         <p class="msg msg-error"><%= error %></p>
         <%- end -%>
       </div>
+      <%- end -%>
       <form class="signup" action="/signup" method="POST">
         <h2 class="fs-title">Sign In</h2>
         <fieldset class="fs">
