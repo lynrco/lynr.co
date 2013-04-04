@@ -85,6 +85,7 @@ module Lynr; module Controller;
     def get_signin(req)
       @subsection = "signin"
       @posted = {}
+      @errors = {}
       @title = "Sign In for Lynr"
       render 'auth/signin.erb'
     end
@@ -93,6 +94,7 @@ module Lynr; module Controller;
       @subsection = "signup submitted"
       @posted = req.POST
       @errors = validate_signin(@posted)
+      @title = "Sign In for Lynr"
       if (@errors.empty?)
       else
         render 'auth/signin.erb'
