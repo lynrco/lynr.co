@@ -58,6 +58,7 @@ module Lynr; module Controller;
       @subsection = "signup submitted"
       @posted = req.POST
       @errors = validate_signup(@posted)
+      @title = "Sign Up for Lynr"
       if (@errors.empty?)
         # Create account
         identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
@@ -86,7 +87,7 @@ module Lynr; module Controller;
       @subsection = "signin"
       @posted = {}
       @errors = {}
-      @title = "Sign In for Lynr"
+      @title = "Sign In to Lynr"
       render 'auth/signin.erb'
     end
 
@@ -94,7 +95,7 @@ module Lynr; module Controller;
       @subsection = "signup submitted"
       @posted = req.POST
       @errors = validate_signin(@posted)
-      @title = "Sign In for Lynr"
+      @title = "Sign In to Lynr"
       if (@errors.empty?)
       else
         render 'auth/signin.erb'
