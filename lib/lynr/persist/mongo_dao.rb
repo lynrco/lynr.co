@@ -137,6 +137,9 @@ module Lynr; module Persist;
     #
     # Returns the `_id` value for the new record
     def create(record)
+      now = Time.now
+      record['created_at'] ||= now
+      record['updated_at'] ||= now
       collection.insert(record, { j: true })
     end
 
@@ -148,6 +151,7 @@ module Lynr; module Persist;
     # Returns `true` or the last error
     def update(id, obj)
       record = obj.reject { |k, v| k == 'id' || k == :id }
+      record['updated_at'] ||= Time.now
       collection.update({ _id: id }, record, { j: true })
     end
 
