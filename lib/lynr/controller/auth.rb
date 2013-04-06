@@ -29,6 +29,7 @@ module Lynr; module Controller;
     get  '/signup', :get_signup
     post '/signup', :post_signup
     get  '/signin', :get_signin
+    post '/signin', :post_signin
 
     set_render_options({ layout: 'default_sly.erb' })
 
@@ -124,6 +125,9 @@ module Lynr; module Controller;
       @errors = validate_signin(@posted)
       @title = "Sign In to Lynr"
       if (@errors.empty?)
+        @dealership = dao.get_by_email(@posted['email'])
+        # Send to admin pages
+        render 'auth/signed_up.erb'
       else
         render 'auth/signin.erb'
       end
@@ -155,7 +159,13 @@ module Lynr; module Controller;
     end
 
     def validate_signin(posted)
-      validate_required(posted, ['email', 'password'])
+      errors = validate_required(posted, ['email', 'password'])
+      dealership = dao.get_by_email(posted['email'])
+      if (errors.empty? && (dealership.nil? || dealership.identity != @posted))
+        errors['account'] = "Invalid email or password."
+      end
+
+      errors
     end
 
     def validate_required(posted, fields)
@@ -165,6 +175,7 @@ module Lynr; module Controller;
           errors[key] = "#{key.capitalize} is required."
         end
       end
+
       errors
     end
 
