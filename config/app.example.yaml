@@ -1,1 +1,2 @@
 stripe_key: 'stripe_key from https://manage.stripe.com/account/apikeys'
+stripe_version: '2013-02-13'
