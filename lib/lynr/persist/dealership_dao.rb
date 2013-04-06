@@ -7,6 +7,7 @@ module Lynr; module Persist;
 
     def initialize
       @dao = MongoDao.new('collection' => 'dealers')
+      @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
     end
 
     def get(id)
