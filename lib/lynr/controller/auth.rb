@@ -76,9 +76,18 @@ module Lynr; module Controller;
       else
         render 'auth/signup.erb'
       end
+    rescue Stripe::CardError => sce
+      handle_stripe_error!(sce, sce.json_body[:message])
     rescue Stripe::InvalidRequestError => sire
-      log.warn { sire }
-      @errors['stripeToken'] = "You might have submitted the form more than once."
+      handle_stripe_error!(sire, "You might have submitted the form more than once.")
+    rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
+      msg = "Couldn't communicate with our card processor. We've been notified of the error."
+      handle_stripe_error!(sse, msg)
+    end
+
+    def handle_stripe_error!(err, message)
+      log.warn { err }
+      @errors['stripeToken'] = message
       render 'auth/signup.erb'
     end
 
