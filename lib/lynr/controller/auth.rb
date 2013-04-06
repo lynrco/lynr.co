@@ -108,6 +108,8 @@ module Lynr; module Controller;
 
       if (errors['email'].nil? && !is_valid_email?(posted['email']))
         errors['email'] = "Check your email address."
+      elsif (errors['email'].nil? && dao.account_exists?(posted['email']))
+        errors['email'] = "#{posted['email']} is already taken."
       end
       if (errors['password'].nil? && !is_valid_password?(posted['password']))
         errors['password'] = "Your password is too short."
