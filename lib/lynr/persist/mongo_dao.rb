@@ -91,12 +91,12 @@ module Lynr; module Persist;
       result = record.dup
       success = false
       if (id)
-        record.delete(:id)
+        record.delete('id')
         success = update(id, record)
       else
         id = create(record)
         success = !id.nil?
-        result[:id] = id
+        result['id'] = id
       end
 
       success ? result : nil
