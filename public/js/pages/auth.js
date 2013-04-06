@@ -12,7 +12,7 @@ define(function(require) {
 
   function handleSignupSubmit(e) {
     var evt = require('modules/domEvents');
-    evt.stop(e);
+    evt.prevent(e);
     var form = document.querySelector('form.signup');
     form.querySelector('button[type=submit]').setAttribute('disabled', true);
     require('stripe').createToken(form, handleStripeResponse);
