@@ -20,7 +20,7 @@ class MongoHelpers
   def self.empty!
     db = dao.db
     db.collection_names.each do |coll_name|
-      db.collection(coll_name).remove()
+      db.collection(coll_name).remove() if !coll_name.start_with?('system')
     end
   end
 
