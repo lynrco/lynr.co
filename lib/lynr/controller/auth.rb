@@ -85,6 +85,24 @@ module Lynr; module Controller;
       handle_stripe_error!(sse, msg)
     end
 
+    # ## `Lynr::Controller::Auth#handle_stripe_error!`
+    #
+    # This method takes an error and message and maps it to the credit card
+    # fields and then provides an appropriate response object. The 'bang' at
+    # the end of the method name signifies it terminates a request.
+    #
+    # ### Params
+    #
+    # * `err` is a Exception or Error class, it could be any kind of object
+    #   but it is logged as a warning.
+    # * `message` is the error message displayed to the potential customer
+    #   informing them of the problem. This message is tied to the credit card
+    #   info.
+    #
+    # ### Returns
+    #
+    # A `Rack::Response` style object that responds to a `finish` message.
+    #
     def handle_stripe_error!(err, message)
       log.warn { err }
       @errors['stripeToken'] = message
