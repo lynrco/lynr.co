@@ -86,4 +86,30 @@ describe Lynr::Persist::DealershipDao do
 
   end
 
+  context "with active connection", :if => (MongoHelpers.connected?) do
+
+    before(:each) do
+      MongoHelpers.empty! if MongoHelpers.connected?
+    end
+
+    describe "#account_exists?" do
+
+      let(:customer_id) { "cus_1bFL8vciXXchnm" }
+      let(:dealership) {
+        Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
+      }
+
+      it "returns false if email isn't taken" do
+        expect(dao.account_exists?(identity.email)).to be_false
+      end
+
+      it "returns true if email is taken" do
+        dao.save(dealership)
+        expect(dao.account_exists?(identity.email)).to be_true
+      end
+
+    end
+
+  end
+
 end

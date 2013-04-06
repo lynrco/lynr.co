@@ -10,6 +10,10 @@ module Lynr; module Persist;
       @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
     end
 
+    def account_exists?(email)
+      @dao.collection.count(query: { 'identity.email' => email }, read: :secondary, limit: 1) > 0
+    end
+
     def get(id)
       record = @dao.read(id)
       # Mongo is going to give me a record with the _id property set, not id
