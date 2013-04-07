@@ -10,7 +10,6 @@ module Lynr; module Persist;
     'collection' => 'default'
   }
 
-  ##
   # # Lynr::Persist::MongoDao
   #
   # Interface for use within other Data Access Objects to handle the interaction
@@ -24,7 +23,6 @@ module Lynr; module Persist;
 
     attr_reader :config
 
-    ##
     # ## `Lynr::Persist::MongoDao.new`
     #
     # Create a new instance that is connected to the specified collection. Sets
@@ -102,7 +100,6 @@ module Lynr; module Persist;
       success ? result : nil
     end
 
-    ##
     # ## `MongoDao#search`
     #
     # Generic method to look for records using any query. It is and exercise

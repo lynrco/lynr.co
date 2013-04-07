@@ -5,6 +5,11 @@ require './lib/lynr/persist/dealership_dao'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::Auth`
+  #
+  # Controller for the authorization actions like creating an account or
+  # signing into an existing account.
+  #
   class Auth < Sly::Node
 
     include Lynr::Logging
@@ -15,6 +20,11 @@ module Lynr; module Controller;
 
     attr_reader :dao
 
+    # ## `Lynr::Controller::Auth.new`
+    #
+    # Create a new Auth controller with default information like headers and
+    # section information.
+    #
     def initialize
       super
       @headers = {
@@ -34,6 +44,20 @@ module Lynr; module Controller;
     set_render_options({ layout: 'default_sly.erb' })
 
     # ## View Helper Methods
+
+    # ## `Lynr::Controller::Auth#error_class`
+    #
+    # Provides an error class for a field in the markup which has an error
+    # associated with the given field.
+    #
+    # ### Params
+    # 
+    # * `field` to check `@errors` for
+    #
+    # ### Returns
+    #
+    # 'fs-error' if there is an error for `field` empty string otherwise
+    #
     def error_class(field)
       if has_error(field) then 'fs-error' else '' end
     end
