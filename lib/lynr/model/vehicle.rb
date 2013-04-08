@@ -61,7 +61,7 @@ module Lynr; module Model;
       data = record.dup
       data['vin'] = Lynr::Model::Vin.inflate(data['vin'])
       data['mpg'] = Lynr::Model::Mpg.inflate(data['mpg'])
-      Lynr::Model::Vehicle.new(data, data['_id'])
+      Lynr::Model::Vehicle.new(data, data['id'])
     end
 
   end
