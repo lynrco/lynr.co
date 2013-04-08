@@ -23,18 +23,18 @@ describe Lynr::Persist::DealershipDao do
 
     let(:record) {
       {
-        name: 'CarMax San Diego',
-        phone: '+1 123-123-1234',
-        image: image.view,
-        address: address.view,
-        identity: identity.view
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'image' => image.view,
+        'address' => address.view,
+        'identity' => identity.view
       }
     }
 
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:read) do |id|
-        record[:_id] = id
-        Hash[record.map { |k, v| [k.to_s, v] }]
+        record['_id'] = id
+        record
       end
     end
 
@@ -65,8 +65,8 @@ describe Lynr::Persist::DealershipDao do
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:save) do |record, id|
         result = record.dup
-        result[:_id] = id
-        Hash[result.map { |k, v| [k.to_s, v] }]
+        result['_id'] = id
+        result
       end
     end
 
