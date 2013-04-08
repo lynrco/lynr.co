@@ -174,7 +174,9 @@ module Sly
     # A `Rack::Response` instance
     #
     def redirect(target, status=302)
-      Rack::Response.new.redirect(target, status)
+      res = Rack::Response.new
+      res.redirect(target, status)
+      res
     end
 
   end
