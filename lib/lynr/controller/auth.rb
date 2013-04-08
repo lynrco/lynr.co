@@ -94,10 +94,13 @@ module Lynr; module Controller;
           email: identity.email
         )
         # Create and Save dealership
-        dealership = Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer.id })
-        @dealership = dao.save(dealership)
+        dealer = dao.save(Lynr::Model::Dealership.new({
+          'identity' => identity,
+          'customer_id' => customer.id
+        }))
+        req.session['dealer_id'] = dealer.id
         # Send to admin pages?
-        render 'auth/signed_up.erb'
+        redirect "/admin/#{dealer.id.to_s}"
       else
         render 'auth/signup.erb'
       end
@@ -149,9 +152,10 @@ module Lynr; module Controller;
       @errors = validate_signin(@posted)
       @title = "Sign In to Lynr"
       if (@errors.empty?)
-        @dealership = dao.get_by_email(@posted['email'])
+        dealership = dao.get_by_email(@posted['email'])
         # Send to admin pages
-        render 'auth/signed_up.erb'
+        req.session['dealer_id'] = dealership.id
+        redirect "/admin/#{dealership.id.to_s}"
       else
         render 'auth/signin.erb'
       end
