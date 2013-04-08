@@ -102,7 +102,7 @@ module Lynr; module Controller;
         render 'auth/signup.erb'
       end
     rescue Stripe::CardError => sce
-      handle_stripe_error!(sce, sce.json_body[:message])
+      handle_stripe_error!(sce, sce.message)
     rescue Stripe::InvalidRequestError => sire
       handle_stripe_error!(sire, "You might have submitted the form more than once.")
     rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
