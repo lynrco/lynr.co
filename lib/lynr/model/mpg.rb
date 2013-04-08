@@ -8,7 +8,7 @@ module Lynr; module Model;
 
     attr_reader :city, :highway
 
-    def initialize(data)
+    def initialize(data={})
       @city = data['city'] || 0.0
       @highway = data['highway'] || 0.0
     end
@@ -18,7 +18,8 @@ module Lynr; module Model;
     end
 
     def self.inflate(record)
-      Lynr::Model::Mpg.new(record)
+      data = record || {}
+      Lynr::Model::Mpg.new(data)
     end
 
   end
