@@ -29,7 +29,7 @@ module Lynr; module Controller;
       super
       @headers = {
         "Content-Type" => "text/html; charset=utf-8",
-        "Header" => "Lynr.co Application Server"
+        "Server" => "Lynr.co Application Server"
       }
       @section = "auth"
 
