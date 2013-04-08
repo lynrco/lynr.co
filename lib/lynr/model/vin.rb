@@ -32,6 +32,18 @@ module Lynr; module Model;
       }
     end
 
+    def self.inflate(record)
+      data = record || {}
+      Lynr::Model::Vin.new(
+        data['transmission'],
+        data['fuel'],
+        data['doors'],
+        data['drivetrain'],
+        data['ext_color'],
+        data['int_color']
+      )
+    end
+
   end
 
 end; end;

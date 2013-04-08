@@ -6,6 +6,7 @@ require './lib/lynr/model/vin'
 describe Lynr::Model::Vin do
 
   let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
+  let(:empty_vin) { Lynr::Model::Vin.new(nil, nil, nil, nil, nil, nil) }
 
   describe "#view" do
 
@@ -49,6 +50,26 @@ describe Lynr::Model::Vin do
 
     it "is true if compared to a Hash representing the view" do
       expect(vin == vin.view).to be_true
+    end
+
+  end
+
+  describe ".inflate" do
+
+    it "creates equivalent Vin instances from properties" do
+      vin_props = {
+        'transmission' => "Manual",
+        'fuel' => "28 L",
+        'doors' => "2",
+        'drivetrain' => "AWD",
+        'ext_color' => "Silver",
+        'int_color' => "Charcoal"
+      }
+      expect(Lynr::Model::Vin.inflate(vin_props)).to eq(vin)
+    end
+
+    it "provides an empty Vin for nil" do
+      expect(Lynr::Model::Vin.inflate(nil)).to eq(empty_vin)
     end
 
   end
