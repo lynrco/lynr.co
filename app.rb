@@ -8,7 +8,6 @@ require './lib/lynr/config'
 require './lib/lynr/controller/root'
 require './lib/lynr/controller/admin'
 
-require './lib/lynr/controller/test'
 require './lib/lynr/controller/auth'
 
 module Lynr
