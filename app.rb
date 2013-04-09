@@ -7,7 +7,6 @@ require './lib/lynr/logging'
 require './lib/lynr/config'
 require './lib/lynr/controller/root'
 require './lib/lynr/controller/admin'
-
 require './lib/lynr/controller/auth'
 
 module Lynr
@@ -49,6 +48,10 @@ module Lynr
     def self.instance
       @app = Lynr::App.new if !@app
       @app
+    end
+
+    def self.config
+      instance.config
     end
 
   end
