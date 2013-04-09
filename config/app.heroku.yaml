@@ -1,2 +1,8 @@
+# Used to setting cookies/sessions
+domain: 'env:app_domain'
+# Used by Rack::Session::Cookie to encode/decode session information
+session:
+  secret: 'env:session_secret'
+  old_secret: 'env:session_old_secret'
 stripe_key: 'env:stripe_key'
 stripe_version: '2013-02-13'

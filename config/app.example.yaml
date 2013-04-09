@@ -1,2 +1,8 @@
+# Used to setting cookies/sessions
+domain: 'domain.local'
+# Used by Rack::Session::Cookie to encode/decode session information
+session:
+  secret: 'change me'
+  old_secret: 'change me'
 stripe_key: 'stripe_key from https://manage.stripe.com/account/apikeys'
 stripe_version: '2013-02-13'
