@@ -1,7 +1,7 @@
 require './lib/sly'
-require './lib/sly/view/erb_helpers'
-require './lib/lynr/validator/helpers'
+require './lib/lynr/controller/base'
 require './lib/lynr/persist/dealership_dao'
+require './lib/lynr/validator/helpers'
 
 module Lynr; module Controller;
 
@@ -10,13 +10,10 @@ module Lynr; module Controller;
   # Controller for the authorization actions like creating an account or
   # signing into an existing account.
   #
-  class Auth < Sly::Node
+  class Auth < Lynr::Controller::Base
 
-    include Lynr::Logging
     # Provides `is_valid_email?`
     include Lynr::Validator::Helpers
-    # Provides `render` and `render_partial` methods
-    include Sly::View::ErbHelpers
 
     attr_reader :dao
 
@@ -27,12 +24,7 @@ module Lynr; module Controller;
     #
     def initialize
       super
-      @headers = {
-        "Content-Type" => "text/html; charset=utf-8",
-        "Server" => "Lynr.co Application Server"
-      }
       @section = "auth"
-
       @dao = Lynr::Persist::DealershipDao.new
     end
 
@@ -40,8 +32,6 @@ module Lynr; module Controller;
     post '/signup', :post_signup
     get  '/signin', :get_signin
     post '/signin', :post_signin
-
-    set_render_options({ layout: 'default_sly.erb' })
 
     # ## View Helper Methods
 

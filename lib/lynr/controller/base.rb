@@ -1,22 +1,22 @@
-require 'ramaze'
+require './lib/sly'
+require './lib/sly/view/erb_helpers'
 
 module Lynr; module Controller;
 
-  class Base < Ramaze::Controller
+  class Base < Sly::Node
 
     include Lynr::Logging
+    # Provides `render` and `render_partial` methods
+    include Sly::View::ErbHelpers
 
-    engine :erb
+    set_render_options({ layout: 'default_sly.erb' })
 
-    # Executed after each `Innate::Action`. Every render_* method creates an
-    # `Innate::Action`. So don't do anything complex in here.
-    after_all do
-      response['Server'] = 'Lynr.co Application Server'
-    end
-
-    def self.action_missing(path)
-      return if path == '/fourohfour'
-      try_resolve('/fourohfour')
+    def initialize
+      super
+      @headers = {
+        "Content-Type" => "text/html; charset=utf-8",
+        "Server" => "Lynr.co Application Server"
+      }
     end
 
     def not_found

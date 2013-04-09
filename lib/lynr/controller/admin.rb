@@ -1,10 +1,7 @@
 require './lib/sly'
-require './lib/sly/view/erb_helpers'
-require './lib/lynr/validator/helpers'
-require './lib/lynr/persist/dealership_dao'
-
 require './lib/lynr/controller/base'
 require './lib/lynr/persist/dealership_dao'
+require './lib/lynr/validator/helpers'
 
 module Lynr; module Controller;
 
@@ -13,30 +10,17 @@ module Lynr; module Controller;
   # `Admin` is the catch all controller for admin pages. It will handle
   # everything under '/admin' not mapped elsewhere.
   #
-  class Admin < Sly::Node
-
-    include Lynr::Logging
-    # Provides `is_valid_email?`
-    include Lynr::Validator::Helpers
-    # Provides `render` and `render_partial` methods
-    include Sly::View::ErbHelpers
+  class Admin < Lynr::Controller::Base
 
     attr_reader :dao
 
     def initialize
       super
-      @headers = {
-        "Content-Type" => "text/html; charset=utf-8",
-        "Server" => "Lynr.co Application Server"
-      }
       @section = "admin"
-
       @dao = Lynr::Persist::DealershipDao.new
     end
 
     get '/admin/:slug', :index
-
-    set_render_options({ layout: 'default_sly.erb' })
 
     # ## `Lynr::Controller::Admin#index`
     #
