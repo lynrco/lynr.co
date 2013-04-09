@@ -39,7 +39,8 @@ module Sly; module View;
       end
 
       def render_options
-        @_sly_render_opts || {}
+        opts = (self.superclass.respond_to?(:render_options) && self.superclass.render_options) || {}
+        opts.merge(@_sly_render_opts || {})
       end
 
     end # SingletonMethods
