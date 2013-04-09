@@ -1,4 +1,5 @@
 require './lib/lynr/model/base'
+require './lib/lynr/model/image'
 require './lib/lynr/model/mpg'
 require './lib/lynr/model/vin'
 
@@ -71,6 +72,7 @@ module Lynr; module Model;
       data = record.dup
       data['mpg'] = Lynr::Model::Mpg.inflate(data['mpg']) if data['mpg']
       data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
+      data['images'] = data['images'].map { |image| Lynr::Model::Image.inflate(image) } if data['images']
       Lynr::Model::Vehicle.new(data, data['id'])
     end
 

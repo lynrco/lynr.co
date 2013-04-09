@@ -1,8 +1,10 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
+require './lib/lynr/model/image'
 require './lib/lynr/model/mpg'
 require './lib/lynr/model/vehicle'
+require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vehicle do
 
@@ -75,8 +77,29 @@ describe Lynr::Model::Vehicle do
 
   describe ".inflate" do
 
+    let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+    let(:mpg) { Lynr::Model::Mpg.new({ 'city' => 28.8, 'highway' => 33.2 }) }
+    let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
+    let(:vehicle_data) {
+      {
+        'year'       => '2010',
+        'make'       => 'Mitsubishi',
+        'model'      => 'Gallant',
+        'price'      => 4999.99,
+        'condition'  => 3,
+        'mpg'        => mpg,
+        'vin'        => vin,
+        'images'     => [image]
+      }
+    }
+
     it "provides empty vehicle for nil" do
       expect(Lynr::Model::Vehicle.inflate(nil)).to eq(empty_vehicle)
+    end
+
+    it "gives the same vehicle back" do
+      v = Lynr::Model::Vehicle.new(vehicle_data)
+      expect(Lynr::Model::Vehicle.inflate(v.view)).to eq(v)
     end
 
   end
