@@ -22,7 +22,7 @@ module Sly
     def initialize(env, path_regex)
       super(env)
       path_data = path_regex.match(path)
-      @path_params = Hash[path_data.names.map { |name| [name, path_data[name]] }]
+      @path_params = Hash[path_data.names.map { |name| [name, path_data[name]] }] unless path_data.nil?
     end
 
     # ## `Sly::Request#params`
