@@ -1,4 +1,5 @@
 require 'rack'
+require './lib/sly/request'
 
 module Sly
 
@@ -24,7 +25,7 @@ module Sly
 
     def call(env)
       # TODO: This is going to get expensive in large apps
-      request = Rack::Request.new(env)
+      request = Sly::Request.new(env, @path_r)
       if (matches_filters?(request))
         handle(request)
       else
