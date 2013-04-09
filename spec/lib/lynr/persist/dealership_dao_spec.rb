@@ -1,7 +1,6 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require 'yaml'
 require './lib/lynr/persist/dealership_dao'
 
 require './lib/lynr/model/address'
