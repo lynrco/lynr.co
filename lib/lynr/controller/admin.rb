@@ -1,3 +1,8 @@
+require './lib/sly'
+require './lib/sly/view/erb_helpers'
+require './lib/lynr/validator/helpers'
+require './lib/lynr/persist/dealership_dao'
+
 require './lib/lynr/controller/base'
 require './lib/lynr/persist/dealership_dao'
 
@@ -7,30 +12,44 @@ module Lynr; module Controller;
   #
   # `Admin` is the catch all controller for admin pages. It will handle
   # everything under '/admin' not mapped elsewhere.
-  class Admin < Lynr::Controller::Base
+  #
+  class Admin < Sly::Node
 
-    map '/admin'
+    include Lynr::Logging
+    # Provides `is_valid_email?`
+    include Lynr::Validator::Helpers
+    # Provides `render` and `render_partial` methods
+    include Sly::View::ErbHelpers
 
-    layout :admin
+    attr_reader :dao
 
     def initialize
-      # Let Ramaze do its thing
       super
-      # Set up the controller
+      @headers = {
+        "Content-Type" => "text/html; charset=utf-8",
+        "Server" => "Lynr.co Application Server"
+      }
+      @section = "admin"
+
       @dao = Lynr::Persist::DealershipDao.new
     end
 
+    get '/admin/:slug', :index
+
+    set_render_options({ layout: 'default_sly.erb' })
+
     # ## `Lynr::Controller::Admin#index`
     #
-    # Admin Homepage. Automagically renders `views/admin/index.erb` based on the
-    # mapping and method name servicing the request, in this case `index`
-    def index(slug='default')
-      # Setting instance variables for templates to access makes me very nervous
-      # TODO: Find some kind of confirmation that Rack applications are single threaded.
-      @dealership = @dao.get(slug)
+    # Admin Homepage. Renders `views/admin/index.erb`.
+    #
+    def index(req)
+      @subsection = 'index'
+      id = BSON::ObjectId.from_string(req['slug'])
+      @dealership = dao.get(id)
       return not_found if @dealership.nil?
       @title = "Welcome back #{@dealership.name}"
       @owner = @dealership.name
+      render 'admin/index.erb'
     end
 
   end
