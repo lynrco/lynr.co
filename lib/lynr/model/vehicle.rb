@@ -1,4 +1,5 @@
 require './lib/lynr/model/base'
+require './lib/lynr/model/dealership'
 require './lib/lynr/model/image'
 require './lib/lynr/model/mpg'
 require './lib/lynr/model/vin'
@@ -40,7 +41,7 @@ module Lynr; module Model;
       @mpg = data['mpg'] || nil # Should be an instance of Lynr::Model::Mpg
       @vin = data['vin'] || nil # Should be an instance of Lynr::Model::Vin
       @images = data['images'] || []
-      @dealership = data['dealership'] || nil
+      @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
     end
 
     def set(data)
