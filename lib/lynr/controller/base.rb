@@ -20,9 +20,7 @@ module Lynr; module Controller;
     end
 
     def not_found
-      response.status = 404
-      action.layout = [:layout, "#{options.roots[0]}/#{options.layouts[0]}/default.erb"]
-      action.view = "#{options.roots[0]}/#{options.views[0]}/fourohfour.erb"
+      render 'fourohfour.erb', status: 404
     end
 
   end
