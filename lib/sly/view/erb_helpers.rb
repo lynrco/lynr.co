@@ -6,12 +6,12 @@ module Sly; module View;
 
     include ERB::Util
 
-    def render(view, opts={})
+    def render(view, opts={ status: 200 })
       options = self.class.render_options.merge(opts)
       template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
       layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, options[:layout].to_s) if options.has_key?(:layout)
       view = Sly::View::Erb.new(template, { layout: layout, context: self })
-      Rack::Response.new(view.result, 200, @headers)
+      Rack::Response.new(view.result, options[:status], @headers)
     end
 
     def render_partial(path)
