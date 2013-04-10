@@ -1,9 +1,9 @@
 require 'rack'
 require 'innate'
 
-require './lib/sly/node'
-require './lib/sly/route'
-require './lib/sly/urlmap'
+require 'sly/node'
+require 'sly/route'
+require 'sly/urlmap'
 
 module Sly
 
@@ -53,7 +53,6 @@ module Sly
     def call(env)
       res = Sly::DynaMap.call(env)
       # Behave like a cascade
-      # TODO: Make cascade behavior an option
       if (Sly::App.options.cascade && Sly::App.options.cascade.include?(res[0].to_i))
         @app.call(env)
       else
