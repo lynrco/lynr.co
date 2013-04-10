@@ -41,9 +41,10 @@ module Lynr; module Controller;
     end
 
     def get_account(req)
+      return not_found unless authorized?(req)
       @subsection = 'account'
-      return not_found if !authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @title = "Account Information"
       render 'admin/account.erb'
     end
 
