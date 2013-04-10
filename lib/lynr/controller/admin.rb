@@ -22,8 +22,8 @@ module Lynr; module Controller;
       @vehicle_dao = Lynr::Persist::VehicleDao.new
     end
 
-    get '/admin/:slug/account', :get_account
     get '/admin/:slug', :index
+    get '/admin/:slug/account', :get_account
 
     # ## `Lynr::Controller::Admin#index`
     #
