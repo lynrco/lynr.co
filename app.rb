@@ -2,12 +2,12 @@ require 'bundler/setup'
 require 'ramaze'
 require 'stripe'
 
-require './lib/sly'
-require './lib/lynr/logging'
-require './lib/lynr/config'
-require './lib/lynr/controller/root'
-require './lib/lynr/controller/admin'
-require './lib/lynr/controller/auth'
+require 'sly'
+require 'lynr/logging'
+require 'lynr/config'
+require 'lynr/controller/root'
+require 'lynr/controller/admin'
+require 'lynr/controller/auth'
 
 module Lynr
 

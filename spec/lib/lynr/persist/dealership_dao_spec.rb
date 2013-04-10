@@ -1,11 +1,11 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require './lib/lynr/persist/dealership_dao'
+require 'lynr/persist/dealership_dao'
 
-require './lib/lynr/model/address'
-require './lib/lynr/model/identity'
-require './lib/lynr/model/image'
+require 'lynr/model/address'
+require 'lynr/model/identity'
+require 'lynr/model/image'
 
 describe Lynr::Persist::DealershipDao do
 
