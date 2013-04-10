@@ -15,6 +15,8 @@ module Lynr; module Controller;
 
     # Provides `is_valid_email?`
     include Lynr::Validator::Helpers
+    # Provides `error_class`, `error_message`, `has_error`
+    include Lynr::Controller::FormHelpers
 
     attr_reader :dao
 
@@ -33,33 +35,6 @@ module Lynr; module Controller;
     post '/signup', :post_signup
     get  '/signin', :get_signin
     post '/signin', :post_signin
-
-    # ## View Helper Methods
-
-    # ## `Lynr::Controller::Auth#error_class`
-    #
-    # Provides an error class for a field in the markup which has an error
-    # associated with the given field.
-    #
-    # ### Params
-    # 
-    # * `field` to check `@errors` for
-    #
-    # ### Returns
-    #
-    # 'fs-error' if there is an error for `field` empty string otherwise
-    #
-    def error_class(field)
-      if has_error(field) then 'fs-error' else '' end
-    end
-
-    def error_message(field)
-      if has_error(field) then @errors[field] else "" end
-    end
-
-    def has_error(field)
-      !@errors.nil? && @errors.include?(field)
-    end
 
     # ## Sign Up Handlers
     def get_signup(req)
