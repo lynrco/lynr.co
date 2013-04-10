@@ -1,5 +1,6 @@
 require 'rack'
-require './lib/sly/request'
+
+require 'sly/request'
 
 module Sly
 
@@ -48,7 +49,11 @@ module Sly
     def make_r(uri)
       return uri if uri.is_a? Regexp
       param_names = uri.scan(PATH_PARAMS_REGEX).flatten
-      Regexp.new(param_names.reduce(@path) { |base, name| base + "/(?<#{name}>[^/]+)/?" })
+      patterns = uri.split('/').map do |part|
+        name = part.sub(':', '')
+        (param_names.include?(name) && "(?<#{name}>[^/]+)") || part
+      end
+      Regexp.new("\\A#{patterns.join('/')}\\Z")
     end
 
     def matches_filters?(req)
