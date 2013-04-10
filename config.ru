@@ -1,8 +1,13 @@
 require 'rack'
 
-require './app'
-require './lib/rack/middleware/logger'
-require './lib/rack/middleware/timer'
+basedir = File.expand_path(File.dirname(__FILE__))
+libdir = "#{basedir}/lib"
+$LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
+require 'app'
+require 'rack/middleware/logger'
+require 'rack/middleware/timer'
 
 Lynr::App.setup
 
