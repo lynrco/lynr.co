@@ -16,14 +16,15 @@ module Lynr; module Model;
   class Dealership
 
     attr_reader :id
-    attr_reader :name, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :phone, :identity, :address, :postcode, :image, :customer_id
 
     def initialize(data, id=nil)
       @id = id
       @name = data['name'] || ""
       @phone = data['phone'] || ""
       @identity = data['identity']
-      @address = data['address']
+      @address = data['address'] || ""
+      @postcode = data['postcode'] || ""
       @image = data['image']
       @customer_id = data['customer_id']
     end
@@ -31,7 +32,7 @@ module Lynr; module Model;
     def view
       data = { 'name' => @name, 'phone' => @phone, 'customer_id' => @customer_id }
       data['identity'] = @identity.view if @identity
-      data['address'] = @address.view if @address
+      data['address'] = @address if @address
       data['image'] = @image.view if @image
       data
     end
@@ -40,7 +41,6 @@ module Lynr; module Model;
       if (record)
         data = record.dup
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
-        data['address'] = Lynr::Model::Address.inflate(record['address'])
         data['image'] = Lynr::Model::Image.inflate(record['image'])
         Lynr::Model::Dealership.new(data, record['id'])
       else

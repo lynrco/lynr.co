@@ -9,11 +9,7 @@ require 'lynr/model/image'
 
 describe Lynr::Persist::DealershipDao do
 
-  let(:address) {
-    Lynr::Model::Address.new(
-      line_one="Addr L1", line_two="Addr L2", city="New York", state="NY", zip="10002"
-    )
-  }
+  let(:address) { "122 Forsyth St\nApt 4D" }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:dao) { Lynr::Persist::DealershipDao.new }
@@ -25,7 +21,7 @@ describe Lynr::Persist::DealershipDao do
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
         'image' => image.view,
-        'address' => address.view,
+        'address' => address,
         'identity' => identity.view
       }
     }

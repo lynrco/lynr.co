@@ -8,11 +8,7 @@ require './lib/lynr/model/image'
 
 describe Lynr::Model::Dealership do
 
-  let(:address) {
-    Lynr::Model::Address.new(
-      line_one="Addr L1", line_two="Addr L2", city="New York", state="NY", zip="10002"
-    )
-  }
+  let(:address) { "122 Forsyth St\nApt 4D" }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
 
@@ -23,17 +19,13 @@ describe Lynr::Model::Dealership do
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
         'image' => Hash[image.view.map { |k,v| [k.to_s, v] }],
-        'address' => Hash[address.view.map { |k,v| [k.to_s, v] }],
+        'address' => address,
         'identity' => Hash[identity.view.map { |k,v| [k.to_s, v] }]
       }
     }
     let(:dealer) { Lynr::Model::Dealership.inflate(record) }
 
     context ".address" do
-
-      it "is a Lynr::Model::Address" do
-        expect(dealer.address).to be_an_instance_of(Lynr::Model::Address)
-      end
 
       it "is the same as constructing address" do
         expect(dealer.address).to eq(address)
