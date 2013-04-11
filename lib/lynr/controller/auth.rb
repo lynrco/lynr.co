@@ -39,8 +39,6 @@ module Lynr; module Controller;
     # ## Sign Up Handlers
     def get_signup(req)
       @subsection = "signup"
-      @posted = {}
-      @errors = {}
       @title = "Sign Up for Lynr"
       render 'auth/signup.erb'
     end
@@ -106,8 +104,6 @@ module Lynr; module Controller;
     # ## Sign In Handlers
     def get_signin(req)
       @subsection = "signin"
-      @posted = {}
-      @errors = {}
       @title = "Sign In to Lynr"
       render 'auth/signin.erb'
     end
