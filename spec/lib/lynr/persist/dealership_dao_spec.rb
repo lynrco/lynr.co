@@ -20,8 +20,8 @@ describe Lynr::Persist::DealershipDao do
       {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
-        'image' => image.view,
         'address' => address,
+        'image' => image.view,
         'identity' => identity.view
       }
     }
@@ -51,8 +51,8 @@ describe Lynr::Persist::DealershipDao do
       {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
-        'image' => image,
         'address' => address,
+        'image' => image,
         'identity' => identity
       }
     }

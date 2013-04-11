@@ -30,9 +30,13 @@ module Lynr; module Model;
     end
 
     def view
-      data = { 'name' => @name, 'phone' => @phone, 'customer_id' => @customer_id }
+      data = {
+        'name' => @name,
+        'phone' => @phone,
+        'customer_id' => @customer_id,
+        'address' => @address
+      }
       data['identity'] = @identity.view if @identity
-      data['address'] = @address if @address
       data['image'] = @image.view if @image
       data
     end

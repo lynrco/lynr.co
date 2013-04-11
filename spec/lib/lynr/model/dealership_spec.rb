@@ -18,9 +18,9 @@ describe Lynr::Model::Dealership do
       {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
-        'image' => Hash[image.view.map { |k,v| [k.to_s, v] }],
         'address' => address,
-        'identity' => Hash[identity.view.map { |k,v| [k.to_s, v] }]
+        'image' => image.view,
+        'identity' => identity.view
       }
     }
     let(:dealer) { Lynr::Model::Dealership.inflate(record) }
