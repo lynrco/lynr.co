@@ -1,7 +1,28 @@
+      <%- if !@msg.nil? || (!@errors.nil? && !@errors.empty?) -%>
+      <div id="messages">
+        <%- if @msg -%>
+        <p class="msg"><%= @msg %></p>
+        <%- end -%>
+        <%- @errors.values.each do |error| -%>
+        <p class="msg msg-error"><%= error %></p>
+        <%- end -%>
+      </div>
+      <%- end -%>
       <form class="signup" action="/signup" method="POST">
         <fieldset class="fs">
           <label for="name">Dealership Name</label>
           <input class="fs-top fs-full" type="text" name="name"
-                 id="name" value="" placeholder="Carmax San Diego" />
+                 id="name" value="<%= @dealership.name %>" placeholder="Carmax San Diego" />
+          <label for="email">Email Address</label>
+          <input class="fs-mid fs-full" type="email" name="email"
+                 id="email" value="<%= @dealership.identity.email %>" placeholder="Email" />
+          <label for="phone">Phone Number</label>
+          <input class="fs-mid fs-full" type="text" name="phone"
+                 id="phone" value="<%= @dealership.phone %>" placeholder="Phone Number" />
+          <input class="fs-bottom fs-thirds" type="text" name="address"
+                 id="address" value="<%= @dealership.address %>" placeholder="Street Address" />
+          <input class="fs-bottom fs-third" type="text" name="postcode"
+                 id="postcode" value="<%= @dealership.postcode %>" placeholder="Zip Code" />
         </fieldset>
+        <button class="btn btn-full btn-create" type="submit">Update Account</button>
       </form>
