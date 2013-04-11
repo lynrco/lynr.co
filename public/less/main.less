@@ -77,6 +77,7 @@ a { color: @font_color; text-decoration: none; }
 }
 
 .fs-top { .border_radius(6px, 6px, 0, 0); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+.fs-mid { border-top: 1px solid rgba(255, 255, 255, 0.7); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
 .fs-bottom { border-top: 1px solid rgba(255, 255, 255, 0.7); }
 .fs-full { display: block; width: 100%; }
 .fs-half { float: left; display: block; width: 50%; }
@@ -88,6 +89,9 @@ a { color: @font_color; text-decoration: none; }
 }
 .fs-half .fs-half { padding-right: 10%; padding-left: 10%; }
 .fs-half .fs-half:nth-child(odd) { border-right: 1px solid rgba(0, 0, 0, 0.2); }
+.fs-thirds, .fs-third { float: left; display: block; }
+.fs-thirds { .border_radius(0, 0, 0, 6px); border-right: 1px solid rgba(0, 0, 0, 0.2); width: 67%; }
+.fs-third { .border_radius(0, 0, 6px, 0); border-left: 1px solid rgba(255, 255, 255, 0.7); width: 33%; }
 .fs-title { clear: both; margin: 2.1875rem 0 1.25rem; }
 
 #card_expiry { position: relative; .border_radius(0, 0, 0, 6px); .border_box(); }
