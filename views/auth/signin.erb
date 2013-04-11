@@ -1,4 +1,4 @@
-      <%- if !@msg.nil? || !@errors.empty? -%>
+      <%- if !@msg.nil? || (!@errors.nil? && !@errors.empty?) -%>
       <div id="messages">
         <%- if @msg -%>
         <p class="msg"><%= @msg %></p>
@@ -13,7 +13,7 @@
         <fieldset class="fs">
           <label for="email">Email Address</label>
           <input class="fs-top fs-full <%= error_class('email') %>" type="email" name="email"
-                 id="email" value="<%= @posted['email'] %>" placeholder="johndoe@me.com" />
+                 id="email" value="<%= posted['email'] %>" placeholder="johndoe@me.com" />
           <label for="password">Password</label>
           <input class="fs-bottom fs-full <%= error_class('password') %>" type="password"
                  name="password" id="password" value="" placeholder="****" />
