@@ -39,6 +39,19 @@ module Lynr; module Controller;
       !@errors.nil? && @errors.include?(field)
     end
 
+    # ## `Lynr::Controller::FormHelpers#posted`
+    #
+    # Attribute reader for the `@posted` instance value that sets a default
+    # empty `Hash` if the value hasn't yet been defined.
+    #
+    # ### Returns
+    #
+    # The value of `@posted` or an empty `Hash`
+    #
+    def posted
+      @posted ||= {}
+    end
+
   end
 
 end; end;
