@@ -55,6 +55,7 @@ module Lynr; module Controller;
       return not_found unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
+      @errors = validate_account_info
       @dealership = dealer_dao.save(@dealership.set(@posted))
       redirect "/admin/#{@dealership.id.to_s}/account"
     end
@@ -93,6 +94,21 @@ module Lynr; module Controller;
     #
     def authorized?(req)
       req.session['dealer_id'] == BSON::ObjectId.from_string(req['slug'])
+    end
+
+    def validate_account_info
+      errors = validate_required(posted, ['email'])
+      email = posted['email']
+
+      if (errors['email'].nil?)
+        if (!is_valid_email?(email))
+          errors['email'] = "Check your email address."
+        elsif (email != @dealership.identity.email && dealer_dao.account_exists?(email))
+          errors['email'] = "#{email} is already taken."
+        end
+      end
+
+      errors
     end
 
   end
