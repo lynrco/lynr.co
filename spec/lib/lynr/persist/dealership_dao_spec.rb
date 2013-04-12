@@ -83,6 +83,17 @@ describe Lynr::Persist::DealershipDao do
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
+    let(:dealer_data) {
+      {
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'address' => address,
+        'image' => image,
+        'identity' => identity
+      }
+    }
+    let(:dealer) { Lynr::Model::Dealership.new(dealer_data) }
+
     before(:each) do
       MongoHelpers.empty! if MongoHelpers.connected?
     end
@@ -101,6 +112,24 @@ describe Lynr::Persist::DealershipDao do
       it "returns true if email is taken" do
         dao.save(dealership)
         expect(dao.account_exists?(identity.email)).to be_true
+      end
+
+    end
+
+    describe "#save" do
+
+      it "is a Dealership instance" do
+        expect(dao.save(dealer)).to be_an_instance_of(Lynr::Model::Dealership)
+      end
+
+      it "has an id" do
+        expect(dao.save(dealer).id).to be
+      end
+
+      it "keeps its id on updates" do
+        saved = dao.save(dealer)
+        id = saved.id
+        expect(dao.save(saved).id).to eq(id)
       end
 
     end

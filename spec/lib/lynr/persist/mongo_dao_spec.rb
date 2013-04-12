@@ -74,6 +74,13 @@ describe Lynr::Persist::MongoDao do
         expect(dao.read(id)['price']).to eq(record['price'] * 1.05)
       end
 
+      it "keeps id for updated records" do
+        car = dao.save(record)
+        id = car['id']
+        car['price'] = record['price'] * 1.05
+        expect(dao.save(car, id)['id']).to eq(id)
+      end
+
     end # save
 
     describe "#search" do
