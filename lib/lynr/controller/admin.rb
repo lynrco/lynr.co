@@ -22,8 +22,9 @@ module Lynr; module Controller;
       @vehicle_dao = Lynr::Persist::VehicleDao.new
     end
 
-    get '/admin/:slug', :index
-    get '/admin/:slug/account', :get_account
+    get  '/admin/:slug', :index
+    get  '/admin/:slug/account', :get_account
+    post '/admin/:slug/account', :post_account
 
     # ## `Lynr::Controller::Admin#index`
     #
@@ -41,11 +42,21 @@ module Lynr; module Controller;
     end
 
     def get_account(req)
+      # FIXME: Should return unauthorized (403) instead of not found
       return not_found unless authorized?(req)
       @subsection = 'account'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Account Information"
       render 'admin/account.erb'
+    end
+
+    def post_account(req)
+      # FIXME: Should return unauthorized (403) instead of not found
+      return not_found unless authorized?(req)
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @posted = req.POST
+      @dealership = dealer_dao.save(@dealership.set(@posted))
+      redirect "/admin/#{@dealership.id.to_s}/account"
     end
 
     # ## Helpers
