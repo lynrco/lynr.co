@@ -126,17 +126,22 @@ module Lynr; module Controller;
     # ## Validation Helpers
     def validate_signup(posted)
       errors = validate_required(posted, ['email', 'password'])
+      email = posted['email']
+      password = posted['password']
 
-      if (errors['email'].nil? && !is_valid_email?(posted['email']))
-        errors['email'] = "Check your email address."
-      elsif (errors['email'].nil? && dao.account_exists?(posted['email']))
-        errors['email'] = "#{posted['email']} is already taken."
+      if (errors['email'].nil?)
+        if (!is_valid_email?(email))
+          errors['email'] = "Check your email address."
+        elsif (dao.account_exists?(email))
+          errors['email'] = "#{email} is already taken."
+        end
       end
-      if (errors['password'].nil? && !is_valid_password?(posted['password']))
-        errors['password'] = "Your password is too short."
-      end
-      if (posted['password'] != posted['password_confirm'])
-        errors['password'] = "Your passwords don't match."
+      if (errors['password'].nil?)
+        if (!is_valid_password?(password))
+          errors['password'] = "Your password is too short."
+        elsif (password != posted['password_confirm'])
+          errors['password'] = "Your passwords don't match."
+        end
       end
       if (posted['agree_terms'].nil?)
         errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
@@ -150,8 +155,11 @@ module Lynr; module Controller;
 
     def validate_signin(posted)
       errors = validate_required(posted, ['email', 'password'])
-      dealership = dao.get_by_email(posted['email'])
-      if (errors.empty? && (dealership.nil? || dealership.identity != @posted))
+      email = posted['email']
+      password = posted['password']
+      dealership = dao.get_by_email(email)
+
+      if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, password)))
         errors['account'] = "Invalid email or password."
       end
 
