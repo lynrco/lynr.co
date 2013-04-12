@@ -75,6 +75,29 @@ describe Lynr::Model::Vehicle do
 
   end
 
+  describe "#set" do
+
+    it "returns a new Vehicle instance" do
+      expect(vehicle.set({})).to_not equal(vehicle)
+    end
+
+    it "returns an equivalent instance if no fields are passed" do
+      expect(vehicle.set({})).to eq(vehicle)
+    end
+
+    it "updates a simple field if passed" do
+      expect(vehicle.set({ 'year' => '2015' }).year).to eq('2015')
+    end
+
+    it "updates a complex field if passed" do
+      dummy_images = Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy.gif")
+      dummy_vehicle = vehicle.set({ 'images' => dummy_images })
+      expect(dummy_vehicle.images).to eq(dummy_images)
+      expect(dummy_vehicle.images).to_not eq(vehicle.images)
+    end
+
+  end
+
   describe ".inflate" do
 
     let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }

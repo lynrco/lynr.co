@@ -45,21 +45,15 @@ module Lynr; module Model;
     end
 
     def set(data)
-      Lynr::Model::Vehicle.new(self.view.merge(data), @id)
+      Lynr::Model::Vehicle.new(self.to_hash.merge(data), @id)
     end
 
     # `Vehicle#view` is essentially the opposite of `Vehicle.inflate`. It
     # operates on the current Vehicle and deflates it down to a `Hash` of
     # properties.
     def view
-      data = {
-        'year' => @year,
-        'make' => @make,
-        'model' => @model,
-        'price' => @price,
-        'condition' => @condition,
-        'images' => @images.map { |image| image.view }
-      }
+      data = self.to_hash
+      data['images'] = @images.map { |image| image.view }
       data['mpg'] = @mpg.view if (@mpg)
       data['vin'] = @vin.view if (@vin)
       data['dealership'] = @dealership.id if (@dealership.respond_to?(:id))
@@ -75,6 +69,22 @@ module Lynr; module Model;
       data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
       data['images'] = data['images'].map { |image| Lynr::Model::Image.inflate(image) } if data['images']
       Lynr::Model::Vehicle.new(data, data['id'])
+    end
+
+    protected
+
+    def to_hash
+      {
+        'year' => @year,
+        'make' => @make,
+        'model' => @model,
+        'price' => @price,
+        'condition' => @condition,
+        'images' => @images,
+        'mpg' => @mpg,
+        'vin' => @vin,
+        'dealership' => @dealership
+      }
     end
 
   end
