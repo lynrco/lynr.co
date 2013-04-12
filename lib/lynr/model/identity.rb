@@ -22,7 +22,7 @@ module Lynr; module Model;
     end
 
     def view
-      { 'email' => @email, 'password' => @password }
+      { 'email' => @email, 'password' => @password.to_s }
     end
 
     def ==(ident)
