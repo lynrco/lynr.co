@@ -33,6 +33,17 @@ module Lynr; module Validator;
       password.length > 3
     end
 
+    def validate_required(posted, fields)
+      errors = {}
+      fields.each do |key|
+        if (!(posted.include?(key) && posted[key].length > 0))
+          errors[key] = "#{key.capitalize} is required."
+        end
+      end
+
+      errors
+    end
+
   end
 
 end; end;

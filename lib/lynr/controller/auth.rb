@@ -13,7 +13,7 @@ module Lynr; module Controller;
   #
   class Auth < Lynr::Controller::Base
 
-    # Provides `is_valid_email?`
+    # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
     include Lynr::Validator::Helpers
     # Provides `error_class`, `error_message`, `has_error`
     include Lynr::Controller::FormHelpers
@@ -153,17 +153,6 @@ module Lynr; module Controller;
       dealership = dao.get_by_email(posted['email'])
       if (errors.empty? && (dealership.nil? || dealership.identity != @posted))
         errors['account'] = "Invalid email or password."
-      end
-
-      errors
-    end
-
-    def validate_required(posted, fields)
-      errors = {}
-      fields.each do |key|
-        if (!(posted.include?(key) && posted[key].length > 0))
-          errors[key] = "#{key.capitalize} is required."
-        end
       end
 
       errors
