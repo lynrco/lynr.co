@@ -12,6 +12,39 @@ describe Lynr::Model::Dealership do
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
 
+  describe "#set" do
+
+    let(:dealer) {
+      Lynr::Model::Dealership.new({
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'address' => address,
+        'image' => image,
+        'identity' => identity
+      })
+    }
+
+    it "returns a new Dealership instance" do
+      expect(dealer.set({})).to_not equal(dealer)
+    end
+
+    it "returns an equivalent instance if no fields are passed" do
+      expect(dealer.set({})).to eq(dealer)
+    end
+
+    it "updates a simple field if passed" do
+      expect(dealer.set({ 'name' => 'CarMax' }).name).to eq('CarMax')
+    end
+
+    it "updates a complex field if passed" do
+      dummy_image = Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy.gif")
+      dummy_dealer = dealer.set({ 'image' => dummy_image })
+      expect(dummy_dealer.image).to eq(dummy_image)
+      expect(dummy_dealer.image).to_not eq(image)
+    end
+    
+  end
+
   describe ".inflate" do
 
     let(:record) {
