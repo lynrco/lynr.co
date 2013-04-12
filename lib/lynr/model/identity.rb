@@ -30,6 +30,8 @@ module Lynr; module Model;
         self.auth?(ident[:email], ident[:password])
       elsif (ident.is_a?(Hash) && ident.keys.include?('email') && ident.keys.include?('password'))
         self.auth?(ident['email'], ident['password'])
+      elsif (ident.is_a?(Identity))
+        ident.email == email && ident.password.to_s == password.to_s
       else
         false
       end

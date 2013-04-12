@@ -51,6 +51,14 @@ describe Lynr::Model::Identity do
       (@ident == @valid).should be_true
     end
 
+    it "compares to a Hash with email/password (Strings)" do
+      expect(@ident == { 'email' => @email, 'password' => @password }).to be_true
+    end
+
+    it "compares with another Identity" do
+      expect(@ident == @ident).to be_true
+    end
+
   end
 
   describe ".inflate" do
