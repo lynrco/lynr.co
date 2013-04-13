@@ -28,7 +28,7 @@ module Lynr; module Model;
 
     include Base
 
-    attr_reader :id, :dealership
+    attr_reader :id, :dealership, :created_at, :updated_at
     attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :images
 
     def initialize(data={}, id=nil)
@@ -42,6 +42,15 @@ module Lynr; module Model;
       @vin = data['vin'] || nil # Should be an instance of Lynr::Model::Vin
       @images = data['images'] || []
       @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
+      @created_at = data['created_at']
+      @updated_at = data['updated_at']
+    end
+
+    def ==(vehicle)
+      return false unless vehicle.is_a? Lynr::Model::Vehicle
+      my_view = self.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
+      ov_view = vehicle.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
+      my_view == ov_view
     end
 
     def set(data)
@@ -83,7 +92,9 @@ module Lynr; module Model;
         'images' => @images,
         'mpg' => @mpg,
         'vin' => @vin,
-        'dealership' => @dealership
+        'dealership' => @dealership,
+        'created_at' => @created_at,
+        'updated_at' => @updated_at
       }
     end
 

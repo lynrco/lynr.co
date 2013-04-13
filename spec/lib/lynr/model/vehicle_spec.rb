@@ -69,10 +69,6 @@ describe Lynr::Model::Vehicle do
       expect(v).to eq(v2)
     end
 
-    it "is true if compared to a Hash representing the view" do
-      expect(vehicle).to eq(vehicle.view)
-    end
-
   end
 
   describe "#set" do
