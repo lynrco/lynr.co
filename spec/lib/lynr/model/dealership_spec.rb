@@ -12,6 +12,36 @@ describe Lynr::Model::Dealership do
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
 
+  describe "#==" do
+
+    let(:dealer) { Lynr::Model::Dealership.new({ 'name' => 'Fun Times', 'address' => address }) }
+
+    it "is true if properties are the same" do
+      d = Lynr::Model::Dealership.new({ 'name' => 'Fun Times', 'address' => address })
+      expect(d).to eq(dealer)
+    end
+
+    it "is false if properties are not the same" do
+      d = Lynr::Model::Dealership.new({ 'name' => 'Fun Times2', 'address' => address })
+      expect(d).to_not eq(dealer)
+    end
+
+    it "is false if complex properties are not the same" do
+      d1 = dealer.set({ 'image' => image })
+      d2 = dealer.set({ 'image' => Lynr::Model::Image.new("301", "150", "//lynr.co/assets/image.gif") })
+      expect(d2).to_not eq(d1)
+      expect(d1).to_not eq(d2)
+    end
+
+    it "is true if complex properties are the same" do
+      d1 = dealer.set({ 'image' => Lynr::Model::Image.new("301", "150", "//lynr.co/assets/image.gif") })
+      d2 = dealer.set({ 'image' => Lynr::Model::Image.new("301", "150", "//lynr.co/assets/image.gif") })
+      expect(d2).to eq(d1)
+      expect(d1).to eq(d2)
+    end
+
+  end
+
   describe "#set" do
 
     let(:dealer) {

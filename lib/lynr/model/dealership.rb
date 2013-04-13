@@ -18,7 +18,7 @@ module Lynr; module Model;
 
     include Lynr::Model::Base
 
-    attr_reader :id
+    attr_reader :id, :created_at, :updated_at
     attr_reader :name, :phone, :identity, :address, :postcode, :image, :customer_id
 
     def initialize(data={}, id=nil)
@@ -30,6 +30,15 @@ module Lynr; module Model;
       @postcode = data['postcode'] || ""
       @image = data['image']
       @customer_id = data['customer_id']
+      @created_at = data['created_at']
+      @updated_at = data['updated_at']
+    end
+
+    def ==(dealership)
+      return false unless dealership.is_a? Lynr::Model::Dealership
+      my_view = self.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
+      od_view = dealership.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
+      my_view == od_view
     end
 
     def set(data={})
@@ -64,7 +73,9 @@ module Lynr; module Model;
         'address' => @address,
         'postcode' => @postcode,
         'image' => @image,
-        'customer_id' => @customer_id
+        'customer_id' => @customer_id,
+        'created_at' => @created_at,
+        'updated_at' => @updated_at
       }
     end
 
