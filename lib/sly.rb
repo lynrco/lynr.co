@@ -3,12 +3,13 @@ require 'innate'
 
 require 'sly/node'
 require 'sly/route'
+require 'sly/router'
 require 'sly/urlmap'
 
 module Sly
 
   DynaMap = Sly::URLMap.new
-  Cascade = Rack::Cascade.new([])
+  Cascade = Sly::Router.new([])
 
   class App
 
@@ -16,7 +17,7 @@ module Sly
 
     options.dsl do
 
-      o "Array of codes to Cascade if status is included",
+      o "Whether or not to Cascade to downstream apps",
         :cascade, false
 
       o "The directory this application resides in",
@@ -51,12 +52,12 @@ module Sly
     end
 
     def call(env)
-      res = Sly::DynaMap.call(env)
+      status, headers, body = Sly::Cascade.call(env)
       # Behave like a cascade
-      if (Sly::App.options.cascade && Sly::App.options.cascade.include?(res[0].to_i))
+      if (Sly::App.options.cascade && headers.include?("X-Cascade"))
         @app.call(env)
       else
-        res
+        [status, headers, body]
       end
     end
 
