@@ -21,6 +21,7 @@ use Rack::Session::Cookie,  :key          => '_lynr',
                             :expire_after => 604800, # 7 days
                             :secret       => Lynr::App.instance.config['session']['secret'],
                             :old_secret   => Lynr::App.instance.config['session']['old_secret']
-use Sly::App, root: __DIR__, cascade: [404, 405]
+
+use Sly::App, root: __DIR__, cascade: true
 
 run Ramaze.core
