@@ -16,7 +16,8 @@ module Sly
     def initialize(verb, path, handler)
       @verb = verb.upcase
       @path = base_path(path)
-      @path_r = make_r(path)
+      @path_regex = make_r(path)
+      @path_full = path
       @handler = handler
     end
 
@@ -26,7 +27,7 @@ module Sly
 
     def call(env)
       # TODO: This is going to get expensive in large apps
-      request = Sly::Request.new(env, @path_r)
+      request = Sly::Request.new(env, @path_regex)
       if (matches_filters?(request))
         handle(request)
       else
@@ -57,7 +58,11 @@ module Sly
     end
 
     def matches_filters?(req)
-      req.request_method == @verb && req.path =~ @path_r
+      req.request_method == @verb && req.path =~ @path_regex
+    end
+
+    def to_s
+      "#{@verb.rjust(7, ' ')}: #{@path_full}"
     end
 
   end
