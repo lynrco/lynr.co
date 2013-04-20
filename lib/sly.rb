@@ -9,7 +9,7 @@ require 'sly/urlmap'
 module Sly
 
   DynaMap = Sly::URLMap.new
-  Cascade = Sly::Router.new([])
+  Director = Sly::Router.new([])
 
   class App
 
@@ -39,7 +39,7 @@ module Sly
 
     def self.add(route)
       Sly::DynaMap.map(route.path, route)
-      Sly::Cascade.add(route)
+      Sly::Director.add(route)
     end
 
     def self.setup(opts={})
@@ -52,7 +52,7 @@ module Sly
     end
 
     def call(env)
-      status, headers, body = Sly::Cascade.call(env)
+      status, headers, body = Sly::Director.call(env)
       # Behave like a cascade
       if (Sly::App.options.cascade && headers.include?("X-Cascade"))
         @app.call(env)
