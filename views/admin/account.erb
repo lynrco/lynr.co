@@ -1,13 +1,11 @@
-      <%- if !@msg.nil? || (!@errors.nil? && !@errors.empty?) -%>
-      <div id="messages">
+      <div id="messages" class="<%= "empty" unless !@msg.nil? || has_errors? %>">
         <%- if @msg -%>
         <p class="msg"><%= @msg %></p>
         <%- end -%>
-        <%- @errors.values.each do |error| -%>
+        <%- has_errors? && @errors.values.each do |error| -%>
         <p class="msg msg-error"><%= error %></p>
         <%- end -%>
       </div>
-      <%- end -%>
       <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
         <fieldset class="fs">
           <label for="name">Dealership Name</label>
@@ -24,5 +22,5 @@
           <input class="fs-bottom fs-third" type="text" name="postcode"
                  id="postcode" value="<%= @dealership.postcode %>" placeholder="Zip Code" />
         </fieldset>
-        <button class="btn btn-full btn-create" type="submit">Update Account</button>
+        <button class="btn btn-full btn-create" type="submit">Update Account Information</button>
       </form>
