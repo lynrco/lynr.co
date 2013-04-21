@@ -28,15 +28,19 @@ module Lynr; module Controller;
     # 'fs-error' if there is an error for `field` empty string otherwise
     #
     def error_class(field)
-      if has_error(field) then 'fs-error' else '' end
+      if has_error?(field) then 'fs-error' else '' end
     end
 
     def error_message(field)
-      if has_error(field) then @errors[field] else "" end
+      if has_error?(field) then @errors[field] else "" end
     end
 
-    def has_error(field)
-      !@errors.nil? && @errors.include?(field)
+    def has_error?(field)
+      has_errors? && @errors.include?(field)
+    end
+
+    def has_errors?
+      !(@errors.nil? || @errors.empty?)
     end
 
     # ## `Lynr::Controller::FormHelpers#posted`
