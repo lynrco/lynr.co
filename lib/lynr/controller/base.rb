@@ -19,8 +19,18 @@ module Lynr; module Controller;
       }
     end
 
+    def error(status=500)
+      @status = status
+      case status
+      when 404
+        render 'fourohfour.erb', status: 404
+      else
+        render 'fivehundy.erb', status: status
+      end
+    end
+
     def not_found
-      render 'fourohfour.erb', status: 404
+      error(404)
     end
 
   end
