@@ -12,7 +12,7 @@ module Lynr; module Controller;
       @subsection = 'billing'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Billing Information"
-      @msg = req.session['billing_flash_msg']
+      @msg = req.session.delete('billing_flash_msg')
       render 'admin/billing.erb'
     end
 
