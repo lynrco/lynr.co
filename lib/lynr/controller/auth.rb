@@ -31,10 +31,11 @@ module Lynr; module Controller;
       @dao = Lynr::Persist::DealershipDao.new
     end
 
-    get  '/signup', :get_signup
-    post '/signup', :post_signup
-    get  '/signin', :get_signin
-    post '/signin', :post_signin
+    get  '/signup',  :get_signup
+    post '/signup',  :post_signup
+    get  '/signin',  :get_signin
+    post '/signin',  :post_signin
+    get  '/signout', :get_signout
 
     # ## Sign Up Handlers
     def get_signup(req)
@@ -123,6 +124,12 @@ module Lynr; module Controller;
       else
         render 'auth/signin.erb'
       end
+    end
+
+    # ## Sign Out Handler
+    def get_signout(req)
+      req.session.destroy
+      redirect '/'
     end
 
     # ## Validation Helpers
