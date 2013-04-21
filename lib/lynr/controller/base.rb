@@ -34,7 +34,7 @@ module Lynr; module Controller;
     end
 
     def unauthorized
-      error(403
+      error(403)
     end
 
   end
