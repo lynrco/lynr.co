@@ -1,11 +1,4 @@
-      <div id="messages" class="<%= "empty" unless !@msg.nil? || has_errors? %>">
-        <%- if @msg -%>
-        <p class="msg"><%= @msg %></p>
-        <%- end -%>
-        <%- has_errors? && @errors.values.each do |error| -%>
-        <p class="msg msg-error"><%= error %></p>
-        <%- end -%>
-      </div>
+<%= render_partial 'form_messages.erb' -%>
       <form class="billing" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST">
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
