@@ -5,8 +5,7 @@ module Sly; module View;
   class Erb
 
     def initialize(path, opts)
-      layout_path = opts[:layout]
-      @layout = get_template(layout_path) if layout_path
+      @layout = get_template(opts[:layout]) if opts[:layout]
       @template = get_template(path) if path
       @context = opts[:context]
       @data = opts[:data] || {}

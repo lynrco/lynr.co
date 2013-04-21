@@ -1,4 +1,4 @@
-require './lib/sly/view/erb'
+require 'sly/view/erb'
 
 module Sly; module View;
 
@@ -10,7 +10,8 @@ module Sly; module View;
       options = self.class.render_options.merge(opts)
       template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
       layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, options[:layout].to_s) if options.has_key?(:layout)
-      view = Sly::View::Erb.new(template, { layout: layout, context: self })
+      context = self unless options.has_key?(:data)
+      view = Sly::View::Erb.new(template, { layout: layout, context: context, data: options[:data] })
       Rack::Response.new(view.result, options[:status], @headers)
     end
 
