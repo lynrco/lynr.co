@@ -12,11 +12,13 @@ define(function(require) {
     var messages = document.getElementById('messages');
     var button = form.querySelector('button[type=submit]');
     var evt = require('modules/domEvents');
+    var clazz = require('modules/clazz');
     evt.on(form, 'submit', handleFormSubmit);
 
     function handleFormSubmit(e) {
       evt.prevent(e);
       emptyElement(messages);
+      clazz.add(messages, 'empty');
       button.setAttribute('disabled', true);
       require('stripe').createToken(form, handleStripeResponse);
       return false;
@@ -36,6 +38,7 @@ define(function(require) {
       error.className = 'msg msg-error';
       error.innerHTML = res.error.message;
       messages.appendChild(error);
+      clazz.remove(messages, 'empty');
       button.removeAttribute('disabled');
     }
 
