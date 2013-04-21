@@ -1,5 +1,6 @@
 require 'sly'
 require 'lynr/controller/base'
+require 'lynr/controller/form_helpers'
 require 'lynr/persist/dealership_dao'
 require 'lynr/persist/vehicle_dao'
 require 'lynr/validator/helpers'
@@ -12,6 +13,11 @@ module Lynr; module Controller;
   # everything under '/admin' not mapped elsewhere.
   #
   class Admin < Lynr::Controller::Base
+
+    # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
+    include Lynr::Validator::Helpers
+    # Provides `error_class`, `error_message`, `has_error`, `posted`
+    include Lynr::Controller::FormHelpers
 
     attr_reader :dealer_dao, :vehicle_dao
 
@@ -42,8 +48,7 @@ module Lynr; module Controller;
     end
 
     def get_account(req)
-      # FIXME: Should return unauthorized (403) instead of not found
-      return not_found unless authorized?(req)
+      return error(403) unless authorized?(req)
       @subsection = 'account'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Account Information"
@@ -51,13 +56,31 @@ module Lynr; module Controller;
     end
 
     def post_account(req)
-      # FIXME: Should return unauthorized (403) instead of not found
-      return not_found unless authorized?(req)
+      return error(403) unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_account_info
-      @dealership = dealer_dao.save(@dealership.set(@posted))
+      # TODO: These updates should be scheduled, they aren't critical
+      if email_changed? || name_changed?
+        customer = Stripe::Customer.retrieve(@dealership.customer_id)
+        customer.description = posted['name'] if name_changed?
+        customer.email = posted['email'] if email_changed?
+        customer.save
+      end
+      # TODO: Trigger an email warning about email change
+      if email_changed?
+        @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
+      end
+      @dealership = dealer_dao.save(@dealership.set(posted))
       redirect "/admin/#{@dealership.id.to_s}/account"
+    end
+
+    def email_changed?
+      @dealership.identity.email != posted['email']
+    end
+
+    def name_changed?
+      @dealership.name != posted['name']
     end
 
     # ## Helpers
