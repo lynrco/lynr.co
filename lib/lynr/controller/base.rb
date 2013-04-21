@@ -1,5 +1,5 @@
-require './lib/sly'
-require './lib/sly/view/erb_helpers'
+require 'sly'
+require 'sly/view/erb_helpers'
 
 module Lynr; module Controller;
 
