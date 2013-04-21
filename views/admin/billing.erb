@@ -1,0 +1,27 @@
+      <div id="messages" class="<%= "empty" unless !@msg.nil? || has_errors? %>">
+        <%- if @msg -%>
+        <p class="msg"><%= @msg %></p>
+        <%- end -%>
+        <%- has_errors? && @errors.values.each do |error| -%>
+        <p class="msg msg-error"><%= error %></p>
+        <%- end -%>
+      </div>
+      <form class="billing" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST">
+        <fieldset class="fs">
+          <label for="card_number">Card Number</label>
+          <input class="fs-top fs-full <%= error_class('stripeToken') %>" type="text"
+                 id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number" />
+          <div id="card_expiry" class="fs-half fs-bottom">
+            <label for="card_expiry_month">Card Expiration Date</label>
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+                   id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM" />
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+                   id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY" />
+          </div>
+          <label for="card_cvv">CVV</label>
+          <input class="fs-bottom fs-half <%= error_class('stripeToken') %>" type="text"
+                 id="card_cvv" placeholder="CVV" data-strip="cvc" />
+        </fieldset>
+        <input type="hidden" name="stripeToken" id="stripeToken" value="" />
+        <button class="btn btn-full btn-create" type="submit">Update Billing Information</button>
+      </form>
