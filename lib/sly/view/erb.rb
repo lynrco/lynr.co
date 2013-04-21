@@ -9,14 +9,10 @@ module Sly; module View;
       @layout = get_template(layout_path) if layout_path
       @template = get_template(path) if path
       @context = opts[:context]
-      opts[:data].each { |key,value| set(key, value) } if opts[:data].is_a? Hash
+      @data = opts[:data] || {}
       if (!@context.nil? && !@context.respond_to?(:ctx))
         raise ArgumentError.new("`:context` option must have a public `ctx` method")
       end
-    end
-
-    def set(name, value)
-      instance_variable_set(:"@#{name.to_s}", value)
     end
 
     def result
@@ -26,6 +22,14 @@ module Sly; module View;
         @template.result(@context.ctx)
       else
         @template.result(binding)
+      end
+    end
+
+    def method_missing(name, *args, &block)
+      if args.size == 0 && block.nil? && (@data.include?(name.to_s) || @data.include?(name.to_sym))
+        @data[name.to_s] || @data[name.to_sym]
+      else
+        super
       end
     end
 
