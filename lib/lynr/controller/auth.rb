@@ -47,29 +47,26 @@ module Lynr; module Controller;
 
     def post_signup(req)
       @subsection = "signup submitted"
+      @title = "Sign Up for Lynr"
       @posted = req.POST
       @errors = validate_signup(@posted)
-      @title = "Sign Up for Lynr"
-      if (@errors.empty?)
-        # Create account
-        identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
-        # Create Customer and subscribe them
-        customer = Stripe::Customer.create(
-          card: @posted['stripeToken'],
-          plan: 'lynr_beta',
-          email: identity.email
-        )
-        # Create and Save dealership
-        dealer = dao.save(Lynr::Model::Dealership.new({
-          'identity' => identity,
-          'customer_id' => customer.id
-        }))
-        req.session['dealer_id'] = dealer.id
-        # Send to admin pages?
-        redirect "/admin/#{dealer.id.to_s}"
-      else
-        render 'auth/signup.erb'
-      end
+      return render 'auth/signup.erb' if !@errors.empty?
+      # Create account
+      identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
+      # Create Customer and subscribe them
+      customer = Stripe::Customer.create(
+        card: @posted['stripeToken'],
+        plan: 'lynr_beta',
+        email: identity.email
+      )
+      # Create and Save dealership
+      dealer = dao.save(Lynr::Model::Dealership.new({
+        'identity' => identity,
+        'customer_id' => customer.id
+      }))
+      req.session['dealer_id'] = dealer.id
+      # Send to admin pages?
+      redirect "/admin/#{dealer.id.to_s}"
     rescue Stripe::CardError => sce
       handle_stripe_error!(sce, sce.message)
     rescue Stripe::InvalidRequestError => sire
