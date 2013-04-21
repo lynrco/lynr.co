@@ -50,7 +50,7 @@ module Lynr; module Controller;
       @title = "Sign Up for Lynr"
       @posted = req.POST
       @errors = validate_signup(@posted)
-      return render 'auth/signup.erb' if !@errors.empty?
+      return render 'auth/signup.erb' if has_errors?
       # Create account
       identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
       # Create Customer and subscribe them

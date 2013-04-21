@@ -21,15 +21,12 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_billing_info
-      if @errors.empty?
-        customer = Stripe::Customer.retrieve(@dealership.customer_id)
-        customer.card = posted['stripeToken']
-        customer.save
-        req.session['billing_flash_msg'] = "Card updated successfully."
-        redirect "/admin/#{@dealership.id.to_s}/billing"
-      else
-        render 'admin/billing.erb'
-      end
+      return render 'admin/billing.erb' if has_errors?
+      customer = Stripe::Customer.retrieve(@dealership.customer_id)
+      customer.card = posted['stripeToken']
+      customer.save
+      req.session['billing_flash_msg'] = "Card updated successfully."
+      redirect "/admin/#{@dealership.id.to_s}/billing"
     rescue Stripe::CardError => sce
       handle_stripe_error!(sce, sce.message)
     rescue Stripe::InvalidRequestError => sire
