@@ -7,6 +7,7 @@ require 'lynr/logging'
 require 'lynr/config'
 require 'lynr/controller/root'
 require 'lynr/controller/admin'
+require 'lynr/controller/admin/account'
 require 'lynr/controller/auth'
 
 module Lynr
