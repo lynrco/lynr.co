@@ -1,6 +1,8 @@
 require 'sly'
 require 'sly/view/erb_helpers'
 
+require 'lynr/logging'
+
 module Lynr; module Controller;
 
   class Base < Sly::Node
