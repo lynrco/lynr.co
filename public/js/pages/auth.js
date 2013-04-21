@@ -4,43 +4,9 @@ define(function(require) {
     signup: initSignup
   };
 
-  /* Signup */
   function initSignup() {
-    require('stripe').setPublishableKey('pk_HXlEvJ3XN3plgPOBzzpulQ3JzaLGf');
-    require('modules/domEvents').on(document.querySelector('form.signup'), 'submit', handleSignupSubmit);
-  }
-
-  function handleSignupSubmit(e) {
-    var evt = require('modules/domEvents');
-    evt.prevent(e);
-    var form = document.querySelector('form.signup');
-    form.querySelector('button[type=submit]').setAttribute('disabled', true);
-    require('stripe').createToken(form, handleStripeResponse);
-    return false;
-  }
-
-  function handleStripeResponse(code, res) {
-    console.log(code, res);
-    if (res.error) {
-      handleStripeResponseError(res);
-    } else {
-      handleStripeResponseSuccess(res);
-    }
-  }
-
-  function handleStripeResponseError(res) {
-    var form = document.querySelector('form.signup');
-    var messages = document.getElementById('messages');
-    var error = document.createElement('p');
-    error.className = 'error';
-    error.innerHTML = res.error.message;
-    form.querySelector('button[type=submit]').setAttribute('disabled', false);
-  }
-
-  function handleStripeResponseSuccess(res) {
-    var form = document.querySelector('form.signup');
-    document.getElementById('stripeToken').value = res.id;
-    form.submit();
+    var setupStripeForm = require('modules/stripe')
+    setupStripeForm(document.querySelector('form.signup'));
   }
 
   return api;
