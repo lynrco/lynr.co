@@ -33,6 +33,10 @@ module Lynr; module Controller;
       error(404)
     end
 
+    def unauthorized
+      error(403
+    end
+
   end
 
 end; end;

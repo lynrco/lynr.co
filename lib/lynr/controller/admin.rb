@@ -48,7 +48,7 @@ module Lynr; module Controller;
     end
 
     def get_account(req)
-      return error(403) unless authorized?(req)
+      return unauthorized unless authorized?(req)
       @subsection = 'account'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Account Information"
@@ -56,7 +56,7 @@ module Lynr; module Controller;
     end
 
     def post_account(req)
-      return error(403) unless authorized?(req)
+      return unauthorized unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_account_info
