@@ -1,15 +1,22 @@
+require 'erb'
+
 module Sly; module View;
 
   class Erb
 
     def initialize(path, opts)
-      layout_path = opts[:layout] || nil
+      layout_path = opts[:layout]
       @layout = get_template(layout_path) if layout_path
       @template = get_template(path) if path
-      @context = opts[:context] || nil
-      if !@context.respond_to? :ctx
+      @context = opts[:context]
+      opts[:data].each { |key,value| set(key, value) } if opts[:data].is_a? Hash
+      if (!@context.nil? && !@context.respond_to?(:ctx))
         raise ArgumentError.new("`:context` option must have a public `ctx` method")
       end
+    end
+
+    def set(name, value)
+      instance_variable_set(:"@#{name.to_s}", value)
     end
 
     def result
