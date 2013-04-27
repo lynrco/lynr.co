@@ -20,9 +20,9 @@ module Lynr; module Controller;
     protected
 
     def stripe_customer_deleted(event)
-      log.debug({ type: 'method', data: 'stripe_customer_deleted' })
       customer = event['data']['object']
       id = customer['id']
+      log.debug({ type: 'method', data: "stripe_customer_deleted -- #{id}" })
       dao = Lynr::Persist::DealershipDao.new
       dealership = dao.get_by_email(customer['email'])
       return false unless dealership && dealership.customer_id == id
