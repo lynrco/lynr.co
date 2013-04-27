@@ -6,7 +6,7 @@ module Lynr; module Controller;
 
   class Api < Lynr::Controller::Base
 
-    post "#{Lynr::App::API_BASE}/stripe.webhook", :stripe_hook
+    post "#{Lynr::API_BASE}/stripe.webhook", :stripe_hook
 
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
