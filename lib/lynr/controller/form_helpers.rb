@@ -56,6 +56,24 @@ module Lynr; module Controller;
       @posted ||= {}
     end
 
+    def card_data
+      return {} if !posted['stripeToken']
+      return posted['card'] if posted['card']
+      data = Stripe::Token.retrieve(posted['stripeToken'])
+      card = data['card']
+      if card['type'] == 'American Express'
+        card_num = card['last4'].rjust(17, '**** ****** *****')
+      else
+        card_num = card['last4'].rjust(19, '**** **** **** ****')
+      end
+      {
+        'card_number' => card_num,
+        'card_expiry_month' => card['exp_month'].to_s.rjust(2, '0'),
+        'card_expiry_year' => card['exp_year'].to_s.slice(2,4),
+        'card_cvv' => '***'
+      }
+    end
+
   end
 
 end; end;
