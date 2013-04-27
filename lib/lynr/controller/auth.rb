@@ -97,6 +97,7 @@ module Lynr; module Controller;
     def handle_stripe_error!(err, message)
       log.warn { err }
       @errors['stripeToken'] = message
+      @posted['stripeToken'].delete
       render 'auth/signup.erb'
     end
 
