@@ -14,6 +14,10 @@ module Lynr; module Persist;
       @dao.collection.count(query: { 'identity.email' => email }, read: :secondary, limit: 1) > 0
     end
 
+    def delete(id)
+      # TODO: Implement this for Stripe webhooks
+    end
+
     def get(id)
       record = @dao.read(id)
       # Mongo is going to give me a record with the _id property set, not id

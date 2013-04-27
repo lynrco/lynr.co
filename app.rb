@@ -9,6 +9,7 @@ require 'lynr/controller/root'
 require 'lynr/controller/admin'
 require 'lynr/controller/admin/account'
 require 'lynr/controller/admin/billing'
+require 'lynr/controller/api'
 require 'lynr/controller/auth'
 
 module Lynr
