@@ -78,14 +78,14 @@ module Lynr; module Controller;
       log.debug({ type: 'notice', message: 'Retrieving card for Stripe token' })
       data = Stripe::Token.retrieve(posted['stripeToken'])
       card = data['card']
-      case card['type']
-      when 'American Express'
-        card_num = card['last4'].rjust(17, '**** ****** *****')
-      when 'Diner\'s Club'
-        card_num = card['last4'].rjust(16, '**** ****** ****')
-      else
-        card_num = card['last4'].rjust(19, '**** **** **** ****')
-      end
+      card_num = case card['type']
+                 when 'American Express'
+                   card['last4'].rjust(17, '**** ****** *****')
+                 when 'Diner\'s Club'
+                   card['last4'].rjust(16, '**** ****** ****')
+                 else
+                   card['last4'].rjust(19, '**** **** **** ****')
+                 end
       @card_data = {
         'card_number' => card_num,
         'card_expiry_month' => card['exp_month'].to_s.rjust(2, '0'),
