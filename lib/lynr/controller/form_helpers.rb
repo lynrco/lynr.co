@@ -56,20 +56,37 @@ module Lynr; module Controller;
       @posted ||= {}
     end
 
+    # ## `Lynr::Controller::FormHelpers#card_data`
+    #
+    # Retrieve credit card data from the card processor in order to safely
+    # display it back to the customer.
+    #
+    # ### Returns
+    #
+    # An empty `Hash` if there is no stripeToken otherwise a `Hash` with the form
+    #
+    #     {
+    #       'card_number' => '**** **** **** 0000',
+    #       'card_expiry_month' => '00',
+    #       'card_expiry_year' => '00',
+    #       'card_cvv' => '***'
+    #     }
+    #
     def card_data
       return {} if !posted['stripeToken']
-      return posted['card'] if posted['card']
-      log.debug({ type: 'notice', message: 'Retrieving Stripe token' })
+      return @card_data if !@card_data.nil?
+      log.debug({ type: 'notice', message: 'Retrieving card for Stripe token' })
       data = Stripe::Token.retrieve(posted['stripeToken'])
       card = data['card']
-      if card['type'] == 'American Express'
+      case card['type']
+      when 'American Express'
         card_num = card['last4'].rjust(17, '**** ****** *****')
-      elsif card['type'] == 'Diner\'s Club'
-        card_num = card['last4'].rjust(16, '**** **** **** ****')
+      when 'Diner\'s Club'
+        card_num = card['last4'].rjust(16, '**** ****** ****')
       else
         card_num = card['last4'].rjust(19, '**** **** **** ****')
       end
-      @posted['card'] = {
+      @card_data = {
         'card_number' => card_num,
         'card_expiry_month' => card['exp_month'].to_s.rjust(2, '0'),
         'card_expiry_year' => card['exp_year'].to_s.slice(2,4),
