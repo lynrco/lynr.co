@@ -19,12 +19,26 @@
           <span class="menu-item-name">Manage Vehicles</span>
         </li>
         <li class="menu-item">
-          <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-          <span class="menu-item-name">Account Settings</span>
+          <a href="/admin/<%= @dealership.id %>/account">
+            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
+            <span class="menu-item-name">Account Settings</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/admin/<%= @dealership.id %>/billing">
+            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
+            <span class="menu-item-name">Billing Information</span>
+          </a>
         </li>
         <li class="menu-item">
           <img class="menu-item-icon" src="/img/blank.gif" alt="" />
           <span class="menu-item-name">Contact Us</span>
+        </li>
+        <li class="menu-item">
+          <a href="/signout">
+            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
+            <span class="menu-item-name">Sign Out</span>
+          </a>
         </li>
       </ul>
     </nav>
