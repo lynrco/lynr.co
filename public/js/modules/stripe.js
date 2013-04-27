@@ -13,7 +13,12 @@ define(function(require) {
     var button = form.querySelector('button[type=submit]');
     var evt = require('modules/domEvents');
     var clazz = require('modules/clazz');
-    evt.on(form, 'submit', handleFormSubmit);
+
+    if (!document.getElementById('stripeToken').value) {
+      evt.on(form, 'submit', handleFormSubmit);
+    }
+    // TODO: if there is a `stripeToken` on change of card inputs add the
+    // form submit handler
 
     function handleFormSubmit(e) {
       evt.prevent(e);
