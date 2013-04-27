@@ -15,7 +15,8 @@ module Lynr; module Controller;
 
     # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
     include Lynr::Validator::Helpers
-    # Provides `error_class`, `error_message`, `has_error`
+    # Provides `error_class`, `error_message`, `has_error?`, `has_errors?`,
+    # `posted`, `card_data`
     include Lynr::Controller::FormHelpers
 
     attr_reader :dao
