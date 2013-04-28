@@ -14,7 +14,7 @@ module Lynr; module Controller;
       case json['type']
       when 'customer.deleted' then stripe_customer_deleted(json)
       end
-      Rack::Response.new(status = 200)
+      Rack::Response.new
     end
 
     protected
