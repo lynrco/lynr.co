@@ -12,7 +12,7 @@ module Lynr; module Controller;
       json = JSON.parse(req.body.read)
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
-      when 'customer.deleted' then stripe_customer_deleted(json)
+        when 'customer.deleted' then stripe_customer_deleted(json)
       end
       Rack::Response.new
     end
