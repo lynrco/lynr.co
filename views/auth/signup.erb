@@ -32,7 +32,7 @@
           </div>
           <label for="card_cvv">CVV</label>
           <input class="fs-bottom fs-half <%= error_class('stripeToken') %>" type="text"
-                 id="card_cvv" placeholder="CVV" data-strip="cvc"
+                 id="card_cvv" placeholder="CVV" data-stripe="cvc"
                  value="<%= card_data['card_cvv'] %>" />
         </fieldset>
         <input type="hidden" name="stripeToken" id="stripeToken" value="<%= posted['stripeToken'] %>" />
