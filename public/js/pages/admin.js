@@ -5,8 +5,9 @@ define(function(require) {
   };
 
   function initBilling() {
-    var setupStripeForm = require('modules/stripe')
-    setupStripeForm(document.querySelector('form.billing'));
+    require(['modules/stripe'], function(setupStripeForm) {
+      setupStripeForm(document.querySelector('form.billing'));
+    });
   }
 
   return api;
