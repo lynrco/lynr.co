@@ -11,8 +11,10 @@
           <span class="menu-item-name"><%= @dealership.name %></span>
         </li>
         <li class="menu-item">
-          <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-          <span class="menu-item-name">Add Vehicle</span>
+          <a href="/admin/<%= @dealership.id %>/vehicle/add">
+            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
+            <span class="menu-item-name">Add Vehicle</span>
+          </a>
         </li>
         <li class="menu-item">
           <img class="menu-item-icon" src="/img/blank.gif" alt="" />
