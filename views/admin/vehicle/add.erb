@@ -1,0 +1,42 @@
+<%= render_partial 'form_messages.erb' -%>
+      <form class="account" action="/admin/<%= @dealership.id.to_s %>/vehicle/add" method="POST">
+        <fieldset class="fs">
+          <label for="price">Price</label>
+          <input class="fs-top fs-full <%= error_class('price') %>" type="text" name="price"
+                 id="price" value="<%= posted['price'] %>" placeholder="Price" />
+          <label for="year">Year</label>
+          <input class="fs-mid fs-full <%= error_class('year') %>" type="text" name="year"
+                 id="year" value="<%= posted['year'] %>" placeholder="Year" />
+          <label for="make">Make</label>
+          <input class="fs-mid fs-full <%= error_class('make') %>" type="text" name="make"
+                 id="make" value="<%= posted['make'] %>" placeholder="Make" />
+          <label for="model">Model</label>
+          <input class="fs-mid fs-full <%= error_class('model') %>" type="text" name="model"
+                 id="model" value="<%= posted['model'] %>" placeholder="Model" />
+          <label for="condition">Condition</label>
+          <input class="fs-mid fs-full <%= error_class('condition') %>" type="text" name="condition"
+                 id="condition" value="<%= posted['condition'] %>" placeholder="Condition" />
+          <label for="mpg">MPG</label>
+          <input class="fs-mid fs-full <%= error_class('mpg') %>" type="text" name="mpg"
+                 id="mpg" value="<%= posted['mpg'] %>" placeholder="MPG" />
+          <label for="transmission">Transmission</label>
+          <input class="fs-mid fs-half <%= error_class('transmission') %>" type="text"
+                 id="transmission" placeholder="Transmission" value="<%= posted['transmission'] %>" />
+          <label for="fuel">Fuel</label>
+          <input class="fs-mid fs-half <%= error_class('fuel') %>" type="text"
+                 id="fuel" placeholder="Fuel" value="<%= posted['fuel'] %>" />
+          <label for="doors">Doors</label>
+          <input class="fs-mid fs-half <%= error_class('doors') %>" type="text"
+                 id="doors" placeholder="Doors" value="<%= posted['doors'] %>" />
+          <label for="drivetrain">Drivetrain</label>
+          <input class="fs-mid fs-half <%= error_class('drivetrain') %>" type="text"
+                 id="drivetrain" placeholder="Drivetrain" value="<%= posted['drivetrain'] %>" />
+          <label for="ext_color">Exterior Color</label>
+          <input class="fs-bottom fs-half <%= error_class('ext_color') %>" type="text"
+                 id="ext_color" placeholder="Exterior Color" value="<%= posted['ext_color'] %>" />
+          <label for="int_color">Interior Color</label>
+          <input class="fs-bottom fs-half <%= error_class('int_color') %>" type="text"
+                 id="int_color" placeholder="Interior Color" value="<%= posted['int_color'] %>" />
+        </fieldset>
+        <button class="btn btn-full btn-create" type="submit">Add Vehicle</button>
+      </form>
