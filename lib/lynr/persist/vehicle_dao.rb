@@ -25,6 +25,7 @@ module Lynr; module Persist;
       records = @dao.search({ 'dealership' => dealership.id }, options)
       records.map do |record|
         dealership_id = record.delete('dealership')
+        record['id'] = record.delete('_id')
         Lynr::Model::Vehicle.inflate(record)
       end
     end
