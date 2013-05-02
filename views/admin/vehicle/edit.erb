@@ -1,0 +1,53 @@
+<%= render_partial 'form_messages.erb' -%>
+      <form class="account" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>" method="POST">
+        <fieldset class="fs">
+          <label for="price">Price</label>
+          <input class="fs-top fs-full <%= error_class('price') %>" type="text" name="price"
+                 id="price" value="<%= posted['price'] %>" placeholder="Price" />
+          <label for="year">Year</label>
+          <input class="fs-mid fs-full <%= error_class('year') %>" type="text" name="year"
+                 id="year" value="<%= posted['year'] %>" placeholder="Year" />
+          <label for="make">Make</label>
+          <input class="fs-mid fs-full <%= error_class('make') %>" type="text" name="make"
+                 id="make" value="<%= posted['make'] %>" placeholder="Make" />
+          <label for="model">Model</label>
+          <input class="fs-mid fs-full <%= error_class('model') %>" type="text" name="model"
+                 id="model" value="<%= posted['model'] %>" placeholder="Model" />
+          <label for="condition">Condition</label>
+          <input class="fs-mid fs-full <%= error_class('condition') %>" type="text" name="condition"
+                 id="condition" value="<%= posted['condition'] %>" placeholder="Condition" />
+          <label for="mpg-city">MPG City</label>
+          <input class="fs-mid fs-half <%= error_class('mpg') %>" type="text"
+                 name="mpg[city]" id="mpg-city" placeholder="MPG City"
+                 value="<%= (posted['mpg'] || {})['city'] %>" />
+          <label for="mpg-highway">MPG Highway</label>
+          <input class="fs-mid fs-half <%= error_class('mpg') %>" type="text"
+                 name="mpg[highway]" id="mpg-highway" placeholder="MPG Hwy"
+                 value="<%= (posted['mpg'] || {})['highway'] %>" />
+          <label for="vin-transmission">Transmission</label>
+          <input class="fs-mid fs-half <%= error_class('transmission') %>" type="text"
+                 name="vin[transmission" id="vin-transmission" placeholder="Transmission"
+                 value="<%= (posted['vin'] || {})['transmission'] %>" />
+          <label for="vin-fuel">Fuel</label>
+          <input class="fs-mid fs-half <%= error_class('fuel') %>" type="text"
+                 name="vin[fuel]" id="vin-fuel" placeholder="Fuel"
+                 value="<%= (posted['vin'] || {})['fuel'] %>" />
+          <label for="vin-doors">Doors</label>
+          <input class="fs-mid fs-half <%= error_class('doors') %>" type="text"
+                 name="vin[doors]" id="vin-doors" placeholder="Doors"
+                 value="<%= (posted['vin'] || {})['doors'] %>" />
+          <label for="vin-drivetrain">Drivetrain</label>
+          <input class="fs-mid fs-half <%= error_class('drivetrain') %>" type="text"
+                 name="vin[drivetrain]" id="vin-drivetrain" placeholder="Drivetrain"
+                 value="<%= (posted['vin'] || {})['drivetrain'] %>" />
+          <label for="vin-ext_color">Exterior Color</label>
+          <input class="fs-bottom fs-half <%= error_class('ext_color') %>" type="text"
+                 name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color"
+                 value="<%= (posted['vin'] || {})['ext_color'] %>" />
+          <label for="vin-int_color">Interior Color</label>
+          <input class="fs-bottom fs-half <%= error_class('int_color') %>" type="text"
+                 name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
+                 value="<%= (posted['vin'] || {})['int_color'] %>" />
+        </fieldset>
+        <button class="btn btn-full btn-create" type="submit">Edit Vehicle</button>
+      </form>
