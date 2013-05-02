@@ -16,8 +16,8 @@ module Lynr; module Model;
       @drivetrain = drivetrain
       @ext_color = ext_color
       @int_color = int_color
-      @number = number
-      @raw = raw
+      @number = number || ""
+      @raw = raw || ""
     end
 
     def view
@@ -40,7 +40,9 @@ module Lynr; module Model;
         data['doors'],
         data['drivetrain'],
         data['ext_color'],
-        data['int_color']
+        data['int_color'],
+        data['number'],
+        data['raw']
       )
     end
 
