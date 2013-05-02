@@ -7,7 +7,8 @@ module Lynr; module Controller;
 
     get  '/admin/:slug/vehicle/add', :get_add
     post '/admin/:slug/vehicle/add', :post_add
-    get  '/admin/:slug/:vehicle',    :get_vehicle
+    get  '/admin/:slug/:vehicle',    :get_edit_vehicle
+    post '/admin/:slug/:vehicle',    :post_edit_vehicle
 
     def get_add(req)
       return unauthorized unless authorized?(req)
@@ -26,14 +27,24 @@ module Lynr; module Controller;
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
-    def get_vehicle(req)
+    def get_edit_vehicle(req)
       return unauthorized unless authorized?(req)
-      @subsection = 'vehicle vehicle-add'
+      @subsection = 'vehicle vehicle-edit'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Edit #{@vehicle.year} #{@vehicle.make} #{@vehicle.model}"
       @posted = @vehicle.view
       render 'admin/vehicle/edit.erb'
+    end
+
+    def post_edit_vehicle(req)
+      return unauthorized unless authorized?(req)
+      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @posted = req.POST.dup
+      posted['dealership'] = @dealership
+      vehicle_dao.save(vehicle.set(posted))
+      redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
   end
