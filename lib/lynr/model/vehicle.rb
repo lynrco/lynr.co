@@ -42,6 +42,7 @@ module Lynr; module Model;
       @vin = data['vin'] || nil # Should be an instance of Lynr::Model::Vin
       @images = data['images'] || []
       @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
+      @dealership_id = data['dealership'] if @dealership.nil?
       @created_at = data['created_at']
       @updated_at = data['updated_at']
     end
@@ -53,8 +54,16 @@ module Lynr; module Model;
       my_view == ov_view
     end
 
+    def dealership_id
+      (@dealership && @dealership.id) || @dealership_id
+    end
+
     def set(data)
       Lynr::Model::Vehicle.new(self.to_hash.merge(data), @id)
+    end
+
+    def slug
+      id.to_s
     end
 
     # `Vehicle#view` is essentially the opposite of `Vehicle.inflate`. It
