@@ -45,6 +45,10 @@ module Lynr; module Model;
       Lynr::Model::Dealership.new(self.to_hash.merge(data), @id)
     end
 
+    def slug
+      id.to_s
+    end
+
     def view
       data = self.to_hash
       data['identity'] = @identity.view if @identity
