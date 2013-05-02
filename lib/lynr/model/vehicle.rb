@@ -26,7 +26,7 @@ module Lynr; module Model;
   # * `:dealership`, a `Lynr::Model::Dealership` instance
   class Vehicle
 
-    include Base
+    include Lynr::Model::Base
 
     attr_reader :id, :dealership, :created_at, :updated_at
     attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :images
