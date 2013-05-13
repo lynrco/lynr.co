@@ -93,17 +93,16 @@ describe Lynr::Persist::DealershipDao do
       }
     }
     let(:dealer) { Lynr::Model::Dealership.new(dealer_data) }
+    let(:customer_id) { "cus_1bFL8vciXXchnm" }
+    let(:dealership) {
+      Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
+    }
 
     before(:each) do
       MongoHelpers.empty! if MongoHelpers.connected?
     end
 
     describe "#account_exists?" do
-
-      let(:customer_id) { "cus_1bFL8vciXXchnm" }
-      let(:dealership) {
-        Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
-      }
 
       it "returns false if email isn't taken" do
         expect(dao.account_exists?(identity.email)).to be_false
@@ -130,6 +129,32 @@ describe Lynr::Persist::DealershipDao do
         saved = dao.save(dealer)
         id = saved.id
         expect(dao.save(saved).id).to eq(id)
+      end
+
+    end
+
+    describe "#get_by_email" do
+
+      it "returns nil if dealership with email doesn't exist" do
+        expect(dao.get_by_email(identity.email)).to be_nil
+      end
+
+      it "returns dealership if dealership with email exists" do
+        saved = dao.save(dealership)
+        expect(dao.get_by_email(identity.email).id).to eq(saved.id)
+      end
+
+    end
+
+    describe "#get_by_customer_id" do
+
+      it "returns nil if customer_id doesn't exist" do
+        expect(dao.get_by_customer_id(customer_id)).to be_nil
+      end
+
+      it "returns dealership if customer_id exists" do
+        saved = dao.save(dealership)
+        expect(dao.get_by_customer_id(customer_id).id).to eq(saved.id)
       end
 
     end
