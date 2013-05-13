@@ -13,6 +13,7 @@ module Lynr; module Controller;
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json)
+        when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json)
       end
       Rack::Response.new
     end
@@ -31,6 +32,16 @@ module Lynr; module Controller;
       return false unless stripe_customer.deleted
       log.debug({ type: 'notice', message: "Verified #{id} was deleted with Stripe" })
       dao.delete(dealership.id)
+    end
+
+    def stripe_customer_trial_ending(event)
+      obj = event['data']['object']
+      id = obj['customer']
+      log.debug({ type: 'method', data: "stripe_customer_trial_ending -- #{id}" })
+      dao = Lynr::Persist::DealershipDao.new
+      dealership = dao.get_by_customer_id(id)
+      return false unless dealership && dealership.customer_id == id
+      # TODO: Email reminder to customer about trial ending
     end
 
   end
