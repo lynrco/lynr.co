@@ -1,4 +1,4 @@
-.vagrant
+.vagrant*
 !.giturd
 /tmp/
 /config/*.yaml
