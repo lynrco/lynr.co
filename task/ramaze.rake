@@ -5,6 +5,11 @@
 namespace :ramaze do
   app = File.expand_path('../../app', __FILE__)
 
+  basedir = File.expand_path("#{File.dirname(__FILE__)}/..")
+  libdir = "#{basedir}/lib"
+  $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
+  $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
   # Pry can be installed using `gem install pry`.
   desc 'Starts a Ramaze console using Pry'
   task :pry do
