@@ -19,10 +19,20 @@ describe Sly::Router do
       Sly::Route.new('GET', '/admin/:id', lambda { |req| Rack::Response.new('/admin/:id') })
     }
 
+    context "No routes" do
+
+      it "returns 404 response for any path" do
+        res = router.call(Rack::MockRequest.env_for('/admin'))
+        expect(res[0]).to eq(404)
+      end
+
+    end
+
     context "Single /admin route" do
 
+      before(:each) { router.add(admin) }
+
       it "has one matching route gives 200 for /admin" do
-        router.add(admin)
         res = router.call(Rack::MockRequest.env_for('/admin'))
         expect(res[0]).to eq(200)
         expect(res[2].body).to start_with(['/admin'])
@@ -75,6 +85,21 @@ describe Sly::Router do
         res = router.call(Rack::MockRequest.env_for('/admin/1738901'))
         expect(res[0]).to eq(200)
         expect(res[2].body).to start_with(['/admin/:id'])
+      end
+
+    end
+
+    context "Two /admin routes" do
+
+      before(:each) {
+        router.add(admin)
+        router.add(Sly::Route.new('GET', '/admin', lambda { |req| Rack::Response.new('/admin2') }))
+      }
+
+      it "gives 501 error for /admin" do
+        res = router.call(Rack::MockRequest.env_for('/admin'))
+        expect(res[0]).to eq(501)
+        expect(res[2]).to start_with(['Too many matching routes.'])
       end
 
     end
