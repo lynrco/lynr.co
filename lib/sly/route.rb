@@ -16,8 +16,8 @@ module Sly
     def initialize(verb, path, handler)
       @verb = verb.upcase
       @path = base_path(path)
-      @path_regex = make_r(path)
       @path_full = path
+      @path_regex = make_r
       @handler = handler
     end
 
@@ -47,7 +47,7 @@ module Sly
       uri.match(PATH_BASE_REGEX)[1]
     end
 
-    def make_r(uri)
+    def Route.make_r(uri)
       return uri if uri.is_a? Regexp
       param_names = uri.scan(PATH_PARAMS_REGEX).flatten
       patterns = uri.split('/').map do |part|
@@ -55,6 +55,12 @@ module Sly
         (param_names.include?(name) && "(?<#{name}>[^/]+)") || part
       end
       Regexp.new("\\A#{patterns.join('/')}\\Z")
+    end
+
+    def make_r
+      return @path_full if @path_full.is_a? Regexp
+      return @path_regex if @path_regex.is_a? Regexp
+      @path_regex = Route.make_r(@path_full)
     end
 
     def matches_filters?(req)
