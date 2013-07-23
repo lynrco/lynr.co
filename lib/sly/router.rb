@@ -1,5 +1,7 @@
 require 'rack'
 
+require 'sly/exceptions'
+
 module Sly
 
   class Router
@@ -29,13 +31,13 @@ module Sly
           # return the `TooMany` response
           routes = routes.sort { |a, b|
             if a.path_regex.names.length == b.path_regex.names.length
-              raise TooManyRoutesError
+              raise Sly::TooManyRoutesError
             end
             a.path_regex.names.length <=> b.path_regex.names.length
           }
           routes[0].call(env)
       end
-    rescue TooManyRoutesError => tmre
+    rescue Sly::TooManyRoutesError => tmre
       TooMany
     end
 
