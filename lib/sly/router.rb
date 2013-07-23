@@ -24,8 +24,19 @@ module Sly
         when 0
           None
         else
-          TooMany
+          # sort by how many captures are in the regex and take the lowest
+          # if there are two routes with the lowest number of captures then
+          # return the `TooMany` response
+          routes = routes.sort { |a, b|
+            if a.path_regex.names.length == b.path_regex.names.length
+              raise TooManyRoutesError
+            end
+            a.path_regex.names.length <=> b.path_regex.names.length
+          }
+          routes[0].call(env)
       end
+    rescue TooManyRoutesError => tmre
+      TooMany
     end
 
     def add(route)
