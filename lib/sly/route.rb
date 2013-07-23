@@ -6,7 +6,7 @@ module Sly
 
   class Route
 
-    attr_reader :path
+    attr_reader :path, :path_regex
 
     PATH_PARAMS_REGEX = %r(/:([-_a-z]+))
     PATH_BASE_REGEX = %r((/.+?)(/:.*)?$)
