@@ -1,5 +1,5 @@
 module Sly
 
-  class TooManyRoutesException < StandardError; end
+  class TooManyRoutesError < StandardError; end
 
 end
