@@ -22,8 +22,8 @@ module Lynr; module Controller;
       return unauthorized unless authorized?(req)
       dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST.dup
-      posted['dealership'] = @dealership
-      vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(posted))
+      posted['dealership'] = dealership
+      vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(@posted))
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
@@ -42,7 +42,10 @@ module Lynr; module Controller;
       dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @posted = req.POST.dup
-      posted['dealership'] = @dealership
+      posted['dealership'] = dealership
+      # Need to inflate the Mpg and Vin views that come from posted data
+      posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
+      posted['vin'] = Lynr::Model::Vin.inflate(posted['vin'])
       vehicle_dao.save(vehicle.set(posted))
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
