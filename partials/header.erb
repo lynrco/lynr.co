@@ -21,8 +21,10 @@
           </a>
         </li>
         <li class="menu-item">
-          <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-          <span class="menu-item-name">Manage Vehicles</span>
+          <a href="/admin/<%= @dealership.id %>/vehicle/manage">
+            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
+            <span class="menu-item-name">Manage Vehicles</span>
+          </a>
         </li>
         <li class="menu-item">
           <a href="/admin/<%= @dealership.id %>/account">

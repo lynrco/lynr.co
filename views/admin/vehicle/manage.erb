@@ -1,0 +1,7 @@
+      <% @vehicles.each do |vehicle| %>
+      <article>
+        <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
+          <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+        </a>
+      </article>
+      <% end %>
