@@ -1,6 +1,10 @@
     <header class="hat">
+      <%- if @dealership -%>
+      <h1 class="hat-title"><a class="logo" href="/admin/<%= @dealership.id %>">Lynr</a></h1>
+      <a class="menu-link" href="/menu">Menu</a>
+      <%- else -%>
       <h1 class="hat-title"><a class="logo" href="/">Lynr</a></h1>
-      <%- if @dealership %><a class="menu-link" href="/menu">Menu</a><% end -%>
+      <%- end -%>
     </header>
     <%- if @dealership -%>
     <nav class="menu menu-account">
