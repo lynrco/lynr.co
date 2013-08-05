@@ -6,12 +6,20 @@ module Lynr; module Model;
 
     include Base
 
-    attr_reader :width, :height, :url
+    attr_reader :width, :height
 
     def initialize(width, height, url)
       @width = width.to_i
       @height = height.to_i
       @url = url
+    end
+
+    def url
+      if @url.nil? || @url == ''
+        "/img/blank.gif"
+      else
+        @url
+      end
     end
 
     def view
