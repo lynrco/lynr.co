@@ -1,8 +1,14 @@
       <h1>Under <%= @owner %></h1>
       <% @vehicles.each do |vehicle| %>
+      <%
+        vehicle_name = "#{vehicle.year} #{vehicle.make} #{vehicle.model}"
+        if vehicle.year == '' && vehicle.make == '' && vehicle.model == ''
+          vehicle_name = "N/A"
+        end
+      %>
       <article>
         <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
-          <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+          <%= vehicle_name %>
         </a>
       </article>
       <% end %>
