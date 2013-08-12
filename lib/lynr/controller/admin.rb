@@ -30,6 +30,7 @@ module Lynr; module Controller;
     end
 
     get  '/admin/:slug', :index
+    get  '/menu/:slug',  :menu
 
     # ## `Lynr::Controller::Admin#index`
     #
@@ -44,6 +45,11 @@ module Lynr; module Controller;
       @title = "Welcome back #{@dealership.name}"
       @owner = @dealership.name
       render 'admin/index.erb'
+    end
+
+    def menu(req)
+      @menu_vis = 'menu-visible'
+      index(req)
     end
 
     # ## Helpers
