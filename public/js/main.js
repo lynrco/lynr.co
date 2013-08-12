@@ -47,4 +47,8 @@
     });
   });
 
+  require(['modules/menu'], function(menu) {
+    menu(document.querySelector('.menu-link'));
+  })
+
 })();

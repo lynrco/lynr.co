@@ -30,9 +30,16 @@ a { color: @font_color; text-decoration: none; }
   display: inline-block; position: absolute; top: 0; left: 0; width: 10%; height: 100%; min-width: 130px;
 }
 /** Layout **/
-.main { position: relative; margin: 0 3.125%; }
+.main {
+  position: relative; margin: 0 3.125%;
+}
 /*** Layout - Menu ***/
 .menu { border-bottom: 1px solid #fff; }
+.menu-account { position: absolute; left: -75%; width: 75%; overflow: hidden; }
+.main, .menu-account {
+  .transition(left 0.5s);
+  .transition_timing(cubic-bezier(.24,.54,.45,.91));
+}
 .menu-search-wrapper { display: block; margin: 0.5rem 2.803738318%; }
 .menu-search {
   border-radius: 1rem; padding: 0 6.5420561%; width: 86.9158878%; height: 2em;
@@ -45,6 +52,11 @@ a { color: @font_color; text-decoration: none; }
   padding: 0.863636364rem 6.5420561% 0.659090909rem;
 }
 .menu-item-icon { min-width: 16px; min-height: 16px; }
+.menu-visible {
+  body { overflow: hidden; }
+  .menu-account { left: 0; }
+  .main { left: 75%; }
+}
 /** Buttons **/
 .btn {
   display: inline-block; border: 1px solid #fff; .border_radius(6px); padding: 1.25rem 0 0.9375rem;
