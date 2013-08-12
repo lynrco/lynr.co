@@ -63,3 +63,16 @@
     overflow: hidden; visibility: hidden; clear: both;
   }
 }
+/* Transitions */
+.transition(@props) {
+  -moz-transition: @props;
+  -webkit-transition: @props;
+  -o-transition: @props;
+  transition: @props;
+}
+.transition_timing(@func) {
+  -moz-transition-timing-function: @func;
+  -webkit-transition-timing-function: @func;
+  -o-transition-timing-function: @func;
+  transition-timing-function: @func;
+}
