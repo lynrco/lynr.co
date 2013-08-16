@@ -11,9 +11,13 @@ describe Lynr::Config do
 
   let(:config_type) { 'database' }
   let(:config_env) { 'test' }
-  let(:config) { Lynr::Config.new('database', 'test') }
+  let(:config) { Lynr::Config.new('database', 'spec') }
 
   describe "#initialize" do
+
+    it "hasn't had whereami messed with" do
+      expect(ENV['whereami']).to eq('spec')
+    end
 
     it "sets up environment" do
       c = Lynr::Config.new(config_type, config_env)
