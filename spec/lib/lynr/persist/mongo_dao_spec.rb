@@ -15,8 +15,12 @@ describe Lynr::Persist::MongoDao do
 
     context "unconfigured environment" do
 
+      before(:each) do
+        @environment = ENV['whereami']
+      end
+
       after(:each) do
-        ENV['whereami'] = 'spec'
+        ENV['whereami'] = @environment
       end
 
       it "uses defaults" do
