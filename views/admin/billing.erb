@@ -1,6 +1,5 @@
 <%= render_partial 'form_messages.erb' -%>
-      <%- if @msg || has_errors? -%>
-      <form class="billing" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST">
+      <form class="m-billing <%= if @msg || has_errors? then "m-billing-active" end %>" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST">
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
           <input class="fs-top fs-full <%= error_class('stripeToken') %>" type="text"
@@ -19,23 +18,24 @@
         <input type="hidden" name="stripeToken" id="stripeToken" value="" />
         <button class="btn btn-full btn-create" type="submit">Update Billing Information</button>
       </form>
-      <%- else -%>
-      <div class="billing fs">
-        <p id="card_number" class="fs-top fs-full input">
-          <span class="group">****</span>
-          <span class="group">****</span>
-          <span class="group">****</span>
-          <span class="group"><%= @card.last4 %></span>
-        </p>
-        <p id="card_expiry" class="fs-half fs-bottom">
-          <span id="card_expiry_month" class="fs-half input">
-            <%= @card.exp_month.to_s.rjust(2, '0') %>
-          </span>
-          <span id="card_expiry_year" class="fs-half input">
-            <%= @card.exp_month.to_s %>
-          </span>
-        </p>
-        <p id="card_cvv" class="fs-bottom fs-half input">***</p>
+      <%- # TODO: Number and pattern of stars needs to change based on card type -%>
+      <div class="m-billing <%= if !@msg && !has_errors? then "m-billing-active" end %>">
+        <div class="fs">
+          <p id="card_number" class="fs-top fs-full input">
+            <span class="group">****</span>
+            <span class="group">****</span>
+            <span class="group">****</span>
+            <span class="group"><%= @card.last4 %></span>
+          </p>
+          <p id="card_expiry" class="fs-half fs-bottom">
+            <span id="card_expiry_month" class="fs-half input">
+              <%= @card.exp_month.to_s.rjust(2, '0') %>
+            </span>
+            <span id="card_expiry_year" class="fs-half input">
+              <%= @card.exp_month.to_s %>
+            </span>
+          </p>
+          <p id="card_cvv" class="fs-bottom fs-half input">***</p>
+        </div>
+        <a class="btn btn-full btn-create" href="#edit" type="submit">Edit Billing Information</a>
       </div>
-      <a class="btn btn-full btn-create" href="#edit" type="submit">Edit Billing Information</a>
-      <%- end -%>

@@ -13,7 +13,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Billing Information"
       @msg = req.session.delete('billing_flash_msg')
-      # This card information should be stored locally. It is innocuous enough.
+      # TODO: This card information should be stored locally. It is innocuous enough.
       # Or perhaps in memcache or something
       customer = Stripe::Customer.retrieve(@dealership.customer_id)
       @card = customer.active_card
