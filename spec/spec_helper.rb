@@ -8,7 +8,9 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 # Set the environment so we run under the 'spec' settings
 RSpec.configure do |c|
-  ENV['whereami'] = 'spec'
+  c.add_setting :whereami
+  c.whereami = ENV['whereami'] || 'spec'
+  ENV['whereami'] = c.whereami
 end
 
 # Define some helpers for interacting with Mongo
