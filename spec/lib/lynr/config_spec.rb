@@ -5,19 +5,14 @@ require './lib/lynr/config'
 describe Lynr::Config do
 
   before(:each) do
-    ENV['whereami'] = 'spec'
     @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
   end
 
   let(:config_type) { 'database' }
-  let(:config_env) { 'test' }
+  let(:config_env) { 'spec' }
   let(:config) { Lynr::Config.new('database', 'spec') }
 
   describe "#initialize" do
-
-    it "hasn't had whereami messed with" do
-      expect(ENV['whereami']).to eq('spec')
-    end
 
     it "sets up environment" do
       c = Lynr::Config.new(config_type, config_env)
