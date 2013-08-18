@@ -4,25 +4,12 @@
     map: {
       '*': {
         'domReady': 'libs/domReady-2.0.0',
-        'jquery': 'libs/jquery-1.8.2.min',
-        'moment': 'libs/moment-1.7.2',
+        'jquery': 'libs/jquery-1.10.2.min',
         'stripe': 'https://js.stripe.com/v1/',
-        'reqwest': 'libs/reqwest-0.4.5',
-        'spin': 'libs/spin-1.2.5',
-        'underscore': 'libs/underscore-1.3.3',
-        'vow': 'libs/vow-0.3.0'
+        'underscore': 'libs/underscore-1.3.3'
       }
     },
     shim: {
-      'libs/jquery-1.8.2.min': {
-        exports: '$'
-      },
-      'libs/moment-1.7.2': {
-        exports: 'moment'
-      },
-      'libs/spin-1.2.5': {
-        exports: 'Spinner'
-      },
       'https://js.stripe.com/v1/': {
         exports: 'Stripe'
       }
