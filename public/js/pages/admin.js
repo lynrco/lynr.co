@@ -1,8 +1,26 @@
 define(function(require) {
 
   var api = {
+    account: initAccount,
     billing: initBilling
   };
+
+  var transloaditOpts = {
+    autoSubmit: false,
+    wait: true,
+    onSuccess: uploadSuccess
+  };
+
+  function initAccount() {
+    require(
+      ['jquery', 'jquery.transloadit'],
+      function($, jtl) {
+        var form = $('#account-photo');
+        form.transloadit(transloaditOpts);
+        $('#photo').on('change', function(e) { form.trigger('submit.transloadit'); });
+      }
+    );
+  }
 
   function initBilling() {
     require(
@@ -20,7 +38,18 @@ define(function(require) {
     );
   }
 
-  function showForm(e) {
+  function uploadSuccess(assembly) {
+    var results = assembly.results;
+    var input = $('input[name=image]');
+    var original = results[':original'][0];
+    var full = results.resize_full[0];
+    var thumb = results.resize_thumb[0];
+    var image = {
+      url: full.url,
+      width: full.meta.width,
+      height: full.meta.height
+    };
+    input.val(JSON.stringify(image));
   }
 
   return api;
