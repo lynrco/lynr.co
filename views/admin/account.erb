@@ -1,4 +1,14 @@
 <%= render_partial 'form_messages.erb' -%>
+      <form id="account-photo" class="account-photo"
+            action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
+        <fieldset class="fs">
+          <label for="photo" class="label-photo">
+            <input id="photo" class="input-photo" type="file" value="" name="photo" />
+          </label>
+        </fieldset>
+        <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+        <button class="btn btn-full btn-create" type="submit">Update Account Image</button>
+      </form>
       <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
         <fieldset class="fs">
           <label for="name">Dealership Name</label>
@@ -14,6 +24,7 @@
                  id="address" value="<%= @dealership.address %>" placeholder="Street Address" />
           <input class="fs-bottom fs-third" type="text" name="postcode"
                  id="postcode" value="<%= @dealership.postcode %>" placeholder="Zip Code" />
+          <input type="hidden" name="image" value="" />
         </fieldset>
         <button class="btn btn-full btn-create" type="submit">Update Account Information</button>
       </form>

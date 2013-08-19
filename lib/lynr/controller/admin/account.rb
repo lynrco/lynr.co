@@ -12,6 +12,7 @@ module Lynr; module Controller;
       @subsection = 'account'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Account Information"
+      @transloadit_params = Lynr::App.config['transloadit'].to_json
       render 'admin/account.erb'
     end
 
