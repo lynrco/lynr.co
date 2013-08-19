@@ -32,9 +32,12 @@ module Lynr; module Controller;
       if email_changed?
         @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
       end
+      # Translate to image model
       if !@posted['image'].nil? && !@posted['image'].empty?
         json = JSON.parse(@posted['image'])
         @posted['image'] = Lynr::Model::Image.inflate(json)
+      else
+        @posted.delete('image')
       end
       @dealership = dealer_dao.save(@dealership.set(posted))
       redirect "/admin/#{@dealership.id.to_s}/account"
