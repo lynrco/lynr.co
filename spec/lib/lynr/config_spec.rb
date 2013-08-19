@@ -1,11 +1,13 @@
 require 'rspec/autorun'
+require './spec/spec_helper'
+
 require 'yaml'
 require './lib/lynr/config'
 
 describe Lynr::Config do
 
   before(:each) do
-    @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
+    @config = YAML.load_file("config/database.#{RSpec.configuration.whereami}.yaml")
   end
 
   let(:config_type) { 'database' }
