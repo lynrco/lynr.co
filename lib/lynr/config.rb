@@ -23,6 +23,10 @@ module Lynr
       val
     end
 
+    def to_json
+      @config.to_json
+    end
+
     private
     
     def external_name
