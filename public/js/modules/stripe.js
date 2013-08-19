@@ -30,7 +30,6 @@ define(function(require) {
     }
 
     function handleStripeResponse(code, res) {
-      console.log(code, res);
       if (res.error) {
         handleStripeResponseError(res);
       } else {
