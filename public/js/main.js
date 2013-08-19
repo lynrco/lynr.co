@@ -6,12 +6,20 @@
         'domReady': 'libs/domReady-2.0.0',
         'jquery': 'libs/jquery-1.10.2.min',
         'stripe': 'https://js.stripe.com/v1/',
+        'jquery.transloadit': 'https://assets.transloadit.com/js/jquery.transloadit2-v2-latest.js',
         'underscore': 'libs/underscore-1.3.3'
       }
     },
     shim: {
       'https://js.stripe.com/v1/': {
         exports: 'Stripe'
+      },
+      'libs/jquery-1.10.2.min': {
+        exports: 'jQuery'
+      },
+      'https://assets.transloadit.com/js/jquery.transloadit2-latest.js': {
+        deps: ['jquery'],
+        exports: 'jQuery.fn.transloadit'
       }
     }
   });
