@@ -13,7 +13,7 @@ end
 
 describe Sly::Route do
 
-  describe "#matchs_filters?" do
+  describe "#matches_filters?" do
 
     context "simple path (no path params)" do
 
@@ -122,6 +122,30 @@ describe Sly::Route do
         expect(route.matches_filters?(req)).to be_false
       end
 
+    end
+
+  end
+
+  describe "#handle" do
+
+    let(:request) { Rack::MockRequest.env_for('/admin/21345/fry') }
+
+    it "deals with `Rack::Response` instances" do
+      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new })
+      response = route.call(request)
+      expect(response[0]).to eq(200)
+    end
+
+    it "deals with Array instances" do
+      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new.finish })
+      response = route.call(request)
+      expect(response[0]).to eq(200)
+    end
+
+    it "fails on strings" do
+      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| "success" })
+      response = route.call(request)
+      expect(response[0]).to eq(501)
     end
 
   end

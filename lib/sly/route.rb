@@ -6,15 +6,28 @@ module Sly
 
   class Route
 
+    Unimplemented = [501, {"Content-Type" => "text/plain"}, ["Unimplemented."]]
+
     attr_reader :path, :path_regex
 
     PATH_PARAMS_REGEX = %r(/:([-_a-z]+))
     PATH_BASE_REGEX = %r((/.+?)(/:.*)?$)
 
     ##
-    # Consruct a new `Sly::Route` 
-    def initialize(verb, path, handler)
+    # # `Sly::Route.new`
+    #
+    # Consruct a new `Sly::Route`
+    #
+    # ## Params
+    #
+    # * `verb` HTTP verb this route may process
+    # * `path` Path pattern URIs must match
+    # * `handler` lambda use to process the route. `handler` may be `nil`
+    #   if `Route` is subclassed and the handle method is overridden.
+    #
+    def initialize(verb, path, handler=nil)
       @verb = verb.upcase
+      # TODO: if path is a regex base path should be '/' and don't create a regex
       @path = base_path(path)
       @path_full = path
       @path_regex = make_r
@@ -25,20 +38,27 @@ module Sly
     # # `Sly::Route#handle`
     #
     # Process the given request returning an array of the form
-    # [`status`, `headers`, `body`].  `status` is an HTTP response code.
+    # [`status`, `headers`, `body`]. `status` is an HTTP response code.
     # `headers` is a `Hash` of header name to header value. `body` is an
     # iterable response body.
     #
     # ## Params
     #
-    # `request` is an instance of `Sly::Request` created from the rack environment
+    # * `request` is an instance of `Sly::Request` created from the rack environment
     #
     # ## Returns
     #
     # [`status`, `headers`, `body`]
     #
     def handle(request)
-      @handler.call(request).finish
+      response = @handler.call(request)
+      if response.is_a? Rack::Response
+        response.finish
+      elsif response.is_a? Array
+        response
+      else
+        Sly::Route::Unimplemented
+      end
     end
 
     def call(env)
