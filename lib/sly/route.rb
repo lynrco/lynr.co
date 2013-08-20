@@ -21,6 +21,22 @@ module Sly
       @handler = handler
     end
 
+    ##
+    # # `Sly::Route#handle`
+    #
+    # Process the given request returning an array of the form
+    # [`status`, `headers`, `body`].  `status` is an HTTP response code.
+    # `headers` is a `Hash` of header name to header value. `body` is an
+    # iterable response body.
+    #
+    # ## Params
+    #
+    # `request` is an instance of `Sly::Request` created from the rack environment
+    #
+    # ## Returns
+    #
+    # [`status`, `headers`, `body`]
+    #
     def handle(request)
       @handler.call(request).finish
     end
