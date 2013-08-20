@@ -135,8 +135,11 @@ label[for=agree_terms] {
 }
 #card_expiry_year { .border_radius(0, 0, 0, 0); }
 /* Account Information */
-.fs .label-photo { display: block; }
-.fs .input-photo { width: 100%; }
+.account-photo { margin: 0 0 1rem; }
+.fs-account-photo { margin: 0 auto; max-width: 160px; max-height: 160px; }
+.fs .label-photo { display: block; position: relative; }
+.fs .input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
+.account-photo .btn { display: none; }
 /* Billing Information */
 .m-billing, .m-billing { display: none; }
 .m-billing-active, .m-billing-active { display: block; }

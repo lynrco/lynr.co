@@ -46,10 +46,12 @@ define(function(require) {
     var thumb = results.resize_thumb[0];
     var image = {
       url: full.url,
+      src: full.url,
       width: full.meta.width,
       height: full.meta.height
     };
     input.val(JSON.stringify(image));
+    $('img.photo-preview').attr(image);
   }
 
   return api;

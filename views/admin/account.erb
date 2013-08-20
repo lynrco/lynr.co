@@ -1,8 +1,21 @@
 <%= render_partial 'form_messages.erb' -%>
       <form id="account-photo" class="account-photo"
             action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
-        <fieldset class="fs">
+        <fieldset class="fs fs-account-photo">
           <label for="photo" class="label-photo">
+            <% if !@dealership.image.empty? %>
+            <img class="photo-preview"
+                 src="<%= @dealership.image.url %>"
+                 width="<%= @dealership.image.width %>"
+                 height="<%= @dealership.image.height %>"
+                 alt="" />
+            <% else %>
+            <img class="photo-preview"
+                 src="/img/blank.gif"
+                 width="160"
+                 height="160"
+                 alt="Add your image" />
+            <% end %>
             <input id="photo" class="input-photo" type="file" value="" name="photo" />
           </label>
         </fieldset>
