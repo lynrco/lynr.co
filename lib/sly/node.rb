@@ -13,6 +13,7 @@ module Sly
   #
   # `Sly::Node` is meant to be extended by controller type objects in an
   # application.
+  #
   class Node
 
     ##
