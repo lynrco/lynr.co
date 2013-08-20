@@ -8,6 +8,5 @@ stripe_key: 'stripe_key from https://manage.stripe.com/account/apikeys'
 stripe_version: '2013-02-13'
 # Used by account details page to handle uploads
 transloadit:
-  auth:
-    key: 'auth key from https://transloadit.com/accounts/credentials'
-  template_id: 'template id from https://transloadit.com/templates'
+  auth_key: 'auth key from https://transloadit.com/accounts/credentials'
+  account_template_id: 'template id from https://transloadit.com/templates'
