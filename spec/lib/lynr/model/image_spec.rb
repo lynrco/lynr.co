@@ -31,6 +31,30 @@ describe Lynr::Model::Image do
 
   end
 
+  describe "#url" do
+
+    it "is blank.gif if url IS empty" do
+      expect(empty_image.url).to eq("/img/blank.gif")
+    end
+
+    it "is url if url IS NOT empty" do
+      expect(image.url).to eq("//lynr.co/assets/image.gif")
+    end
+
+  end
+
+  describe "#empty?" do
+
+    it "is true when url IS NOT set" do
+      expect(empty_image.empty?).to be_true
+    end
+
+    it "is false when url IS set" do
+      expect(image.empty?).to be_false
+    end
+
+  end
+
   describe "#view" do
 
     let(:view) { @image.view }

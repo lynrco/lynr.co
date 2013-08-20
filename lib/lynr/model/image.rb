@@ -15,11 +15,15 @@ module Lynr; module Model;
     end
 
     def url
-      if @url.nil? || @url == ''
+      if self.empty?
         "/img/blank.gif"
       else
         @url
       end
+    end
+
+    def empty?
+      @url.nil? || @url.empty?
     end
 
     def view
