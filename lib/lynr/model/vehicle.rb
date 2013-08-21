@@ -53,6 +53,10 @@ module Lynr; module Model;
       (@dealership && @dealership.id) || @dealership_id
     end
 
+    def image
+      images.compact.shift || Lynr::Model::Image.new
+    end
+
     def set(data)
       Lynr::Model::Vehicle.new(self.to_hash.merge(data), @id)
     end
