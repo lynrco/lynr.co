@@ -7,6 +7,7 @@ define(function(require) {
 
   var transloaditOpts = {
     autoSubmit: false,
+    triggerUploadOnFileSelection: true,
     wait: true,
     onSuccess: uploadSuccess
   };
@@ -15,9 +16,7 @@ define(function(require) {
     require(
       ['jquery', 'jquery.transloadit'],
       function($, jtl) {
-        var form = $('#account-photo');
-        form.transloadit(transloaditOpts);
-        $('#photo').on('change', function(e) { form.trigger('submit.transloadit'); });
+        $('#account-photo').transloadit(transloaditOpts);
       }
     );
   }
