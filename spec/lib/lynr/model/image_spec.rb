@@ -16,17 +16,24 @@ describe Lynr::Model::Image do
   describe "#initialize" do
 
     it "converts width to integer" do
-      image.width.should be(300)
-      image.width.should_not be("300")
+      expect(image.width).to eq(300)
+      expect(image.width).to be_a(Numeric)
     end
 
     it "converts height to integer" do
-      image.height.should be(150)
-      image.height.should_not be("150")
+      expect(image.height).to eq(150)
+      expect(image.height).to be_a(Numeric)
     end
 
     it "converts strings to integers" do
-      image.should == @image
+      expect(image).to eq(@image)
+    end
+
+    it "creates a blank image with no args" do
+      image = Lynr::Model::Image.new
+      expect(image.url).to eq("/img/blank.gif")
+      expect(image.width).to eq(0)
+      expect(image.height).to eq(0)
     end
 
   end

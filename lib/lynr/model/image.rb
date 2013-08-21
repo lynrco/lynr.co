@@ -8,7 +8,7 @@ module Lynr; module Model;
 
     attr_reader :width, :height
 
-    def initialize(width, height, url)
+    def initialize(width=nil, height=nil, url=nil)
       @width = width.to_i
       @height = height.to_i
       @url = url
