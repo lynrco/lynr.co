@@ -37,7 +37,7 @@
                  id="address" value="<%= @dealership.address %>" placeholder="Street Address" />
           <input class="fs-bottom fs-third" type="text" name="postcode"
                  id="postcode" value="<%= @dealership.postcode %>" placeholder="Zip Code" />
-          <input type="hidden" name="image" value="" />
+          <input type="hidden" name="image" value="<%= CGI.escape_html(@dealership.image.to_json) %>" />
         </fieldset>
         <button class="btn btn-full btn-create" type="submit">Update Account Information</button>
       </form>
