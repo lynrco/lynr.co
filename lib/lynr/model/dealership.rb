@@ -36,13 +36,6 @@ module Lynr; module Model;
       @updated_at = data['updated_at']
     end
 
-    def ==(dealership)
-      return false unless dealership.is_a? self.class
-      my_view = self.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
-      od_view = dealership.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
-      my_view == od_view
-    end
-
     def set(data={})
       Lynr::Model::Dealership.new(self.to_hash.merge(data), @id)
     end
