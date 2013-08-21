@@ -1,14 +1,23 @@
-      <h1>Under <%= @owner %></h1>
-      <% @vehicles.each do |vehicle| %>
-      <%
-        vehicle_name = "#{vehicle.year} #{vehicle.make} #{vehicle.model}"
-        if vehicle.year == '' && vehicle.make == '' && vehicle.model == ''
-          vehicle_name = "N/A"
-        end
-      %>
-      <article>
-        <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
-          <%= vehicle_name %>
-        </a>
-      </article>
-      <% end %>
+      <div class="m-vehicles">
+        <% @vehicles.each do |vehicle| %>
+        <%
+          vehicle_name = "#{vehicle.year} #{vehicle.make} #{vehicle.model}"
+          if vehicle.year == '' && vehicle.make == '' && vehicle.model == ''
+            vehicle_name = "N/A"
+          end
+        %>
+        <article class="m-vehicle">
+          <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
+            <img class="m-vehicle-image"
+                 src="<%= vehicle.image.url %>"
+                 width="<%= vehicle.image.width %>"
+                 height="<%= vehicle.image.height %>"
+                 alt="" />
+            <span class="m-vehicle-price">$<%= vehicle.price %></span>
+            <span class="m-vehicle-name"><%= vehicle_name %></span>
+            <span class="m-vehicle-desc"><%= vehicle.vin.ext_color %> <%= vehicle.vin.doors %> Door</span>
+          </a>
+        </article>
+        <% end %>
+        <a class="m-vehicles-add" href="/admin/<%= @dealership.id %>/vehicle/add">+</a>
+      </div>
