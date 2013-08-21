@@ -40,6 +40,15 @@ describe Lynr::Model::Dealership do
       expect(d1).to eq(d2)
     end
 
+    it "is false if types are different" do
+      image = Lynr::Model::Image.new("301", "150", "//lynr.co/assets/image.gif")
+      expect(dealer).to_not eq(image)
+    end
+
+    it "is false if types are different but values are the same" do
+      expect(dealer).to_not eq(dealer.view)
+    end
+
   end
 
   describe "#set" do

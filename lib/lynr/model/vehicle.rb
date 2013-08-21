@@ -1,8 +1,9 @@
-require './lib/lynr/model/base'
-require './lib/lynr/model/dealership'
-require './lib/lynr/model/image'
-require './lib/lynr/model/mpg'
-require './lib/lynr/model/vin'
+require 'lynr/model/base'
+require 'lynr/model/base_dated'
+require 'lynr/model/dealership'
+require 'lynr/model/image'
+require 'lynr/model/mpg'
+require 'lynr/model/vin'
 
 module Lynr; module Model;
 
@@ -27,6 +28,7 @@ module Lynr; module Model;
   class Vehicle
 
     include Lynr::Model::Base
+    include Lynr::Model::BaseDated
 
     attr_reader :id, :dealership, :created_at, :updated_at
     attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :images
@@ -45,13 +47,6 @@ module Lynr; module Model;
       @dealership_id = data['dealership'] if @dealership.nil?
       @created_at = data['created_at']
       @updated_at = data['updated_at']
-    end
-
-    def ==(vehicle)
-      return false unless vehicle.is_a? Lynr::Model::Vehicle
-      my_view = self.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
-      ov_view = vehicle.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
-      my_view == ov_view
     end
 
     def dealership_id

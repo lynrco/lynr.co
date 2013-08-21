@@ -1,5 +1,6 @@
 require 'lynr/model/address'
 require 'lynr/model/base'
+require 'lynr/model/base_dated'
 require 'lynr/model/identity'
 require 'lynr/model/image'
 
@@ -17,6 +18,7 @@ module Lynr; module Model;
   class Dealership
 
     include Lynr::Model::Base
+    include Lynr::Model::BaseDated
 
     attr_reader :id, :created_at, :updated_at
     attr_reader :name, :phone, :identity, :address, :postcode, :image, :customer_id
@@ -35,7 +37,7 @@ module Lynr; module Model;
     end
 
     def ==(dealership)
-      return false unless dealership.is_a? Lynr::Model::Dealership
+      return false unless dealership.is_a? self.class
       my_view = self.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
       od_view = dealership.view.delete_if { |k,v| ['updated_at', 'created_at'].include?(k) }
       my_view == od_view

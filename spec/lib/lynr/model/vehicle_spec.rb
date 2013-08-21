@@ -69,6 +69,15 @@ describe Lynr::Model::Vehicle do
       expect(v).to eq(v2)
     end
 
+    it "is false if types are different" do
+      mpg = Lynr::Model::Mpg.new('city' => 22.1)
+      expect(vehicle).to_not eq(mpg)
+    end
+
+    it "is false if types are different but properties are the same" do
+      expect(vehicle).to_not eq(vehicle.view)
+    end
+
   end
 
   describe "#set" do
