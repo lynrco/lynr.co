@@ -1,3 +1,4 @@
+require 'json'
 require 'lynr/controller/admin'
 
 module Lynr; module Controller;
@@ -25,23 +26,12 @@ module Lynr; module Controller;
       @posted = req.POST
       @errors = validate_account_info
       # TODO: These updates should be scheduled, they aren't critical
-      if email_changed? || name_changed?
-        customer = Stripe::Customer.retrieve(@dealership.customer_id)
-        customer.description = posted['name'] if name_changed?
-        customer.email = posted['email'] if email_changed?
-        customer.save
-      end
+      update_stripe if email_changed? || name_changed?
       # TODO: Trigger an email warning about email change
       if email_changed?
         @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
       end
-      # Translate to image model
-      if !@posted['image'].nil? && !@posted['image'].empty?
-        json = JSON.parse(@posted['image'])
-        @posted['image'] = Lynr::Model::Image.inflate(json)
-      else
-        @posted.delete('image')
-      end
+      @posted['image'] = translate_image
       @dealership = dealer_dao.save(@dealership.set(posted))
       redirect "/admin/#{@dealership.id.to_s}/account"
     end
@@ -56,6 +46,24 @@ module Lynr; module Controller;
 
     def name_changed?
       @dealership.name != posted['name']
+    end
+
+    # ## Translate to image model
+    def translate_image
+      if !posted['image'].nil? && !posted['image'].empty?
+        json = JSON.parse(posted['image'])
+        Lynr::Model::Image.inflate(json)
+      else
+        @dealership.image
+      end
+    end
+
+    # ## Stripe Helper
+    def update_stripe
+      customer = Stripe::Customer.retrieve(@dealership.customer_id)
+      customer.description = posted['name'] if name_changed?
+      customer.email = posted['email'] if email_changed?
+      customer.save
     end
 
     # ## Data Validation
