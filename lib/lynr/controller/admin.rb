@@ -37,7 +37,7 @@ module Lynr; module Controller;
     # Admin Homepage. Renders `views/admin/index.erb`.
     #
     def index(req)
-      @subsection = 'list'
+      @subsection = 'vehicle-list'
       id = BSON::ObjectId.from_string(req['slug'])
       @dealership = dealer_dao.get(id)
       return not_found if @dealership.nil?
