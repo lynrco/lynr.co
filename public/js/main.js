@@ -5,8 +5,8 @@
       '*': {
         'domReady': 'libs/domReady-2.0.0',
         'jquery': 'libs/jquery-1.10.2.min',
-        'stripe': 'https://js.stripe.com/v1/',
         'jquery.transloadit': 'https://assets.transloadit.com/js/jquery.transloadit2-v2-latest.js',
+        'stripe': 'https://js.stripe.com/v1/',
         'underscore': 'libs/underscore-1.3.3'
       }
     },
