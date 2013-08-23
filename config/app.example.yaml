@@ -10,3 +10,4 @@ stripe_version: '2013-02-13'
 transloadit:
   auth_key: 'auth key from https://transloadit.com/accounts/credentials'
   account_template_id: 'template id from https://transloadit.com/templates'
+  vehicle_template_id: 'template id from https://transloadit.com/templates'
