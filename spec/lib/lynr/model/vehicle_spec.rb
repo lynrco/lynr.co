@@ -80,6 +80,33 @@ describe Lynr::Model::Vehicle do
 
   end
 
+  describe "#name" do
+
+    it "returns {year make model} when they exist" do
+      expect(vehicle.name).to eq("2009 Honda Civic EX")
+    end
+
+    it "returns {year make} when model is empty" do
+      v = Lynr::Model::Vehicle.new({ "year" => "2010", "make" => "Honda" })
+      expect(v.name).to eq("2010 Honda")
+    end
+
+    it "returns {year} when make and model are empty" do
+      v = Lynr::Model::Vehicle.new({ "year" => "2010" })
+      expect(v.name).to eq("2010")
+    end
+
+    it "returns N/A when year make and model are empty" do
+      expect(empty_vehicle.name).to eq("N/A")
+    end
+
+    it "returns {make model} when year is empty" do
+      v = Lynr::Model::Vehicle.new({ "make" => "Honda", "model" => "Civic EX" })
+      expect(v.name).to eq("Honda Civic EX")
+    end
+
+  end
+
   describe "#set" do
 
     it "returns a new Vehicle instance" do

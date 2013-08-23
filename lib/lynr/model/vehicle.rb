@@ -38,7 +38,7 @@ module Lynr; module Model;
       @year = data['year'] || ""
       @make = data['make'] || ""
       @model = data['model'] || ""
-      @name = "#{@year} #{@make} #{@model}"
+      @name = "#{@year} #{@make} #{@model}".strip
       @price = data['price'] || 0.0
       @condition = data['condition'] || 0
       @mpg = data['mpg'] || nil # Should be an instance of Lynr::Model::Mpg
