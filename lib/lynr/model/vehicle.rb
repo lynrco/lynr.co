@@ -55,7 +55,7 @@ module Lynr; module Model;
     end
 
     def image
-      images.compact.shift || Lynr::Model::Image.new
+      images.find { |img| !img.nil? && img != Lynr::Model::Image::Empty } || Lynr::Model::Image::Empty
     end
 
     def name
