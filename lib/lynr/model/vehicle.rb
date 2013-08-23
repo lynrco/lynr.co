@@ -38,6 +38,7 @@ module Lynr; module Model;
       @year = data['year'] || ""
       @make = data['make'] || ""
       @model = data['model'] || ""
+      @name = "#{@year} #{@make} #{@model}"
       @price = data['price'] || 0.0
       @condition = data['condition'] || 0
       @mpg = data['mpg'] || nil # Should be an instance of Lynr::Model::Mpg
@@ -55,6 +56,10 @@ module Lynr; module Model;
 
     def image
       images.compact.shift || Lynr::Model::Image.new
+    end
+
+    def name
+      (!@name.strip.empty? && @name) || "N/A"
     end
 
     def set(data)
