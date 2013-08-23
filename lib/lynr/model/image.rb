@@ -6,6 +6,8 @@ module Lynr; module Model;
 
     include Base
 
+    Empty = Image.new
+
     attr_reader :width, :height
 
     def initialize(width=nil, height=nil, url=nil)
