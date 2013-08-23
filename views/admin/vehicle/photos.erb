@@ -1,0 +1,29 @@
+      <%
+      images = @posted['images']
+      (0..5).each do |i|
+        image = images[i]
+      %>
+      <form id="photo-<%= i %>" class="vehicle-photo"
+            action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
+        <fieldset class="fs fs-vehicle-photo">
+          <label for="vehicle-photo-<%= i %>" class="label-photo">
+            <% if image && !image.empty? %>
+            <img class="photo-preview"
+                 src="<%= image.url %>"
+                 width="<%= image.width %>"
+                 height="<%= image.height %>"
+                 alt="" />
+            <% else %>
+            <img class="photo-preview"
+                 src="/img/blank.gif"
+                 width="160"
+                 height="160"
+                 alt="Add your image" />
+            <% end %>
+            <input id="vehicle-photo-<%= i %>" class="input-photo" type="file" value="" name="photo" />
+          </label>
+        </fieldset>
+        <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+        <button class="btn btn-full btn-create" type="submit">Update Vehicle Image</button>
+      </form>
+      <% end %>

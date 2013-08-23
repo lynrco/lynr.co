@@ -5,10 +5,11 @@ module Lynr; module Controller;
 
   class AdminVehicle < Lynr::Controller::Admin
 
-    get  '/admin/:slug/vehicle/add', :get_add
-    post '/admin/:slug/vehicle/add', :post_add
-    get  '/admin/:slug/:vehicle',    :get_edit_vehicle
-    post '/admin/:slug/:vehicle',    :post_edit_vehicle
+    get  '/admin/:slug/vehicle/add',     :get_add
+    post '/admin/:slug/vehicle/add',     :post_add
+    get  '/admin/:slug/:vehicle',        :get_edit_vehicle
+    post '/admin/:slug/:vehicle',        :post_edit_vehicle
+    get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
 
     def get_add(req)
       return unauthorized unless authorized?(req)
@@ -48,6 +49,20 @@ module Lynr; module Controller;
       posted['vin'] = Lynr::Model::Vin.inflate(posted['vin'])
       vehicle_dao.save(vehicle.set(posted))
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
+    end
+
+    def get_edit_vehicle_photos(req)
+      return unauthorized unless authorized?(req)
+      @subsection = 'vehicle vehicle-photos'
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @title = "Photos for #{@vehicle.year} #{@vehicle.make} #{@vehicle.model}"
+      @posted = @vehicle.view
+      @transloadit_params = {
+        auth: { key: Lynr::App.config['transloadit']['auth_key'] },
+        template_id: Lynr::App.config['transloadit']['vehicle_template_id']
+      }.to_json
+      render 'admin/vehicle/photos.erb'
     end
 
   end
