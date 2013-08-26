@@ -32,6 +32,7 @@ a { color: @font_color; text-decoration: none; }
 /** Layout **/
 .main {
   position: relative; margin: 0 3.125%; padding: 0.5rem 0 0;
+  .clearfix();
 }
 /*** Layout - Menu ***/
 .menu { border-bottom: 1px solid #fff; }
@@ -157,9 +158,17 @@ label[for=agree_terms] {
 /* Account Information */
 .account-photo { margin: 0 0 1rem; }
 .fs-account-photo { margin: 0 auto; max-width: 160px; max-height: 160px; }
-.fs .label-photo { display: block; position: relative; }
-.fs .input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
+.fs .label-photo { display: block; position: relative; width: 100%; height: 100%; }
+.input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
+.photo-preview { width: 100%; height: 100%; }
 .account-photo .btn { display: none; }
 /* Billing Information */
 .m-billing, .m-billing { display: none; }
 .m-billing-active, .m-billing-active { display: block; }
+/* Vehicle Photos */
+.vehicle-photos .main { padding-top: 2.125rem; }
+.vehicle-photo { float: left; margin: 0 7.5% 2.75rem 4.166666667%; width: 42.083333333%; height: 38.59375vw; }
+.vehicle-photo-odd { margin: 0; }
+.vehicle-photo .fs { height: 100%; }
+.vehicle-photo .btn { display: none; }
+.vehicle-photo-data .btn-create { margin-top: 0; }

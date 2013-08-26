@@ -3,7 +3,7 @@
       (0..5).each do |i|
         image = images[i]
       %>
-      <form id="photo-<%= i %>" class="vehicle-photo"
+      <form id="photo-<%= i %>" class="vehicle-photo <%= (i % 2 == 0 && 'vehicle-photo-even') || 'vehicle-photo-odd' %>"
             action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
         <fieldset class="fs fs-vehicle-photo">
           <label for="vehicle-photo-<%= i %>" class="label-photo">
@@ -27,3 +27,7 @@
         <button class="btn btn-full btn-create" type="submit">Update Vehicle Image</button>
       </form>
       <% end %>
+      <form class="vehicle-photo-data" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" method="POST">
+        <input type="hidden" name="images" value="<%= @vehicle.view['images'] %>" />
+        <button class="btn btn-full btn-create" type="submit">Finished</button>
+      </form>
