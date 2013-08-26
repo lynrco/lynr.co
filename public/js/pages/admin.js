@@ -2,7 +2,8 @@ define(function(require) {
 
   var api = {
     account: initAccount,
-    billing: initBilling
+    billing: initBilling,
+    'vehicle-photos': initVehiclePhotos
   };
 
   var transloaditOpts = {
@@ -13,6 +14,7 @@ define(function(require) {
   };
 
   function initAccount() {
+    transloaditOpts['onSuccess'] = uploadAccountSuccess;
     require(
       ['jquery', 'jquery.transloadit'],
       function($, jtl) {
@@ -37,7 +39,17 @@ define(function(require) {
     );
   }
 
-  function uploadSuccess(assembly) {
+  function initVehiclePhotos() {
+    require(
+      ['jquery', 'jquery.transloadit'],
+      function($, jtl) {
+        var forms = $('.vehicle-photo');
+        forms.first().transloadit(transloaditOpts);
+      }
+    );
+  }
+
+  function uploadAccountSuccess(assembly) {
     var results = assembly.results;
     var input = $('input[name=image]');
     var original = results[':original'][0];
@@ -51,6 +63,9 @@ define(function(require) {
     };
     input.val(JSON.stringify(image));
     $('img.photo-preview').attr(image);
+  }
+
+  function uploadPhotosSuccess(assembly) {
   }
 
   return api;
