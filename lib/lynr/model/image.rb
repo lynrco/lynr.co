@@ -6,8 +6,6 @@ module Lynr; module Model;
 
     include Base
 
-    Empty = Image.new
-
     attr_reader :width, :height
 
     def initialize(width=nil, height=nil, url=nil)
@@ -36,6 +34,13 @@ module Lynr; module Model;
       record = {} if record.nil?
       Lynr::Model::Image.new(record['width'], record['height'], record['url'])
     end
+
+    def self.inflatable?(record)
+      keys = record.keys
+      ['width', 'height', 'url'].count { |attr| keys.include?(attr) } == 3
+    end
+
+    Empty = Lynr::Model::Image.new
 
   end
 

@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require './lib/lynr/model/image'
+require 'lynr/model/image'
 
 describe Lynr::Model::Image do
 
@@ -104,6 +104,30 @@ describe Lynr::Model::Image do
 
     it "provides an empty image for nil" do
       expect(Lynr::Model::Image.inflate(nil)).to eq(empty_image)
+    end
+
+  end
+
+  describe ".inflatable?" do
+
+    it "is inflatable if it has the keys width, height, url" do
+      image_props = { 'width' => "300", 'height' => "150", 'url' => @url }
+      expect(Lynr::Model::Image.inflatable?(image_props)).to be_true
+    end
+
+    it "is not inflatable if it is missing width" do
+      image_props = { 'height' => "150", 'url' => @url }
+      expect(Lynr::Model::Image.inflatable?(image_props)).to be_false
+    end
+
+    it "is not inflatable if it is missing height" do
+      image_props = { 'width' => "300", 'url' => @url }
+      expect(Lynr::Model::Image.inflatable?(image_props)).to be_false
+    end
+
+    it "is not inflatable if it is missing url" do
+      image_props = { 'width' => "300", 'height' => "150" }
+      expect(Lynr::Model::Image.inflatable?(image_props)).to be_false
     end
 
   end
