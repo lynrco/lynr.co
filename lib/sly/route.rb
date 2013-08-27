@@ -86,7 +86,7 @@ module Sly
 
     def Route.make_r(uri)
       return uri if uri.is_a? Regexp
-      return %r(/) if uri == '/'
+      return %r(\A/\Z) if uri == '/'
       param_names = uri.scan(PATH_PARAMS_REGEX).flatten
       patterns = uri.split('/').map do |part|
         name = part.sub(':', '')
