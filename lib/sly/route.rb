@@ -80,11 +80,13 @@ module Sly
     end
 
     def base_path(uri)
-      uri.match(PATH_BASE_REGEX)[1]
+      matched = uri.match(PATH_BASE_REGEX)
+      (matched && matched[1]) || '/'
     end
 
     def Route.make_r(uri)
       return uri if uri.is_a? Regexp
+      return %r(/) if uri == '/'
       param_names = uri.scan(PATH_PARAMS_REGEX).flatten
       patterns = uri.split('/').map do |part|
         name = part.sub(':', '')
