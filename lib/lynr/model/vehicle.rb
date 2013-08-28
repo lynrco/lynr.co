@@ -1,7 +1,7 @@
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
-require 'lynr/model/image'
+require 'lynr/model/sized_image'
 require 'lynr/model/mpg'
 require 'lynr/model/vin'
 
@@ -23,7 +23,7 @@ module Lynr; module Model;
   # * `:vin`, a `Lynr::Model::Vin` object containing all the information
   #   that would be retrieved with a vin lookup. The object may or may not contain
   #   the actual vin number.
-  # * `:images`, an `Array` of `Lynr::Model::Image` objects.
+  # * `:images`, an `Array` of `Lynr::Model::SizedImage` objects.
   # * `:dealership`, a `Lynr::Model::Dealership` instance
   class Vehicle
 
@@ -89,7 +89,7 @@ module Lynr; module Model;
       data = record.dup
       data['mpg'] = Lynr::Model::Mpg.inflate(data['mpg']) if data['mpg']
       data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
-      data['images'] = data['images'].map { |image| Lynr::Model::Image.inflate(image) } if data['images']
+      data['images'] = data['images'].map { |image| Lynr::Model::SizedImage.inflate(image) } if data['images']
       Lynr::Model::Vehicle.new(data, data['id'])
     end
 

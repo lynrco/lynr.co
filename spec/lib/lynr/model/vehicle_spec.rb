@@ -122,7 +122,7 @@ describe Lynr::Model::Vehicle do
     end
 
     it "updates a complex field if passed" do
-      dummy_images = Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy.gif")
+      dummy_images = [Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy.gif")]
       dummy_vehicle = vehicle.set({ 'images' => dummy_images })
       expect(dummy_vehicle.images).to eq(dummy_images)
       expect(dummy_vehicle.images).to_not eq(vehicle.images)
@@ -132,7 +132,8 @@ describe Lynr::Model::Vehicle do
 
   describe ".inflate" do
 
-    let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+    let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+    let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
     let(:mpg) { Lynr::Model::Mpg.new({ 'city' => 28.8, 'highway' => 33.2 }) }
     let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
     let(:vehicle_data) {
