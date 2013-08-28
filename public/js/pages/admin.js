@@ -86,7 +86,6 @@ define(function(require) {
   }
 
   function uploadPhotosSuccess(assembly) {
-    console.log(assembly);
     var results = assembly.results;
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
