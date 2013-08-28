@@ -45,7 +45,7 @@ a { color: @font_color; text-decoration: none; }
 }
 .menu-search-wrapper { display: block; margin: 0.5rem 2.803738318%; }
 .menu-search {
-  border-radius: 1rem; padding: 0 6.5420561%; width: 86.9158878%; height: 2em;
+  .border_radius_a(1rem); padding: 0 6.5420561%; width: 86.9158878%; height: 2em;
   font-size: 1rem; font-weight: normal;
   .box_shadow(0px, 1px, 2px, 2px, rgba(0,0,0,0.25), inset);
 }
@@ -62,7 +62,7 @@ a { color: @font_color; text-decoration: none; }
 }
 /** Buttons **/
 .btn {
-  display: inline-block; border: 1px solid #fff; .border_radius(6px); padding: 1.25rem 0 0.9375rem;
+  display: inline-block; border: 1px solid #fff; .border_radius_a(6px); padding: 1.25rem 0 0.9375rem;
   height: 5.625rem; text-align: center; /*text-shadow: 0px 1px 1px rgba(0,0,0,0.4);*/
   font-family: @font_stack; font-size: 2.25rem; font-weight: 100; color: lighten(@font_color, 40%);
   .linear_gradient(#ffffff, #ededed); .outer_glow(rgba(0,0,0,0.15)); .border_box();
@@ -82,7 +82,7 @@ a { color: @font_color; text-decoration: none; }
 .msg-error { color: @error; }
 .msg-error:before { content: '* '; color: @error; }
 .fs {
-  position: relative; .border_radius(6px);
+  position: relative; .border_radius_a(6px);
   background: #e4e4e4; .box_shadow(0px, 1px, 5px, 2px, rgba(0, 0, 0, 0.5), inset);
   .clearfix();
 
@@ -115,6 +115,10 @@ a { color: @font_color; text-decoration: none; }
 .fs-thirds { .border_radius(0, 0, 0, 6px); border-right: 1px solid rgba(0, 0, 0, 0.2); width: 67%; }
 .fs-third { .border_radius(0, 0, 6px, 0); border-left: 1px solid rgba(255, 255, 255, 0.7); width: 33%; }
 .fs-title { clear: both; margin: 2.1875rem 0 1.25rem; }
+/*** Form - Image Upload ***/
+.fs .label-photo { display: block; position: relative; width: 100%; height: 100%; }
+.input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
+.photo-preview { .border_radius_a(6px); width: 100%; height: 100%; }
 /* Home */
 #home .main { margin-top: 1.25rem; margin-bottom: 1.25rem; }
 #home .btn-half { width: 48.333333333%; }
@@ -157,10 +161,7 @@ label[for=agree_terms] {
 }
 /* Account Information */
 .account-photo { margin: 0 0 1rem; }
-.fs-account-photo { margin: 0 auto; max-width: 160px; max-height: 160px; }
-.fs .label-photo { display: block; position: relative; width: 100%; height: 100%; }
-.input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
-.photo-preview { width: 100%; height: 100%; }
+.fs-photo-account { margin: 0 auto; max-width: 160px; max-height: 160px; }
 .account-photo .btn { display: none; }
 /* Billing Information */
 .m-billing, .m-billing { display: none; }
