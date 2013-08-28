@@ -5,7 +5,7 @@
       %>
       <form id="photo-<%= i %>" class="vehicle-photo <%= (i % 2 == 0 && 'vehicle-photo-even') || 'vehicle-photo-odd' %>"
             action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
-        <fieldset class="fs fs-vehicle-photo">
+        <fieldset class="fs fs-photo fs-photo-vehicle">
           <label for="vehicle-photo-<%= i %>" class="label-photo">
             <% if image && !image.empty? %>
             <img class="photo-preview"
