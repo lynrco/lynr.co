@@ -5,21 +5,25 @@
       '*': {
         'domReady': 'libs/domReady-2.0.0',
         'jquery': 'libs/jquery-1.10.2.min',
-        'jquery.transloadit': 'https://assets.transloadit.com/js/jquery.transloadit2-v2-latest.js',
+        'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
+        'spin': 'libs/spin-1.3.2',
         'stripe': 'https://js.stripe.com/v1/',
         'underscore': 'libs/underscore-1.3.3'
       }
     },
     shim: {
-      'https://js.stripe.com/v1/': {
-        exports: 'Stripe'
-      },
       'libs/jquery-1.10.2.min': {
         exports: 'jQuery'
       },
-      'https://assets.transloadit.com/js/jquery.transloadit2-latest.js': {
+      'libs/jquery.transloadit2-v2.1.0': {
         deps: ['jquery'],
         exports: 'jQuery.fn.transloadit'
+      },
+      'libs/spin-1.3.2': {
+        exports: 'Spinner'
+      },
+      'https://js.stripe.com/v1/': {
+        exports: 'Stripe'
       }
     }
   });
