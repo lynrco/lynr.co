@@ -74,8 +74,6 @@ module Lynr; module Controller;
       @posted = req.POST.dup
       posted['dealership'] = dealership
       posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
-      require 'pry'
-      binding.pry
       vehicle_dao.save(vehicle.set(posted))
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
