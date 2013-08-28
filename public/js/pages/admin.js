@@ -16,7 +16,7 @@ define(function(require) {
     require(
       ['jquery', 'jquery.transloadit'],
       function($, jtl) {
-        $('#account-photo').transloadit(transloaditOpts('account'));
+        $('form.account-photo').transloadit(transloaditOpts('account'));
       }
     );
   }
