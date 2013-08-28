@@ -52,7 +52,7 @@ module Lynr; module Controller;
     def translate_image
       if !posted['image'].nil? && !posted['image'].empty?
         json = JSON.parse(posted['image'])
-        Lynr::Model::Image.inflate(json)
+        Lynr::Model::SizedImage.inflate(json)
       else
         @dealership.image
       end

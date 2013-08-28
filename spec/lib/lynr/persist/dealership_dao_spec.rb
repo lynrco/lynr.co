@@ -5,13 +5,14 @@ require 'lynr/persist/dealership_dao'
 
 require 'lynr/model/address'
 require 'lynr/model/identity'
-require 'lynr/model/image'
+require 'lynr/model/sized_image'
 
 describe Lynr::Persist::DealershipDao do
 
   let(:address) { "122 Forsyth St\nApt 4D" }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
-  let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+  let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+  let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
   let(:dao) { Lynr::Persist::DealershipDao.new }
 
   describe "#get result" do

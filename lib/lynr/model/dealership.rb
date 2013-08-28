@@ -2,7 +2,7 @@ require 'lynr/model/address'
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/identity'
-require 'lynr/model/image'
+require 'lynr/model/sized_image'
 
 module Lynr; module Model;
 
@@ -55,7 +55,7 @@ module Lynr; module Model;
       if (record)
         data = record.dup
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
-        data['image'] = Lynr::Model::Image.inflate(record['image'])
+        data['image'] = Lynr::Model::SizedImage.inflate(record['image'])
         Lynr::Model::Dealership.new(data, record['id'])
       else
         nil

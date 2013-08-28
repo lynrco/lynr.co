@@ -4,13 +4,14 @@ require './spec/spec_helper'
 require './lib/lynr/model/address'
 require './lib/lynr/model/dealership'
 require './lib/lynr/model/identity'
-require './lib/lynr/model/image'
+require './lib/lynr/model/sized_image'
 
 describe Lynr::Model::Dealership do
 
   let(:address) { "122 Forsyth St\nApt 4D" }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
-  let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+  let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
+  let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
 
   describe "#==" do
 
@@ -121,7 +122,7 @@ describe Lynr::Model::Dealership do
     context ".image" do
 
       it "is a Lynr::Model::Image" do
-        expect(dealer.image).to be_an_instance_of(Lynr::Model::Image)
+        expect(dealer.image).to be_an_instance_of(Lynr::Model::SizedImage)
       end
 
       it "is the same as the constructing image" do
