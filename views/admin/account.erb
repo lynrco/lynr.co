@@ -17,6 +17,7 @@
                  alt="Add your image" />
             <% end %>
             <input id="photo" class="input-photo" type="file" value="" name="photo" />
+            <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
           </label>
         </fieldset>
         <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
