@@ -1,5 +1,6 @@
 require 'lynr/controller/admin'
 require 'lynr/model/vehicle'
+require 'lynr/model/sized_image'
 
 module Lynr; module Controller;
 
@@ -10,6 +11,7 @@ module Lynr; module Controller;
     get  '/admin/:slug/:vehicle',        :get_edit_vehicle
     post '/admin/:slug/:vehicle',        :post_edit_vehicle
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
+    post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
 
     def get_add(req)
       return unauthorized unless authorized?(req)
@@ -63,6 +65,19 @@ module Lynr; module Controller;
         template_id: Lynr::App.config['transloadit']['vehicle_template_id']
       }.to_json
       render 'admin/vehicle/photos.erb'
+    end
+
+    def post_edit_vehicle_photos(req)
+      return unauthorized unless authorized?(req)
+      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @posted = req.POST.dup
+      posted['dealership'] = dealership
+      posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
+      require 'pry'
+      binding.pry
+      vehicle_dao.save(vehicle.set(posted))
+      redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
   end
