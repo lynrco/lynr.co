@@ -6,7 +6,7 @@
         'domReady': 'libs/domReady-2.0.0',
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
-        'spin': 'libs/spin-1.3.2',
+        'spinner': 'libs/spin-1.3.2',
         'stripe': 'https://js.stripe.com/v1/',
         'underscore': 'libs/underscore-1.3.3'
       }
