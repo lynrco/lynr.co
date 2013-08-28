@@ -6,19 +6,17 @@ define(function(require) {
     'vehicle-photos': initVehiclePhotos
   };
 
-  var transloaditOpts = {
+  var baseTransloaditOpts = {
     autoSubmit: false,
     triggerUploadOnFileSelection: true,
-    wait: true,
-    onSuccess: uploadSuccess
+    wait: true
   };
 
   function initAccount() {
-    transloaditOpts['onSuccess'] = uploadAccountSuccess;
     require(
       ['jquery', 'jquery.transloadit'],
       function($, jtl) {
-        $('#account-photo').transloadit(transloaditOpts);
+        $('#account-photo').transloadit(transloaditOpts('account'));
       }
     );
   }
@@ -44,9 +42,25 @@ define(function(require) {
       ['jquery', 'jquery.transloadit'],
       function($, jtl) {
         var forms = $('.vehicle-photo');
-        forms.first().transloadit(transloaditOpts);
+        forms.transloadit(transloaditOpts('vehicle-photos'));
       }
     );
+  }
+
+  function transloaditOpts(page) {
+    var specific;
+    switch (page) {
+      case 'account':
+        specific = {
+          onSuccess: uploadAccountSuccess,
+          fields: 'input[name=dealership_id]'
+        };
+        break;
+      default:
+        specific = {};
+        break;
+    }
+    return $.extend(specific, baseTransloaditOpts);
   }
 
   function uploadAccountSuccess(assembly) {
