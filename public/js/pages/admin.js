@@ -50,6 +50,12 @@ define(function(require) {
   function transloaditOpts(page) {
     var specific;
     switch (page) {
+      case 'vehicle-photos':
+        specific = {
+          onSuccess: uploadPhotosSuccess,
+          fields: 'input[name=idx], input[name=dealership_id], input[name=vehicle_id]'
+        };
+        break;
       case 'account':
         specific = {
           onSuccess: uploadAccountSuccess,
@@ -80,6 +86,38 @@ define(function(require) {
   }
 
   function uploadPhotosSuccess(assembly) {
+    console.log(assembly);
+    var results = assembly.results;
+    var fields = assembly.fields;
+    var form = $('#photo-' + fields.idx);
+    var input = $('input[name=images]');
+    var original = results[':original'][0];
+    var full = results.resize_full[0];
+    var thumb = results.resize_thumb[0];
+    var image = {
+      original: {
+        url: original.url,
+        src: original.url,
+        width: original.meta.width,
+        height: original.meta.height
+      },
+      full: {
+        url: full.url,
+        src: full.url,
+        width: full.meta.width,
+        height: full.meta.height
+      },
+      thumb: {
+        url: thumb.url,
+        src: thumb.url,
+        width: thumb.meta.width,
+        height: thumb.meta.height
+      }
+    };
+    var images = JSON.parse(input.val());
+    images[fields.idx] = image;
+    input.val(JSON.stringify(images));
+    form.find('img.photo-preview').attr(image.full);
   }
 
   return api;
