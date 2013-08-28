@@ -9,9 +9,9 @@
           <label for="vehicle-photo-<%= i %>" class="label-photo">
             <% if image && !image.empty? %>
             <img class="photo-preview"
-                 src="<%= image.url %>"
-                 width="<%= image.width %>"
-                 height="<%= image.height %>"
+                 src="<%= image['full']['url'] %>"
+                 width="<%= image['full']['width'] %>"
+                 height="<%= image['full']['height'] %>"
                  alt="" />
             <% else %>
             <img class="photo-preview"
@@ -24,10 +24,13 @@
           </label>
         </fieldset>
         <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+        <input type="hidden" name="idx" value="<%= i %>" />
+        <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
+        <input type="hidden" name="vehicle_id" value="<%= @vehicle.id %>" />
         <button class="btn btn-full btn-create" type="submit">Update Vehicle Image</button>
       </form>
       <% end %>
       <form class="vehicle-photo-data" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" method="POST">
-        <input type="hidden" name="images" value="<%= @vehicle.view['images'] %>" />
+        <input type="hidden" name="images" value="<%= CGI.escape_html(@vehicle.view['images'].to_json) %>" />
         <button class="btn btn-full btn-create" type="submit">Finished</button>
       </form>
