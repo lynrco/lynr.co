@@ -1,5 +1,7 @@
 define(function(require) {
 
+  var $ = require('jquery');
+
   var api = {
     account: initAccount,
     billing: initBilling,
@@ -19,8 +21,9 @@ define(function(require) {
 
   function initAccount() {
     require(
-      ['jquery', 'jquery.transloadit', 'modules/spinner'],
-      function($, jtl) {
+      // spinner module is included so it gets preloaded
+      ['jquery.transloadit', 'modules/spinner'],
+      function(jtl) {
         $('form.account-photo').transloadit(transloaditOpts('account'));
       }
     );
@@ -44,8 +47,9 @@ define(function(require) {
 
   function initVehiclePhotos() {
     require(
-      ['jquery', 'jquery.transloadit', 'modules/spinner'],
-      function($, jtl) {
+      // spinner module is included so it gets preloaded
+      ['jquery.transloadit', 'modules/spinner'],
+      function(jtl) {
         var forms = $('.vehicle-photo');
         var opts = transloaditOpts('vehicle-photos');
         forms.each(function() {
@@ -72,67 +76,63 @@ define(function(require) {
         specific = {};
         break;
     }
-    return $.extend(specific, baseTransloaditOpts);
+    return $.extend({}, baseTransloaditOpts, specific);
   }
 
   function uploadAccountSuccess(assembly) {
-    require(['jquery'], function($) {
-      uploadSuccessStopSpinner($, assembly);
-      var results = assembly.results;
-      var input = $('input[name=image]');
-      var original = results[':original'][0];
-      var full = results.resize_full[0];
-      var thumb = results.resize_thumb[0];
-      var image = {
+    uploadSuccessStopSpinner(assembly);
+    var results = assembly.results;
+    var input = $('input[name=image]');
+    var original = results[':original'][0];
+    var full = results.resize_full[0];
+    var thumb = results.resize_thumb[0];
+    var image = {
+      url: full.url,
+      src: full.url,
+      width: full.meta.width,
+      height: full.meta.height
+    };
+    input.val(JSON.stringify(image));
+    $('img.photo-preview').attr(image);
+  }
+
+  function uploadPhotosSuccess(assembly) {
+    uploadSuccessStopSpinner(assembly);
+    var results = assembly.results;
+    var fields = assembly.fields;
+    var form = $('#photo-' + fields.idx);
+    var input = $('input[name=images]');
+    var original = results[':original'][0];
+    var full = results.resize_full[0];
+    var thumb = results.resize_thumb[0];
+    var image = {
+      original: {
+        url: original.url,
+        src: original.url,
+        width: original.meta.width,
+        height: original.meta.height
+      },
+      full: {
         url: full.url,
         src: full.url,
         width: full.meta.width,
         height: full.meta.height
-      };
-      input.val(JSON.stringify(image));
-      $('img.photo-preview').attr(image);
-    });
-  }
-
-  function uploadPhotosSuccess(assembly) {
-    require(['jquery'], function($) {
-      uploadSuccessStopSpinner($, assembly);
-      var results = assembly.results;
-      var fields = assembly.fields;
-      var form = $('#photo-' + fields.idx);
-      var input = $('input[name=images]');
-      var original = results[':original'][0];
-      var full = results.resize_full[0];
-      var thumb = results.resize_thumb[0];
-      var image = {
-        original: {
-          url: original.url,
-          src: original.url,
-          width: original.meta.width,
-          height: original.meta.height
-        },
-        full: {
-          url: full.url,
-          src: full.url,
-          width: full.meta.width,
-          height: full.meta.height
-        },
-        thumb: {
-          url: thumb.url,
-          src: thumb.url,
-          width: thumb.meta.width,
-          height: thumb.meta.height
-        }
-      };
-      var images = JSON.parse(input.val());
-      images[fields.idx] = image;
-      input.val(JSON.stringify(images));
-      form.find('img.photo-preview').attr(image.full);
-    });
+      },
+      thumb: {
+        url: thumb.url,
+        src: thumb.url,
+        width: thumb.meta.width,
+        height: thumb.meta.height
+      }
+    };
+    var images = JSON.parse(input.val());
+    images[fields.idx] = image;
+    input.val(JSON.stringify(images));
+    form.find('img.photo-preview').attr(image.full);
   }
 
   function uploadStart(assembly) {
-    require(['jquery', 'modules/spinner'], function($, spinner) {
+    require(['modules/spinner'], function(spinner) {
       var fields = assembly.fields;
       var form = $('#photo-' + fields.idx);
       var spin = form.data('spinner') || spinner(form.find('.fs-photo')[0]);
@@ -141,7 +141,7 @@ define(function(require) {
     });
   }
 
-  function uploadSuccessStopSpinner($, assembly) {
+  function uploadSuccessStopSpinner(assembly) {
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
     form.data('spinner').stop();
