@@ -80,6 +80,20 @@ describe Lynr::Model::Vehicle do
 
   end
 
+  describe "#images?" do
+
+    it "is true if at least one image exists" do
+      dummy_images = [Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy.gif")]
+      dummy_vehicle = vehicle.set({ 'images' => dummy_images })
+      expect(dummy_vehicle.images?).to be_true
+    end
+
+    it "is false if there are no images" do
+      expect(vehicle.images?).to be_false
+    end
+
+  end
+
   describe "#name" do
 
     it "returns {year make model} when they exist" do

@@ -58,6 +58,10 @@ module Lynr; module Model;
       images.find { |img| !img.nil? && img != Lynr::Model::Image::Empty } || Lynr::Model::Image::Empty
     end
 
+    def images?
+      !self.image.empty?
+    end
+
     def name
       (!@name.strip.empty? && @name) || "N/A"
     end
