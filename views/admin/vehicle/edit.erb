@@ -1,5 +1,28 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form class="account" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>" method="POST">
+      <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
+      <div class="photos-vehicle">
+        <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="photos-vehicle-inner">
+          <%-
+          images = @vehicle.images
+          images.each do |image|
+            if !image.empty?
+          -%>
+          <div class="photo-vehicle-wrapper">
+            <img class="photo-vehicle"
+                 src="<%= image.full.url %>"
+                 width="<%= image.full.width %>"
+                 alt="" />
+          </div>
+          <%-
+            end
+          end
+          -%>
+        </a>
+      </div>
+      <%- elsif @vehicle.images? && @vehicle.images.length == 1 -%>
+      <%- else -%>
+      <%- end -%>
+      <form class="vehicle" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>" method="POST">
         <fieldset class="fs">
           <label for="price">Price</label>
           <input class="fs-top fs-full <%= error_class('price') %>" type="text" name="price"

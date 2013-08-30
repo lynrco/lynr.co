@@ -80,6 +80,38 @@ describe Lynr::Model::Vehicle do
 
   end
 
+  describe "#image" do
+
+    let(:image1) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy1.gif") }
+    let(:image2) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy2.gif") }
+    let(:image3) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy3.gif") }
+
+    it "is the first non-empty image when there are images" do
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image2] })
+      expect(v.image).to eq(image2)
+    end
+
+    it "is the first image when no images are empty" do
+      v = vehicle.set({ 'images' => [image1, image2] })
+      expect(v.image).to eq(image1)
+    end
+
+    it "is Image::Empty when there are no images" do
+      expect(vehicle.image).to eq(Lynr::Model::Image::Empty)
+    end
+
+    it "is Image::Empty when all images are empty" do
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
+      expect(vehicle.image).to eq(Lynr::Model::Image::Empty)
+    end
+
+  end
+
+  # TODO: Need specs for images method
+  describe "#images" do
+
+  end
+
   describe "#images?" do
 
     it "is true if at least one image exists" do

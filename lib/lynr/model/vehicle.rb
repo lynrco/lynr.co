@@ -31,7 +31,7 @@ module Lynr; module Model;
     include Lynr::Model::BaseDated
 
     attr_reader :id, :dealership, :created_at, :updated_at
-    attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :images
+    attr_reader :year, :make, :model, :price, :condition, :mpg, :vin
 
     def initialize(data={}, id=nil)
       @id = id
@@ -55,7 +55,11 @@ module Lynr; module Model;
     end
 
     def image
-      images.find { |img| !img.nil? && img != Lynr::Model::Image::Empty } || Lynr::Model::Image::Empty
+      images.first || Lynr::Model::Image::Empty
+    end
+
+    def images
+      @images.reject { |img| img.nil? || img == Lynr::Model::Image::Empty }
     end
 
     def images?
