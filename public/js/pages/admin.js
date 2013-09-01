@@ -19,6 +19,20 @@ define(function(require) {
 
   var spinners = {};
 
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
   function initAccount() {
     require(
       // spinner module is included so it gets preloaded
@@ -55,6 +69,8 @@ define(function(require) {
         forms.each(function() {
           var form = $(this);
           form.transloadit(opts);
+          //form.find('input[type=file]').bind('change', handleFileSelect);
+          //form.find('input[type=file]').bind('change', function(e) { form.trigger('submit.transloadit'); });
         });
       }
     );
