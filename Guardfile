@@ -79,3 +79,11 @@ group :local do
 #  end
 
 end
+
+group :nitrous do
+
+  guard 'rake', :task => 'assets:precompile' do
+    watch(%r{^public/less/(.+)\.less$})
+  end
+
+end
