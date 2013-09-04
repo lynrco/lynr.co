@@ -118,7 +118,7 @@ a { color: @font_color; text-decoration: none; }
 /*** Form - Image Upload ***/
 .fs .label-photo { display: block; position: relative; max-width: 100%; max-height: 100%; }
 .input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
-.photo-preview { .border_radius_a(6px); max-width: 100%; max-height: 100%; }
+.photo-preview { .border_radius_a(6px); width: 100%; max-width: 100%; height: 100%; max-height: 100%; }
 /* Home */
 #home .main { margin-top: 1.25rem; margin-bottom: 1.25rem; }
 #home .btn-half { width: 48.333333333%; }
@@ -172,8 +172,12 @@ label[for=agree_terms] {
   overflow: hidden; .clearfix();
 }
 .photos-vehicle-inner { display: block; width: 700%; .clearfix(); }
-.photo-vehicle-wrapper { float: left; margin: 0 0 0 1.5625vw; border: 7px solid #fff; max-width: 93.75vw; }
+.photo-vehicle-wrapper { float: left; display: block; margin: 0 0 0 1.5625vw; border: 7px solid #fff; max-width: 93.75vw; }
 .photo-vehicle { display: block; }
+.photos-vehicle-single { display: block; width: 100%; .clearfix(); }
+.photo-vehicle-single {
+  box-sizing: border-box; position: relative; left: 1.5625%; border: 7px solid #fff; width: 96.875%; height: 247px;
+}
 /* Vehicle - Edit Photos */
 .vehicle-photos .main { padding-top: 2.125rem; }
 .vehicle-photo { float: left; position: relative; margin: 0 7.5% 2.75rem 4.166666667%; width: 42.083333333%; height: 38.59375vw; }
