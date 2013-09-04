@@ -17,6 +17,10 @@ describe Lynr::Model::Vehicle do
   let(:vehicle) { Lynr::Model::Vehicle.new({ 'year' => @year, 'make' => @make, 'model' => @model }) }
   let(:empty_vehicle) { Lynr::Model::Vehicle.new }
 
+  let(:image1) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy1.gif") }
+  let(:image2) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy2.gif") }
+  let(:image3) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy3.gif") }
+
   describe "#initialize" do
 
     it "gives an empty object when given no parameters" do
@@ -82,10 +86,6 @@ describe Lynr::Model::Vehicle do
 
   describe "#image" do
 
-    let(:image1) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy1.gif") }
-    let(:image2) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy2.gif") }
-    let(:image3) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy3.gif") }
-
     it "is the first non-empty image when there are images" do
       v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image2] })
       expect(v.image).to eq(image2)
@@ -102,13 +102,30 @@ describe Lynr::Model::Vehicle do
 
     it "is Image::Empty when all images are empty" do
       v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
-      expect(vehicle.image).to eq(Lynr::Model::Image::Empty)
+      expect(v.image).to eq(Lynr::Model::Image::Empty)
     end
 
   end
 
-  # TODO: Need specs for images method
   describe "#images" do
+
+    it "is an empty array when all images are empty" do
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
+      expect(v.images).to be_empty
+    end
+
+    it "contains no empty images" do
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
+      expect(v.images).to_not include(Lynr::Model::Image::Empty)
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2] })
+      expect(v.images).to_not include(Lynr::Model::Image::Empty)
+    end
+
+    it "contains all non-empty images" do
+      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2] })
+      expect(v.images).to include(image1)
+      expect(v.images).to include(image2)
+    end
 
   end
 
