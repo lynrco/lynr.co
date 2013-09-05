@@ -31,7 +31,7 @@ module Lynr; module Model;
     include Lynr::Model::BaseDated
 
     attr_reader :id, :dealership, :created_at, :updated_at
-    attr_reader :year, :make, :model, :price, :condition, :mpg, :vin
+    attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :notes
 
     def initialize(data={}, id=nil)
       data.default_proc = proc do |hash, key|
@@ -125,6 +125,7 @@ module Lynr; module Model;
 
     private
 
+    # Defines the defaults for the data `Hash` passed in for `#initialize`
     def self.defaults
       {
         'year' => '',
