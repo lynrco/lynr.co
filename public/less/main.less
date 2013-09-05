@@ -37,7 +37,7 @@ a { color: @font_color; text-decoration: none; }
 }
 /*** Layout - Menu ***/
 .menu { border-bottom: 1px solid #fff; }
-.menu-account { position: absolute; left: -75%; width: 75%; overflow: hidden; }
+.menu-account { position: absolute; left: -75%; border-right: 1px solid #707070; width: 75%; height: 100%; overflow: hidden; }
 .menu-active {
   .main, .menu-account {
     .transition(left 0.5s);
@@ -52,14 +52,22 @@ a { color: @font_color; text-decoration: none; }
 }
 .menu-items { border-top: 1px solid #ccc; }
 .menu-item {
-  border-top: 1px solid #fff; border-bottom: 1px solid #ccc;
-  padding: 0.863636364rem 6.5420561% 0.659090909rem;
+  position: relative; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;
+  padding: 1.875rem 3.258655804% 1.25rem 22.040816327%;
+  font-size: 2.75rem; font-family: @font_stack; font-weight: 100;
 }
-.menu-item-icon { min-width: 16px; min-height: 16px; }
+.menu-item-icon { display: none; }
 .menu-visible {
   body { overflow: hidden; }
   .menu-account { left: 0; }
   .main { left: 75%; }
+}
+.menu-item-dealership {
+  .menu-item-icon {
+    display: block; position: absolute; top: 50%; left: 3.258655804%;
+    .border_radius_a(38px); margin: -38px 0 0; border: 3px solid #fff; width: 70px; height: 70px;
+    .box_shadow(2px, 2px, 2px, 0px, rgba(0,0,0,0.6));
+  }
 }
 /** Buttons **/
 .btn {
