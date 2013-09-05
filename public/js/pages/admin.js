@@ -113,7 +113,6 @@ define(function(require) {
   }
 
   function uploadPhotosSuccess(assembly) {
-    console.log(assembly);
     uploadSuccessStopSpinner(assembly);
     var results = assembly.results;
     var fields = assembly.fields;
