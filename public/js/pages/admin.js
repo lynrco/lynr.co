@@ -100,8 +100,8 @@ define(function(require) {
     var results = assembly.results;
     var input = $('input[name=image]');
     var original = results[':original'][0];
-    var full = results.resize_full[0];
-    var thumb = results.resize_thumb[0];
+    var full = results.optimized_full[0];
+    var thumb = results.optimized_thumb[0];
     var image = {
       url: full.url,
       src: full.url,
@@ -113,14 +113,15 @@ define(function(require) {
   }
 
   function uploadPhotosSuccess(assembly) {
+    console.log(assembly);
     uploadSuccessStopSpinner(assembly);
     var results = assembly.results;
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
     var input = $('input[name=images]');
     var original = results[':original'][0];
-    var full = results.resize_full[0];
-    var thumb = results.resize_thumb[0];
+    var full = results.optimized_full[0];
+    var thumb = results.optimized_thumb[0];
     var image = {
       original: {
         url: original.url,
