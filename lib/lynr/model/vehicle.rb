@@ -35,7 +35,7 @@ module Lynr; module Model;
 
     def initialize(data={}, id=nil)
       data.default_proc = proc do |hash, key|
-        data[key] = defaults[key]
+        data[key] = Vehicle.defaults[key]
       end
       @id = id
       @year = data['year']
@@ -125,7 +125,7 @@ module Lynr; module Model;
 
     private
 
-    def defaults
+    def self.defaults
       {
         'year' => '',
         'make' => '',
