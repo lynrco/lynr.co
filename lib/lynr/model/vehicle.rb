@@ -34,18 +34,22 @@ module Lynr; module Model;
     attr_reader :year, :make, :model, :price, :condition, :mpg, :vin
 
     def initialize(data={}, id=nil)
+      data.default_proc = proc do |hash, key|
+        data[key] = defaults[key]
+      end
       @id = id
-      @year = data['year'] || ""
-      @make = data['make'] || ""
-      @model = data['model'] || ""
+      @year = data['year']
+      @make = data['make']
+      @model = data['model']
       @name = "#{@year} #{@make} #{@model}".strip
-      @price = data['price'] || 0.0
-      @condition = data['condition'] || 0
-      @mpg = data['mpg'] || nil # Should be an instance of Lynr::Model::Mpg
-      @vin = data['vin'] || nil # Should be an instance of Lynr::Model::Vin
-      @images = data['images'] || []
+      @price = data['price']
+      @condition = data['condition']
+      @mpg = data['mpg'] # Should be an instance of Lynr::Model::Mpg
+      @vin = data['vin'] # Should be an instance of Lynr::Model::Vin
+      @images = data['images']
       @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
       @dealership_id = data['dealership'] if @dealership.nil?
+      @notes = data['notes']
       @created_at = data['created_at']
       @updated_at = data['updated_at']
     end
@@ -116,6 +120,23 @@ module Lynr; module Model;
         'dealership' => @dealership,
         'created_at' => @created_at,
         'updated_at' => @updated_at
+      }
+    end
+
+    private
+
+    def defaults
+      {
+        'year' => '',
+        'make' => '',
+        'model' => '',
+        'price' => 0.0,
+        'condition' => 0,
+        'mpg' => nil,
+        'vin' => nil,
+        'images' => [],
+        'dealership' => nil,
+        'notes' => ''
       }
     end
 
