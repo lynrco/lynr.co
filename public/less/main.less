@@ -4,10 +4,11 @@ html, body, div, h1, h2, h3, h4, h5, h6, img, p, ol, ul, li, dl, dt, dd,
 button, nav, section, aside, fieldset, input {
   margin: 0; border: 0; padding: 0;
 }
-input[type=text], input[type=email], input[type=search], input[type=password], input[type=number] {
+input[type=text], input[type=email], input[type=search], input[type=password], input[type=number], textarea {
   webkit-appearance: none;
   moz-appearance: none; /* mobile firefox too! */
 }
+textarea { border: 0; }
 ul, ol { list-style: none; }
 button { cursor: pointer; }
 html { font-family: @font_stack; color: @font_color; }
@@ -95,19 +96,28 @@ a { color: @font_color; text-decoration: none; }
     &:focus { outline: 3px solid @highlight; }
   }
 
+  textarea, .textarea {
+    padding: 1.875rem 5%; height: 5.625rem; min-height: 11em; color: #000;
+    font-size: 1rem; font-family: @font_stack; font-weight: 300; line-height: 1.1;
+    background: transparent; .border_box(); outline: none;
+
+    &:focus { outline: 3px solid @highlight; }
+  }
+
   .fs-error { border-right: 3px solid @error !important; }
 }
 
 .fs-top { .border_radius(6px, 6px, 0, 0); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
 .fs-mid { border-top: 1px solid rgba(255, 255, 255, 0.7); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
 .fs-bottom { border-top: 1px solid rgba(255, 255, 255, 0.7); }
+.fs-only { .border_radius_a(6px); }
 .fs-full { display: block; width: 100%; }
 .fs-half { float: left; display: block; width: 50%; }
 .fs-half:nth-child(odd) {
-  border-left: 1px solid rgba(255, 255, 255, 0.7); .border_radius(0, 0, 6px, 0);
+  border-left: 1px solid rgba(255, 255, 255, 0.7);
 }
 .fs-half:nth-child(even) {
-  border-right: 1px solid rgba(0, 0, 0, 0.2); .border_radius(0, 0, 0, 6px);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 .fs-half .fs-half { padding-right: 10%; padding-left: 10%; }
 .fs-half .fs-half:nth-child(odd) { border-right: 1px solid rgba(0, 0, 0, 0.2); }
@@ -176,7 +186,7 @@ label[for=agree_terms] {
 .photo-vehicle { display: block; }
 .photos-vehicle-single { display: block; width: 100%; .clearfix(); }
 .photo-vehicle-single {
-  box-sizing: border-box; position: relative; left: 1.5625%; border: 7px solid #fff; width: 96.875%; height: 247px;
+  .border_box(); position: relative; left: 1.5625%; border: 7px solid #fff; width: 96.875%; height: 247px;
 }
 /* Vehicle - Edit Photos */
 .vehicle-photos .main { padding-top: 2.125rem; }

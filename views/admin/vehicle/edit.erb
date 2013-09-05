@@ -68,13 +68,16 @@
                  name="vin[drivetrain]" id="vin-drivetrain" placeholder="Drivetrain"
                  value="<%= (posted['vin'] || {})['drivetrain'] %>" />
           <label for="vin-ext_color">Exterior Color</label>
-          <input class="fs-bottom fs-half <%= error_class('ext_color') %>" type="text"
+          <input class="fs-mid fs-half <%= error_class('ext_color') %>" type="text"
                  name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color"
                  value="<%= (posted['vin'] || {})['ext_color'] %>" />
           <label for="vin-int_color">Interior Color</label>
-          <input class="fs-bottom fs-half <%= error_class('int_color') %>" type="text"
+          <input class="fs-mid fs-half <%= error_class('int_color') %>" type="text"
                  name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
                  value="<%= (posted['vin'] || {})['int_color'] %>" />
+          <label for="notes">Notes</label>
+          <textarea class="fs-bottom fs-full <%= error_class('notes') %>"
+                    name="notes" id="notes" placeholder="Notes"><%= posted['notes'] %></textarea>
         </fieldset>
         <button class="btn btn-full btn-create" type="submit">Edit Vehicle</button>
       </form>
