@@ -6,6 +6,7 @@ module Lynr; module Controller;
 
   class AdminVehicle < Lynr::Controller::Admin
 
+    get  '/admin/:slug/:vehicle',        :get_vehicle
     get  '/admin/:slug/vehicle/add',     :get_add
     post '/admin/:slug/vehicle/add',     :post_add
     get  '/admin/:slug/:vehicle/edit',   :get_edit_vehicle
@@ -22,6 +23,16 @@ module Lynr; module Controller;
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       response = not_found if @dealership.nil? or @vehicle.nil?
       response
+    end
+
+    # Handle view vehicle
+    def get_vehicle(req)
+      return unauthorized unless authorized?(req)
+      @subsection = 'vehicle-view'
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @title = "#{@vehicle.name}"
+      render 'admin/vehicle/view.erb'
     end
 
     # Handle add vehicle

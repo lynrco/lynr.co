@@ -1,0 +1,47 @@
+      <article class="vehicle">
+        <div class="photos-vehicle">
+          <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
+          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="photos-vehicle-inner">
+            <%-
+            images = @vehicle.images
+            images.each do |image|
+              if !image.empty?
+            -%>
+            <span class="photo-vehicle-wrapper">
+              <img class="photo-vehicle"
+                   src="<%= image.full.url %>"
+                   width="<%= image.full.width %>"
+                   alt="" />
+            </span>
+            <%-
+              end
+            end
+            -%>
+          </a>
+          <%- else -%>
+          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="photos-vehicle-inner photos-vehicle-single">
+            <img class="photo-vehicle photo-vehicle-single"
+                 src="<%= @vehicle.image.url %>"
+                 alt="Manage vehicle photos" />
+          </a>
+          <%- end -%>
+        </div>
+        <div class="vehicle-info fs">
+          <p class="input fs-top fs-combo-top fs-full"><%= @vehicle.name %></p>
+          <p class="input fs-mid fs-combo-mid fs-full"><%= @vehicle.condition %> condition</p>
+          <p class="input fs-mid fs-combo-bottom fs-full">$<%= @vehicle.price %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.mpg.city %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.mpg.highway %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.vin.transmission %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.vin.fuel %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.vin.doors %></p>
+          <p class="input fs-mid fs-half"><%= @vehicle.vin.drivetrain %></p>
+          <p class="input fs-bottom fs-half"><%= @vehicle.vin.ext_color %></p>
+          <p class="input fs-bottom fs-half"><%= @vehicle.vin.int_color %></p>
+        </div>
+        <%- if !@vehicle.notes.nil? && !@vehicle.notes.empty? -%>
+        <div class="vehicle-notes md">
+          <%= @vehicle.notes_html %>
+        </div>
+        <%- end -%>
+      </article>

@@ -35,6 +35,31 @@ a { color: @font_color; text-decoration: none; }
   position: relative; margin: 0 3.125%; padding: 0.5rem 0 0;
   .clearfix();
 }
+/*** Layout -- Markdown Block ***/
+.md h1 { font-size: 1.75rem; }
+.md h2 { font-size: 1.5rem; }
+.md h1, .md h2, .md h3 {
+  margin: 0 0 1rem; font-weight: 300; line-height: 1;
+}
+.md p, .md table { margin: 0 0 1rem; }
+.md table {
+  display: table; empty-cells: hide; table-layout: fixed; border-collapse: collapse;
+  margin: -1px 0 23px; background: rgba(0,0,0,0.05); padding: 0; width: 100%;
+}
+.md tbody { display: table-row-group; background: rgba(0,0,0,0.05); }
+.md tr { display: table-row; }
+.md tr:nth-child(odd) { background: rgba(255,255,255,0.06); }
+.md tr:nth-child(even) { background: rgba(0,0,0,0.06); }
+.md tr:hover { background: rgba(0,0,0,0.16); }
+.md thead tr { background: rgba(255,255,255,0.06) !important; }
+.md th { font-weight: bold; }
+.md td, .md th { display: table-cell; padding: 0.5em 1em; }
+.md ul, .md ol { margin: 0 0 1rem; padding: 0 0 0 4%; }
+.md ul { list-style: disc outside; }
+.md ol { list-style: decimal outside; }
+.md li { margin: 0 0 1rem; }
+.md a { color: #e74d00; }
+.md a:hover { text-decoration: underline; }
 /*** Layout - Menu ***/
 .menu { border-bottom: 1px solid #fff; }
 .menu-account { position: absolute; left: -75%; border-right: 1px solid #707070; width: 75%; height: 100%; overflow: hidden; }
@@ -118,8 +143,17 @@ a { color: @font_color; text-decoration: none; }
 .fs-top { .border_radius(6px, 6px, 0, 0); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
 .fs-mid { border-top: 1px solid rgba(255, 255, 255, 0.7); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
 .fs-bottom { border-top: 1px solid rgba(255, 255, 255, 0.7); }
+.fs {
+  .fs-combo-top, .fs-combo-mid, .fs-combo-bottom { height: 4.750rem; }
+  .fs-combo-top { padding-bottom: 1rem; }
+  .fs-combo-mid { padding-top: 1rem; padding-bottom: 1rem; height: 3.875rem; }
+  .fs-combo-bottom { padding-top: 1rem; }
+}
+.fs-combo-top { border-bottom: 0; }
+.fs-combo-mid { border-top: 0; border-bottom: 0; }
+.fs-combo-bottom { border-top: 0; }
 .fs-only { .border_radius_a(6px); }
-.fs-full { display: block; width: 100%; }
+.fs-full { clear: both; display: block; width: 100%; }
 .fs-half { float: left; display: block; width: 50%; }
 .fs-half:nth-child(odd) {
   border-left: 1px solid rgba(255, 255, 255, 0.7);
@@ -184,7 +218,10 @@ label[for=agree_terms] {
 /* Billing Information */
 .m-billing, .m-billing { display: none; }
 .m-billing-active, .m-billing-active { display: block; }
-/* Vehicle */
+/* Vehicle - View */
+.vehicle { margin-bottom: 1.875rem; }
+.vehicle-notes { margin-top: 1.875rem; padding: 0 2%; font-weight: 200; }
+/* Vehicle - Edit */
 .photos-vehicle {
   position: relative; left: -3.333333333%; margin: 0.1875rem 0 -5rem; width: 106.666666667%;
   overflow: hidden; .clearfix();
