@@ -8,8 +8,8 @@ module Lynr; module Controller;
 
     get  '/admin/:slug/vehicle/add',     :get_add
     post '/admin/:slug/vehicle/add',     :post_add
-    get  '/admin/:slug/:vehicle',        :get_edit_vehicle
-    post '/admin/:slug/:vehicle',        :post_edit_vehicle
+    get  '/admin/:slug/:vehicle/edit',   :get_edit_vehicle
+    post '/admin/:slug/:vehicle/edit',   :post_edit_vehicle
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
     post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
 
@@ -27,7 +27,7 @@ module Lynr; module Controller;
     # Handle add vehicle
     def get_add(req)
       return unauthorized unless authorized?(req)
-      @subsection = 'vehicle vehicle-add'
+      @subsection = 'vehicle-add'
       @title = 'Add Vehicle'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       render 'admin/vehicle/add.erb'
@@ -39,16 +39,16 @@ module Lynr; module Controller;
       @posted = req.POST.dup
       posted['dealership'] = dealership
       vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(@posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
+      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
     end
 
     # Handle edit vehicle
     def get_edit_vehicle(req)
       return unauthorized unless authorized?(req)
-      @subsection = 'vehicle vehicle-edit'
+      @subsection = 'vehicle-edit'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      @title = "Edit #{@vehicle.year} #{@vehicle.make} #{@vehicle.model}"
+      @title = "Edit #{@vehicle.name}"
       @posted = @vehicle.view
       render 'admin/vehicle/edit.erb'
     end
@@ -63,16 +63,16 @@ module Lynr; module Controller;
       posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
       posted['vin'] = Lynr::Model::Vin.inflate(posted['vin'])
       vehicle_dao.save(vehicle.set(posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
+      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
     end
 
     # Handle edit photos
     def get_edit_vehicle_photos(req)
       return unauthorized unless authorized?(req)
-      @subsection = 'vehicle vehicle-photos'
+      @subsection = 'vehicle-photos'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      @title = "Photos for #{@vehicle.year} #{@vehicle.make} #{@vehicle.model}"
+      @title = "Photos for #{@vehicle.name}"
       @posted = @vehicle.view
       @transloadit_params = {
         auth: { key: Lynr::App.config['transloadit']['auth_key'] },
@@ -89,7 +89,7 @@ module Lynr; module Controller;
       posted['dealership'] = dealership
       posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
       vehicle_dao.save(vehicle.set(posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
+      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
     end
 
   end

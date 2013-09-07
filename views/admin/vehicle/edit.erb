@@ -26,7 +26,7 @@
         </a>
         <%- end -%>
       </div>
-      <form class="vehicle" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>" method="POST">
+      <form class="" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit" method="POST">
         <fieldset class="fs">
           <label for="price">Price</label>
           <input class="fs-top fs-full <%= error_class('price') %>" type="text" name="price"
