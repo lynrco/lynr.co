@@ -10,6 +10,7 @@ gem 'mongo',            '1.8.2'
 gem 'bcrypt-ruby',      '3.0.1'
 gem 'yajl-ruby',        '1.1.0'
 gem 'stripe',           '1.7.11'
+gem 'kramdown',         '1.2.0'
 
 group :development do
   gem 'guard'
