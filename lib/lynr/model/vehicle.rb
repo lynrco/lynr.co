@@ -1,3 +1,5 @@
+require 'kramdown'
+
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
@@ -72,6 +74,10 @@ module Lynr; module Model;
 
     def name
       (!@name.strip.empty? && @name) || "N/A"
+    end
+
+    def notes_html
+      Kramdown::Document.new(@notes).to_html
     end
 
     def set(data)
