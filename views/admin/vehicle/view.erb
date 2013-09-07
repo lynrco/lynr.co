@@ -1,7 +1,7 @@
       <article class="vehicle">
         <div class="photos-vehicle">
           <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="photos-vehicle-inner">
+          <span class="photos-vehicle-inner">
             <%-
             images = @vehicle.images
             images.each do |image|
@@ -17,13 +17,13 @@
               end
             end
             -%>
-          </a>
+          </span>
           <%- else -%>
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="photos-vehicle-inner photos-vehicle-single">
+          <span class="photos-vehicle-inner photos-vehicle-single">
             <img class="photo-vehicle photo-vehicle-single"
                  src="<%= @vehicle.image.url %>"
                  alt="Manage vehicle photos" />
-          </a>
+          </span>
           <%- end -%>
         </div>
         <div class="vehicle-info fs">
