@@ -13,6 +13,18 @@ module Lynr; module Controller;
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
     post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
 
+    # TODO: This doesn't do anything but it should be possible to make it
+    # The same logic is repeated in every handling method
+    def self.before(req)
+      response = nil
+      response = unauthorized unless authorized?(req)
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      response = not_found if @dealership.nil? or @vehicle.nil?
+      response
+    end
+
+    # Handle add vehicle
     def get_add(req)
       return unauthorized unless authorized?(req)
       @subsection = 'vehicle vehicle-add'
@@ -30,6 +42,7 @@ module Lynr; module Controller;
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
+    # Handle edit vehicle
     def get_edit_vehicle(req)
       return unauthorized unless authorized?(req)
       @subsection = 'vehicle vehicle-edit'
@@ -53,6 +66,7 @@ module Lynr; module Controller;
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}"
     end
 
+    # Handle edit photos
     def get_edit_vehicle_photos(req)
       return unauthorized unless authorized?(req)
       @subsection = 'vehicle vehicle-photos'
