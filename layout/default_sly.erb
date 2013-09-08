@@ -13,8 +13,8 @@
       <%- if @dealership -%>
 <%= render_partial :menu_admin -%>
       <%- end -%>
-      <%- if !(@menu_right.nil? || @menu_right.empty?) -%>
-<%= render_partial @menu_right -%>
+      <%- if !@menu_secondary.nil? -%>
+<%= render_partial @menu_secondary.partial -%>
       <%- end -%>
       <div class="main">
 <%= yield -%>

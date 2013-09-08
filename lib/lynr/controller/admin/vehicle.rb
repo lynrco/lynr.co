@@ -1,6 +1,7 @@
 require 'lynr/controller/admin'
 require 'lynr/model/vehicle'
 require 'lynr/model/sized_image'
+require 'lynr/view/menu'
 
 module Lynr; module Controller;
 
@@ -13,6 +14,11 @@ module Lynr; module Controller;
     post '/admin/:slug/:vehicle/edit',   :post_edit_vehicle
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
     post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
+
+    def initialize
+      super
+      @base_menu = Lynr::View::Menu.new('Vehicle Menu', "", :menu_vehicle)
+    end
 
     # TODO: This doesn't do anything but it should be possible to make it
     # The same logic is repeated in every handling method
@@ -32,7 +38,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "#{@vehicle.name}"
-      @menu_right = :menu_vehicle
+      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       render 'admin/vehicle/view.erb'
     end
 
@@ -61,7 +67,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Edit #{@vehicle.name}"
-      @menu_right = :menu_vehicle
+      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       @posted = @vehicle.view
       render 'admin/vehicle/edit.erb'
     end
@@ -86,7 +92,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Photos for #{@vehicle.name}"
-      @menu_right = :menu_vehicle
+      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       @posted = @vehicle.view
       @transloadit_params = {
         auth: { key: Lynr::App.config['transloadit']['auth_key'] },
