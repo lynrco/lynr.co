@@ -6,9 +6,3 @@
       <h1 class="hat-title"><a class="logo" href="/">Lynr</a></h1>
       <%- end -%>
     </header>
-    <%- if @dealership -%>
-<%= render_partial :menu_admin -%>
-    <%- end -%>
-    <%- if !(@menu_right.nil? || @menu_right.empty?) -%>
-<%= render_partial @menu_right -%>
-    <%- end -%>
