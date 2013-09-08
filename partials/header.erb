@@ -7,49 +7,5 @@
       <%- end -%>
     </header>
     <%- if @dealership -%>
-    <nav class="menu menu-account">
-      <span class="menu-search-wrapper">
-        <input class="menu-search" type="text" placeholder="Search" />
-      </span>
-      <ul class="menu-items">
-        <li class="menu-item menu-item-dealership">
-          <img class="menu-item-icon" src="<%= @dealership.image.url %>" alt="" />
-          <span class="menu-item-name"><%= @dealership.name %></span>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/add">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Add Vehicle</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/manage">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Manage Vehicles</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/account">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Account Settings</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/billing">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Billing Information</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-          <span class="menu-item-name">Contact Us</span>
-        </li>
-        <li class="menu-item">
-          <a href="/signout">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Sign Out</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+<%= render_partial :menu_admin -%>
     <%- end -%>
