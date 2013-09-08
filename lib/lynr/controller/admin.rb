@@ -48,7 +48,7 @@ module Lynr; module Controller;
     end
 
     def menu(req)
-      @menu_vis = 'menu-visible'
+      @menu_vis = 'menu-visible-primary'
       index(req)
     end
 

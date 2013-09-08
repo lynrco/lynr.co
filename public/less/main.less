@@ -28,8 +28,10 @@ a { color: @font_color; text-decoration: none; }
   text-indent: 100%; .bg("logo-lynr.png", center, center); overflow: hidden;
 }
 .menu-link {
-  display: inline-block; position: absolute; top: 0; left: 0; width: 10%; height: 100%; min-width: 130px;
+  display: inline-block; position: absolute; top: 0; width: 10%; height: 100%; min-width: 130px;
 }
+.menu-link-primary { left: 0; }
+.menu-link-secondary { right: 0; }
 /** Layout **/
 .window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
 .main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
@@ -63,10 +65,10 @@ a { color: @font_color; text-decoration: none; }
   position: absolute; border-bottom: 1px solid #fff; width: 75%; height: 100%;
   .border_box(); overflow: hidden;
 }
-.menu-account { left: -75%; border-right: 1px solid #707070; }
-.menu-vehicle { left: 100%; border-left: 1px solid #707070; }
+.menu-primary { left: -75%; border-right: 1px solid #707070; }
+.menu-secondary { left: 100%; border-left: 1px solid #707070; }
 .menu-active {
-  .main, .menu-account, .menu-vehicle {
+  .main, .menu-primary, .menu-secondary {
     .transition(left 0.5s);
     .transition_timing(cubic-bezier(.24,.54,.45,.91));
   }
@@ -83,12 +85,12 @@ a { color: @font_color; text-decoration: none; }
   font-size: 2.75rem; font-weight: 100;
 }
 .menu-item-icon { display: none; }
-.menu-visible {
-  .menu-account { left: 0; }
+.menu-visible-primary {
+  .menu-primary { left: 0; }
   .main { left: 75%; }
 }
-.menu-visible-vehicle {
-  .menu-vehicle { left: 25%; }
+.menu-visible-secondary {
+  .menu-secondary { left: 25%; }
   .main { left: -75%; }
 }
 .menu-account .menu-items { border-top: 1px solid #ccc; }
