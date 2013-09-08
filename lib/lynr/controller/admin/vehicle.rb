@@ -12,6 +12,7 @@ module Lynr; module Controller;
     post '/admin/:slug/vehicle/add',     :post_add
     get  '/admin/:slug/:vehicle/edit',   :get_edit_vehicle
     post '/admin/:slug/:vehicle/edit',   :post_edit_vehicle
+    get  '/admin/:slug/:vehicle/menu',   :get_vehicle_menu
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
     post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
 
@@ -40,6 +41,11 @@ module Lynr; module Controller;
       @title = "#{@vehicle.name}"
       @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       render 'admin/vehicle/view.erb'
+    end
+
+    def get_vehicle_menu(req)
+      @menu_vis = 'menu-visible-secondary'
+      get_vehicle(req)
     end
 
     # Handle add vehicle
