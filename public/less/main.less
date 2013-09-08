@@ -12,7 +12,7 @@ textarea { border: 0; }
 ul, ol { list-style: none; }
 button { cursor: pointer; }
 html { font-family: @font_stack; color: @font_color; }
-body { background: #ededed; }
+body { background: @bg_color; }
 h1, h2 { font-size: 2.25rem; font-weight: 100; }
 a { color: @font_color; text-decoration: none; }
 /* General Styles */
@@ -99,9 +99,9 @@ a { color: @font_color; text-decoration: none; }
   display: inline-block; border: 1px solid #fff; .border_radius_a(6px); padding: 1.25rem 0 0.9375rem;
   height: 5.625rem; text-align: center; /*text-shadow: 0px 1px 1px rgba(0,0,0,0.4);*/
   font-family: @font_stack; font-size: 2.25rem; font-weight: 100; color: lighten(@font_color, 40%);
-  .linear_gradient(#ffffff, #ededed); .outer_glow(rgba(0,0,0,0.15)); .border_box();
+  .linear_gradient(#ffffff, @bg_color); .outer_glow(rgba(0,0,0,0.15)); .border_box();
 
-  &:hover { .linear_gradient(#ededed, #ffffff); }
+  &:hover { .linear_gradient(@bg_color, #ffffff); }
 }
 .btn-full { width: 100%; }
 .btn-half { width: 45.3125%; }
