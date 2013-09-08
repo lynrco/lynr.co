@@ -9,9 +9,9 @@
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
 <%= render_partial :header unless @section == 'home' -%>
-    <div class="main">
+    <section class="main">
 <%= yield -%>
-    </div>
+    </section>
 <%= render_partial :footer -%>
     <script data-main="/js/main.js" src="/js/libs/require-2.1.8.js" async="async"></script>
   </body>
