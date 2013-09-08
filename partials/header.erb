@@ -9,3 +9,6 @@
     <%- if @dealership -%>
 <%= render_partial :menu_admin -%>
     <%- end -%>
+    <%- if !(@menu_right.nil? || @menu_right.empty?) -%>
+<%= render_partial @menu_right -%>
+    <%- end -%>

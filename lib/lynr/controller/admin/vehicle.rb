@@ -32,6 +32,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "#{@vehicle.name}"
+      @menu_right = :menu_vehicle
       render 'admin/vehicle/view.erb'
     end
 
@@ -60,6 +61,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Edit #{@vehicle.name}"
+      @menu_right = :menu_vehicle
       @posted = @vehicle.view
       render 'admin/vehicle/edit.erb'
     end
@@ -84,6 +86,7 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Photos for #{@vehicle.name}"
+      @menu_right = :menu_vehicle
       @posted = @vehicle.view
       @transloadit_params = {
         auth: { key: Lynr::App.config['transloadit']['auth_key'] },
