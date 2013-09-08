@@ -18,7 +18,7 @@ a { color: @font_color; text-decoration: none; }
 /* General Styles */
 /** Header **/
 .hat {
-  position: relative; height: 6.875rem;
+  position: relative; min-height: 6.875rem; height: 12vh;
   .linear_gradient(#ff5600, #d24400, #ff6600);
   box-shadow: 0 0 23px 0 rgba(0, 0, 0, 0.17), 0 0 5px 0 #000;
 }
@@ -31,10 +31,8 @@ a { color: @font_color; text-decoration: none; }
   display: inline-block; position: absolute; top: 0; left: 0; width: 10%; height: 100%; min-width: 130px;
 }
 /** Layout **/
-.main {
-  position: relative; margin: 0 3.125%; padding: 0.5rem 0 0;
-  .clearfix();
-}
+.window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
+.main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
 /*** Layout -- Markdown Block ***/
 .md h1 { font-size: 1.75rem; }
 .md h2 { font-size: 1.5rem; }
@@ -61,10 +59,14 @@ a { color: @font_color; text-decoration: none; }
 .md a { color: #e74d00; }
 .md a:hover { text-decoration: underline; }
 /*** Layout - Menu ***/
-.menu { border-bottom: 1px solid #fff; }
-.menu-account { position: absolute; left: -75%; border-right: 1px solid #707070; width: 75%; height: 100%; overflow: hidden; }
+.menu {
+  position: absolute; border-bottom: 1px solid #fff; width: 75%; height: 100%;
+  .border_box(); overflow: hidden;
+}
+.menu-account { left: -75%; border-right: 1px solid #707070; }
+.menu-vehicle { left: 100%; border-left: 1px solid #707070; }
 .menu-active {
-  .main, .menu-account {
+  .main, .menu-account, .menu-vehicle {
     .transition(left 0.5s);
     .transition_timing(cubic-bezier(.24,.54,.45,.91));
   }
@@ -75,7 +77,6 @@ a { color: @font_color; text-decoration: none; }
   font-size: 1rem; font-weight: normal;
   .box_shadow(0px, 1px, 2px, 2px, rgba(0,0,0,0.25), inset);
 }
-.menu-items { border-top: 1px solid #ccc; }
 .menu-item {
   position: relative; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;
   padding: 1.875rem 3.258655804% 1.25rem 22.040816327%;
@@ -83,10 +84,15 @@ a { color: @font_color; text-decoration: none; }
 }
 .menu-item-icon { display: none; }
 .menu-visible {
-  body { overflow: hidden; }
   .menu-account { left: 0; }
   .main { left: 75%; }
 }
+.menu-visible-vehicle {
+  .menu-vehicle { left: 25%; }
+  .main { left: -75%; }
+}
+.menu-account .menu-items { border-top: 1px solid #ccc; }
+.menu-vehicle .menu-item:first-child { border-top: 0; }
 .menu-item-dealership {
   .menu-item-icon {
     display: block; position: absolute; top: 50%; left: 3.258655804%;
