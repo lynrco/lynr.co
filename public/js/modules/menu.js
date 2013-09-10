@@ -12,14 +12,21 @@ define(
       else if (args.length > 0) { els = Array.prototype.slice.call(args); }
       else { els = [args]; }
 
-      for (i = 0; i < els.length; i++) { bindEvents(els[i]); }
+      for (i = 0; i < els.length; i++) { bindEvents(els[i], els); }
     }
 
-    function bindEvents(el) {
+    function bindEvents(el, els) {
       var type = data.get(el, 'type')
+      var types = [];
+      var i;
+      for (i = 0; i < els.length; i++) {
+        if (el === els[i]) { continue; }
+        types.push(data.get(els[i], 'type'));
+      }
       clazz.add(body, 'menu-active');
       evt.on(el, 'click', function(e) {
         evt.prevent(e);
+        for (i = 0; i < types.length; i++) { clazz.remove(body, 'menu-visible-' + types[i]); }
         clazz.toggle(body, 'menu-visible-' + type);
       });
     }
