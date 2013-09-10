@@ -1,14 +1,18 @@
 # Used to setting cookies/sessions
 domain: 'domain.local'
 # Used by Rack::Session::Cookie to encode/decode session information
+amqp:
+  producer: 'amqp://user:pass@amqp.url:port/path'
+  consumer: 'amqp://user:pass@amqp.url:port/path'
 session:
   secret: 'change me'
   old_secret: 'change me'
+# Used for enabling money transactions with Stripe
 stripe:
   key: 'stripe_key from https://manage.stripe.com/account/apikeys'
   version: '2013-02-13'
   live: false
-# Used by account details page to handle uploads
+# Used to handle file uploads
 transloadit:
   auth_key: 'auth key from https://transloadit.com/accounts/credentials'
   account_template_id: 'template id from https://transloadit.com/templates'
