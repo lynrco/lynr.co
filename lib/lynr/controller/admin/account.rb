@@ -14,8 +14,8 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @title = "Account Information"
       @transloadit_params = {
-        auth: { key: Lynr::App.config['transloadit']['auth_key'] },
-        template_id: Lynr::App.config['transloadit']['account_template_id']
+        auth: { key: Lynr::Web.config['transloadit']['auth_key'] },
+        template_id: Lynr::Web.config['transloadit']['account_template_id']
       }.to_json
       render 'admin/account.erb'
     end

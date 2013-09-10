@@ -17,7 +17,7 @@ require 'lynr/logging'
 
 module Lynr
 
-  class App
+  class Web
 
     include Lynr::Logging
 
@@ -47,7 +47,7 @@ module Lynr
     end
 
     def self.instance
-      @app = Lynr::App.new if !@app
+      @app = Lynr::Web.new if !@app
       @app
     end
 

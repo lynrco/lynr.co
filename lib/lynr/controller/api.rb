@@ -10,7 +10,7 @@ module Lynr; module Controller;
 
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
-      if json['livemode'] == Lynr::App.config['stripe']['live']
+      if json['livemode'] == Lynr::Web.config['stripe']['live']
         process_stripe_event(json)
       else
         Rack::Response.new("Live modes do not match")

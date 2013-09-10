@@ -5,22 +5,22 @@ libdir = "#{basedir}/lib"
 $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-require 'app'
+require 'web'
 require 'rack/middleware/logger'
 require 'rack/middleware/timer'
 
-Lynr::App.setup
+Lynr::Web.setup
 
 Ramaze.start(:root => Ramaze.options.roots, :started => true)
 
-use Rack::Middleware::Timer, Lynr::App.instance.log
-use Rack::Middleware::Logger, Lynr::App.instance.log
+use Rack::Middleware::Timer, Lynr::Web.instance.log
+use Rack::Middleware::Logger, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
-                            :domain       => Lynr::App.instance.config['domain'],
+                            :domain       => Lynr::Web.instance.config['domain'],
                             :path         => '/',
                             :expire_after => 604800, # 7 days
-                            :secret       => Lynr::App.instance.config['session']['secret'],
-                            :old_secret   => Lynr::App.instance.config['session']['old_secret']
+                            :secret       => Lynr::Web.instance.config['session']['secret'],
+                            :old_secret   => Lynr::Web.instance.config['session']['old_secret']
 
 use Sly::App, root: __DIR__, cascade: true
 
