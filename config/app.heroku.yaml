@@ -4,8 +4,9 @@ domain: 'env:app_domain'
 session:
   secret: 'env:session_secret'
   old_secret: 'env:session_old_secret'
-stripe_key: 'env:stripe_key'
-stripe_version: '2013-02-13'
+stripe:
+  key: 'env:stripe_key'
+  version: '2013-02-13'
 transloadit:
   auth_key: 'env:transloadit_key'
   account_template_id: 'env:transloadit_account_template_id'

@@ -42,8 +42,8 @@ module Lynr
 
       Sly::App.options.layouts = 'layout'
 
-      Stripe.api_key = instance.config['stripe_key']
-      Stripe.api_version = instance.config['stripe_version'] || '2013-02-13'
+      Stripe.api_key = instance.config['stripe']['key']
+      Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
     end
 
     def self.instance
