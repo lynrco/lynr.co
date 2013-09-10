@@ -7,6 +7,7 @@ session:
 stripe:
   key: 'stripe_key from https://manage.stripe.com/account/apikeys'
   version: '2013-02-13'
+  live: false
 # Used by account details page to handle uploads
 transloadit:
   auth_key: 'auth key from https://transloadit.com/accounts/credentials'

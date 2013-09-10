@@ -10,6 +10,16 @@ module Lynr; module Controller;
 
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
+      if json['livemode'] == Lynr::App.config['stripe']['live']
+        process_stripe_event(json)
+      else
+        Rack::Response.new("Live modes do not match")
+      end
+    end
+
+    protected
+
+    def process_stripe_event(json)
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json)
@@ -17,8 +27,6 @@ module Lynr; module Controller;
       end
       Rack::Response.new
     end
-
-    protected
 
     def stripe_customer_deleted(event)
       customer = event['data']['object']

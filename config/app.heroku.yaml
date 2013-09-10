@@ -7,6 +7,7 @@ session:
 stripe:
   key: 'env:stripe_key'
   version: '2013-02-13'
+  live: false
 transloadit:
   auth_key: 'env:transloadit_key'
   account_template_id: 'env:transloadit_account_template_id'
