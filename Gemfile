@@ -37,6 +37,7 @@ end
 group :heroku do
   gem 'less',           '2.3.1'
   gem 'therubyracer'
+  gem 'unicorn',        '4.5.0'
 end
 
 group :test do
