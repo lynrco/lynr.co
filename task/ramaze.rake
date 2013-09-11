@@ -3,7 +3,7 @@
 # liking, they will not be overwritten when updating Ramaze.
 
 namespace :ramaze do
-  app = File.expand_path('../../app', __FILE__)
+  app = File.expand_path('../../web', __FILE__)
 
   basedir = File.expand_path("#{File.dirname(__FILE__)}/..")
   libdir = "#{basedir}/lib"
