@@ -1,9 +1,10 @@
 # Used to setting cookies/sessions
 domain: 'domain.local'
-# Used by Rack::Session::Cookie to encode/decode session information
+# Used for passing messages between boxes/processes/workers
 amqp:
   producer: 'amqp://user:pass@amqp.url:port/path'
   consumer: 'amqp://user:pass@amqp.url:port/path'
+# Used by Rack::Session::Cookie to encode/decode session information
 session:
   secret: 'change me'
   old_secret: 'change me'
