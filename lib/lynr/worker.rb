@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'bunny'
 
 require 'lynr'
+require 'lynr/queue'
 require 'lynr/config'
 require 'lynr/logging'
 
