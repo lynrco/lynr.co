@@ -15,18 +15,13 @@ module Lynr
 
     attr_reader :config
 
-    def initialize
+    def initialize(queue_name)
       @config = Lynr::Config.new('app', ENV['whereami'])
-      @consumer = Lynr::Queue.new('lynr.general', @config['amqp']['consumer'])
+      @consumer = Lynr::Queue.new(queue_name, @config['amqp']['consumer'])
     end
 
-    def self.instance
-      @app = Lynr::Worker.new if !@app
-      @app
-    end
-
-    def self.config
-      instance.config
+    def call
+      @consumer.subscribe &method(:handle)
     end
 
     private
