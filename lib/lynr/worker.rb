@@ -22,7 +22,21 @@ module Lynr
     end
 
     def call
-      @consumer.subscribe &method(:handle)
+      Signal.trap(:USR1) do
+        stop
+        Process.exit(0)
+      end
+
+      begin
+        @consumer.subscribe({ block: true }, &method(:handle))
+      rescue Exception => e
+        log.error(e)
+        stop
+      end
+    end
+
+    def stop
+      @consumer.disconnect
     end
 
     private
