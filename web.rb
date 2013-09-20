@@ -29,6 +29,15 @@ module Lynr
       @config = Lynr::Config.new('app', ENV['whereami'])
     end
 
+    def self.config
+      instance.config
+    end
+
+    def self.instance
+      @app = Lynr::Web.new if !@app
+      @app
+    end
+
     def self.setup
       Ramaze.options.roots = [__DIR__]
       # What if views is set from configuration file?
@@ -44,15 +53,6 @@ module Lynr
 
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
-    end
-
-    def self.instance
-      @app = Lynr::Web.new if !@app
-      @app
-    end
-
-    def self.config
-      instance.config
     end
 
   end
