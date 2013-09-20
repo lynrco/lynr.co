@@ -9,27 +9,26 @@ namespace :worker do
 
   task :all do
 
+    require 'lynr/logging'
     require 'lynr/worker'
+
+    include Lynr::Logging
 
     workers = queues.map do |queue_name|
       Lynr::Worker.new(queue_name)
     end
 
-    begin
-
-      pids = workers.map do |worker|
-        fork &worker.method(:call)
-      end
-
-      Process.wait
-
-    rescue Interrupt
-
-      pids.each do |pid|
-        Process.kill(:USR1, pid)
-      end
-
+    pids = workers.map do |worker|
+      fork &worker.method(:call)
     end
+
+    Signal.trap(:TERM) do
+      pids.each { |pid| Process.kill(:QUIT, pid) }
+      log.info('`rake worker:all` told Workers to QUIT')
+      Process.exit(0)
+    end
+
+    Process.wait
 
   end
 
