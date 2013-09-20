@@ -65,8 +65,10 @@ module Lynr
         @channel = @connection.create_channel
       else
         @connection = self.connected_session
-        self.channel
+        @channel = self.channel
       end
+      @channel.prefetch(3)
+      @channel
     end
 
     def connected_session
