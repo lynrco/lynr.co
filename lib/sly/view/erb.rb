@@ -4,14 +4,11 @@ module Sly; module View;
 
   class Erb
 
-    def initialize(path, opts)
+    def initialize(path, opts = {})
       @layout = get_template(opts[:layout]) if opts[:layout]
       @template = get_template(path) if path
       @context = opts[:context]
       @data = opts[:data] || {}
-      if (!@context.nil? && !@context.respond_to?(:ctx))
-        raise ArgumentError.new("`:context` option must have a public `ctx` method")
-      end
     end
 
     def result
