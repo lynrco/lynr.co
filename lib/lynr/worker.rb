@@ -50,8 +50,9 @@ module Lynr
       when "application/binary"
         handleBinary(payload)
       else
-        log.warn("Unknown message: #{payload}")
+        log.warn("Unknown message type: #{metadata.content_type} -- #{payload}")
       end
+      @consumer.ack(delivery_info.delivery_tag)
     end
 
     def handleBinary(payload)
@@ -60,6 +61,8 @@ module Lynr
     end
 
     def handleJson(payload)
+      job = JSON.parse(payload)
+      log.info("Received JSON -- #{job}")
     end
 
     def handleYaml(payload)
