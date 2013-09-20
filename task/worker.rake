@@ -1,3 +1,5 @@
+# Defines tasks to start Queue consumer Workers
+
 namespace :worker do
 
   basedir = File.expand_path("#{File.dirname(__FILE__)}/..")
