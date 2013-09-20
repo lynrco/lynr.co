@@ -22,10 +22,7 @@ module Lynr
     end
 
     def call
-      Signal.trap(:USR1) do
-        stop
-        Process.exit(0)
-      end
+      Signal.trap(:QUIT) { stop }
 
       begin
         @consumer.subscribe({ block: true }, &method(:handle))
@@ -37,6 +34,7 @@ module Lynr
 
     def stop
       @consumer.disconnect
+      Process.exit(0)
     end
 
     private
