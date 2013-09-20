@@ -29,9 +29,12 @@ module Lynr
 
     def handle(delivery_info, metadata, payload)
       case metadata.content_type
-      when "application/yaml": handleYaml(payload)
-      when "application/json": handleJson(payload)
-      when "application/binary": handleBinary(payload)
+      when "application/yaml"
+        handleYaml(payload)
+      when "application/json"
+        handleJson(payload)
+      when "application/binary"
+        handleBinary(payload)
       else
         log.warn("Unknown message: #{payload}")
       end
