@@ -48,8 +48,8 @@ module Lynr
       self
     end
 
-    def subscribe(&block)
-      queue(@name).subscribe(@subscribe_opts, &block)
+    def subscribe(opts = {}, &block)
+      queue(@name).subscribe(@subscribe_opts.merge(opts), &block)
       self
     end
 
