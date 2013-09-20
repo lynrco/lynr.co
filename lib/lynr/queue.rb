@@ -49,7 +49,7 @@ module Lynr
     end
 
     def subscribe(&block)
-      queue.subscribe(@subscribe_opts, &block)
+      queue(@name).subscribe(@subscribe_opts, &block)
       self
     end
 
@@ -84,8 +84,8 @@ module Lynr
       channel.default_exchange
     end
 
-    def queue
-      channel.queue(@name, @queue_opts)
+    def queue(name)
+      channel.queue(name, @queue_opts)
     end
 
   end
