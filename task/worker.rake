@@ -7,7 +7,7 @@ namespace :worker do
   $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
   $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-  queues = ['development.test']
+  queues = ['development.email']
 
   task :all do
 
