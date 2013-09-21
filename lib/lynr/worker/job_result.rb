@@ -1,4 +1,4 @@
-module Lynr; module Worker;
+module Lynr; class Worker;
 
   class JobResult
 

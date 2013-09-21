@@ -1,7 +1,7 @@
 require 'lynr/logging'
 require 'lynr/worker/job_result'
 
-module Lynr; module Worker;
+module Lynr; class Worker;
 
   class Job
 
