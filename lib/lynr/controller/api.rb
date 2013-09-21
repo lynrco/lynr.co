@@ -1,6 +1,9 @@
 require 'json'
 require 'sly'
+
+require 'lynr'
 require 'lynr/controller/base'
+require 'lynr/worker/email_job'
 
 module Lynr; module Controller;
 
@@ -47,9 +50,14 @@ module Lynr; module Controller;
       id = obj['customer']
       log.debug({ type: 'method', data: "stripe_customer_trial_ending -- #{id}" })
       dao = Lynr::Persist::DealershipDao.new
+      trial_end_date = Time.at(obj['trial_end'])
       dealership = dao.get_by_customer_id(id)
       return false unless dealership && dealership.customer_id == id
-      # TODO: Email reminder to customer about trial ending
+      # Schedule Email reminder to customer about trial ending
+      Lynr.producer('email').publish(Lynr::Worker::EmailJob.new('trial_end', {
+        to: dealership.identity.email,
+        subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}"
+      }))
     end
 
   end
