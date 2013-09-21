@@ -6,4 +6,20 @@ module Lynr
 
   VERSION = '0.0.1'
 
+  def self.config(type, defaults = {})
+    Lynr::Config.new(type, Lynr.env, defaults)
+  end
+
+  def self.env(default = 'development')
+    ENV['whereami'] || default
+  end
+
+  def self.producer(name)
+    Lynr::Queue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
+  end
+
+  def self.root
+    __DIR__.chomp('/lib')
+  end
+
 end
