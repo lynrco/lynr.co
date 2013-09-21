@@ -4,6 +4,12 @@ domain: 'domain.local'
 amqp:
   producer: 'amqp://user:pass@amqp.url:port/path'
   consumer: 'amqp://user:pass@amqp.url:port/path'
+# Used for sending emails
+mailgun:
+  domain: 'Domain name from https://mailgun.com/cp'
+  from: 'Where the mails should say they are from'
+  key: 'API Key from https://mailgun.com/cp'
+  url: 'API URL from https://mailgun.com/cp without https://'
 # Used by Rack::Session::Cookie to encode/decode session information
 session:
   secret: 'change me'

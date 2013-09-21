@@ -1,13 +1,25 @@
 # Used to setting cookies/sessions
 domain: 'env:app_domain'
+# Used for passing messages between boxes/processes/workers
+amqp:
+  producer: 'env:RABBITMQ_BIGWIG_URL'
+  consumer: 'env:RABBITMQ_BIGWIG_RX_URL'
+# Used for sending emails
+mailgun:
+  domain: 'lynr.co.mailgun.org'
+  from: 'Lynr.co <no-reply@lynr.co.mailgun.org>'
+  key: 'env:mailgun_api_key'
+  url: 'api.mailgun.net/v2'
 # Used by Rack::Session::Cookie to encode/decode session information
 session:
   secret: 'env:session_secret'
   old_secret: 'env:session_old_secret'
+# Used for enabling money transactions with Stripe
 stripe:
   key: 'env:stripe_key'
   version: '2013-02-13'
   live: false
+# Used to handle file uploads
 transloadit:
   auth_key: 'env:transloadit_key'
   account_template_id: 'env:transloadit_account_template_id'
