@@ -38,7 +38,7 @@ module Lynr
     end
 
     def nack(tag)
-      channel.nack(tag, false, true)
+      channel.reject(tag, true)
     end
 
     def publish(msg, opts = {})
@@ -46,6 +46,10 @@ module Lynr
       # delete to get values
       exchange.publish(msg, @publish_opts.merge(opts))
       self
+    end
+
+    def reject(tag)
+      channel.reject(tag, false)
     end
 
     def subscribe(opts = {}, &block)
