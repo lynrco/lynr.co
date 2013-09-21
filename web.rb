@@ -26,7 +26,7 @@ module Lynr
     attr_reader :config
 
     def initialize
-      @config = Lynr::Config.new('app', ENV['whereami'])
+      @config = Lynr.config('app')
     end
 
     def self.config
