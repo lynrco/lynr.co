@@ -29,7 +29,9 @@ module Lynr
       Signal.trap(:TERM) { stop }
 
       begin
-        @consumer.subscribe({ block: true })
+        @consumer.subscribe({ block: true }) do |delivery_info, metadata, job, result|
+          log.info "Processed #{delivery_info.delivery_tag} -- #{result.to_s}"
+        end
       rescue Exception => e
         log.error(e)
         stop
