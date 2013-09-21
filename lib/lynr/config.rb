@@ -14,13 +14,31 @@ module Lynr
     end
 
     def [](key)
+      fetch(key)
+    end
+
+    def fetch(key, default = nil)
       val = @config[key]
       if (val.is_a?(String) && val.start_with?('env:'))
         val = ENV[val.sub(%r(^env:), '')]
       elsif (val.is_a?(Hash))
         val = Config.new(type=nil, whereami=nil, config=val)
+      elsif val.nil?
+        val = default
       end
       val
+    end
+
+    def include?(name)
+      @config.include?(name.to_s) || @config.include?(name.to_sym)
+    end
+
+    def method_missing(name, *args, &block)
+      if args.size == 0 && block.nil? && (include?(name))
+        fetch(name.to_s) || fetch(name.to_sym)
+      else
+        super
+      end
     end
 
     def to_json
