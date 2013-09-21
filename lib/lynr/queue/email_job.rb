@@ -1,9 +1,9 @@
 require 'sly/view/erb'
 
 require 'lynr'
-require 'lynr/worker/job'
+require 'lynr/queue/job'
 
-module Lynr; class Worker;
+module Lynr; class Queue;
 
   class EmailJob < Job
 

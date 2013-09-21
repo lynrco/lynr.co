@@ -5,8 +5,8 @@ require 'lynr'
 require 'lynr/config'
 require 'lynr/logging'
 require 'lynr/queue'
+require 'lynr/queue/job'
 require 'lynr/queue/job_queue'
-require 'lynr/worker/job'
 
 module Lynr
 

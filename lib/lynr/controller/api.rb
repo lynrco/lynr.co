@@ -3,7 +3,7 @@ require 'sly'
 
 require 'lynr'
 require 'lynr/controller/base'
-require 'lynr/worker/email_job'
+require 'lynr/queue/email_job'
 
 module Lynr; module Controller;
 
@@ -54,7 +54,7 @@ module Lynr; module Controller;
       dealership = dao.get_by_customer_id(id)
       return false unless dealership && dealership.customer_id == id
       # Schedule Email reminder to customer about trial ending
-      Lynr.producer('email').publish(Lynr::Worker::EmailJob.new('trial_end', {
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('trial_end', {
         to: dealership.identity.email,
         subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}"
       }))
