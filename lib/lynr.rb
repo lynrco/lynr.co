@@ -1,3 +1,5 @@
+require 'lynr/queue/job_queue'
+
 module Lynr
 
   API_ROOT = '/api'
@@ -15,7 +17,7 @@ module Lynr
   end
 
   def self.producer(name)
-    Lynr::Queue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
+    Lynr::JobQueue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
   end
 
   def self.root
