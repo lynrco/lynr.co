@@ -7,6 +7,7 @@ require 'lynr/logging'
 require 'lynr/queue'
 require 'lynr/queue/job'
 require 'lynr/queue/job_queue'
+require 'lynr/queue/email_job'
 
 module Lynr
 
