@@ -17,7 +17,7 @@ module Lynr
   end
 
   def self.producer(name)
-    Lynr::JobQueue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
+    Lynr::Queue::JobQueue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
   end
 
   def self.root
