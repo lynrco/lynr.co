@@ -1,3 +1,4 @@
+require 'rest-client'
 require 'sly/view/erb'
 
 require 'lynr'
