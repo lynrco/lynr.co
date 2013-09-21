@@ -1,5 +1,7 @@
 require 'mongo'
-require './lib/lynr/config'
+
+require 'lynr'
+require 'lynr/config'
 
 module Lynr; module Persist;
 
@@ -40,9 +42,8 @@ module Lynr; module Persist;
     # * 'collection' name to interact with to on the MongoDB instance
     #
     def initialize(config={})
-      environment = ENV['whereami'] || 'development'
       defaults = Lynr::Persist::MongoDefaults.merge(config)
-      @config = Lynr::Config.new('database', environment, { 'mongo' => defaults })['mongo']
+      @config = Lynr.config('database', { 'mongo' => defaults }).mongo
       @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
       @authed = !@needs_auth
       @collection_name = @config['collection']
