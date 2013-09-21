@@ -9,7 +9,7 @@ module Lynr; class Queue;
       @succeeded = succeeded
     end
 
-    def succeeded?
+    def success?
       @succeeded
     end
 
