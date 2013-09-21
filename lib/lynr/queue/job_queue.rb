@@ -1,12 +1,17 @@
+require 'lynr/queue'
 require 'lynr/queue/job'
 
 module Lynr; class Queue;
 
   class JobQueue < Lynr::Queue
 
+    def initialize(name, uri, opts = {})
+      super(name, uri, opts)
+    end
+
     def publish(job, opts = {})
       raise ArgumentError.new("Must be given a `Lynr::Queue::Job` subclass") if !job.is_a? Lynr::Queue::Job
-      opts[:content_type] = 'application/yaml' if !opts.include? :content_type
+      opts[:content_type] = content_type if !opts.include? :content_type
       super(serialize(job), opts)
     end
 
@@ -20,6 +25,7 @@ module Lynr; class Queue;
         job = deserialize(metadata, payload)
         return reject(delivery_info, metadata, payload) if job.nil?
         result = job.perform
+        yield delivery_info, metadata, job, result
         if result.success?
           ack(delivery_info.delivery_tag)
         else
@@ -32,19 +38,19 @@ module Lynr; class Queue;
     private
 
     def content_type
-      'application/yaml'
+      'application/binary'
     end
 
     def deserialize(metadata, payload)
       return nil if metadata.content_type != content_type
-      job = YAML::load(payload)
+      job = Marshal::load(payload)
       return nil if !job.is_a? Lynr::Queue::Job
       job
     end
 
     def serialize(job)
       return job if job.is_a? String
-      YAML.dump(job)
+      Marshal.dump(job)
     end
 
   end
