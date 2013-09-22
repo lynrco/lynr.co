@@ -7,17 +7,18 @@ namespace :worker do
   $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
   $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-  queues = ['development.email']
+  queues = ['email']
 
   task :all do
 
+    require 'lynr'
     require 'lynr/logging'
     require 'lynr/worker'
 
     include Lynr::Logging
 
     workers = queues.map do |queue_name|
-      Lynr::Worker.new(queue_name)
+      Lynr::Worker.new("#{Lynr.env}.#{queue_name}")
     end
 
     pids = workers.map do |worker|
