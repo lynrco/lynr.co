@@ -9,11 +9,11 @@ namespace :worker do
 
   queues = ['email']
 
-  task :all do
+  require 'lynr'
+  require 'lynr/logging'
+  require 'lynr/worker'
 
-    require 'lynr'
-    require 'lynr/logging'
-    require 'lynr/worker'
+  task :all do
 
     include Lynr::Logging
 
@@ -33,6 +33,14 @@ namespace :worker do
 
     Process.wait
 
+  end
+
+  desc 'Starts a Worker console using Pry'
+  task :pry do
+    require 'pry'
+
+    ARGV.clear
+    Pry.start
   end
 
 end
