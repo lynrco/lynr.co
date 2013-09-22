@@ -1,5 +1,8 @@
 require 'json'
+
+require 'lynr'
 require 'lynr/controller/admin'
+require 'lynr/queue/stripe_update_job'
 
 module Lynr; module Controller;
 
@@ -25,10 +28,12 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_account_info
-      # TODO: These updates should be scheduled, they aren't critical
       update_stripe if email_changed? || name_changed?
-      # TODO: Trigger an email warning about email change
       if email_changed?
+        Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('email_updated', {
+          to: @dealership.identity.email,
+          subject: "Lynr.co email changed"
+        }))
         @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
       end
       @posted['image'] = translate_image
@@ -60,10 +65,7 @@ module Lynr; module Controller;
 
     # ## Stripe Helper
     def update_stripe
-      customer = Stripe::Customer.retrieve(@dealership.customer_id)
-      customer.description = posted['name'] if name_changed?
-      customer.email = posted['email'] if email_changed?
-      customer.save
+      Lynr.producer('stripe').publish(StripeUpdateJob.new(@dealership))
     end
 
     # ## Data Validation
