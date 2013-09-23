@@ -17,8 +17,6 @@ module Lynr
 
     include Lynr::Logging
 
-    @app = false
-
     attr_reader :config
 
     def initialize(queue_name)
@@ -30,14 +28,15 @@ module Lynr
       Signal.trap(:QUIT) { stop }
       Signal.trap(:TERM) { stop }
 
-      begin
-        @consumer.subscribe({ block: true }) do |delivery_info, metadata, job, result|
-          log.info "Processed #{delivery_info.delivery_tag} -- #{result.to_s}"
-        end
-      rescue Exception => e
-        log.error(e)
-        stop
+      @consumer.subscribe({ block: true }) do |job, result|
+        log.info "Processed #{delivery_info.delivery_tag} -- #{result.to_s}" if job.delivered?
       end
+    rescue Bunny::NetworkFailure => bnf
+      log.warn(bnf)
+      call
+    rescue Exception => e
+      log.error(e)
+      stop
     end
 
     def stop
