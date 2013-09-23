@@ -26,15 +26,7 @@ module Lynr; class Queue;
         job = deserialize(delivery_info, metadata, payload)
         return reject(delivery_info, metadata, payload) if job.nil?
         job.delivery(delivery_info, metadata, payload)
-        # NOTE: Does the job execution and ack/nack belong in the queue implementation?
-        # Maybe this should be left up to the invoker?
-        result = job.perform
-        yield job, result
-        if result.success?
-          ack(job.delivery_info.delivery_tag)
-        else
-          nack(job.delivery_info.delivery_tag)
-        end
+        yield job
       end
       self
     end
