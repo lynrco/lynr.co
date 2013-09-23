@@ -21,15 +21,19 @@ module Lynr; class Queue;
     end
 
     def subscribe(opts = {})
+      raise ArgumentError.new("`subscribe` needs a block") if !block_given?
       queue(@name).subscribe(@subscribe_opts.merge(opts)) do |delivery_info, metadata, payload|
-        job = deserialize(metadata, payload)
+        job = deserialize(delivery_info, metadata, payload)
         return reject(delivery_info, metadata, payload) if job.nil?
+        job.delivery(delivery_info, metadata, payload)
+        # NOTE: Does the job execution and ack/nack belong in the queue implementation?
+        # Maybe this should be left up to the invoker?
         result = job.perform
-        yield delivery_info, metadata, job, result
+        yield job, result
         if result.success?
-          ack(delivery_info.delivery_tag)
+          ack(job.delivery_info.delivery_tag)
         else
-          nack(delivery_info.delivery_tag)
+          nack(job.delivery_info.delivery_tag)
         end
       end
       self
@@ -41,7 +45,7 @@ module Lynr; class Queue;
       'application/binary'
     end
 
-    def deserialize(metadata, payload)
+    def deserialize(delivery_info, metadata, payload)
       return nil if metadata.content_type != content_type
       job = Marshal::load(payload)
       return nil if !job.is_a? Lynr::Queue::Job

@@ -29,7 +29,7 @@ module Lynr
       Signal.trap(:TERM) { stop }
 
       @consumer.subscribe({ block: true }) do |job, result|
-        log.info "Processed #{delivery_info.delivery_tag} -- #{result.to_s}" if job.delivered?
+        log.info "Processed #{job.delivery_info.delivery_tag} -- #{result.to_s}" if job.delivered?
       end
     rescue Bunny::NetworkFailure => bnf
       log.warn(bnf)

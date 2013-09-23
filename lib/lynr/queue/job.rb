@@ -9,6 +9,19 @@ module Lynr; class Queue;
 
     Success = JobResult.new
 
+    attr_reader :delivery_info, :metadata, :payload
+
+    def delivery(delivery_info, metadata, payload)
+      @delivery_info = delivery_info
+      @metadata = metadata
+      @payload = payload
+      self
+    end
+
+    def delivered?
+      !(@delivery_info.nil? || @metadata.nil?)
+    end
+
     def perform
       Success
     end
