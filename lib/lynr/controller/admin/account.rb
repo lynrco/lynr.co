@@ -28,16 +28,13 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_account_info
-      update_stripe if email_changed? || name_changed?
       if email_changed?
-        Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('email_updated', {
-          to: @dealership.identity.email,
-          subject: "Lynr.co email changed"
-        }))
+        notify_by_email
         @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
       end
       @posted['image'] = translate_image
-      @dealership = dealer_dao.save(@dealership.set(posted))
+      dealer_dao.save(@dealership.set(posted))
+      update_stripe if email_changed? || name_changed?
       redirect "/admin/#{@dealership.id.to_s}/account"
     end
 
@@ -51,6 +48,13 @@ module Lynr; module Controller;
 
     def name_changed?
       @dealership.name != posted['name']
+    end
+
+    def notify_by_email
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('email_updated', {
+        to: @dealership.identity.email,
+        subject: "Lynr.co email changed"
+      }))
     end
 
     # ## Translate to image model
