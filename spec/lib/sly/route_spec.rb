@@ -124,28 +124,77 @@ describe Sly::Route do
 
     end
 
+    context "ends with wildcard" do
+
+      let(:route) { Sly::Route.new('GET', '/admin/*', lambda { |req| Rack::Response.new}) }
+
+      it "doesn't match a URI not starting with /admin/" do
+        req = MockRequest.new('GET', '/twitter/hi')
+        expect(route.matches_filters?(req)).to be_false
+      end
+
+      it "matches one path part following /admin/" do
+        req = MockRequest.new('GET', '/admin/hi')
+        expect(route.matches_filters?(req)).to be_true
+      end
+
+      it "matches two path parts following /admin/" do
+        req = MockRequest.new('GET', '/admin/hi/there')
+        expect(route.matches_filters?(req)).to be_true
+      end
+
+    end
+
+    context "contains path param, ends with wildcard" do
+
+      let(:route) { Sly::Route.new('GET', '/admin/:slug/*', lambda { |req| Rack::Response.new}) }
+
+      it "matches with one wildcard part in uri" do
+        req = MockRequest.new('GET', '/admin/21345/account')
+        expect(route.matches_filters?(req)).to be_true
+      end
+
+      it "matches with two wildcard parts in uri" do
+        req = MockRequest.new('GET', '/admin/21345/account/rep')
+        expect(route.matches_filters?(req)).to be_true
+      end
+
+      it "doesn't match without something in wildcard" do
+        req = MockRequest.new('GET', '/admin/21345')
+        expect(route.matches_filters?(req)).to be_false
+      end
+
+    end
+
   end
 
-  describe "#handle" do
+  describe "#call" do
 
-    let(:request) { Rack::MockRequest.env_for('/admin/21345/fry') }
+    let(:env) { Rack::MockRequest.env_for('/admin/21345/fry') }
 
     it "deals with `Rack::Response` instances" do
       route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new })
-      response = route.call(request)
+      response = route.call(env)
       expect(response[0]).to eq(200)
     end
 
     it "deals with Array instances" do
       route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new.finish })
-      response = route.call(request)
+      response = route.call(env)
       expect(response[0]).to eq(200)
     end
 
     it "fails on strings" do
       route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| "success" })
-      response = route.call(request)
+      response = route.call(env)
       expect(response[0]).to eq(501)
+    end
+
+    it "returns _tail_ when requested" do
+      route = Sly::Route.new('GET', '/admin/:slug/*', lambda { |req| Rack::Response.new(req['_tail_']) })
+      response = route.call(env)
+      expect(response[0]).to eq(200)
+      expect(response[2].body).to eq(['fry'])
     end
 
   end

@@ -11,7 +11,7 @@ module Sly
     attr_reader :path, :path_regex
 
     PATH_PARAMS_REGEX = %r(/:([-_a-z]+))
-    PATH_BASE_REGEX = %r((/.+?)(/:.*)?$)
+    PATH_BASE_REGEX = %r((/.+?)(/(:.*)|\*)?$)
 
     ##
     # # `Sly::Route.new`
@@ -88,11 +88,12 @@ module Sly
       return uri if uri.is_a? Regexp
       return %r(\A/\Z) if uri == '/'
       param_names = uri.scan(PATH_PARAMS_REGEX).flatten
-      patterns = uri.split('/').map do |part|
+      patterns = uri.split('/').reject { |p| p == '*' }.map do |part|
         name = part.sub(':', '')
         (param_names.include?(name) && "(?<#{name}>[^/]+)") || part
       end
-      Regexp.new("\\A#{patterns.join('/')}\\Z")
+      tail = uri.end_with?('/*') && "/(?<_tail_>.+)" || ''
+      Regexp.new("\\A#{patterns.join('/')}#{tail}\\Z")
     end
 
     def make_r
