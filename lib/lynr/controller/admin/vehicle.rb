@@ -7,6 +7,14 @@ module Lynr; module Controller;
 
   class AdminVehicle < Lynr::Controller::Admin
 
+#   def self.create_route(path, method_name, verb)
+#     method = method_name.to_sym
+#     Sly::Route.new(verb, path, lambda { |req|
+#       controller = self.new
+#       controller.before(req) || controller.send(method, req)
+#     })
+#   end
+
     get  '/admin/:slug/:vehicle',        :get_vehicle
     get  '/admin/:slug/vehicle/add',     :get_add
     post '/admin/:slug/vehicle/add',     :post_add
