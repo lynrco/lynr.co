@@ -1,6 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
+require 'libxml'
 require './lib/lynr/model/image'
 require './lib/lynr/model/mpg'
 require './lib/lynr/model/vehicle'
@@ -221,6 +222,70 @@ describe Lynr::Model::Vehicle do
     it "gives the same vehicle back" do
       v = Lynr::Model::Vehicle.new(vehicle_data)
       expect(Lynr::Model::Vehicle.inflate(v.view)).to eq(v)
+    end
+
+  end
+
+  describe ".inflate_xml" do
+
+    let(:vehicle) { Lynr::Model::Vehicle.inflate_xml(query_response) }
+    let(:mpg) { Lynr::Model::Mpg.inflate_xml(query_response) }
+    let(:vin) { Lynr::Model::Vin.inflate_xml(query_response) }
+
+    context "valid XML" do
+
+      let(:path) { './/us_market_data/common_us_data' }
+      let(:doc) { LibXML::XML::Document.file('spec/data/1HGEJ6229XL063838.xml') }
+      let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
+
+      it "creates a Vehicle with year from XML" do
+        expect(vehicle.year).to eq(query_response.find("#{path}/basic_data/year").first.content)
+      end
+
+      it "creates a Vehicle with make from XML" do
+        expect(vehicle.make).to eq(query_response.find("#{path}/basic_data/make").first.content)
+      end
+
+      it "creates a Vehicle with model from XML" do
+        expect(vehicle.model).to eq(query_response.find("#{path}/basic_data/model").first.content)
+      end
+
+      it "creates a Vehicle with price from XML" do
+        expect(vehicle.price).to eq(query_response.find("#{path}/pricing/msrp").first.content)
+      end
+
+      it "creates a Vehicle with Mpg from XML" do
+        expect(vehicle.mpg).to eq(mpg)
+      end
+
+      it "creates a Vehicle with Vin from XML" do
+        expect(vehicle.vin).to eq(vin)
+      end
+
+    end
+
+    context "empty <query_response />" do
+
+      let(:doc) { LibXML::XML::Document.new }
+      let(:query_response) {
+        node = LibXML::XML::Node.new 'query_response'
+        doc.root = node
+      }
+
+      it "creates an empty Vehicle" do
+        expect(vehicle).to eq(empty_vehicle)
+      end
+
+    end
+
+    context "nil query_response" do
+
+      let(:query_response) { nil }
+
+      it "creates an empty Vehicle" do
+        expect(vehicle).to eq(empty_vehicle)
+      end
+
     end
 
   end

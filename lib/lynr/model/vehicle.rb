@@ -1,5 +1,6 @@
 require 'kramdown'
 
+require 'libxml'
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
@@ -109,6 +110,19 @@ module Lynr; module Model;
       data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
       data['images'] = data['images'].map { |image| Lynr::Model::SizedImage.inflate(image) } if data['images']
       Lynr::Model::Vehicle.new(data, data['id'])
+    end
+
+    def self.inflate_xml(query_response)
+      return Lynr::Model::Vehicle.new if query_response.nil?
+      us_data = query_response.find('.//us_market_data/common_us_data').first
+      Lynr::Model::Vehicle.new({
+        'year' => us_data && us_data.find('./basic_data/year').map { |n| n.content }.first,
+        'make' => us_data && us_data.find('./basic_data/make').map { |n| n.content }.first,
+        'model' => us_data && us_data.find('./basic_data/model').map { |n| n.content }.first,
+        'price' => us_data && us_data.find('./pricing/msrp').map { |n| n.content }.first,
+        'mpg' => Lynr::Model::Mpg.inflate_xml(query_response),
+        'vin' => Lynr::Model::Vin.inflate_xml(query_response)
+      })
     end
 
     protected
