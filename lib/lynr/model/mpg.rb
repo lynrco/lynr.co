@@ -25,6 +25,7 @@ module Lynr; module Model;
     end
 
     def self.inflate_xml(query_response)
+      return Lynr::Model::Mpg.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       Lynr::Model::Mpg.new({
         'city'    => us_data && us_data.find('.//epa_fuel_efficiency/epa_mpg_record/city').map { |n| n.content }.first,

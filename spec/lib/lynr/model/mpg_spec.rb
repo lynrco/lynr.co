@@ -64,6 +64,24 @@ describe Lynr::Model::Mpg do
         expect(mpg.city).to eq(Lynr::Model::Mpg.new.city)
       end
 
+      it "creates Mpg with default highway" do
+        expect(mpg.highway).to eq(Lynr::Model::Mpg.new.highway)
+      end
+
+    end
+
+    context "nil query_response" do
+
+      let(:query_response) { nil }
+
+      it "creates Mpg with default city" do
+        expect(mpg.city).to eq(Lynr::Model::Mpg.new.city)
+      end
+
+      it "creates Mpg with default highway" do
+        expect(mpg.highway).to eq(Lynr::Model::Mpg.new.highway)
+      end
+
     end
 
   end
