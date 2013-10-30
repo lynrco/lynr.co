@@ -80,33 +80,34 @@ describe Lynr::Model::Vin do
 
     context "valid XML" do
 
+      let(:path) { './/us_market_data/common_us_data' }
       let(:doc) { LibXML::XML::Document.file('spec/data/1HGEJ6229XL063838.xml') }
       let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
       let(:vin) { Lynr::Model::Vin.inflate_xml(query_response) }
 
       it "creates a Vin with transmission from XML" do
-        expect(vin.transmission).to eq(query_response.find('.//us_market_data/common_us_data//transmission/@name').first.value)
+        expect(vin.transmission).to eq(query_response.find("#{path}//transmission/@name").first.value)
       end
 
       it "creates a Vin with fuel type from XML" do
-        expect(vin.fuel).to eq(query_response.find('.//us_market_data/common_us_data//fuel_type').first.content)
+        expect(vin.fuel).to eq(query_response.find("#{path}//fuel_type").first.content)
       end
 
       it "creates a Vin with num doors from XML" do
-        expect(vin.doors).to eq(query_response.find('.//us_market_data/common_us_data//doors').first.content)
+        expect(vin.doors).to eq(query_response.find("#{path}//doors").first.content)
       end
 
       it "creates a Vin with drivetrain from XML" do
-        expect(vin.drivetrain).to eq(query_response.find('.//us_market_data/common_us_data//drive_type').first.content)
+        expect(vin.drivetrain).to eq(query_response.find("#{path}//drive_type").first.content)
       end
 
       it "creates a Vin with ext_colors from XML" do
-        ext_colors = query_response.find('.//us_market_data/common_us_data//exterior_colors//generic_color_name').map { |el| el.content }
+        ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el| el.content }
         expect(vin.ext_color).to eq(ext_colors.join(', '))
       end
 
       it "creates a Vin with int_colors from XML" do
-        expect(vin.int_color).to eq(query_response.find('.//us_market_data/common_us_data//interior_colors//generic_color_name').first.content)
+        expect(vin.int_color).to eq(query_response.find("#{path}//interior_colors//generic_color_name").first.content)
       end
 
       it "creates a Vin with a number from XML" do
