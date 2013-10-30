@@ -1,0 +1,632 @@
+<decoded_data>
+  <decoder_messages>
+    <service_provider>DataOne Software, Inc.</service_provider>
+    <decoder_version>7.0.1</decoder_version>
+    <decoder_errors></decoder_errors>
+  </decoder_messages>
+  <query_responses>
+    <query_response identifier="1HGEJ6229XL063838" transaction_id="TAEE7535DAB268F3C435F955DF011B430032E42AD">
+      <query_error>
+        <error_code></error_code>
+        <error_message></error_message>
+      </query_error>
+      <us_market_data>
+        <common_us_data>
+          <basic_data>
+            <market>US Light-Duty</market>
+            <year>1999</year>
+            <make>Honda</make>
+            <model>Civic</model>
+            <trim>DX</trim>
+            <vehicle_type>Car</vehicle_type>
+            <body_type>Coupe</body_type>
+            <body_subtype></body_subtype>
+            <oem_body_style>Coupe</oem_body_style>
+            <doors>2</doors>
+            <oem_doors>2</oem_doors>
+            <model_number>EJ612XPBW</model_number>
+            <package_code></package_code>
+            <drive_type>FWD</drive_type>
+            <brake_system></brake_system>
+            <restraint_type>DRIVER AND PASSENGER FRONT AIRBAGS, ACTIVE BELTS</restraint_type>
+            <country_of_manufacture></country_of_manufacture>
+            <plant>East Liberty, Ohio</plant>
+          </basic_data>
+          <pricing>
+            <msrp>12995</msrp>
+            <invoice_price>0</invoice_price>
+            <destination_charge>0</destination_charge>
+            <gas_guzzler_tax>0</gas_guzzler_tax>
+          </pricing>
+          <engines>
+            <engine name="ED 1L NA I 4 single overhead cam (SOHC) 16V" brand="" marketing_name="" engine_id="232301">
+              <availability>Installed</availability>
+              <aspiration>N/A</aspiration>
+              <block_type>I</block_type>
+              <bore>0</bore>
+              <cam_type>SOHC</cam_type>
+              <compression>0</compression>
+              <cylinders>4</cylinders>
+              <displacement>1.6</displacement>
+              <fuel_induction>FI</fuel_induction>
+              <fuel_quality></fuel_quality>
+              <fuel_type>G</fuel_type>
+              <msrp>0</msrp>
+              <invoice_price>0</invoice_price>
+              <marketing_name></marketing_name>
+              <max_hp>106</max_hp>
+              <max_hp_at>6200</max_hp_at>
+              <max_payload></max_payload>
+              <max_torque>103</max_torque>
+              <max_torque_at>4600</max_torque_at>
+              <oil_capacity>0</oil_capacity>
+              <order_code></order_code>
+              <redline></redline>
+              <stroke>0</stroke>
+              <valve_timing></valve_timing>
+              <valves>16</valves>
+            </engine>
+          </engines>
+          <transmissions>
+            <transmission name="4-Speed Automatic" brand="" marketing_name="" transmission_id="223307">
+              <availability>Installed</availability>
+              <type>A</type>
+              <detail_type></detail_type>
+              <gears>4</gears>
+              <order_code></order_code>
+              <msrp>0</msrp>
+              <invoice_price>0</invoice_price>
+            </transmission>
+          </transmissions>
+          <specifications>
+            <category name="Drive Type">
+              <specification name="Drive Type">FWD</specification>
+            </category>
+            <category name="Fuel Tanks">
+              <specification name="Fuel Tank 1 Capacity (Gallons)">11</specification>
+            </category>
+            <category name="Measurements of Size and Shape">
+              <specification name="Height">54.1</specification>
+              <specification name="Length">175.1</specification>
+              <specification name="Wheelbase">103.2</specification>
+              <specification name="Width">67.1</specification>
+            </category>
+            <category name="Measurements of Weight">
+              <specification name="Curb Weight">2359</specification>
+            </category>
+            <category name="Performance Specifications">
+              <specification name="Turning Circle">32.8</specification>
+            </category>
+            <category name="Seating">
+              <specification name="Head Room 1st Row">38.8</specification>
+              <specification name="Head Room 2nd Row/Rear">36.2</specification>
+              <specification name="Hip Room 1st Row">49.8</specification>
+              <specification name="Hip Room 2nd Row/Rear">49.8</specification>
+              <specification name="Leg Room 1st Row">42.7</specification>
+              <specification name="Leg Room 2nd Row/Rear">32.5</specification>
+              <specification name="Max Seating">5</specification>
+              <specification name="Shoulder Room 1st Row">52.4</specification>
+              <specification name="Shoulder Room 2nd Row/Rear">51.4</specification>
+              <specification name="Standard Seating">5</specification>
+            </category>
+            <category name="Wheels and Tires">
+              <specification name="Front Wheel Diameter">14 in.</specification>
+              <specification name="Rear Wheel Diameter">14 in.</specification>
+            </category>
+          </specifications>
+          <installed_equipment>
+            <category name="Airbags">
+              <equipment name="Front airbags">
+                <value installed_equipment_id="5000000033" >dual</value>
+              </equipment>
+            </category>
+            <category name="Audio System">
+              <equipment name="Radio">
+                <value installed_equipment_id="403418" >AM/FM</value>
+              </equipment>
+            </category>
+            <category name="Brakes">
+              <equipment name="Power">
+                <value installed_equipment_id="5000000425" > </value>
+              </equipment>
+            </category>
+            <category name="Convenience Features">
+              <equipment name="Power steering">
+                <value installed_equipment_id="5000000054" > </value>
+              </equipment>
+              <equipment name="Remote trunk release">
+                <value installed_equipment_id="5000000125" > </value>
+              </equipment>
+              <equipment name="Steering wheel">
+                <value installed_equipment_id="3210500038" >tilt-only</value>
+              </equipment>
+            </category>
+            <category name="Seats">
+              <equipment name="Front seat type">
+                <value installed_equipment_id="401673" >bucket</value>
+              </equipment>
+              <equipment name="Upholstery">
+                <value installed_equipment_id="403138" >cloth</value>
+              </equipment>
+            </category>
+            <category name="Tires and Rims">
+              <equipment name="14 Inch Wheels">
+                <value installed_equipment_id="602440" > </value>
+              </equipment>
+            </category>
+            <category name="Windows">
+              <equipment name="Front wipers">
+                <value installed_equipment_id="330473" >intermittent</value>
+              </equipment>
+              <equipment name="Rear defogger">
+                <value installed_equipment_id="5000000042" > </value>
+              </equipment>
+              <equipment name="Tinted">
+                <value installed_equipment_id="5000000140" > </value>
+              </equipment>
+            </category>
+          </installed_equipment>
+          <optional_equipment>
+            <category name="Suspension">
+              <option name="4-Speed Automatic Transmission" option_id="104604" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+            </category>
+            <category name="Exterior Features">
+              <option name="Rear Spoiler" option_id="150267" order_code="D52" installed="UK" fleet="UK" >
+                <install_type>Dealer Installed Option</install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+            </category>
+            <category name="Security">
+              <option name="Anti-Theft Alarm System" option_id="300002476" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+            </category>
+            <category name="Audio System">
+              <option name="Cassette" option_id="300005546" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+              <option name="In-Dash CD - single disc" option_id="300005559" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+              <option name="Radio - AM/FM" option_id="300005583" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+            </category>
+            <category name="Air Conditioning">
+              <option name="Front air conditioning" option_id="300005650" order_code="" installed="UK" fleet="UK" >
+                <install_type></install_type>
+                <invoice_price>0</invoice_price>
+                <msrp>0</msrp>
+                <description>
+                  <![CDATA[]]>
+                </description>
+              </option>
+            </category>
+          </optional_equipment>
+          <colors>
+            <exterior_colors>
+              <color mfr_code="VSM" two_tone="N">
+                <generic_color_name>Silver</generic_color_name>
+                <mfr_color_name>Vogue Silver Metallic</mfr_color_name>
+                <primary_rgb_code r="157" g="155" b="153" hex="9D9B99"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+              <color mfr_code="CGP" two_tone="N">
+                <generic_color_name>Dk. Green</generic_color_name>
+                <mfr_color_name>Clover Green Pearl</mfr_color_name>
+                <primary_rgb_code r="60" g="110" b="100" hex="3C6E64"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+              <color mfr_code="TW" two_tone="N">
+                <generic_color_name>White</generic_color_name>
+                <mfr_color_name>Taffeta White</mfr_color_name>
+                <primary_rgb_code r="255" g="255" b="255" hex="FFFFFF"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+              <color mfr_code="FBP" two_tone="N">
+                <generic_color_name>Black</generic_color_name>
+                <mfr_color_name>Flamenco Black Pearl</mfr_color_name>
+                <primary_rgb_code r="0" g="0" b="0" hex="000000"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+              <color mfr_code="MR" two_tone="N">
+                <generic_color_name>Red</generic_color_name>
+                <mfr_color_name>Milano Red</mfr_color_name>
+                <primary_rgb_code r="135" g="24" b="24" hex="871818"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+            </exterior_colors>
+            <interior_colors>
+              <color mfr_code="DKGR" two_tone="N">
+                <generic_color_name>Dk. Gray</generic_color_name>
+                <mfr_color_name>Dark Gray</mfr_color_name>
+                <primary_rgb_code r="102" g="102" b="102" hex="666666"> </primary_rgb_code>
+                <secondary_rgb_code r="0" g="0" b="0" hex="000000"> </secondary_rgb_code>
+              </color>
+            </interior_colors>
+            <roof_colors></roof_colors>
+          </colors>
+          <safety_equipment>
+            <abs_two_wheel></abs_two_wheel>
+            <abs_four_wheel></abs_four_wheel>
+            <airbags_front_driver></airbags_front_driver>
+            <airbags_front_passenger></airbags_front_passenger>
+            <airbags_side_impact></airbags_side_impact>
+            <airbags_side_curtain></airbags_side_curtain>
+            <brake_assist></brake_assist>
+            <daytime_running_lights></daytime_running_lights>
+            <electronic_stability_control></electronic_stability_control>
+            <electronic_traction_control></electronic_traction_control>
+            <tire_pressure_monitoring_system></tire_pressure_monitoring_system>
+            <rollover_stability_control></rollover_stability_control>
+          </safety_equipment>
+          <warranties>
+            <warranty name="Corrosion">
+              <type>Rust</type>
+              <months>60</months>
+              <miles>0</miles>
+            </warranty>
+            <warranty name="Roadside Assistance">
+              <type>Roadside Assistance</type>
+              <months>0</months>
+              <miles>0</miles>
+            </warranty>
+            <warranty name="Powertrain">
+              <type>Drivetrain/Powertrain</type>
+              <months>36</months>
+              <miles>36000</miles>
+            </warranty>
+            <warranty name="New Car Basic Warranty">
+              <type>Basic</type>
+              <months>36</months>
+              <miles>36000</miles>
+            </warranty>
+          </warranties>
+          <epa_fuel_efficiency>
+            <epa_mpg_record engine_id="232301" transmission_id="223307" fuel_type="Gasoline" fuel_grade="">
+              <city>24</city>
+              <highway>32</highway>
+              <combined>27</combined>
+            </epa_mpg_record>
+          </epa_fuel_efficiency>
+          <epa_green_scores></epa_green_scores>
+          <nhtsa_crash_test_ratings>
+            <overall_stars>N/A</overall_stars>
+            <front_crash_overall_stars>N/A</front_crash_overall_stars>
+            <front_crash_driver_stars>4</front_crash_driver_stars>
+            <front_crash_passenger_stars>4</front_crash_passenger_stars>
+            <side_crash_overall_stars>N/A</side_crash_overall_stars>
+            <side_barrier_overall_stars>N/A</side_barrier_overall_stars>
+            <side_barrier_driver_stars>2</side_barrier_driver_stars>
+            <side_barrier_passenger_stars></side_barrier_passenger_stars>
+            <side_pole_driver_stars>N/A</side_pole_driver_stars>
+            <side_combined_front_stars>N/A</side_combined_front_stars>
+            <side_combined_rear_stars>N/A</side_combined_rear_stars>
+            <rollover_stars>8</rollover_stars>
+            <front_crash_driver_comment></front_crash_driver_comment>
+            <front_crash_passenger_comment></front_crash_passenger_comment>
+            <side_barrier_driver_comment></side_barrier_driver_comment>
+            <side_barrier_passenger_comment></side_barrier_passenger_comment>
+            <rollover_comment></rollover_comment>
+          </nhtsa_crash_test_ratings>
+          <awards_accolades></awards_accolades>
+        </common_us_data>
+        <us_styles count="1">
+          <style name="2 Dr DX Coupe" vehicle_id="11928" complete="Y"  market="US Light-Duty" fleet="N">
+            <basic_data>
+              <market>US Light-Duty</market>
+              <year>1999</year>
+              <make>Honda</make>
+              <model>Civic</model>
+              <trim>DX</trim>
+              <vehicle_type>Car</vehicle_type>
+              <body_type>Coupe</body_type>
+              <body_subtype></body_subtype>
+              <oem_body_style>Coupe</oem_body_style>
+              <doors>2</doors>
+              <oem_doors>2</oem_doors>
+              <model_number>EJ612XPBW</model_number>
+              <package_code></package_code>
+              <drive_type>FWD</drive_type>
+              <brake_system></brake_system>
+              <restraint_type>DRIVER AND PASSENGER FRONT AIRBAGS, ACTIVE BELTS</restraint_type>
+              <country_of_manufacture></country_of_manufacture>
+              <plant>East Liberty, Ohio</plant>
+            </basic_data>
+            <pricing>
+              <msrp>12995</msrp>
+              <invoice_price>0</invoice_price>
+              <destination_charge>0</destination_charge>
+              <gas_guzzler_tax>0</gas_guzzler_tax>
+            </pricing>
+            <engines>
+              <engine name="ED 1L NA I 4 single overhead cam (SOHC) 16V" brand="" marketing_name="" engine_id="232301">
+                <availability>Installed</availability>
+                <aspiration>N/A</aspiration>
+                <block_type>I</block_type>
+                <bore>0</bore>
+                <cam_type>SOHC</cam_type>
+                <compression>0</compression>
+                <cylinders>4</cylinders>
+                <displacement>1.6</displacement>
+                <fuel_induction>FI</fuel_induction>
+                <fuel_quality></fuel_quality>
+                <fuel_type>G</fuel_type>
+                <msrp>0</msrp>
+                <invoice_price>0</invoice_price>
+                <marketing_name></marketing_name>
+                <max_hp>106</max_hp>
+                <max_hp_at>6200</max_hp_at>
+                <max_payload></max_payload>
+                <max_torque>103</max_torque>
+                <max_torque_at>4600</max_torque_at>
+                <oil_capacity>0</oil_capacity>
+                <order_code></order_code>
+                <redline></redline>
+                <stroke>0</stroke>
+                <valve_timing></valve_timing>
+                <valves>16</valves>
+              </engine>
+            </engines>
+            <transmissions>
+              <transmission name="4-Speed Automatic" brand="" marketing_name="" transmission_id="223307">
+                <availability>Installed</availability>
+                <type>A</type>
+                <detail_type></detail_type>
+                <gears>4</gears>
+                <order_code></order_code>
+                <msrp>0</msrp>
+                <invoice_price>0</invoice_price>
+              </transmission>
+            </transmissions>
+            <specifications>
+              <category name="Drive Type">
+                <specification name="Drive Type">FWD</specification>
+              </category>
+              <category name="Fuel Tanks">
+                <specification name="Fuel Tank 1 Capacity (Gallons)">11</specification>
+              </category>
+              <category name="Measurements of Size and Shape">
+                <specification name="Height">54.1</specification>
+                <specification name="Length">175.1</specification>
+                <specification name="Wheelbase">103.2</specification>
+                <specification name="Width">67.1</specification>
+              </category>
+              <category name="Measurements of Weight">
+                <specification name="Curb Weight">2359</specification>
+              </category>
+              <category name="Performance Specifications">
+                <specification name="Turning Circle">32.8</specification>
+              </category>
+              <category name="Seating">
+                <specification name="Head Room 1st Row">38.8</specification>
+                <specification name="Head Room 2nd Row/Rear">36.2</specification>
+                <specification name="Hip Room 1st Row">49.8</specification>
+                <specification name="Hip Room 2nd Row/Rear">49.8</specification>
+                <specification name="Leg Room 1st Row">42.7</specification>
+                <specification name="Leg Room 2nd Row/Rear">32.5</specification>
+                <specification name="Max Seating">5</specification>
+                <specification name="Shoulder Room 1st Row">52.4</specification>
+                <specification name="Shoulder Room 2nd Row/Rear">51.4</specification>
+                <specification name="Standard Seating">5</specification>
+              </category>
+              <category name="Wheels and Tires">
+                <specification name="Front Wheel Diameter">14 in.</specification>
+                <specification name="Rear Wheel Diameter">14 in.</specification>
+              </category>
+            </specifications>
+            <installed_equipment>
+              <category name="Airbags">
+                <equipment name="Front airbags">
+                  <value installed_equipment_id="5000000033" >dual</value>
+                </equipment>
+              </category>
+              <category name="Audio System">
+                <equipment name="Radio">
+                  <value installed_equipment_id="403418" >AM/FM</value>
+                </equipment>
+              </category>
+              <category name="Brakes">
+                <equipment name="Power">
+                  <value installed_equipment_id="5000000425" >
+                </value>
+              </equipment>
+            </category>
+              <category name="Convenience Features">
+                <equipment name="Power steering">
+                  <value installed_equipment_id="5000000054" >
+                </value>
+              </equipment>
+                <equipment name="Remote trunk release">
+                  <value installed_equipment_id="5000000125" >
+                </value>
+              </equipment>
+                <equipment name="Steering wheel">
+                  <value installed_equipment_id="3210500038" >tilt-only</value>
+                </equipment>
+              </category>
+              <category name="Seats">
+                <equipment name="Front seat type">
+                  <value installed_equipment_id="401673" >bucket</value>
+                </equipment>
+                <equipment name="Upholstery">
+                  <value installed_equipment_id="403138" >cloth</value>
+                </equipment>
+              </category>
+              <category name="Tires and Rims">
+                <equipment name="14 Inch Wheels">
+                  <value installed_equipment_id="602440" >
+                </value>
+              </equipment>
+            </category>
+              <category name="Windows">
+                <equipment name="Front wipers">
+                  <value installed_equipment_id="330473" >intermittent</value>
+                </equipment>
+                <equipment name="Rear defogger">
+                  <value installed_equipment_id="5000000042" >
+                </value>
+              </equipment>
+                <equipment name="Tinted">
+                  <value installed_equipment_id="5000000140" >
+                </value>
+              </equipment>
+            </category>
+          </installed_equipment>
+            <colors>
+              <exterior_colors>
+                <color mfr_code="VSM" two_tone="N">
+                  <generic_color_name>Silver</generic_color_name>
+                  <mfr_color_name>Vogue Silver Metallic</mfr_color_name>
+                  <primary_rgb_code r="157" g="155" b="153" hex="9D9B99">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+                <color mfr_code="CGP" two_tone="N">
+                  <generic_color_name>Dk. Green</generic_color_name>
+                  <mfr_color_name>Clover Green Pearl</mfr_color_name>
+                  <primary_rgb_code r="60" g="110" b="100" hex="3C6E64">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+                <color mfr_code="TW" two_tone="N">
+                  <generic_color_name>White</generic_color_name>
+                  <mfr_color_name>Taffeta White</mfr_color_name>
+                  <primary_rgb_code r="255" g="255" b="255" hex="FFFFFF">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+                <color mfr_code="FBP" two_tone="N">
+                  <generic_color_name>Black</generic_color_name>
+                  <mfr_color_name>Flamenco Black Pearl</mfr_color_name>
+                  <primary_rgb_code r="0" g="0" b="0" hex="000000">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+                <color mfr_code="MR" two_tone="N">
+                  <generic_color_name>Red</generic_color_name>
+                  <mfr_color_name>Milano Red</mfr_color_name>
+                  <primary_rgb_code r="135" g="24" b="24" hex="871818">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+            </exterior_colors>
+              <interior_colors>
+                <color mfr_code="DKGR" two_tone="N">
+                  <generic_color_name>Dk. Gray</generic_color_name>
+                  <mfr_color_name>Dark Gray</mfr_color_name>
+                  <primary_rgb_code r="102" g="102" b="102" hex="666666">
+                </primary_rgb_code>
+                  <secondary_rgb_code r="0" g="0" b="0" hex="000000">
+                </secondary_rgb_code>
+              </color>
+            </interior_colors>
+              <roof_colors></roof_colors>
+            </colors>
+            <safety_equipment>
+              <abs_two_wheel></abs_two_wheel>
+              <abs_four_wheel></abs_four_wheel>
+              <airbags_front_driver></airbags_front_driver>
+              <airbags_front_passenger></airbags_front_passenger>
+              <airbags_side_impact></airbags_side_impact>
+              <airbags_side_curtain></airbags_side_curtain>
+              <brake_assist></brake_assist>
+              <daytime_running_lights></daytime_running_lights>
+              <electronic_stability_control></electronic_stability_control>
+              <electronic_traction_control></electronic_traction_control>
+              <tire_pressure_monitoring_system></tire_pressure_monitoring_system>
+              <rollover_stability_control></rollover_stability_control>
+            </safety_equipment>
+            <warranties>
+              <warranty name="Corrosion">
+                <type>Rust</type>
+                <months>60</months>
+                <miles>0</miles>
+              </warranty>
+              <warranty name="Roadside Assistance">
+                <type>Roadside Assistance</type>
+                <months>0</months>
+                <miles>0</miles>
+              </warranty>
+              <warranty name="Powertrain">
+                <type>Drivetrain/Powertrain</type>
+                <months>36</months>
+                <miles>36000</miles>
+              </warranty>
+              <warranty name="New Car Basic Warranty">
+                <type>Basic</type>
+                <months>36</months>
+                <miles>36000</miles>
+              </warranty>
+            </warranties>
+            <epa_fuel_efficiency>
+              <epa_mpg_record engine_id="232301" transmission_id="223307" fuel_type="Gasoline" fuel_grade="">
+                <city>24</city>
+                <highway>32</highway>
+                <combined>27</combined>
+              </epa_mpg_record>
+            </epa_fuel_efficiency>
+            <epa_green_scores></epa_green_scores>
+            <nhtsa_crash_test_ratings>
+              <overall_stars>N/A</overall_stars>
+              <front_crash_overall_stars>N/A</front_crash_overall_stars>
+              <front_crash_driver_stars>4</front_crash_driver_stars>
+              <front_crash_passenger_stars>4</front_crash_passenger_stars>
+              <side_crash_overall_stars>N/A</side_crash_overall_stars>
+              <side_barrier_overall_stars>N/A</side_barrier_overall_stars>
+              <side_barrier_driver_stars>2</side_barrier_driver_stars>
+              <side_barrier_passenger_stars></side_barrier_passenger_stars>
+              <side_pole_driver_stars>N/A</side_pole_driver_stars>
+              <side_combined_front_stars>N/A</side_combined_front_stars>
+              <side_combined_rear_stars>N/A</side_combined_rear_stars>
+              <rollover_stars>8</rollover_stars>
+              <front_crash_driver_comment></front_crash_driver_comment>
+              <front_crash_passenger_comment></front_crash_passenger_comment>
+              <side_barrier_driver_comment></side_barrier_driver_comment>
+              <side_barrier_passenger_comment></side_barrier_passenger_comment>
+              <rollover_comment></rollover_comment>
+            </nhtsa_crash_test_ratings>
+            <awards_accolades></awards_accolades>
+          </style>
+        </us_styles>
+      </us_market_data>
+      <supplemental_data></supplemental_data>
+    </query_response>
+  </query_responses>
+</decoded_data>

@@ -1,6 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
+require 'rexml/document'
 require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vin do
@@ -70,6 +71,51 @@ describe Lynr::Model::Vin do
 
     it "provides an empty Vin for nil" do
       expect(Lynr::Model::Vin.inflate(nil)).to eq(empty_vin)
+    end
+
+  end
+
+  describe ".inflate_xml" do
+
+    context "valid XML" do
+
+      let(:doc) { REXML::Document.new(File.read('spec/data/1HGEJ6229XL063838.xml')) }
+      let(:res) { REXML::XPath.first(doc, '//query_response[@identifier="1HGEJ6229XL063838"]') }
+      let(:vin) { Lynr::Model::Vin.inflate_xml(res) }
+
+      it "creates a Vin with transmission from XML" do
+        expect(vin.transmission).to eq(REXML::XPath.first(res, '//us_market_data/common_us_data//transmission/@name').value)
+      end
+
+      it "creates a Vin with fuel type from XML" do
+        expect(vin.fuel).to eq(REXML::XPath.first(res, '//us_market_data/common_us_data//fuel_type').text)
+      end
+
+      it "creates a Vin with num doors from XML" do
+        expect(vin.doors).to eq(REXML::XPath.first(res, '//us_market_data/common_us_data//doors').text)
+      end
+
+      it "creates a Vin with drivetrain from XML" do
+        expect(vin.drivetrain).to eq(REXML::XPath.first(res, '//us_market_data/common_us_data//drive_type').text)
+      end
+
+      it "creates a Vin with ext_colors from XML" do
+        ext_colors = REXML::XPath.match(res, '//us_market_data/common_us_data//exterior_colors//generic_color_name').map { |el| el.text }
+        expect(vin.ext_color).to eq(ext_colors.join(', '))
+      end
+
+      it "creates a Vin with int_colors from XML" do
+        expect(vin.int_color).to eq(REXML::XPath.first(res, '//us_market_data/common_us_data//interior_colors//generic_color_name').text)
+      end
+
+      it "creates a Vin with a number from XML" do
+        expect(vin.number).to eq('1HGEJ6229XL063838')
+      end
+
+      it "creates a Vin with raw data equal to XML" do
+        expect(vin.raw).to eq(res.to_s)
+      end
+
     end
 
   end
