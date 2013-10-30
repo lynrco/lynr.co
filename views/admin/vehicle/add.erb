@@ -1,4 +1,12 @@
 <%= render_partial 'form_messages.erb' -%>
+      <form class="f-vin" action="/admin/<%= @dealership.slug %>/vin/search" method="POST">
+        <fieldset class="fs">
+          <label for="vin">VIN</label>
+          <input class="fs-top fs-bottom fs-full <%= error_class('vin') %>" type="text" name="vin"
+                 id="vin" value="<%= posted['vin'] %>" placeholder="VIN" />
+          <button class="btn btn-inline" type="submit">Search</button>
+        </fieldset>
+      </form>
       <form class="account" action="/admin/<%= @dealership.slug %>/vehicle/add" method="POST">
         <fieldset class="fs">
           <label for="price">Price</label>
