@@ -135,15 +135,9 @@ module Lynr; module Model;
     # Defines the defaults for the data `Hash` passed in for `#initialize`
     def self.defaults
       {
-        'year' => '',
-        'make' => '',
-        'model' => '',
-        'price' => 0.0,
-        'condition' => 0,
-        'mpg' => nil,
-        'vin' => nil,
+        'mpg' => Lynr::Model::Mpg.new,
+        'vin' => Lynr::Model::Vin.inflate(nil),
         'images' => [],
-        'dealership' => nil,
         'notes' => ''
       }
     end

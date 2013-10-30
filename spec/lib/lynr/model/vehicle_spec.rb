@@ -16,6 +16,8 @@ describe Lynr::Model::Vehicle do
 
   let(:vehicle) { Lynr::Model::Vehicle.new({ 'year' => @year, 'make' => @make, 'model' => @model }) }
   let(:empty_vehicle) { Lynr::Model::Vehicle.new }
+  let(:empty_vin) { Lynr::Model::Vin.inflate(nil) }
+  let(:empty_mpg) { Lynr::Model::Mpg.new }
 
   let(:image1) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy1.gif") }
   let(:image2) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/dummy2.gif") }
@@ -24,13 +26,13 @@ describe Lynr::Model::Vehicle do
   describe "#initialize" do
 
     it "gives an empty object when given no parameters" do
-      expect(empty_vehicle.make).to eq("")
-      expect(empty_vehicle.model).to eq("")
-      expect(empty_vehicle.year).to eq("")
-      expect(empty_vehicle.price).to eq(0.0)
-      expect(empty_vehicle.condition).to eq(0)
-      expect(empty_vehicle.mpg).to be_nil
-      expect(empty_vehicle.vin).to be_nil
+      expect(empty_vehicle.make).to be_nil
+      expect(empty_vehicle.model).to be_nil
+      expect(empty_vehicle.year).to be_nil
+      expect(empty_vehicle.price).to be_nil
+      expect(empty_vehicle.condition).to be_nil
+      expect(empty_vehicle.mpg).to eq(empty_mpg)
+      expect(empty_vehicle.vin).to eq(empty_vin)
       expect(empty_vehicle.images).to eq([])
       expect(empty_vehicle.dealership).to be_nil
     end
