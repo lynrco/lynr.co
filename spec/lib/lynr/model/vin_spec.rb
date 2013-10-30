@@ -78,12 +78,13 @@ describe Lynr::Model::Vin do
 
   describe ".inflate_xml" do
 
+    let(:vin) { Lynr::Model::Vin.inflate_xml(query_response) }
+
     context "valid XML" do
 
       let(:path) { './/us_market_data/common_us_data' }
       let(:doc) { LibXML::XML::Document.file('spec/data/1HGEJ6229XL063838.xml') }
       let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
-      let(:vin) { Lynr::Model::Vin.inflate_xml(query_response) }
 
       it "creates a Vin with transmission from XML" do
         expect(vin.transmission).to eq(query_response.find("#{path}//transmission/@name").first.value)
@@ -116,6 +117,28 @@ describe Lynr::Model::Vin do
 
       it "creates a Vin with raw data equal to XML" do
         expect(vin.raw).to eq(query_response.to_s)
+      end
+
+    end
+
+    context "empty <query_response />" do
+
+      let(:doc) { LibXML::XML::Document.new }
+      let(:query_response) {
+        node = LibXML::XML::Node.new 'query_response'
+        doc.root = node
+      }
+
+      it "creates an empty Vin" do
+        expect(vin).to eq(empty_vin)
+      end
+
+    end
+
+    context "nil query_response" do
+
+      it "creates an empty Vin" do
+        expect(Lynr::Model::Vin.inflate_xml(nil)).to eq(empty_vin)
       end
 
     end
