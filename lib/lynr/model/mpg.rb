@@ -1,3 +1,5 @@
+require 'libxml'
+
 require './lib/lynr/model/base'
 
 module Lynr; module Model;
@@ -20,6 +22,14 @@ module Lynr; module Model;
     def self.inflate(record)
       data = record || {}
       Lynr::Model::Mpg.new(data)
+    end
+
+    def self.inflate_xml(query_response)
+      us_data = query_response.find('.//us_market_data/common_us_data').first
+      Lynr::Model::Mpg.new({
+        'city'    => us_data && us_data.find('.//epa_fuel_efficiency/epa_mpg_record/city').map { |n| n.content }.first,
+        'highway' => us_data && us_data.find('.//epa_fuel_efficiency/epa_mpg_record/highway').map { |n| n.content }.first
+      })
     end
 
   end
