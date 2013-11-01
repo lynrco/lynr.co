@@ -21,6 +21,12 @@ module Sly; module View;
       partial_view.result
     end
 
+    def render_view(path)
+      partial = ::File.join(Sly::App.options.root, Sly::App.options.views, path.to_s)
+      partial_view = Sly::View::Erb.new(partial, { context: self })
+      partial_view.result
+    end
+
     
     ##
     # Extends the class that included this module so that the methods that
