@@ -12,18 +12,19 @@ module Lynr; module Controller;
     get  '/admin/:slug/account', :get_account
     post '/admin/:slug/account', :post_account
 
-    def get_account(req)
+    def before_each(req)
       return unauthorized unless authorized?(req)
-      @subsection = 'account'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+    end
+
+    def get_account(req)
+      @subsection = 'account'
       @title = "Account Information"
       @transloadit_params = transloadit_params('account_template_id').to_json
       render 'admin/account.erb'
     end
 
     def post_account(req)
-      return unauthorized unless authorized?(req)
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST
       @errors = validate_account_info
       if email_changed?
