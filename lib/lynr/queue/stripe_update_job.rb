@@ -1,6 +1,7 @@
 require 'stripe'
 
 require 'lynr'
+require 'lynr/model/dealership'
 require 'lynr/queue/job'
 
 module Lynr; class Queue;
@@ -14,9 +15,10 @@ module Lynr; class Queue;
     def perform
       setup if Stripe.api_key.nil? || Stripe.api_version.nil?
       customer = Stripe::Customer.retrieve(@dealership.customer_id)
-      customer.description = posted['name']
-      customer.email = posted['email']
+      customer.description = @dealership.name
+      customer.email = @dealership.identity.email
       customer.save
+      Success
     end
 
     def setup
