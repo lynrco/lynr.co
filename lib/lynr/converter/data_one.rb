@@ -1,24 +1,11 @@
 require 'libxml'
 
+require './lib/lynr/converter/libxml_helper'
 require './lib/lynr/model/vin'
 
 module Lynr; module Converter;
 
-  class XmlConverter
-
-    def self.contents(context, xpath)
-      enum = context.find(xpath) if context
-      (enum || []).map { |node| node.content }
-    end
-
-    def self.values(context, xpath)
-      enum = context.find(xpath) if context
-      (enum || []).map { |node| node.value }
-    end
-
-  end
-
-  class DataOne < XmlConverter
+  class DataOne < LibXmlHelper
 
     def self.xml_to_vin(query_response)
       return Lynr::Model::Vin.inflate(nil) if query_response.nil?
