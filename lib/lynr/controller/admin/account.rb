@@ -32,8 +32,8 @@ module Lynr; module Controller;
         @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
       end
       @posted['image'] = translate_image
-      dealer_dao.save(@dealership.set(posted))
-      update_stripe if email_changed? || name_changed?
+      dealership = dealer_dao.save(@dealership.set(posted))
+      update_stripe(dealership) if email_changed? || name_changed?
       redirect "/admin/#{@dealership.id.to_s}/account"
     end
 
@@ -67,8 +67,8 @@ module Lynr; module Controller;
     end
 
     # ## Stripe Helper
-    def update_stripe
-      Lynr.producer('stripe').publish(Lynr::Queue::StripeUpdateJob.new(@dealership))
+    def update_stripe(dealership)
+      Lynr.producer('stripe').publish(Lynr::Queue::StripeUpdateJob.new(dealership))
     end
 
     # ## Data Validation
