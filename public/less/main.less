@@ -114,6 +114,12 @@ a { color: @font_color; text-decoration: none; }
 .btn-full { width: 100%; }
 .btn-half { width: 45.3125%; }
 .btn-inline { position: absolute; top: 0; right: 0; padding-left: 2%; padding-right: 2%; }
+.btn-delete {
+  border-color: @highlight; color: lighten(@highlight, 35%);
+  .linear_gradient(lighten(@highlight, 10%), darken(@highlight, 10%));
+
+  &:hover { .linear_gradient(darken(@highlight, 10%), lighten(@highlight, 10%)); }
+}
 /** Form **/
 #messages {
   position: relative; left: -3.333333333%; width: 106.666666667%;
