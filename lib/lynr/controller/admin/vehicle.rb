@@ -23,6 +23,8 @@ module Lynr; module Controller;
     get  '/admin/:slug/:vehicle/menu',   :get_vehicle_menu
     get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
     post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
+    get  '/admin/:slug/:vehicle/delete', :get_delete_vehicle
+    post '/admin/:slug/:vehicle/delete', :post_delete_vehicle
 
     def initialize
       super
@@ -124,6 +126,28 @@ module Lynr; module Controller;
       posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
       vehicle_dao.save(vehicle.set(posted))
       redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
+    end
+
+    # Handle delete vehicle
+    def get_delete_vehicle(req)
+      return unauthorized unless authorized?(req)
+      @subsection = 'vehicle-delete'
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @title = "Delete #{@vehicle.name}"
+      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
+      render 'admin/vehicle/delete.erb'
+    end
+
+    def post_delete_vehicle(req)
+      return unauthorized unless authorized?(req)
+      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+      @posted = req.POST.dup
+      posted['dealership'] = dealership
+      posted['deleted_at'] = Time.now
+      vehicle_dao.save(vehicle.set(posted))
+      redirect "/admin/#{dealership.slug}"
     end
 
   end
