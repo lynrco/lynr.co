@@ -110,10 +110,7 @@ module Lynr; module Controller;
       @title = "Photos for #{@vehicle.name}"
       @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       @posted = @vehicle.view
-      @transloadit_params = {
-        auth: { key: Lynr::Web.config['transloadit']['auth_key'] },
-        template_id: Lynr::Web.config['transloadit']['vehicle_template_id']
-      }.to_json
+      @transloadit_params = transloadit_params('vehicle_template_id').to_json
       render 'admin/vehicle/photos.erb'
     end
 

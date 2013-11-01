@@ -88,6 +88,15 @@ module Lynr; module Controller;
       req.session['dealer_id'] == BSON::ObjectId.from_string(req['slug'])
     end
 
+    protected
+
+    def transloadit_params(template_id_name)
+      {
+        auth: { key: Lynr::Web.config['transloadit']['auth_key'] },
+        template_id: Lynr::Web.config['transloadit'][template_id_name]
+      }
+    end
+
   end
 
 end; end;
