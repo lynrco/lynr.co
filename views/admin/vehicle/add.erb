@@ -4,7 +4,7 @@
           <label for="vin">VIN</label>
           <input class="fs-top fs-bottom fs-full <%= error_class('vin') %>" type="text" name="vin"
                  id="vin" value="<%= posted['vin'] %>" placeholder="VIN" />
-          <button class="btn btn-inline" type="submit">Search</button>
+          <button class="btn btn-inline" type="submit">Import</button>
         </fieldset>
       </form>
       <form class="account" action="/admin/<%= @dealership.slug %>/vehicle/add" method="POST">
