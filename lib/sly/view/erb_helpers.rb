@@ -16,17 +16,20 @@ module Sly; module View;
     end
 
     def render_partial(path)
-      partial = ::File.join(Sly::App.options.root, Sly::App.options.partials, path.to_s)
-      partial_view = Sly::View::Erb.new(partial, { context: self })
-      partial_view.result
+      render_inline(path, Sly::App.options.partials)
     end
 
     def render_view(path)
-      partial = ::File.join(Sly::App.options.root, Sly::App.options.views, path.to_s)
+      render_inline(path, Sly::App.options.views)
+    end
+
+    private
+    
+    def render_inline(path, type)
+      partial = ::File.join(Sly::App.options.root, type, path.to_s)
       partial_view = Sly::View::Erb.new(partial, { context: self })
       partial_view.result
     end
-
     
     ##
     # Extends the class that included this module so that the methods that
