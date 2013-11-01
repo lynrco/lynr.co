@@ -55,6 +55,7 @@ module Lynr; module Model;
       @notes = data['notes']
       @created_at = data['created_at']
       @updated_at = data['updated_at']
+      @deleted_at = data['deleted_at']
     end
 
     def dealership_id
@@ -140,7 +141,8 @@ module Lynr; module Model;
         'notes' => @notes,
         'dealership' => @dealership,
         'created_at' => @created_at,
-        'updated_at' => @updated_at
+        'updated_at' => @updated_at,
+        'deleted_at' => @deleted_at
       }
     end
 
