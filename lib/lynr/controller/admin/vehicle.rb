@@ -7,13 +7,13 @@ module Lynr; module Controller;
 
   class AdminVehicle < Lynr::Controller::Admin
 
-#   def self.create_route(path, method_name, verb)
-#     method = method_name.to_sym
-#     Sly::Route.new(verb, path, lambda { |req|
-#       controller = self.new
-#       controller.before(req) || controller.send(method, req)
-#     })
-#   end
+   def self.create_route(path, method_name, verb)
+     method = method_name.to_sym
+     Sly::Route.new(verb, path, lambda { |req|
+       controller = self.new
+       controller.before_each(req) || controller.send(method, req)
+     })
+   end
 
     get  '/admin/:slug/:vehicle',        :get_vehicle
     get  '/admin/:slug/vehicle/add',     :get_add
@@ -31,25 +31,34 @@ module Lynr; module Controller;
       @base_menu = Lynr::View::Menu.new('Vehicle Menu', "", :menu_vehicle)
     end
 
-    # TODO: This doesn't do anything but it should be possible to make it
-    # The same logic is repeated in every handling method
-    def self.before(req)
+    # BEFORE HANDLING
+    def before_each(req)
       response = nil
       response = unauthorized unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      response = not_found if @dealership.nil? or @vehicle.nil?
+      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle'])) if !req['vehicle'].nil?
+      response = not_found if @dealership.nil? or (!req['vehicle'].nil? and @vehicle.nil?)
+      case req.request_method
+        when 'GET'  then before_GET(req)
+        when 'POST' then before_POST(req)
+      end
       response
+    end
+
+    def before_GET(req)
+      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu") if !@vehicle.nil?
+      @posted = @vehicle.view if !@vehicle.nil?
+    end
+
+    def before_POST(req)
+      @posted = req.POST.dup
+      posted['dealership'] = @dealership
     end
 
     # Handle view vehicle
     def get_vehicle(req)
-      return unauthorized unless authorized?(req)
       @subsection = 'vehicle-view'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "#{@vehicle.name}"
-      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       render 'admin/vehicle/view.erb'
     end
 
@@ -60,91 +69,56 @@ module Lynr; module Controller;
 
     # Handle add vehicle
     def get_add(req)
-      return unauthorized unless authorized?(req)
       @subsection = 'vehicle-add'
       @title = 'Add Vehicle'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       render 'admin/vehicle/add.erb'
     end
 
     def post_add(req)
-      return unauthorized unless authorized?(req)
-      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @posted = req.POST.dup
-      posted['dealership'] = dealership
       vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(@posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
+      redirect "/admin/#{@dealership.slug}/#{vehicle.slug}/edit"
     end
 
     # Handle edit vehicle
     def get_edit_vehicle(req)
-      return unauthorized unless authorized?(req)
       @subsection = 'vehicle-edit'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Edit #{@vehicle.name}"
-      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
-      @posted = @vehicle.view
       render 'admin/vehicle/edit.erb'
     end
 
     def post_edit_vehicle(req)
-      return unauthorized unless authorized?(req)
-      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      @posted = req.POST.dup
-      posted['dealership'] = dealership
       # Need to inflate the Mpg and Vin views that come from posted data
       posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
       posted['vin'] = Lynr::Model::Vin.inflate(posted['vin'])
-      vehicle_dao.save(vehicle.set(posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
+      vehicle_dao.save(@vehicle.set(posted))
+      redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
     end
 
     # Handle edit photos
     def get_edit_vehicle_photos(req)
-      return unauthorized unless authorized?(req)
       @subsection = 'vehicle-photos'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Photos for #{@vehicle.name}"
-      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
-      @posted = @vehicle.view
       @transloadit_params = transloadit_params('vehicle_template_id').to_json
       render 'admin/vehicle/photos.erb'
     end
 
     def post_edit_vehicle_photos(req)
-      return unauthorized unless authorized?(req)
-      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      @posted = req.POST.dup
-      posted['dealership'] = dealership
       posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
-      vehicle_dao.save(vehicle.set(posted))
-      redirect "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
+      vehicle_dao.save(@vehicle.set(posted))
+      redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
     end
 
     # Handle delete vehicle
     def get_delete_vehicle(req)
-      return unauthorized unless authorized?(req)
       @subsection = 'vehicle-delete'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
       @title = "Delete #{@vehicle.name}"
-      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
       render 'admin/vehicle/delete.erb'
     end
 
     def post_delete_vehicle(req)
-      return unauthorized unless authorized?(req)
-      dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
-      @posted = req.POST.dup
-      posted['dealership'] = dealership
       posted['deleted_at'] = Time.now
-      vehicle_dao.save(vehicle.set(posted))
-      redirect "/admin/#{dealership.slug}"
+      vehicle_dao.save(@vehicle.set(posted))
+      redirect "/admin/#{@dealership.slug}"
     end
 
   end
