@@ -114,17 +114,14 @@ module Lynr; module Controller;
 
     def post_signin(req)
       @subsection = "signup submitted"
+      @title = "Sign In to Lynr"
       @posted = req.POST
       @errors = validate_signin(@posted)
-      @title = "Sign In to Lynr"
-      if (@errors.empty?)
-        dealership = dao.get_by_email(@posted['email'])
-        # Send to admin pages
-        req.session['dealer_id'] = dealership.id
-        redirect "/admin/#{dealership.id.to_s}"
-      else
-        render 'auth/signin.erb'
-      end
+      return render 'auth/signin.erb' if has_errors?
+      dealership = dao.get_by_email(@posted['email'])
+      # Send to admin pages
+      req.session['dealer_id'] = dealership.id
+      redirect "/admin/#{dealership.id.to_s}"
     end
 
     # ## Sign Out Handler
