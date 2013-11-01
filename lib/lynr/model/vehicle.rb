@@ -2,6 +2,7 @@ require 'bson'
 require 'kramdown'
 require 'libxml'
 
+require './lib/lynr/converter/data_one'
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
@@ -123,7 +124,7 @@ module Lynr; module Model;
         'model' => us_data && us_data.find('./basic_data/model').map { |n| n.content }.first,
         'price' => us_data && us_data.find('./pricing/msrp').map { |n| n.content }.first,
         'mpg' => Lynr::Model::Mpg.inflate_xml(query_response),
-        'vin' => Lynr::Model::Vin.inflate_xml(query_response)
+        'vin' => query_response.to_vin
       })
     end
 

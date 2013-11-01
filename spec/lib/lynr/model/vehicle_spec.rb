@@ -230,7 +230,7 @@ describe Lynr::Model::Vehicle do
 
     let(:vehicle) { Lynr::Model::Vehicle.inflate_xml(query_response) }
     let(:mpg) { Lynr::Model::Mpg.inflate_xml(query_response) }
-    let(:vin) { Lynr::Model::Vin.inflate_xml(query_response) }
+    let(:vin) { query_response.to_vin }
 
     context "valid XML" do
 
