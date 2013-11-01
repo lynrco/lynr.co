@@ -16,7 +16,7 @@ module Lynr; class Queue;
       @text_template = tmpl(template, :txt)
       @html_template = tmpl(template, :html)
       @config = Lynr.config('app').mailgun
-      data[:from] = @config.from if !data.include? :from
+      @mail_data[:from] = @config.from if !data.include? :from
     end
 
     def perform
