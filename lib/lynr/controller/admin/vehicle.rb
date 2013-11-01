@@ -7,14 +7,6 @@ module Lynr; module Controller;
 
   class AdminVehicle < Lynr::Controller::Admin
 
-   def self.create_route(path, method_name, verb)
-     method = method_name.to_sym
-     Sly::Route.new(verb, path, lambda { |req|
-       controller = self.new
-       controller.before_each(req) || controller.send(method, req)
-     })
-   end
-
     get  '/admin/:slug/:vehicle',        :get_vehicle
     get  '/admin/:slug/vehicle/add',     :get_add
     post '/admin/:slug/vehicle/add',     :post_add
@@ -38,19 +30,20 @@ module Lynr; module Controller;
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle'])) if !req['vehicle'].nil?
       response = not_found if @dealership.nil? or (!req['vehicle'].nil? and @vehicle.nil?)
-      case req.request_method
-        when 'GET'  then before_GET(req)
-        when 'POST' then before_POST(req)
-      end
+      # `super` calls `before_GET` and `before_POST` as appropriate and @vehicle/@dealership
+      # variables need to be set prior to those method calls
+      response = super if response.nil?
       response
     end
 
     def before_GET(req)
+      super
       @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu") if !@vehicle.nil?
       @posted = @vehicle.view if !@vehicle.nil?
     end
 
     def before_POST(req)
+      super
       @posted = req.POST.dup
       posted['dealership'] = @dealership
     end
