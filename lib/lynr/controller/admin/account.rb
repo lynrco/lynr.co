@@ -2,6 +2,7 @@ require 'json'
 
 require 'lynr'
 require 'lynr/controller/admin'
+require 'lynr/queue/email_job'
 require 'lynr/queue/stripe_update_job'
 
 module Lynr; module Controller;
@@ -69,7 +70,7 @@ module Lynr; module Controller;
 
     # ## Stripe Helper
     def update_stripe
-      Lynr.producer('stripe').publish(StripeUpdateJob.new(@dealership))
+      Lynr.producer('stripe').publish(Lynr::Queue::StripeUpdateJob.new(@dealership))
     end
 
     # ## Data Validation
