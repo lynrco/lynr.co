@@ -1,3 +1,5 @@
+require 'bson'
+
 require 'lynr/model/address'
 require 'lynr/model/base'
 require 'lynr/model/base_dated'

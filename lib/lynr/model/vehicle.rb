@@ -1,6 +1,7 @@
+require 'bson'
 require 'kramdown'
-
 require 'libxml'
+
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
