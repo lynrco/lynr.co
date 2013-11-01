@@ -22,7 +22,7 @@ module Lynr; module Persist;
     def list(dealership, page=1, count=10)
       skip = (page - 1) * count
       options = { skip: skip, limit: count, sort: SORT }
-      records = @dao.search({ 'dealership' => dealership.id }, options)
+      records = @dao.search({ 'dealership' => dealership.id, 'deleted_at' => nil }, options)
       records.map do |record|
         dealership_id = record.delete('dealership')
         record['id'] = record.delete('_id')
