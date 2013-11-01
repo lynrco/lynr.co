@@ -38,11 +38,14 @@ module Lynr; module Controller;
     post '/signin',  :post_signin
     get  '/signout', :get_signout
 
+    def before_GET(req)
+      redirect "/admin/#{req.session['dealer_id']}" if req.session['dealer_id']
+    end
+
     # ## Sign Up Handlers
     def get_signup(req)
       @subsection = "signup"
       @title = "Sign Up for Lynr"
-      return redirect "/admin/#{req.session['dealer_id']}" if req.session['dealer_id']
       render 'auth/signup.erb'
     end
 
@@ -106,7 +109,6 @@ module Lynr; module Controller;
     def get_signin(req)
       @subsection = "signin"
       @title = "Sign In to Lynr"
-      return redirect "/admin/#{req.session['dealer_id']}" if req.session['dealer_id']
       render 'auth/signin.erb'
     end
 
