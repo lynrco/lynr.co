@@ -16,7 +16,7 @@ Vagrant::Config.run do |config|
 
     db_config.vm.box = BOX_NAME
     db_config.vm.box_url = BOX_URL
-    db_config.vm.forward_port 27017, 10059
+    db_config.vm.forward_port 27017, 27017
     db_config.vm.provision :shell do |sh|
       sh.inline = <<-EOF
         export PUPPETMASTER="54.242.244.213"

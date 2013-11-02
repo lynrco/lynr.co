@@ -1,6 +1,6 @@
 mongo:
   host: '127.0.0.1'
-  port: 10059
+  port: 27017
   database: 'lynr_spec'
 int_val: 1234
 bool_val: true
