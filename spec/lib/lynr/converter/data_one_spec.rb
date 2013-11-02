@@ -82,4 +82,58 @@ describe Lynr::Converter::DataOne do
 
   end
 
+  describe ".xml_to_mpg" do
+
+    let(:mpg) { Lynr::Converter::DataOne.xml_to_mpg(query_response) }
+
+    context "valid XML" do
+
+      let(:path) { './/us_market_data/common_us_data' }
+      let(:doc) { LibXML::XML::Document.file('spec/data/1HGEJ6229XL063838.xml') }
+      let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
+
+      it "creates a Mpg with city from XML" do
+        expect(mpg.city).to eq(query_response.find("#{path}//epa_fuel_efficiency//city").first.content)
+      end
+
+      it "creates a Mpg with highway from XML" do
+        expect(mpg.highway).to eq(query_response.find("#{path}//epa_fuel_efficiency//highway").first.content)
+      end
+
+    end
+
+    context "empty <query_response />" do
+
+      let(:doc) { LibXML::XML::Document.new }
+      let(:query_response) {
+        node = LibXML::XML::Node.new 'query_response'
+        doc.root = node
+      }
+
+      it "creates Mpg with default city" do
+        expect(mpg.city).to eq(Lynr::Model::Mpg.new.city)
+      end
+
+      it "creates Mpg with default highway" do
+        expect(mpg.highway).to eq(Lynr::Model::Mpg.new.highway)
+      end
+
+    end
+
+    context "nil query_response" do
+
+      let(:query_response) { nil }
+
+      it "creates Mpg with default city" do
+        expect(mpg.city).to eq(Lynr::Model::Mpg.new.city)
+      end
+
+      it "creates Mpg with default highway" do
+        expect(mpg.highway).to eq(Lynr::Model::Mpg.new.highway)
+      end
+
+    end
+
+  end
+
 end

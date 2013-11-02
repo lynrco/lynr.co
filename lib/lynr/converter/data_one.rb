@@ -1,6 +1,7 @@
 require 'libxml'
 
 require './lib/lynr/converter/libxml_helper'
+require './lib/lynr/model/mpg'
 require './lib/lynr/model/vin'
 
 module Lynr; module Converter;
@@ -24,6 +25,15 @@ module Lynr; module Converter;
       )
     end
 
+    def self.xml_to_mpg(query_response)
+      return Lynr::Model::Mpg.new if query_response.nil?
+      us_data = query_response.find('.//us_market_data/common_us_data').first
+      Lynr::Model::Mpg.new({
+        'city'    => contents(us_data, './/epa_fuel_efficiency/epa_mpg_record/city').first,
+        'highway' => contents(us_data, './/epa_fuel_efficiency/epa_mpg_record/highway').first
+      })
+    end
+
   end
 
 end; end;
@@ -35,6 +45,11 @@ module LibXML; module XML;
     def to_vin
       raise Exception.new if self.name != 'query_response'
       Lynr::Converter::DataOne.xml_to_vin(self)
+    end
+
+    def to_mpg
+      raise Exception.new if self.name != 'query_response'
+      Lynr::Converter::DataOne.xml_to_mpg(self)
     end
 
   end
