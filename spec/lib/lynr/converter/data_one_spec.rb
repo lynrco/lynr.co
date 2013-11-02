@@ -141,8 +141,8 @@ describe Lynr::Converter::DataOne do
   describe ".xml_to_vehicle" do
 
     let(:vehicle) { Lynr::Converter::DataOne.xml_to_vehicle(query_response) }
-    let(:mpg) { query_response.to_mpg }
-    let(:vin) { query_response.to_vin }
+    let(:mpg) { Lynr::Converter::DataOne.xml_to_mpg(query_response) }
+    let(:vin) { Lynr::Converter::DataOne.xml_to_vin(query_response) }
 
     context "valid XML" do
 

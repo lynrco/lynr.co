@@ -51,21 +51,3 @@ module Lynr; module Converter;
   end
 
 end; end;
-
-module LibXML; module XML;
-
-  class Node
-
-    def to_vin
-      raise Exception.new if self.name != 'query_response'
-      Lynr::Converter::DataOne.xml_to_vin(self)
-    end
-
-    def to_mpg
-      raise Exception.new if self.name != 'query_response'
-      Lynr::Converter::DataOne.xml_to_mpg(self)
-    end
-
-  end
-
-end; end;
