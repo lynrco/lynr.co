@@ -44,5 +44,7 @@ end
 group :test do
   gem 'rspec',          '2.12'
 
+  gem 'codeclimate-test-reporter'
+
   gem 'guard-rspec'
 end

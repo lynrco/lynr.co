@@ -1,5 +1,9 @@
+require 'codeclimate-test-reporter'
+
 require './lib/lynr/model/identity'
 require './lib/lynr/persist/mongo_dao'
+
+CodeClimate::TestReporter.start
 
 basedir = File.expand_path(File.dirname(__FILE__))
 libdir = "#{basedir}/lib"
