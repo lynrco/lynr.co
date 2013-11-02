@@ -2,7 +2,6 @@ require 'bson'
 require 'kramdown'
 require 'libxml'
 
-require './lib/lynr/converter/data_one'
 require 'lynr/model/base'
 require 'lynr/model/base_dated'
 require 'lynr/model/dealership'
@@ -113,10 +112,6 @@ module Lynr; module Model;
       data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
       data['images'] = data['images'].map { |image| Lynr::Model::SizedImage.inflate(image) } if data['images']
       Lynr::Model::Vehicle.new(data, data['id'])
-    end
-
-    def self.inflate_xml(query_response)
-      Lynr::Converter::DataOne.xml_to_vehicle(query_response)
     end
 
     protected
