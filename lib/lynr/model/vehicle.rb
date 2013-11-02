@@ -123,7 +123,7 @@ module Lynr; module Model;
         'make' => us_data && us_data.find('./basic_data/make').map { |n| n.content }.first,
         'model' => us_data && us_data.find('./basic_data/model').map { |n| n.content }.first,
         'price' => us_data && us_data.find('./pricing/msrp').map { |n| n.content }.first,
-        'mpg' => Lynr::Model::Mpg.inflate_xml(query_response),
+        'mpg' => query_response.to_mpg,
         'vin' => query_response.to_vin
       })
     end
