@@ -116,16 +116,7 @@ module Lynr; module Model;
     end
 
     def self.inflate_xml(query_response)
-      return Lynr::Model::Vehicle.new if query_response.nil?
-      us_data = query_response.find('.//us_market_data/common_us_data').first
-      Lynr::Model::Vehicle.new({
-        'year' => us_data && us_data.find('./basic_data/year').map { |n| n.content }.first,
-        'make' => us_data && us_data.find('./basic_data/make').map { |n| n.content }.first,
-        'model' => us_data && us_data.find('./basic_data/model').map { |n| n.content }.first,
-        'price' => us_data && us_data.find('./pricing/msrp').map { |n| n.content }.first,
-        'mpg' => query_response.to_mpg,
-        'vin' => query_response.to_vin
-      })
+      Lynr::Converter::DataOne.xml_to_vehicle(query_response)
     end
 
     protected
