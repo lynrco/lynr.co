@@ -3,12 +3,12 @@ GEM
   remote: https://code.stripe.com/
   specs:
     amq-protocol (1.8.0)
-    bcrypt-ruby (3.0.1)
-    bson (1.8.6)
-    bson_ext (1.8.2)
-      bson (~> 1.8.2)
-    bunny (0.10.6)
-      amq-protocol (>= 1.6.0)
+    bcrypt-ruby (3.1.2)
+    bson (1.9.2)
+    bson_ext (1.9.2)
+      bson (~> 1.9.2)
+    bunny (1.0.0)
+      amq-protocol (>= 1.8.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     codeclimate-test-reporter (0.1.1)
@@ -51,8 +51,8 @@ GEM
     lumberjack (1.0.4)
     method_source (0.8.2)
     mime-types (2.0)
-    mongo (1.8.2)
-      bson (~> 1.8.2)
+    mongo (1.9.2)
+      bson (~> 1.9.2)
     multi_json (1.8.2)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -105,9 +105,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt-ruby (= 3.0.1)
-  bson_ext (= 1.8.2)
-  bunny (= 0.10.6)
+  bcrypt-ruby (= 3.1.2)
+  bson_ext (= 1.9.2)
+  bunny (= 1.0.0)
   codeclimate-test-reporter
   guard
   guard-bundler
@@ -118,7 +118,7 @@ DEPENDENCIES
   less (= 2.3.1)
   libxml-ruby (= 2.7.0)
   log4r (= 1.1.10)
-  mongo (= 1.8.2)
+  mongo (= 1.9.2)
   pry
   ramaze (= 2012.12.08)
   rb-fchange
