@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<rdf:RDF xmlns="http://purl.org/rss/1.0/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cl="http://www.craigslist.org/about/cl-bulk-ns/1.0">
+
+  <channel>
+
+    <items>
+      <rdf:li rdf:resource="<%= @vehicle.id.to_s %>" />
+    </items>
+
+    <cl:auth username=""
+             password=""
+             accountID="" />
+
+  </channel>
+
+  <item rdf:about="<%= @vehicle.id.to_s %>">
+    <title></title>
+    <description>
+    <![CDATA[
+    ]]>
+    </description>
+    <cl:category>ctd</category>
+    <cl:area></cl:area>
+
+    <%- # otherContactInfo attribute is for something like a phone number -%>
+    <cl:replyEmail privacy="C" outsideContactOk="0" otherContactInfo""><%= @dealership.identity.email %></cl:replyEmail>
+
+    <% @vehicle.images.each_with_index do |image, i| %>
+    <cl:image position="0"><% # image.base64_encode %></cl:image>
+    <% end %>
+
+    <% if @dealership.address %>
+    <cl:mapLocation
+        city="<%= @dealership.address.city %>"
+        state="<%= @dealership.address.state %>"
+        latitude=""
+        longitude=""
+        />
+    <% end %>
+
+    <cl:auto_basics
+        auto_color=""
+        auto_is_new="0|1"
+        auto_year=""
+        auto_make_other=""
+        auto_model_other=""
+        auto_miles=""
+        auto_trans_manual="0|1"
+        auto_trans_auto="0|1"
+        auto_vin=""
+        />
+
+    <cl:generic
+        contact_method="email|phone|text"
+        contact_name=""
+        contact_ok="0|1"
+        contact_other=""
+        contact_phone=""
+        contact_time=""
+        fee_disclosure=""
+        has_license="0|1"
+        license_info=""
+        phonecalls_ok="0|1"
+        repost_ok="0|1"
+        />
+
+  </item>
+
+</rdf:RDF>
