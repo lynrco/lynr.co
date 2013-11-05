@@ -11,7 +11,7 @@ gem 'libxml-ruby',      '2.7.0'
 gem 'log4r',            '1.1.10'
 gem 'mongo',            '1.9.2'
 gem 'ramaze',           '2012.12.08'
-gem 'stripe',           '1.7.11'
+gem 'stripe',           '1.8.8'
 gem 'yajl-ruby',        '1.1.0'
 
 group :development do
