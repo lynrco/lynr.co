@@ -38,7 +38,7 @@ group :local do
 end
 
 group :test do
-  gem 'rspec',          '2.12'
+  gem 'rspec'
 
   gem 'codeclimate-test-reporter'
 
