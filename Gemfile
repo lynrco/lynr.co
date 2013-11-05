@@ -30,7 +30,7 @@ end
 group :heroku do
   gem 'less',           '2.4.0'
   gem 'therubyracer'
-  gem 'unicorn',        '4.5.0'
+  gem 'unicorn',        '4.7.0'
 end
 
 group :local do
@@ -46,5 +46,5 @@ group :test do
 end
 
 group :vagrant do
-  gem 'unicorn',        '4.5.0'
+  gem 'unicorn',        '4.7.0'
 end

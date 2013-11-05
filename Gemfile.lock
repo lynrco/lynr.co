@@ -95,7 +95,7 @@ GEM
       ref
     thor (0.18.1)
     timers (1.1.0)
-    unicorn (4.5.0)
+    unicorn (4.7.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -128,5 +128,5 @@ DEPENDENCIES
   shotgun (= 0.9)
   stripe (= 1.8.8)
   therubyracer
-  unicorn (= 4.5.0)
+  unicorn (= 4.7.0)
   yajl-ruby (= 1.1.0)
