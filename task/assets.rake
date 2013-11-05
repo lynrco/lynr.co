@@ -36,4 +36,7 @@ namespace :assets do
     end
   end
 
+  task :nothing do
+  end
+
 end
