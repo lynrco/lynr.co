@@ -39,8 +39,8 @@ GEM
       rack (~> 1.5.2)
     kgio (2.8.1)
     kramdown (1.2.0)
-    less (2.3.1)
-      commonjs (~> 0.2.6)
+    less (2.4.0)
+      commonjs (~> 0.2.7)
     libv8 (3.16.14.3)
     libxml-ruby (2.7.0)
     listen (2.2.0)
@@ -115,7 +115,7 @@ DEPENDENCIES
   guard-rspec
   guard-shell
   kramdown (= 1.2.0)
-  less (= 2.3.1)
+  less (= 2.4.0)
   libxml-ruby (= 2.7.0)
   log4r (= 1.1.10)
   mongo (= 1.9.2)
