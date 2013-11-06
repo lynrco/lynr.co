@@ -1,13 +1,8 @@
 require 'rack'
 
-basedir = File.expand_path(File.dirname(__FILE__))
-libdir = "#{basedir}/lib"
-$LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include?(basedir)
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
-
-require 'web'
 require 'rack/middleware/logger'
 require 'rack/middleware/timer'
+require './lib/web'
 
 Lynr::Web.setup
 
