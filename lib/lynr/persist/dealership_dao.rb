@@ -7,10 +7,8 @@ module Lynr; module Persist;
 
     def initialize
       @dao = MongoDao.new('collection' => 'dealers')
-      if @dao.active?
-        @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
-        @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
-      end
+      @indexed = false
+      ensure_indices if @dao.active?
     end
 
     def account_exists?(email)
@@ -43,6 +41,12 @@ module Lynr; module Persist;
     end
 
     private
+
+    def ensure_indices
+      @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
+      @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
+      @indexed = true
+    end
 
     def translate(record)
       record['id'] = record.delete('_id') if !record.nil?
