@@ -6,6 +6,7 @@
 !/config/*.example.yaml
 !/config/*.heroku.yaml
 !/config/database.spec.yaml
+/coverage/
 /public/css/*.css
 
 /.dotcloud/
