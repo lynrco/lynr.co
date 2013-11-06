@@ -9,9 +9,9 @@ namespace :worker do
 
   queues = ['email', 'stripe']
 
-  require 'lynr'
-  require 'lynr/logging'
-  require 'lynr/worker'
+  require './lib/lynr'
+  require './lib/lynr/logging'
+  require './lib/lynr/worker'
 
   task :all do
 

@@ -1,15 +1,15 @@
 require 'bundler/setup'
 require 'bunny'
 
-require 'lynr'
-require 'lynr/config'
-require 'lynr/logging'
-require 'lynr/queue'
-require 'lynr/queue/job'
-require 'lynr/queue/job_queue'
+require './lib/lynr'
+require './lib/lynr/config'
+require './lib/lynr/logging'
+require './lib/lynr/queue'
+require './lib/lynr/queue/job'
+require './lib/lynr/queue/job_queue'
 
-require 'lynr/queue/email_job'
-require 'lynr/queue/stripe_update_job'
+require './lib/lynr/queue/email_job'
+require './lib/lynr/queue/stripe_update_job'
 
 module Lynr
 

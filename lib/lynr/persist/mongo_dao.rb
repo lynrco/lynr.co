@@ -1,7 +1,7 @@
 require 'mongo'
 
-require 'lynr'
-require 'lynr/config'
+require './lib/lynr'
+require './lib/lynr/config'
 
 module Lynr; module Persist;
 

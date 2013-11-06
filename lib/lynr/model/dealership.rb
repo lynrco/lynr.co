@@ -1,10 +1,10 @@
 require 'bson'
 
-require 'lynr/model/address'
-require 'lynr/model/base'
-require 'lynr/model/base_dated'
-require 'lynr/model/identity'
-require 'lynr/model/sized_image'
+require './lib/lynr/model/address'
+require './lib/lynr/model/base'
+require './lib/lynr/model/base_dated'
+require './lib/lynr/model/identity'
+require './lib/lynr/model/sized_image'
 
 module Lynr; module Model;
 

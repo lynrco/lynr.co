@@ -1,4 +1,4 @@
-require 'lynr/queue/job_queue'
+require './lib/lynr/queue/job_queue'
 
 module Lynr
 

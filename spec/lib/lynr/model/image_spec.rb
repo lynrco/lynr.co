@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require 'lynr/model/image'
+require './lib/lynr/model/image'
 
 describe Lynr::Model::Image do
 

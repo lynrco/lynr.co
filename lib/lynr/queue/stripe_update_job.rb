@@ -1,8 +1,8 @@
 require 'stripe'
 
-require 'lynr'
-require 'lynr/model/dealership'
-require 'lynr/queue/job'
+require './lib/lynr'
+require './lib/lynr/model/dealership'
+require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
 

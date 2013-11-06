@@ -1,9 +1,9 @@
 require 'json'
 
-require 'lynr'
-require 'lynr/controller/admin'
-require 'lynr/queue/email_job'
-require 'lynr/queue/stripe_update_job'
+require './lib/lynr'
+require './lib/lynr/controller/admin'
+require './lib/lynr/queue/email_job'
+require './lib/lynr/queue/stripe_update_job'
 
 module Lynr; module Controller;
 

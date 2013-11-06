@@ -1,8 +1,8 @@
 require 'rest-client'
 require 'sly/view/erb'
 
-require 'lynr'
-require 'lynr/queue/job'
+require './lib/lynr'
+require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
 

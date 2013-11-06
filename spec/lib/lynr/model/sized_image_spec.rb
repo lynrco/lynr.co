@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require 'lynr/model/sized_image'
+require './lib/lynr/model/sized_image'
 
 describe Lynr::Model::SizedImage do
 

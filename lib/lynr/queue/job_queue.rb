@@ -1,5 +1,5 @@
-require 'lynr/queue'
-require 'lynr/queue/job'
+require './lib/lynr/queue'
+require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
 

@@ -1,8 +1,7 @@
-require 'sly'
-require 'lynr/controller/base'
-require 'lynr/controller/form_helpers'
-require 'lynr/persist/dealership_dao'
-require 'lynr/validator/helpers'
+require './lib/lynr/controller/base'
+require './lib/lynr/controller/form_helpers'
+require './lib/lynr/persist/dealership_dao'
+require './lib/lynr/validator/helpers'
 
 module Lynr; module Controller;
 

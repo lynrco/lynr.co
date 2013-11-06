@@ -1,4 +1,4 @@
-require 'lynr/controller/admin'
+require './lib/lynr/controller/admin'
 
 module Lynr; module Controller;
 

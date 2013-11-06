@@ -1,7 +1,7 @@
-require 'lynr/controller/admin'
-require 'lynr/model/vehicle'
-require 'lynr/model/sized_image'
-require 'lynr/view/menu'
+require './lib/lynr/controller/admin'
+require './lib/lynr/model/vehicle'
+require './lib/lynr/model/sized_image'
+require './lib/lynr/view/menu'
 
 module Lynr; module Controller;
 

@@ -1,5 +1,5 @@
-require 'lynr/model/base'
-require 'lynr/model/image'
+require './lib/lynr/model/base'
+require './lib/lynr/model/image'
 
 module Lynr; module Model;
 

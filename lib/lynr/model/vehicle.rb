@@ -2,12 +2,12 @@ require 'bson'
 require 'kramdown'
 require 'libxml'
 
-require 'lynr/model/base'
-require 'lynr/model/base_dated'
-require 'lynr/model/dealership'
-require 'lynr/model/sized_image'
-require 'lynr/model/mpg'
-require 'lynr/model/vin'
+require './lib/lynr/model/base'
+require './lib/lynr/model/base_dated'
+require './lib/lynr/model/dealership'
+require './lib/lynr/model/sized_image'
+require './lib/lynr/model/mpg'
+require './lib/lynr/model/vin'
 
 module Lynr; module Model;
 

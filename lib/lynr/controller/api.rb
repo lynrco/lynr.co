@@ -1,9 +1,8 @@
 require 'json'
-require 'sly'
 
-require 'lynr'
-require 'lynr/controller/base'
-require 'lynr/queue/email_job'
+require './lib/lynr'
+require './lib/lynr/controller/base'
+require './lib/lynr/queue/email_job'
 
 module Lynr; module Controller;
 

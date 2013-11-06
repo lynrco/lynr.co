@@ -1,7 +1,7 @@
 require 'bunny'
 
-require 'lynr'
-require 'lynr/logging'
+require './lib/lynr'
+require './lib/lynr/logging'
 
 module Lynr
 
