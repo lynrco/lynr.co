@@ -1,8 +1,8 @@
 require 'rack'
 
-require 'rack/middleware/logger'
-require 'rack/middleware/timer'
-require './lib/web'
+require './lib/rack/middleware/logger'
+require './lib/rack/middleware/timer'
+require './web'
 
 Lynr::Web.setup
 

@@ -1,8 +1,8 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require 'sly/route'
-require 'sly/router'
+require './lib/sly/route'
+require './lib/sly/router'
 
 describe Sly::Router do
 

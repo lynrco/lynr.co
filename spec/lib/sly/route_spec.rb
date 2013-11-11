@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
 
-require 'sly/route'
+require './lib/sly/route'
 
 class MockRequest
   attr_accessor :request_method, :path

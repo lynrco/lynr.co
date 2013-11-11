@@ -1,6 +1,6 @@
 require 'rack'
 
-require 'sly/exceptions'
+require './lib/sly/exceptions'
 
 module Sly
 

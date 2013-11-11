@@ -1,4 +1,4 @@
-require 'sly/view/erb_helpers'
+require './lib/sly/view/erb_helpers'
 
 module Lynr; module View;
 

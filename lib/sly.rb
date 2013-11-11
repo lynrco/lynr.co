@@ -1,10 +1,10 @@
 require 'rack'
 require 'innate'
 
-require 'sly/node'
-require 'sly/route'
-require 'sly/router'
-require 'sly/urlmap'
+require './lib/sly/node'
+require './lib/sly/route'
+require './lib/sly/router'
+require './lib/sly/urlmap'
 
 module Sly
 

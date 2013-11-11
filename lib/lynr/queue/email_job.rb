@@ -1,5 +1,6 @@
 require 'rest-client'
-require 'sly/view/erb'
+
+require './lib/sly/view/erb'
 
 require './lib/lynr'
 require './lib/lynr/queue/job'

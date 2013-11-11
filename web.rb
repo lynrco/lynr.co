@@ -1,7 +1,8 @@
 require 'bundler/setup'
 require 'ramaze'
-require 'sly'
 require 'stripe'
+
+require './lib/sly'
 
 require './lib/lynr'
 require './lib/lynr/config'

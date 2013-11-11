@@ -1,4 +1,4 @@
-require 'sly/view/erb'
+require './lib/sly/view/erb'
 
 module Sly; module View;
 

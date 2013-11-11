@@ -1,6 +1,6 @@
 require 'rack'
 
-require 'sly/request'
+require './lib/sly/request'
 
 module Sly
 
