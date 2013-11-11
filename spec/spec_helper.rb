@@ -3,7 +3,7 @@ require 'codeclimate-test-reporter'
 require './lib/lynr/model/identity'
 require './lib/lynr/persist/mongo_dao'
 
-CodeClimate::TestReporter.start
+CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
 # Set the environment so we run under the 'spec' settings
 RSpec.configure do |c|
