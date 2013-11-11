@@ -37,8 +37,13 @@ module Lynr
           @consumer.nack(job.delivery_info.delivery_tag)
         end
       end
+    rescue Bunny::ConnectionClosedError => bcce
+      log.warn(bcce.message)
+      log.debug(bcce)
+      stop
     rescue Bunny::NetworkFailure => bnf
-      log.warn(bnf)
+      log.warn(bnf.message)
+      log.debug(bnf)
       call
     rescue Exception => e
       log.error(e)
