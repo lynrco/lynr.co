@@ -29,6 +29,11 @@ module Lynr; class Queue;
       }
       url = ""
       @response = RestClient.post url, data.to_json, headers
+      # Extract the geo data from @response
+      # If no geo data check response for error codes
+      # Set the geo data on @address
+      # Save the new address information to @dealership
+      # If ALL of those steps succeeded then Success
       Success
     rescue RestClient::Exception => rce
       log.warn("Post to #{url} with #{data} failed... #{rce.to_s}")
@@ -42,7 +47,9 @@ module Lynr; class Queue;
     private
 
     def geodata
-      
+      json = JSON.parse(@response)
+      results = json['results'][0] || {}
+      locations = results['locations'] || []
     end
 
     def valid?
