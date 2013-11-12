@@ -34,7 +34,7 @@ module Lynr
         if result.success?
           @consumer.ack(job.delivery_info.delivery_tag)
         else
-          @consumer.nack(job.delivery_info.delivery_tag)
+          @consumer.nack(job.delivery_info.delivery_tag, result.requeue?)
         end
       end
     rescue Bunny::ConnectionClosedError => bcce
