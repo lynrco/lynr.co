@@ -28,8 +28,8 @@ module Lynr; class Queue;
 
     protected
 
-    def failure(message)
-      JobResult.new(message, false)
+    def failure(message, requeue = :requeue)
+      JobResult.new(message, false, requeue == :requeue)
     end
 
     def success
