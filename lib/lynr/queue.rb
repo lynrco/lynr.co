@@ -37,8 +37,8 @@ module Lynr
       self
     end
 
-    def nack(tag)
-      channel.reject(tag, true)
+    def nack(tag, requeue = true)
+      channel.reject(tag, requeue)
     end
 
     def publish(msg, opts = {})
