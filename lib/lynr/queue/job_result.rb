@@ -4,9 +4,14 @@ module Lynr; class Queue;
 
     attr_reader :message
 
-    def initialize(message = "", succeeded = true)
+    def initialize(message = "", succeeded = true, requeue = :requeue)
       @message = message
       @succeeded = succeeded
+      @requeue = requeue
+    end
+
+    def requeue?
+      @requeue === true || @requeue === :requeue
     end
 
     def success?
