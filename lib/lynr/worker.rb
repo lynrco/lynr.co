@@ -43,6 +43,8 @@ module Lynr
       log.warn(be.message)
       log.debug(be)
       call
+    rescue SystemExit => sysexit
+      stop unless sysexit.success?
     rescue Exception => e
       log.error(e)
       stop
