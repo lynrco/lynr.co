@@ -52,6 +52,10 @@ commands are:
 1. `bundle exec guard -g local` for asset compilation
 1. `bundle exec rake worker:all` for queue workers
 
+If you did the above and set up the external dependencies correctly
+you should now have a server up and running. Point a browser to
+[http://lynr.co.local:9393](http://lynr.co.local:9393) and see.
+
 ## Up and Running with Vagrant
 
 Get up and running with these files locally using vagrant. A Vagrant box can
