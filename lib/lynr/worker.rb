@@ -25,8 +25,9 @@ module Lynr
     end
 
     def call
-      Signal.trap(:QUIT) { stop }
-      Signal.trap(:TERM) { stop }
+      [:QUIT, :TERM, :INT].each do |sig|
+        Signal.trap(sig) { stop }
+      end
 
       @consumer.subscribe({ block: true }) do |job|
         result = job.perform

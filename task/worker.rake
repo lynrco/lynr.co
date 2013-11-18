@@ -25,10 +25,12 @@ namespace :worker do
       fork &worker.method(:call)
     end
 
-    Signal.trap(:TERM) do
-      pids.each { |pid| Process.kill(:QUIT, pid) }
-      log.info('`rake worker:all` told Workers to QUIT')
-      Process.exit(0)
+    [:TERM, :INT].each do |sig|
+      Signal.trap(sig) do
+        pids.each { |pid| Process.kill(:QUIT, pid) }
+        log.info("`rake worker:all` told Workers to QUIT from #{sig}")
+        Process.exit(0)
+      end
     end
 
     Process.wait
