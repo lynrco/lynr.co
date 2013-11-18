@@ -9,6 +9,8 @@ module Lynr
 
     include Lynr::Logging
 
+    attr_reader :name
+
     # Options used when creating the connection
     DEFAULT_CONNECTION_OPTS = { automatically_recover: false, log_level: ::Logger::FATAL, locale: 'en_US' }
     # Options used when publishing a message
