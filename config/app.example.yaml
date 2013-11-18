@@ -11,6 +11,7 @@ mailgun:
   key: 'API Key from https://mailgun.com/cp'
   url: 'API URL from https://mailgun.com/cp without https://'
 # Used by Rack::Session::Cookie to encode/decode session information
+# These should be long, unique strings
 session:
   secret: 'change me'
   old_secret: 'change me'
