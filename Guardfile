@@ -26,11 +26,11 @@ group :vagrant do
         newpid = `cat #{pidfile}`.rstrip
         `kill #{oldpid}`
         `rm #{lockfile}`
-        puts "Restarted Unicorn. PID #{newpid}"
+        ::Guard::UI.info "Restarted Unicorn. PID #{newpid}"
       elsif (File.exist?(lockfile))
-        puts "Unicorn locked."
+        ::Guard::UI.info "Unicorn locked."
       else
-        puts "No Unicorn PID file."
+        ::Guard::UI.info "No Unicorn PID file."
       end
     end
 
@@ -47,7 +47,7 @@ group :vagrant do
       restart_unicorn(m)
     }
 
-    watch('app.rb') { |m|
+    watch('web.rb') { |m|
       restart_unicorn(m)
     }
 
