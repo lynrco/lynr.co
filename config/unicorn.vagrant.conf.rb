@@ -1,4 +1,4 @@
-worker_processes 1
+worker_processes 3
 
 listen "/tmp/.lynr.unicorn.sock", :backlog => 64
 listen 8080
