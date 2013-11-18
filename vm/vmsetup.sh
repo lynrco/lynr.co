@@ -22,9 +22,9 @@ if [ ! -d /etc/puppet ]; then
 
   # Download and install puppet
   wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
-  dpkg -i puppetlabs-release-precise.deb
-  apt-get update
-  apt-get install -y puppet
+  sudo dpkg -i puppetlabs-release-precise.deb
+  sudo apt-get update
+  sudo apt-get install -y puppet
 fi
 
 # By downloading the ssl certs we created this directory
