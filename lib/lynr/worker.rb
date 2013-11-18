@@ -29,6 +29,7 @@ module Lynr
         Signal.trap(sig) { stop }
       end
 
+      log.info("Worker for queue '#{@consumer.name}' started on pid: #{Process.pid}")
       @consumer.subscribe({ block: true }) do |job|
         result = job.perform
         log.info "Processed #{job.delivery_info.delivery_tag} -- #{result.to_s}" if job.delivered?
@@ -48,6 +49,7 @@ module Lynr
     end
 
     def stop
+      log.info("Worker for queue '#{@consumer.name}' exiting on pid: #{Process.pid}")
       @consumer.disconnect
       Process.exit(0)
     end
