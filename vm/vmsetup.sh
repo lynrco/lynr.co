@@ -14,8 +14,9 @@ LOCALENV=${PUPPETENV:-production}
 if [ ! -d /etc/puppet ]; then
   # Set ip for puppetmaster in /etc/hosts
   echo "" >> /etc/hosts
-  echo "$PUPPETMASTER puppet.bryanwrit.es puppet puppetmaster" >> /etc/hosts
-  echo "$IPADDR $FQDN" >> /etc/hosts
+  echo "$PUPPETMASTER       puppet.bryanwrit.es puppet puppetmaster" >> /etc/hosts
+  echo "127.0.0.1       $FQDN" >> /etc/hosts
+  echo "$IPADDR         $FQDN" >> /etc/hosts
   # Set hostname
   echo "$FQDN" > /etc/hostname
   hostname -F /etc/hostname
