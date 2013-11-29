@@ -22,6 +22,7 @@ GEM
       rspec (~> 2.0)
       rspec-instafail (~> 0.2.0)
       ruby-progressbar (~> 1.0)
+    geocoder (1.1.8)
     guard (2.2.3)
       formatador (>= 0.2.4)
       listen (~> 2.1)
@@ -116,6 +117,7 @@ DEPENDENCIES
   bunny (= 1.0.0)
   codeclimate-test-reporter
   fuubar
+  geocoder (= 1.1.8)
   guard
   guard-bundler
   guard-rake
