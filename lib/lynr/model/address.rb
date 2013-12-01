@@ -8,12 +8,12 @@ module Lynr; module Model;
 
     attr_reader :line_one, :line_two, :city, :state, :zip
 
-    def initialize(line_one, line_two, city, state, zip)
-      @line_one = line_one
-      @line_two = line_two
-      @city = city
-      @state = state
-      @zip = zip
+    def initialize(data={})
+      @line_one = data.fetch('line_one', default=nil)
+      @line_two = data.fetch('line_two', default=nil)
+      @city = data.fetch('city', default=nil)
+      @state = data.fetch('state', default=nil)
+      @zip = data.fetch('zip', default=nil)
     end
 
     def view
@@ -22,13 +22,7 @@ module Lynr; module Model;
 
     def self.inflate(record)
       record = {} if record.nil?
-      Lynr::Model::Address.new(
-        line_one=record['line_one'],
-        line_two=record['line_two'],
-        city=record['city'],
-        state=record['state'],
-        zip=record['zip']
-      )
+      Lynr::Model::Address.new(record)
     end
 
   end

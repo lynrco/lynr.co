@@ -9,17 +9,23 @@ describe Lynr::Model::Address do
     { 'line_one' => "Addr L1", 'line_two' => "Addr L2", 'city' => "New York", 'state' => "NY", 'zip' => "10002" }
   }
   let(:empty_address) {
-    Lynr::Model::Address.new(line_one=nil, line_two=nil, city=nil, state=nil, zip=nil)
+    Lynr::Model::Address.new({
+      'line_one' => nil,
+      'line_two' => nil,
+      'city' => nil,
+      'state' => nil,
+      'zip' => nil
+    })
   }
 
   let(:address) {
-    Lynr::Model::Address.new(
-      line_one="Addr L1",
-      line_two="Addr L2",
-      city="New York",
-      state="NY",
-      zip="10002"
-    )
+    Lynr::Model::Address.new({
+      'line_one' => "Addr L1",
+      'line_two' => "Addr L2",
+      'city' => "New York",
+      'state' => "NY",
+      'zip' => "10002"
+    })
   }
 
   describe "#initialize" do
@@ -67,13 +73,13 @@ describe Lynr::Model::Address do
   describe "#==" do
 
     let(:a2) {
-      Lynr::Model::Address.new(
-        line_one="Addr L1",
-        line_two="Addr L2",
-        city="New York",
-        state="NY",
-        zip="10002"
-      )
+      Lynr::Model::Address.new({
+        'line_one' => "Addr L1",
+        'line_two' => "Addr L2",
+        'city' => "New York",
+        'state' => "NY",
+        'zip' => "10002"
+      })
     }
 
     it "is true if properties are the same" do
