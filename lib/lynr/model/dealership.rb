@@ -10,13 +10,15 @@ module Lynr; module Model;
 
   # `Dealership.new` takes a `Hash` containing data to set into the object.
   #
-  # * `:name` of the dealership
-  # * `:phone` number to reach the dealership
-  # * `:identity` instance of `Lynr::Model::Identity containing credentials
+  # * `name` of the dealership
+  # * `phone` number to reach the dealership
+  # * `identity` instance of `Lynr::Model::Identity containing credentials
   #   for logging in as this dealership
-  # * `:address` on the street of the dealership, where to find the vehicles
-  # * `:image` object pointing to the dealership logo or icon
-  # * `:customer_id` from payment processor, how to identify payment details
+  # * `address` on the street of the dealership, where to find the vehicles
+  # * `image` instance of `Lynr::Model::SizedImage`
+  # * `customer_id` from payment processor, how to identify payment details
+  # * `created_at` date when this dealership instance was created
+  # * `updated_at` date when this dealership instance was last updated
   class Dealership
 
     include Lynr::Model::Base
@@ -27,15 +29,15 @@ module Lynr; module Model;
 
     def initialize(data={}, id=nil)
       @id = id
-      @name = data['name'] || ""
-      @phone = data['phone'] || ""
-      @identity = data['identity']
-      @address = data['address'] || ""
-      @postcode = data['postcode'] || ""
-      @image = data['image']
-      @customer_id = data['customer_id']
-      @created_at = data['created_at']
-      @updated_at = data['updated_at']
+      @name = data.fetch('name', default="")
+      @phone = data.fetch('phone', default="")
+      @identity = data.fetch('identity', default=nil)
+      @address = data.fetch('address', default="")
+      @postcode = data.fetch('postcode', default="")
+      @image = data.fetch('image', default=nil)
+      @customer_id = data.fetch('customer_id', default=nil)
+      @created_at = data.fetch('created_at', default=nil)
+      @updated_at = data.fetch('updated_at', default=nil)
     end
 
     def set(data={})
