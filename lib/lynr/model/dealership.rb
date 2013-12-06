@@ -88,6 +88,18 @@ module Lynr; module Model;
       }
     end
 
+    private
+
+    def extract_address(data)
+      if data['address'].is_a? Lynr::Model::Address
+        data['address']
+      elsif data['address'].is_a? Hash
+        Lynr::Model::Address.inflate(data['address'])
+      else
+        Lynr::Model::Address.new('line_one' => data['address'], 'zip' => data['postcode'])
+      end
+    end
+
   end
 
 end; end;
