@@ -35,10 +35,10 @@
           <label for="phone">Phone Number</label>
           <input class="fs-mid fs-full" type="text" name="phone"
                  id="phone" value="<%= @dealership.phone %>" placeholder="Phone Number" />
-          <input class="fs-bottom fs-thirds" type="text" name="address"
-                 id="address" value="<%= @dealership.address %>" placeholder="Street Address" />
-          <input class="fs-bottom fs-third" type="text" name="postcode"
-                 id="postcode" value="<%= @dealership.postcode %>" placeholder="Zip Code" />
+          <input class="fs-bottom fs-thirds" type="text" name="address[line_one]"
+                 id="address" value="<%= @dealership.address.line_one %>" placeholder="Street Address" />
+          <input class="fs-bottom fs-third" type="text" name="address[zip]"
+                 id="postcode" value="<%= @dealership.address.zip %>" placeholder="Zip Code" />
           <input type="hidden" name="image" value="<%= CGI.escape_html(@dealership.image.to_json) %>" />
         </fieldset>
         <button class="btn btn-full btn-create" type="submit">Update Account Information</button>
