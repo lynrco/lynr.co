@@ -14,7 +14,7 @@ module Lynr; module Model;
   # * `phone` number to reach the dealership
   # * `identity` instance of `Lynr::Model::Identity containing credentials
   #   for logging in as this dealership
-  # * `address` on the street of the dealership, where to find the vehicles
+  # * `address` instance of `Lynr::Model::Address`, where to find the vehicles
   # * `image` instance of `Lynr::Model::SizedImage`
   # * `customer_id` from payment processor, how to identify payment details
   # * `created_at` date when this dealership instance was created
@@ -25,15 +25,14 @@ module Lynr; module Model;
     include Lynr::Model::BaseDated
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :phone, :identity, :address, :postcode, :image, :customer_id
+    attr_reader :name, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data={}, id=nil)
       @id = id
       @name = data.fetch('name', default="")
       @phone = data.fetch('phone', default="")
       @identity = data.fetch('identity', default=nil)
-      @address = data.fetch('address', default="")
-      @postcode = data.fetch('postcode', default="")
+      @address = extract_address(data)
       @image = data.fetch('image', default=nil)
       @customer_id = data.fetch('customer_id', default=nil)
       @created_at = data.fetch('created_at', default=nil)
@@ -50,6 +49,7 @@ module Lynr; module Model;
 
     def view
       data = self.to_hash
+      data['address'] = @address.view if @address
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
       data
@@ -58,12 +58,6 @@ module Lynr; module Model;
     def self.inflate(record)
       if (record)
         data = record.dup
-        data['address'] =
-          if data['address'].is_a? Hash
-            Lynr::Model::Address.inflate(data['address'])
-          else
-            Lynr::Model::Address.new('line_one' => record['address'], 'zip' => record['postcode'])
-          end
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
         data['image'] = Lynr::Model::SizedImage.inflate(record['image'])
         Lynr::Model::Dealership.new(data, record['id'])
@@ -80,7 +74,6 @@ module Lynr; module Model;
         'phone' => @phone,
         'identity' => @identity,
         'address' => @address,
-        'postcode' => @postcode,
         'image' => @image,
         'customer_id' => @customer_id,
         'created_at' => @created_at,
