@@ -58,6 +58,12 @@ module Lynr; module Model;
     def self.inflate(record)
       if (record)
         data = record.dup
+        data['address'] =
+          if data['address'].is_a? Hash
+            Lynr::Model::Address.inflate(data['address'])
+          else
+            Lynr::Model::Address.new('line_one' => record['address'], 'zip' => record['postcode'])
+          end
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
         data['image'] = Lynr::Model::SizedImage.inflate(record['image'])
         Lynr::Model::Dealership.new(data, record['id'])

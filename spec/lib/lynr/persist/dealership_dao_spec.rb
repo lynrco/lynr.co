@@ -9,7 +9,7 @@ require './lib/lynr/model/sized_image'
 
 describe Lynr::Persist::DealershipDao do
 
-  let(:address) { "122 Forsyth St\nApt 4D" }
+  let(:address) { Lynr::Model::Address.new('line_one' => "122 Forsyth St\nApt 4D") }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
