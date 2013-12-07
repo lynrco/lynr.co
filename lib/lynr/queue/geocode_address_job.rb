@@ -3,6 +3,7 @@ require 'geocoder'
 require './lib/lynr'
 require './lib/lynr/model/address'
 require './lib/lynr/model/dealership'
+require './lib/lynr/persist/dealership_dao'
 require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
@@ -27,7 +28,8 @@ module Lynr; class Queue;
           'zip' => result.postal_code
         )
       end
-      # TODO: Store address information for dealership
+      dao = Lynr::Persist::DealershipDao.new
+      dao.save(@dealership.set(address: addresses.first) if addresses.first != @dealership.address
       Success
     rescue Geocoder::OverQueryLimitError
       failure("#{description} after limit reached. Retrying later.")
