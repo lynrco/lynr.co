@@ -19,7 +19,13 @@ module Lynr; module Model;
     end
 
     def view
-      { 'line_one' => @line_one, 'line_two' => @line_two, 'city' => @city, 'state' => @state, 'zip' => @zip }
+      {
+        'line_one' => @line_one,
+        'line_two' => @line_two,
+        'city' => @city,
+        'state' => @state,
+        'zip' => @zip
+      }
     end
 
     def self.inflate(record)
