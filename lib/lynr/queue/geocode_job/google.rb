@@ -1,4 +1,5 @@
 require 'geocoder'
+require 'georuby'
 
 require './lib/lynr'
 require './lib/lynr/model/address'
@@ -23,11 +24,13 @@ module Lynr; class Queue;
           return failure("#{description} returned no results", :no_requeue)
         end
         addresses = results.map do |result|
+          lnglat = result.coordinates.reverse
           Lynr::Model::Address.new(
             'line_one' => result.street_address,
             'city' => result.city,
             'state' => result.state_code,
-            'zip' => result.postal_code
+            'zip' => result.postal_code,
+            'geo' => GeoRuby::SimpleFeatures::Point.from_lon_lat(*lnglat)
           )
         end
         dao = Lynr::Persist::DealershipDao.new
