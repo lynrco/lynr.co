@@ -28,6 +28,20 @@ describe Lynr::Model::Address do
     })
   }
 
+  let(:coded) {
+    Lynr::Model::Address.new({
+      'line_one' => "Addr L1",
+      'line_two' => "Addr L2",
+      'city' => "New York",
+      'state' => "NY",
+      'zip' => "10002",
+      'geo' => {
+        'type' => 'Point',
+        'coordinates' => [-73.9896868, 40.718728]
+      }
+    })
+  }
+
   describe "#initialize" do
 
     it "has line_one" do
@@ -50,6 +64,18 @@ describe Lynr::Model::Address do
       expect(address.zip).to eq('10002')
     end
 
+    it "has geo" do
+      expect(address.geo).to be_nil
+    end
+
+    context "geocoded" do
+
+      it "has Point as geo" do
+        expect(coded.geo).to be_instance_of(GeoRuby::SimpleFeatures::Point)
+      end
+
+    end
+
   end
 
   describe "#view" do
@@ -66,6 +92,23 @@ describe Lynr::Model::Address do
       expect(view['city']).to eq('New York')
       expect(view['state']).to eq('NY')
       expect(view['zip']).to eq('10002')
+      expect(view['geo']).to be_nil
+    end
+
+    context "geocoded" do
+
+      let(:view) { coded.view }
+
+      it "has geo data" do
+        expect(view['geo']).to_not be_nil
+      end
+
+      it "has GeoJSON representation of a point" do
+        geo = view['geo']
+        expect(geo['type']).to eq('Point')
+        expect(geo['coordinates']).to eq([-73.9896868, 40.718728])
+      end
+
     end
 
   end
@@ -91,12 +134,41 @@ describe Lynr::Model::Address do
       expect(address == address.view).to be_true
     end
 
+    context "geocoded" do
+
+      let(:coded2) {
+        Lynr::Model::Address.new({
+          'line_one' => "Addr L1",
+          'line_two' => "Addr L2",
+          'city' => "New York",
+          'state' => "NY",
+          'zip' => "10002",
+          'geo' => {
+            'type' => 'Point',
+            'coordinates' => [-73.9896868, 40.718728]
+          }
+        })
+      }
+
+      it "is true if properties are the same and geo data is included" do
+        expect(coded == coded2).to be_true
+        expect(coded.equal?(coded2)).to be_false
+      end
+
+    end
+
   end
 
   describe ".inflate" do
 
     it "creates equivalent instances from properties" do
       expect(Lynr::Model::Address.inflate(address_props)).to eq(address)
+    end
+
+    it "creates equivalent instances from properties with geodata" do
+      props = address_props.dup
+      props['geo'] = { 'type' => 'Point', 'coordinates' => [-73.9896868, 40.718728] }
+      expect(Lynr::Model::Address.inflate(props)).to eq(coded)
     end
 
     it "creates empty instance from nil" do
