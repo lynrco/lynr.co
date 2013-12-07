@@ -8,6 +8,8 @@ module Lynr; module Model;
 
     attr_reader :line_one, :line_two, :city, :state, :zip
 
+    alias postcode :zip
+
     def initialize(data={})
       @line_one = data.fetch('line_one', default=nil)
       @line_two = data.fetch('line_two', default=nil)
