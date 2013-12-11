@@ -33,6 +33,7 @@ module Lynr; class Queue;
             'geo' => GeoRuby::SimpleFeatures::Point.from_lon_lat(*lnglat)
           )
         end
+        # TODO: If multiple addresses, create support ticket or way to resolve
         dao = Lynr::Persist::DealershipDao.new
         dao.save(@dealership.set(address: addresses.first) if addresses.first != @dealership.address
         Success
