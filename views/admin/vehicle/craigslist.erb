@@ -35,8 +35,10 @@
     <cl:mapLocation
         city="<%= @dealership.address.city %>"
         state="<%= @dealership.address.state %>"
-        latitude=""
-        longitude=""
+        <%- if @dealership.address.geo -%>
+        latitude="<%= @dealership.address.geo.lat %>"
+        longitude="<%= @dealership.address.geo.lng %>"
+        <%- end -%>
         />
     <% end %>
 
