@@ -25,7 +25,7 @@
     <cl:area></cl:area>
 
     <%- # otherContactInfo attribute is for something like a phone number -%>
-    <cl:replyEmail privacy="C" outsideContactOk="0" otherContactInfo""><%= @dealership.identity.email %></cl:replyEmail>
+    <cl:replyEmail privacy="C" outsideContactOk="0" otherContactInfo=""><%= @dealership.identity.email %></cl:replyEmail>
 
     <% @vehicle.images.each_with_index do |image, i| %>
     <cl:image position="0"><% # image.base64_encode %></cl:image>
