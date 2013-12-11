@@ -42,6 +42,14 @@ module Lynr; class Queue;
         failure("#{description} errored. #{ge.class.name} -- #{ge.message}", :no_requeue)
       end
 
+      protected
+
+      def geocodable?
+        line_one = @address.line_one
+        postcode = @address.postcode
+        !(@address.nil? || line_one.nil? || line_one.empty? || postcode.nil? || postcode.empty?)
+      end
+
     end
 
   end
