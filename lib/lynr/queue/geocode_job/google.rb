@@ -15,14 +15,14 @@ module Lynr; class Queue;
 
       def initialize(dealership)
         @dealership = dealership
+        @address = dealership.address
       end
 
       def perform
-        description = "Geocode for #{@dealership.id} -- #{@dealership.address.line_one}, #{@dealersip.address.postcode} --"
-        results = Geocoder.search("#{@dealership.address.line_one}, #{@dealersip.address.postcode}")
-        if (results.length == 0)
-          return failure("#{description} returned no results", :no_requeue)
-        end
+        description = "Geocode for #{@dealership.id} -- #{@address.line_one}, #{@address.postcode} --"
+        if (!geocodable?) then return failure("#{description} line_one and zip not specified", :no_requeue) end
+        results = Geocoder.search("#{@address.line_one}, #{@address.postcode}")
+        if (results.length == 0) then return failure("#{description} returned no results", :no_requeue) end
         addresses = results.map do |result|
           lnglat = result.coordinates.reverse
           Lynr::Model::Address.new(
