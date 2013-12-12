@@ -6,8 +6,6 @@ require './web'
 
 Lynr::Web.setup
 
-Ramaze.start(:root => Ramaze.options.roots, :started => true)
-
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 use Rack::Middleware::Logger, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
@@ -17,6 +15,4 @@ use Rack::Session::Cookie,  :key          => '_lynr',
                             :secret       => Lynr::Web.instance.config['session']['secret'],
                             :old_secret   => Lynr::Web.instance.config['session']['old_secret']
 
-use Sly::App, root: __DIR__, cascade: true
-
-run Ramaze.core
+run Sly::App.core
