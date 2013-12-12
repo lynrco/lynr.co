@@ -29,10 +29,10 @@ module Lynr
         Signal.trap(sig) { stop }
       end
 
-      log.info("Worker for queue '#{@consumer.name}' started on pid: #{Process.pid}")
+      log.info("pid=#{Process.pid} queue=#{@consumer.name} state=started")
       @consumer.subscribe({ block: true }) do |job|
         result = job.perform
-        log.info "Processed #{job.delivery_info.delivery_tag} -- #{result.to_s}" if job.delivered?
+        log.info("pid=#{Process.pid} queue=#{@consumer.name} job_id=#{job.delivery_info.delivery_tag} result='#{result.as_str}'") if job.delivered?
         if result.success?
           @consumer.ack(job.delivery_info.delivery_tag)
         else
