@@ -8,6 +8,15 @@ guard 'bundler' do
   watch('Gemfile')
 end
 
+def check_syntax(m)
+  syntax_ok = true
+  if File.exist? m[0]
+    out = `ruby -c #{m[0]} 2>&1`
+    syntax_ok = $? == 0
+    puts "#{m[0]} -- #{out}" if !syntax_ok
+  end
+end
+
 group :vagrant do
 
   guard 'shell' do
@@ -34,14 +43,7 @@ group :vagrant do
       end
     end
 
-    watch(/^(.*)\.rb$/) { |m|
-      syntax_ok = true
-      if File.exist? m[0]
-        out = `ruby -c #{m[0]} 2>&1`
-        syntax_ok = $? == 0
-        puts "#{m[0]} -- #{out}" if !syntax_ok
-      end
-    }
+    watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
 
     watch('Gemfile') { |m|
       restart_unicorn(m)
@@ -62,25 +64,11 @@ end
 group :local do
 
   guard 'rspec' do
+    watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$}) { |m| "spec/lib/#{m[1]}_spec.rb" }
   end
 
-  guard 'rake', :task => 'assets:nothing' do
-    watch(%r{^public/less/(.+)\.less$})
-  end
-
-  guard 'rake', :task => 'assets:precompile' do
-    watch(%r{^public/less/(.+)\.less$})
-  end
-
-#  guard 'shell' do
-#    watch(%r{^public/less/(.+)\.less$}) do |m|
-#      puts "Compiling #{m[0]} to public/css/#{m[1]}.css"
-#      path = `npm bin -g`
-#      `#{path}/lessc -x #{m[0]} public/css/#{m[1]}.css`
-#    end
-#  end
 
 end
 
