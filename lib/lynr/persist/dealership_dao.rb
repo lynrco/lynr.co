@@ -21,7 +21,12 @@ module Lynr; module Persist;
     end
 
     def get(id)
-      record = @dao.read(id)
+      record =
+        if (id.is_a?(BSON::DBRef) && id.namespace == @collection)
+          @dao.db.dereference(id)
+        else
+          @dao.read(id)
+        end
       # Mongo is going to give me a record with the _id property set, not id
       translate(record)
     end
