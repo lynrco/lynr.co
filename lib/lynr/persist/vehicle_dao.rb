@@ -8,7 +8,8 @@ module Lynr; module Persist;
     SORT = ['created_at', Mongo::DESCENDING]
 
     def initialize
-      @dao = MongoDao.new('collection' => 'vehicles')
+      @collection = 'vehicles'
+      @dao = MongoDao.new('collection' => @collection)
       @dao.collection.ensure_index([['dealership', Mongo::ASCENDING], SORT])
     end
 

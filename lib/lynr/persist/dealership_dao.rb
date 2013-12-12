@@ -6,7 +6,8 @@ module Lynr; module Persist;
   class DealershipDao
 
     def initialize
-      @dao = MongoDao.new('collection' => 'dealers')
+      @collection = 'dealers'
+      @dao = MongoDao.new('collection' => @collection)
       @indexed = false
       ensure_indices if @dao.active?
     end
