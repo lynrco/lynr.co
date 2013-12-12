@@ -38,7 +38,7 @@ module Lynr; module Controller;
     get  '/signout', :get_signout
 
     def before_GET(req)
-      redirect "/admin/#{req.session['dealer_id']}" if req.session['dealer_id']
+      redirect "/admin/#{req.session['dealer_id']}" if ['/signin', '/signup'].include?(req.path) && req.session['dealer_id']
     end
 
     # ## Sign Up Handlers
