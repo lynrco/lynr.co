@@ -67,9 +67,6 @@ GEM
     rack (1.5.2)
     raindrops (0.12.0)
     rake (10.1.0)
-    ramaze (2012.12.08)
-      innate (>= 2012.12)
-      rake
     rb-fchange (0.0.6)
       ffi
     rb-fsevent (0.9.3)
@@ -125,13 +122,13 @@ DEPENDENCIES
   guard-rake
   guard-rspec
   guard-shell
+  innate (= 2013.02.21)
   kramdown (= 1.2.0)
   less (= 2.4.0)
   libxml-ruby (= 2.7.0)
   log4r (= 1.1.10)
   mongo (= 1.9.2)
   pry
-  ramaze (= 2012.12.08)
   rb-fchange
   rb-fsevent
   rb-inotify
