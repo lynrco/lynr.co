@@ -11,7 +11,7 @@ module Lynr; module Controller;
     # Provides `render` and `render_partial` methods
     include Sly::View::ErbHelpers
 
-    set_render_options({ layout: 'default_sly.erb' })
+    set_render_options({ layout: 'default.erb' })
 
     # ## `Lynr::Controller::Base.create_route`
     #

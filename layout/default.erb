@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="<%= @menu_vis %>">
   <head>
     <meta charset="utf-8" />
     <title><%= @title %></title>
@@ -8,11 +8,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5,target-densityDpi=device-dpi" />
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
-<%= render_file 'partials/header.erb' unless @section == 'home' %>
-    <div class="main">
-<%= @content %>
+<%= render_partial :header unless @section == 'home' -%>
+    <div class="window">
+      <%- if @dealership -%>
+<%= render_partial :menu_admin -%>
+      <%- end -%>
+      <%- if !@menu_secondary.nil? -%>
+<%= render_partial @menu_secondary.partial -%>
+      <%- end -%>
+      <div class="main">
+<%= yield -%>
+      </div>
     </div>
-<%= render_file 'partials/footer.erb' %>
+<%= render_partial :footer -%>
     <script data-main="/js/main.js" src="/js/libs/require-2.1.8.js" async="async"></script>
   </body>
 </html>
