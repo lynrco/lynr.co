@@ -1,12 +1,11 @@
 require 'bundler/setup'
-require 'ramaze'
 require 'stripe'
 
 require './lib/sly'
 
 require './lib/lynr'
 require './lib/lynr/config'
-require './lib/lynr/controller/root'
+require './lib/lynr/controller/home'
 require './lib/lynr/controller/admin'
 require './lib/lynr/controller/admin/account'
 require './lib/lynr/controller/admin/billing'
@@ -22,6 +21,8 @@ module Lynr
   class Web
 
     include Lynr::Logging
+
+    ROOT = File.expand_path(File.dirname(__FILE__))
 
     @app = false
 
@@ -41,17 +42,7 @@ module Lynr
     end
 
     def self.setup
-      Ramaze.options.roots = [__DIR__]
-      # What if views is set from configuration file?
-      # There could be a different 'app' running for each type or at least
-      # for the mobile site.
-      #
-      # Each controller can set options specific to itself but only at startup.
-      # Can I add specific controller instances with options set? Options don't
-      # seem to be set in `#initialize` method invocations.
-      Ramaze.options.views = ['views']
-
-      Sly::App.options.layouts = 'layout'
+      Sly::App.setup root: ROOT, cascade: false, layouts: 'layout'
 
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
