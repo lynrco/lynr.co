@@ -14,9 +14,7 @@ module Lynr; module Persist;
 
     def get(id)
       record = @dao.read(id)
-      # Mongo is going to give me a record with the _id property set, not id
-      record['id'] = record.delete('_id') if !record.nil?
-      Lynr::Model::Vehicle.inflate(record)
+      translate(record)
     end
 
     def list(dealership, page=1, count=10)
@@ -32,6 +30,14 @@ module Lynr; module Persist;
 
     def save(vehicle)
       record = @dao.save(vehicle.view, vehicle.id)
+      translate(record)
+    end
+
+    private
+
+    def translate(record)
+      # Mongo is going to give me a record with the _id property set, not id
+      record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Vehicle.inflate(record)
     end
 
