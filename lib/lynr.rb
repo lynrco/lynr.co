@@ -21,7 +21,7 @@ module Lynr
   end
 
   def self.root
-    __DIR__.chomp('/lib')
+    File.expand_path(File.dirname(__FILE__)).chomp('/lib')
   end
 
 end
