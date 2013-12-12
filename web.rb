@@ -22,8 +22,6 @@ module Lynr
 
     include Lynr::Logging
 
-    ROOT = File.expand_path(File.dirname(__FILE__))
-
     @app = false
 
     attr_reader :config
@@ -42,7 +40,7 @@ module Lynr
     end
 
     def self.setup
-      Sly::App.setup root: ROOT, cascade: false, layouts: 'layout'
+      Sly::App.setup root: Lynr.root, cascade: false, layouts: 'layout'
 
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
