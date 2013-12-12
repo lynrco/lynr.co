@@ -6,6 +6,7 @@ require './lib/rack/middleware/timer'
 
 Lynr::Web.setup
 
+use Rack::Static, :urls => ["/css", "/js", "/img"], :root => "public"
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 use Rack::Middleware::Logger, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
