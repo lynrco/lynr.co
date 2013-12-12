@@ -1,5 +1,7 @@
 require 'mongo'
 
+require './lib/bson/dbref'
+
 require './lib/lynr'
 require './lib/lynr/config'
 
