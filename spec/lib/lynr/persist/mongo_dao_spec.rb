@@ -67,12 +67,12 @@ describe Lynr::Persist::MongoDao do
       let(:record) { { 'price' => 13532 } }
 
       it "gives an object the id property" do
-        expect(dao.save(record)['id']).not_to eq(nil)
+        expect(dao.save(record)['_id']).not_to eq(nil)
       end
 
       it "updates a record with an id" do
         car = dao.save(record)
-        id = car['id']
+        id = car['_id']
         car['price'] = record['price'] * 1.05
         expect(dao.save(car, id)['price']).to eq(record['price'] * 1.05)
         expect(dao.read(id)['price']).to eq(record['price'] * 1.05)
@@ -80,9 +80,9 @@ describe Lynr::Persist::MongoDao do
 
       it "keeps id for updated records" do
         car = dao.save(record)
-        id = car['id']
+        id = car['_id']
         car['price'] = record['price'] * 1.05
-        expect(dao.save(car, id)['id']).to eq(id)
+        expect(dao.save(car, id)['_id']).to eq(id)
       end
 
     end # save

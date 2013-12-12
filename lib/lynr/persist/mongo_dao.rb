@@ -98,7 +98,7 @@ module Lynr; module Persist;
         id = create(record)
         success = !id.nil?
       end
-      result['id'] = id
+      result['_id'] = id
 
       success ? result : nil
     end
