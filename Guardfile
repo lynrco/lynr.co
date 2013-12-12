@@ -69,6 +69,9 @@ group :local do
     watch(%r{^lib/(.+)\.rb$}) { |m| "spec/lib/#{m[1]}_spec.rb" }
   end
 
+  guard 'rake', :task => 'assets:precompile' do
+    watch(%r{^public/less/(.+)\.less$})
+  end
 
 end
 
