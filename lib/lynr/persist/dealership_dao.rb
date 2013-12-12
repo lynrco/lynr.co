@@ -37,7 +37,7 @@ module Lynr; module Persist;
 
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
-      Lynr::Model::Dealership.inflate(record)
+      translate(record)
     end
 
     private
