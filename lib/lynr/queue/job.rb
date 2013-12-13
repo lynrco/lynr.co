@@ -42,7 +42,7 @@ module Lynr; class Queue;
     end
 
     def success
-      JobResult.new
+      Success
     end
 
   end
