@@ -135,23 +135,26 @@ module Lynr; module Controller;
       email = posted['email']
       password = posted['password']
 
-      if (errors['email'].nil?)
+      if (!has_error?('email'))
         if (!is_valid_email?(email))
           errors['email'] = "Check your email address."
         elsif (dao.account_exists?(email))
           errors['email'] = "#{email} is already taken."
         end
       end
-      if (errors['password'].nil?)
+
+      if (!has_error?('password'))
         if (!is_valid_password?(password))
           errors['password'] = "Your password is too short."
         elsif (password != posted['password_confirm'])
           errors['password'] = "Your passwords don't match."
         end
       end
+
       if (posted['agree_terms'].nil?)
         errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
       end
+
       if (posted['stripeToken'].nil? || posted['stripeToken'].empty?)
         errors['stripeToken'] = "Your card wasn't accepted."
       end
