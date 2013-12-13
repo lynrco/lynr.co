@@ -22,6 +22,10 @@ module Lynr; class Queue;
       !(@delivery_info.nil? || @metadata.nil?)
     end
 
+    def info
+      "job.type=#{self.class.name} job.id=#{self.delivery_info.delivery_tag}"
+    end
+
     def perform
       Success
     end
