@@ -23,11 +23,16 @@ module Lynr; class Queue;
     end
 
     def info
-      "job.type=#{self.class.name} job.id=#{self.delivery_info.delivery_tag}"
+      tag = "job.id=#{self.delivery_info.delivery_tag}" if delivered?
+      "job.type=#{self.class.name} #{tag}".chomp(' ')
     end
 
     def perform
       Success
+    end
+
+    def to_s
+      "#<#{self.class.name}:#{object_id} #{info}>"
     end
 
     protected
