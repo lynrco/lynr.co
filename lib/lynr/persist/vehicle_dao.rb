@@ -22,11 +22,7 @@ module Lynr; module Persist;
       skip = (page - 1) * count
       options = { skip: skip, limit: count, sort: SORT }
       records = @dao.search({ 'dealership' => dealership.id, 'deleted_at' => nil }, options)
-      records.map do |record|
-        dealership_id = record.delete('dealership')
-        record['id'] = record.delete('_id')
-        Lynr::Model::Vehicle.inflate(record)
-      end
+      records.map { |record| translate(record) }
     end
 
     def save(vehicle)
