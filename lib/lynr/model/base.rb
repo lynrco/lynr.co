@@ -1,3 +1,5 @@
+require 'json'
+
 module Lynr; module Model;
 
   module Base
