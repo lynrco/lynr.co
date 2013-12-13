@@ -14,8 +14,8 @@ module Lynr; class Queue;
       @requeue === true || @requeue === :requeue
     end
 
-    def as_str
-      if @succeeded then 'Success' else "Failure message=#{@message}" end
+    def info
+      if @succeeded then 'Success' else "Failure message='#{@message}'" end
     end
 
     def success?
@@ -23,7 +23,7 @@ module Lynr; class Queue;
     end
 
     def to_s
-      "#<#{self.class.name}:#{object_id} #{as_str}>"
+      "#<#{self.class.name}:#{object_id} #{info}>"
     end
 
   end
