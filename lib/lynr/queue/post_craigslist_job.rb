@@ -39,7 +39,7 @@ module Lynr; class Queue;
       # TODO: Verify response and mark vehicle as posted
       Success
     rescue RestClient::Exception => rce
-      log.warn("Post to #{url} with #{data} failed... #{rce.to_s}")
+      log.warn("#{self.info} message=`Post to #{url} with #{data} failed... #{rce.to_s}`")
       failure("Post to #{url} failed. #{rce.to_s}")
     end
 
