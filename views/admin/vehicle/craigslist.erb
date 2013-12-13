@@ -6,66 +6,74 @@
   <channel>
 
     <items>
-      <rdf:li rdf:resource="<%= @vehicle.id.to_s %>" />
+      <rdf:li rdf:resource="<%= vehicle.id.to_s %>" />
     </items>
 
-    <cl:auth username=""
-             password=""
+    <cl:auth username="<%= username %>"
+             password="<%= password %>"
              accountID="" />
 
   </channel>
 
-  <item rdf:about="<%= @vehicle.id.to_s %>">
-    <title></title>
+  <item rdf:about="<%= vehicle.id.to_s %>">
+    <title><%= vehicle.name %> at <%= dealership.name %></title>
     <description>
     <![CDATA[
+Hi
     ]]>
     </description>
     <cl:category>ctd</category>
-    <cl:area></cl:area>
+    <cl:area>nyc</cl:area>
 
     <%- # otherContactInfo attribute is for something like a phone number -%>
-    <cl:replyEmail privacy="C" outsideContactOk="0" otherContactInfo=""><%= @dealership.identity.email %></cl:replyEmail>
+    <%- # privacy attribute -- A=don't show email, C=anonymous craigslist email, P=show the replyEmail address -%>
+    <cl:replyEmail privacy="C" outsideContactOk="0" otherContactInfo=""><%= dealership.identity.email %></cl:replyEmail>
 
-    <% @vehicle.images.each_with_index do |image, i| %>
+    <% vehicle.images.each_with_index do |image, i| %>
     <cl:image position="0"><% # image.base64_encode %></cl:image>
     <% end %>
 
-    <% if @dealership.address %>
+    <% if dealership.address %>
     <cl:mapLocation
-        city="<%= @dealership.address.city %>"
-        state="<%= @dealership.address.state %>"
-        <%- if @dealership.address.geo -%>
-        latitude="<%= @dealership.address.geo.lat %>"
-        longitude="<%= @dealership.address.geo.lng %>"
+        city="<%= dealership.address.city %>"
+        state="<%= dealership.address.state %>"
+        <%- if dealership.address.geo -%>
+        latitude="<%= dealership.address.geo.lat %>"
+        longitude="<%= dealership.address.geo.lng %>"
         <%- end -%>
         />
     <% end %>
 
     <cl:auto_basics
-        auto_color=""
-        auto_is_new="0|1"
-        auto_year=""
-        auto_make_other=""
-        auto_model_other=""
-        auto_miles=""
-        auto_trans_manual="0|1"
-        auto_trans_auto="0|1"
-        auto_vin=""
+        auto_color="<%= vehicle.vin.ext_color %>"
+        auto_is_new="0"
+        auto_year="<%= vehicle.year %>"
+        auto_make_other="<%= vehicle.make %>"
+        auto_model_other="<%= vehicle.model %>"
+        auto_miles="<%= vehicle.mileage %>"
+        auto_trans_manual="<%= vehicle.vin.transmission == 'Automatic' ? '0' : '1' %>"
+        auto_trans_auto="<%= vehicle.vin.transmission == 'Automatic' ? '1' : '0' %>"
+        <%- if !vehicle.vin.number.empty? -%>
+        auto_vin="<%= vehicle.vin.number %>"
+        <%- end -%>
         />
 
     <cl:generic
-        contact_method="email|phone|text"
-        contact_name=""
-        contact_ok="0|1"
-        contact_other=""
-        contact_phone=""
-        contact_time=""
+        <%- # contact_method="email|phone|text" -%>
+        contact_method="email"
+        contact_name="<%= dealership.name %>"
+        <%- # contact_ok="0|1" -%>
+        contact_ok="1"
+        contact_other="<%= dealership.identity.email %>"
+        <%- # contact_phone="" -%>
+        <%- # contact_time="" -%>
         fee_disclosure=""
-        has_license="0|1"
-        license_info=""
-        phonecalls_ok="0|1"
-        repost_ok="0|1"
+        <%- # has_license="0|1" -%>
+        <%- # license_info="" -%>
+        <%- # phonecalls_ok="0|1" -%>
+        phonecalls_ok="0"
+        <%- # repost_ok="0|1" -%>
+        repost_ok="0"
         />
 
   </item>
