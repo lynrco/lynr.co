@@ -75,6 +75,10 @@ module Lynr; module Model;
       !self.image.empty?
     end
 
+    def mileage
+      0
+    end
+
     def name
       (!@name.strip.empty? && @name) || "N/A"
     end
