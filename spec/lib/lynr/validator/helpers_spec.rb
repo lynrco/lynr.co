@@ -8,6 +8,13 @@ describe Lynr::Validator::Helpers do
   end
 
   let(:helpers) { Dummy.new }
+  let(:post) {
+    {
+      'hi' => '',
+      'foo' => 'bar',
+      'boo' => "baz"
+    }
+  }
 
   describe "#is_valid_email?" do
 
@@ -34,7 +41,10 @@ describe Lynr::Validator::Helpers do
     end
 
     it "fails emails with long domain part" do
-      domain = "thisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylon.gd"
+      domain = "thisismylongdomainpartthisismylongdomainpartthisismylongdomainpart\
+thisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpart\
+thisismylongdomainpartthisismylongdomainpartthisismylongdomainpartthisismylongdomainpart\
+thisismylon.com"
       expect(domain.length).to be > 255
       expect(helpers.is_valid_email?("username@#{domain}")).to be_false
     end
@@ -66,6 +76,29 @@ describe Lynr::Validator::Helpers do
 
     it "fails a short password" do
       expect(helpers.is_valid_password?("hi")).to be_false
+    end
+
+  end
+
+  describe "#validate_required" do
+
+    it "returns empty `Hash` when no fields provided" do
+      expect(helpers.validate_required(post, [])).to eq({})
+    end
+
+    it "returns `Hash` with key for field if post doesn't contain field" do
+      errors = helpers.validate_required(post, ['jumper'])
+      expect(errors).to include('jumper')
+    end
+
+    it "returns `Hash` with key for field if post contains field with empty value" do
+      errors = helpers.validate_required(post, ['hi'])
+      expect(errors).to include('hi')
+    end
+
+    it "returns empty `Hash` when fields contain non-empty values" do
+      errors = helpers.validate_required(post, ['foo', 'boo'])
+      expect(errors).to eq({})
     end
 
   end
