@@ -34,8 +34,7 @@ module Lynr
       log.info("#{queue_info} state=started")
       @consumer.subscribe({ block: true }) do |job|
         result = job.perform
-        job_info = "job.type=#{job.class.name} job.id=#{job.delivery_info.delivery_tag}"
-        log.info("#{queue_info} #{job_info} result='#{result.as_str}'") if job.delivered?
+        log.info("#{queue_info} #{job.info} job.result=#{result.info}")
         if result.success?
           @consumer.ack(job.delivery_info.delivery_tag)
         else
