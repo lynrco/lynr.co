@@ -15,27 +15,31 @@ module Lynr; module Persist;
 
     def get(id)
       record = @dao.read(id)
-      translate(record)
+      record_to_vehicle(record)
     end
 
     def list(dealership, page=1, count=10)
       skip = (page - 1) * count
       options = { skip: skip, limit: count, sort: SORT }
       records = @dao.search({ 'dealership' => dealership.id, 'deleted_at' => nil }, options)
-      records.map { |record| translate(record) }
+      records.map { |record| record_to_vehicle(record) }
     end
 
     def save(vehicle)
-      record = @dao.save(vehicle.view, vehicle.id)
-      translate(record)
+      record = @dao.save(vehicle_to_record(vehicle), vehicle.id)
+      record_to_vehicle(record)
     end
 
     private
 
-    def translate(record)
+    def record_to_vehicle(record)
       # Mongo is going to give me a record with the _id property set, not id
       record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Vehicle.inflate(record)
+    end
+
+    def vehicle_to_record(vehicle)
+      vehicle.view
     end
 
   end
