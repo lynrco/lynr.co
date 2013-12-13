@@ -1,4 +1,5 @@
 require 'rack'
+require 'set'
 
 require './lib/sly/exceptions'
 
@@ -13,7 +14,7 @@ module Sly
     
     def initialize(routes)
       @routes = []
-      @has_route = {}
+      @has_route = Set.new
       routes.each { |route| add route }
     end
 
@@ -42,7 +43,7 @@ module Sly
     end
 
     def add(route)
-      @has_route[route.to_s] = true
+      @has_route.add(route.to_s)
       @routes << route
     end
 
