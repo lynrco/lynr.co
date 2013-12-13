@@ -6,18 +6,18 @@ require './lib/sly/router'
 
 describe Sly::Router do
 
-  describe "#call" do
+  let(:router) { Sly::Router.new([]) }
+  let(:admin) {
+    Sly::Route.new('GET', '/admin', lambda { |req| Rack::Response.new('/admin') })
+  }
+  let(:account) {
+    Sly::Route.new('GET', '/admin/account', lambda { |req| Rack::Response.new('/admin/account') })
+  }
+  let(:wildcard) {
+    Sly::Route.new('GET', '/admin/:id', lambda { |req| Rack::Response.new('/admin/:id') })
+  }
 
-    let(:router) { Sly::Router.new([]) }
-    let(:admin) {
-      Sly::Route.new('GET', '/admin', lambda { |req| Rack::Response.new('/admin') })
-    }
-    let(:account) {
-      Sly::Route.new('GET', '/admin/account', lambda { |req| Rack::Response.new('/admin/account') })
-    }
-    let(:wildcard) {
-      Sly::Route.new('GET', '/admin/:id', lambda { |req| Rack::Response.new('/admin/:id') })
-    }
+  describe "#call" do
 
     context "No routes" do
 
@@ -102,6 +102,24 @@ describe Sly::Router do
         expect(res[2]).to start_with(['Too many matching routes.'])
       end
 
+    end
+
+  end
+
+  describe "#include?" do
+
+    it "is false when no routes added" do
+      expect(router.include?(admin.to_s)).to be_false
+    end
+
+    it "is false when queried for `Route` hasn't been added" do
+      router.add(admin)
+      expect(router.include?(wildcard.to_s)).to be_false
+    end
+
+    it "is true when queried for `Route` has been added" do
+      router.add(admin)
+      expect(router.include?(admin.to_s)).to be_true
     end
 
   end
