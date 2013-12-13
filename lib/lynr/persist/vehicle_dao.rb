@@ -10,7 +10,8 @@ module Lynr; module Persist;
     def initialize
       @collection = 'vehicles'
       @dao = MongoDao.new('collection' => @collection)
-      @dao.collection.ensure_index([['dealership', Mongo::ASCENDING], SORT])
+      @index = false
+      ensure_indices if @dao.active?
     end
 
     def get(id)
@@ -31,6 +32,11 @@ module Lynr; module Persist;
     end
 
     private
+
+    def ensure_indices
+      @dao.collection.ensure_index([['dealership', Mongo::ASCENDING], SORT])
+      @indexed = true
+    end
 
     def record_to_vehicle(record)
       # Mongo is going to give me a record with the _id property set, not id
