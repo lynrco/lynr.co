@@ -24,6 +24,9 @@
           <input class="fs-mid fs-full <%= error_class('model') %>" type="text"
                  name="vin[model]" id="model" placeholder="Model"
                  value="<%= posted.fetch('vin', default={})['model'] %>" />
+          <label for="mileage">Mileage</label>
+          <input class="fs-mid fs-full <%= error_class('mileage') %>" type="text" name="mileage"
+                 id="mileage" value="<%= posted['mileage'] %>" placeholder="Mileage" />
           <label for="condition">Condition</label>
           <input class="fs-mid fs-full <%= error_class('condition') %>" type="text" name="condition"
                  id="condition" value="<%= posted['condition'] %>" placeholder="Condition" />
