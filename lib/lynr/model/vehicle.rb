@@ -33,13 +33,14 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :condition, :mpg, :notes, :price, :vin
+    attr_reader :condition, :mileage, :mpg, :notes, :price, :vin
 
     def initialize(data={}, id=nil)
       @id = id
       @dealership = data['dealership']
 
       @condition = data['condition']
+      @mileage = data['mileage']
       @mpg = data.fetch('mpg') { |k| Lynr::Model::Mpg.new(data) }
       @notes = data.fetch('notes', default='')
       @price = data['price']
@@ -72,10 +73,6 @@ module Lynr; module Model;
 
     def make
       vin.make unless vin.nil?
-    end
-
-    def mileage
-      0
     end
 
     def model
@@ -131,13 +128,14 @@ module Lynr; module Model;
 
     def to_hash
       {
-        'price' => @price,
         'condition' => @condition,
-        'images' => @images,
-        'mpg' => @mpg,
-        'vin' => @vin,
-        'notes' => @notes,
         'dealership' => dealership_id,
+        'images' => @images,
+        'mileage' => @mileage,
+        'mpg' => @mpg,
+        'notes' => @notes,
+        'price' => @price,
+        'vin' => @vin,
         'created_at' => @created_at,
         'updated_at' => @updated_at,
         'deleted_at' => @deleted_at
@@ -147,7 +145,7 @@ module Lynr; module Model;
     private
 
     def equality_fields
-      [:year, :make, :model, :price, :condition, :images, :mpg, :vin, :notes, :dealership_id]
+      [:year, :make, :model, :price, :condition, :images, :mileage, :mpg, :vin, :notes, :dealership_id]
     end
 
   end
