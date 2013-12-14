@@ -18,6 +18,9 @@ describe Lynr::Persist::VehicleDao do
   let(:mpg) { Lynr::Model::Mpg.new({ 'city' => 28.8, 'highway' => 33.2 }) }
   let(:vin) {
     Lynr::Model::Vin.new(
+      'year'         => '2010',
+      'make'         => 'Mitsubishi',
+      'model'        => 'Gallant',
       'transmission' => "Manual",
       'fuel' => "28 L",
       'doors' => "2",
