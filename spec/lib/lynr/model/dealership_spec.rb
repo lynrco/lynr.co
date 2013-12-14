@@ -47,7 +47,7 @@ describe Lynr::Model::Dealership do
     end
 
     it "is false if types are different but values are the same" do
-      expect(dealer).to_not eq(dealer.view)
+      expect(dealer).to eq(dealer.view)
     end
 
   end

@@ -22,7 +22,6 @@ module Lynr; module Model;
   class Dealership
 
     include Lynr::Model::Base
-    include Lynr::Model::BaseDated
 
     attr_reader :id, :created_at, :updated_at
     attr_reader :name, :phone, :identity, :address, :image, :customer_id
@@ -82,6 +81,10 @@ module Lynr; module Model;
     end
 
     private
+
+    def equality_fields
+      [:name, :phone, :identity, :address, :image, :customer_id]
+    end
 
     def extract_address(data)
       if data['address'].is_a? Lynr::Model::Address
