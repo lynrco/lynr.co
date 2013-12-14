@@ -37,18 +37,15 @@ module Lynr; module Model;
     attr_reader :price, :condition, :mpg, :vin, :notes
 
     def initialize(data={}, id=nil)
-      data.default_proc = proc do |hash, key|
-        data[key] = Vehicle.defaults[key]
-      end
       @id = id
       @price = data['price']
       @condition = data['condition']
       @mpg = data.fetch('mpg') { |k| Lynr::Model::Mpg.new(data) }
       @vin = data.fetch('vin') { |k| Lynr::Model::Vin.new(data) }
-      @images = data['images']
+      @images = data.fetch('images', default=[])
       @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
       @dealership_id = data['dealership'] if @dealership.nil?
-      @notes = data['notes']
+      @notes = data.fetch('notes', default='')
       @created_at = data['created_at']
       @updated_at = data['updated_at']
       @deleted_at = data['deleted_at']
@@ -148,16 +145,6 @@ module Lynr; module Model;
     end
 
     private
-
-    # Defines the defaults for the data `Hash` passed in for `#initialize`
-    def self.defaults
-      {
-        'mpg' => Lynr::Model::Mpg.new,
-        'vin' => Lynr::Model::Vin.inflate(nil),
-        'images' => [],
-        'notes' => ''
-      }
-    end
 
     def equality_fields
       [:year, :make, :model, :price, :condition, :images, :mpg, :vin, :notes, :dealership_id]
