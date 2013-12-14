@@ -22,11 +22,11 @@ describe Lynr::Persist::VehicleDao do
       'make'         => 'Mitsubishi',
       'model'        => 'Gallant',
       'transmission' => "Manual",
-      'fuel' => "28 L",
-      'doors' => "2",
-      'drivetrain' => "AWD",
-      'ext_color' => "Silver",
-      'int_color' => "Charcoal"
+      'fuel'         => "28 L",
+      'doors'        => "2",
+      'drivetrain'   => "AWD",
+      'ext_color'    => "Silver",
+      'int_color'    => "Charcoal"
     )
   }
   let(:vehicle_data) {
