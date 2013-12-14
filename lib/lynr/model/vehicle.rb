@@ -33,26 +33,30 @@ module Lynr; module Model;
 
     include Lynr::Model::Base
 
-    attr_reader :id, :dealership, :created_at, :updated_at
-    attr_reader :price, :condition, :mpg, :vin, :notes
+    attr_reader :id, :created_at, :updated_at
+    attr_reader :condition, :mpg, :notes, :price, :vin
 
     def initialize(data={}, id=nil)
       @id = id
-      @price = data['price']
+      @dealership = data['dealership']
+
       @condition = data['condition']
       @mpg = data.fetch('mpg') { |k| Lynr::Model::Mpg.new(data) }
-      @vin = data.fetch('vin') { |k| Lynr::Model::Vin.new(data) }
-      @images = data.fetch('images', default=[])
-      @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
-      @dealership_id = data['dealership'] if @dealership.nil?
       @notes = data.fetch('notes', default='')
+      @price = data['price']
+      @vin = data.fetch('vin') { |k| Lynr::Model::Vin.new(data) }
+
+      @images = data.fetch('images', default=[])
+
       @created_at = data['created_at']
       @updated_at = data['updated_at']
       @deleted_at = data['deleted_at']
     end
 
     def dealership_id
-      (@dealership && @dealership.id) || @dealership_id
+      return @dealership_id if !@dealership_id.nil?
+
+      @dealership_id = (@dealership.is_a?(Lynr::Model::Dealership) && @dealership.id) || @dealership
     end
 
     def image
@@ -134,7 +138,7 @@ module Lynr; module Model;
         'mpg' => @mpg,
         'vin' => @vin,
         'notes' => @notes,
-        'dealership' => @dealership,
+        'dealership' => dealership_id,
         'created_at' => @created_at,
         'updated_at' => @updated_at,
         'deleted_at' => @deleted_at

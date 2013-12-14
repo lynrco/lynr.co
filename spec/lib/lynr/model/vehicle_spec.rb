@@ -35,7 +35,7 @@ describe Lynr::Model::Vehicle do
       expect(empty_vehicle.mpg).to eq(empty_mpg)
       expect(empty_vehicle.vin).to eq(empty_vin)
       expect(empty_vehicle.images).to eq([])
-      expect(empty_vehicle.dealership).to be_nil
+      expect(empty_vehicle.dealership_id).to be_nil
     end
 
   end
