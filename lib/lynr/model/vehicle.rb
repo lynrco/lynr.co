@@ -32,7 +32,6 @@ module Lynr; module Model;
   class Vehicle
 
     include Lynr::Model::Base
-    include Lynr::Model::BaseDated
 
     attr_reader :id, :dealership, :created_at, :updated_at
     attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :notes
@@ -148,6 +147,10 @@ module Lynr; module Model;
         'images' => [],
         'notes' => ''
       }
+    end
+
+    def equality_fields
+      [:year, :make, :model, :price, :condition, :images, :mpg, :vin, :notes, :dealership_id]
     end
 
   end

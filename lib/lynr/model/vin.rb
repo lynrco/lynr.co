@@ -31,13 +31,20 @@ module Lynr; module Model;
         'drivetrain' => @drivetrain,
         'ext_color' => @ext_color,
         'int_color' => @int_color,
-        'number' => @number
+        'number' => @number,
+        'raw' => @raw
       }
     end
 
     def self.inflate(record)
       data = record || {}
       Lynr::Model::Vin.new(data)
+    end
+
+    private
+
+    def equality_fields
+      [:transmission, :fuel, :doors, :drivetrain, :ext_color, :int_color]
     end
 
   end

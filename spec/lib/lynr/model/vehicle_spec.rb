@@ -81,8 +81,8 @@ describe Lynr::Model::Vehicle do
       expect(vehicle).to_not eq(mpg)
     end
 
-    it "is false if types are different but properties are the same" do
-      expect(vehicle).to_not eq(vehicle.view)
+    it "is true if types are different but properties are the same" do
+      expect(vehicle).to eq(vehicle.view)
     end
 
   end
