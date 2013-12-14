@@ -3,7 +3,6 @@ require 'kramdown'
 require 'libxml'
 
 require './lib/lynr/model/base'
-require './lib/lynr/model/base_dated'
 require './lib/lynr/model/dealership'
 require './lib/lynr/model/sized_image'
 require './lib/lynr/model/mpg'

@@ -2,7 +2,6 @@ require 'bson'
 
 require './lib/lynr/model/address'
 require './lib/lynr/model/base'
-require './lib/lynr/model/base_dated'
 require './lib/lynr/model/identity'
 require './lib/lynr/model/sized_image'
 
