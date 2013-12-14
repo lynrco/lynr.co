@@ -7,8 +7,17 @@ require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vin do
 
-  let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
-  let(:empty_vin) { Lynr::Model::Vin.new(nil, nil, nil, nil, nil, nil) }
+  let(:vin) {
+    Lynr::Model::Vin.new(
+      'transmission' => "Manual",
+      'fuel' => "28 L",
+      'doors' => "2",
+      'drivetrain' => "AWD",
+      'ext_color' => "Silver",
+      'int_color' => "Charcoal"
+    )
+  }
+  let(:empty_vin) { Lynr::Model::Vin.new({}) }
 
   describe "#view" do
 
@@ -45,7 +54,14 @@ describe Lynr::Model::Vin do
   describe "#==" do
 
     it "is true if properties are the same" do
-      vin2 = Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal")
+      vin2 = Lynr::Model::Vin.new(
+        'transmission' => "Manual",
+        'fuel' => "28 L",
+        'doors' => "2",
+        'drivetrain' => "AWD",
+        'ext_color' => "Silver",
+        'int_color' => "Charcoal"
+      )
       expect(vin == vin2).to be_true
       expect(vin.equal?(vin2)).to be_false
     end

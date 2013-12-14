@@ -16,7 +16,16 @@ describe Lynr::Persist::VehicleDao do
 
   let(:image) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:mpg) { Lynr::Model::Mpg.new({ 'city' => 28.8, 'highway' => 33.2 }) }
-  let(:vin) { Lynr::Model::Vin.new("Manual", "28 L", "2", "AWD", "Silver", "Charcoal") }
+  let(:vin) {
+    Lynr::Model::Vin.new(
+      'transmission' => "Manual",
+      'fuel' => "28 L",
+      'doors' => "2",
+      'drivetrain' => "AWD",
+      'ext_color' => "Silver",
+      'int_color' => "Charcoal"
+    )
+  }
   let(:vehicle_data) {
     {
       'year'       => '2010',

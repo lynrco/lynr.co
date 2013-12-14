@@ -11,7 +11,7 @@ describe Lynr::Converter::DataOne do
   let(:converter) { Lynr::Converter::DataOne.new }
   let(:empty_mpg) { Lynr::Model::Mpg.new }
   let(:empty_vehicle) { Lynr::Model::Vehicle.new }
-  let(:empty_vin) { Lynr::Model::Vin.new(nil, nil, nil, nil, nil, nil) }
+  let(:empty_vin) { Lynr::Model::Vin.new({}) }
 
   describe ".xml_to_vin" do
 

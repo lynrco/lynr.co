@@ -37,14 +37,14 @@ module Lynr; module Converter;
       ext_colors = (contents(us_data, './/exterior_colors//generic_color_name')) || []
       int_colors = (contents(us_data, './/interior_colors//generic_color_name')) || []
       Lynr::Model::Vin.new(
-        values(us_data, './/transmission/@name').first,
-        contents(us_data, './/fuel_type').first,
-        contents(us_data, './/doors').first,
-        contents(us_data, './/drive_type').first,
-        (ext_colors.length >= 1 && ext_colors.join(', ')) || ext_colors.first,
-        (int_colors.length >= 1 && int_colors.join(', ')) || int_colors.first,
-        query_response['identifier'],
-        query_response.to_s
+        'transmission' => values(us_data, './/transmission/@name').first,
+        'fuel' => contents(us_data, './/fuel_type').first,
+        'doors' => contents(us_data, './/doors').first,
+        'drivetrain' => contents(us_data, './/drive_type').first,
+        'ext_color' => (ext_colors.length >= 1 && ext_colors.join(', ')) || ext_colors.first,
+        'int_color' => (int_colors.length >= 1 && int_colors.join(', ')) || int_colors.first,
+        'number' => query_response['identifier'],
+        'raw' => query_response.to_s
       )
     end
 

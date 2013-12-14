@@ -11,15 +11,16 @@ module Lynr; module Model;
     attr_reader :number, :raw
     attr_reader :transmission, :fuel, :doors, :drivetrain, :ext_color, :int_color
 
-    def initialize(transmission, fuel, doors, drivetrain, ext_color, int_color, number="", raw="")
-      @transmission = transmission
-      @fuel = fuel
-      @doors = doors
-      @drivetrain = drivetrain
-      @ext_color = ext_color
-      @int_color = int_color
-      @number = number || ""
-      @raw = raw || ""
+    def initialize(data={})
+      @data = data
+      @transmission = data.fetch('transmission', default=nil)
+      @fuel = data.fetch('fuel', default=nil)
+      @doors = data.fetch('doors', default=nil)
+      @drivetrain = data.fetch('drivetrain', default=nil)
+      @ext_color = data.fetch('ext_color', default=nil)
+      @int_color = data.fetch('int_color', default=nil)
+      @number = data.fetch('number', default=nil)
+      @raw = data.fetch('raw', default=nil)
     end
 
     def view
@@ -36,16 +37,7 @@ module Lynr; module Model;
 
     def self.inflate(record)
       data = record || {}
-      Lynr::Model::Vin.new(
-        data['transmission'],
-        data['fuel'],
-        data['doors'],
-        data['drivetrain'],
-        data['ext_color'],
-        data['int_color'],
-        data['number'],
-        data['raw']
-      )
+      Lynr::Model::Vin.new(data)
     end
 
   end
