@@ -159,7 +159,9 @@ describe Lynr::Converter::DataOne do
       end
 
       it "creates a Vehicle with model from XML" do
-        expect(vehicle.model).to eq(query_response.find("#{path}/basic_data/model").first.content)
+        model = query_response.find("#{path}/basic_data/model").first.content
+        trim = query_response.find("#{path}/basic_data/trim").first.content
+        expect(vehicle.model).to eq("#{model} #{trim}")
       end
 
       it "creates a Vehicle with price from XML" do

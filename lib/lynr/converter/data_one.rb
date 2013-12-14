@@ -31,12 +31,17 @@ module Lynr; module Converter;
     def self.xml_to_vin(query_response)
       return Lynr::Model::Vin.inflate(nil) if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
+      basic_data = us_data.find('./basic_data').first unless us_data.nil?
       ext_colors = (contents(us_data, './/exterior_colors//generic_color_name')) || []
       int_colors = (contents(us_data, './/interior_colors//generic_color_name')) || []
+      model = [
+        contents(basic_data, './model').first,
+        contents(basic_data, './trim').first
+      ].join(' ').strip
       Lynr::Model::Vin.new(
-        'year' => contents(us_data, './basic_data/year').first,
-        'make' => contents(us_data, './basic_data/make').first,
-        'model' => contents(us_data, './basic_data/model').first,
+        'year' => contents(basic_data, './year').first,
+        'make' => contents(basic_data, './make').first,
+        'model' => (model unless model.nil? || model.empty?),
         'transmission' => values(us_data, './/transmission/@name').first,
         'fuel' => contents(us_data, './/fuel_type').first,
         'doors' => contents(us_data, './/doors').first,
