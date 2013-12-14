@@ -11,9 +11,9 @@ module Rack; module Middleware;
 
     def call(env)
       path = env['PATH_INFO']
-      @log.info({ type: 'request', path: path })
+      @log.info("type=request path=#{path}")
       status, headers, @response = @app.call(env)
-      @log.info({ type: 'response', path: path, status: status })
+      @log.info("type=response path=#{path} status=#{status}")
       [status, headers, self]
     end
 
