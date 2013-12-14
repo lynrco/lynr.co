@@ -128,9 +128,6 @@ module Lynr; module Model;
 
     def to_hash
       {
-        'year' => @year,
-        'make' => @make,
-        'model' => @model,
         'price' => @price,
         'condition' => @condition,
         'images' => @images,
