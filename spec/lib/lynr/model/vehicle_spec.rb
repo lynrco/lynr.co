@@ -184,7 +184,7 @@ describe Lynr::Model::Vehicle do
     end
 
     it "updates a simple field if passed" do
-      expect(vehicle.set({ 'year' => '2015' }).year).to eq('2015')
+      expect(vehicle.set({ 'price' => '2015' }).price).to eq('2015')
     end
 
     it "updates a complex field if passed" do

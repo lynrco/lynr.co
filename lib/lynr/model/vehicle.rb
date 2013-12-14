@@ -34,21 +34,17 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :dealership, :created_at, :updated_at
-    attr_reader :year, :make, :model, :price, :condition, :mpg, :vin, :notes
+    attr_reader :price, :condition, :mpg, :vin, :notes
 
     def initialize(data={}, id=nil)
       data.default_proc = proc do |hash, key|
         data[key] = Vehicle.defaults[key]
       end
       @id = id
-      @year = data['year']
-      @make = data['make']
-      @model = data['model']
-      @name = "#{@year} #{@make} #{@model}".strip
       @price = data['price']
       @condition = data['condition']
-      @mpg = data['mpg'] # Should be an instance of Lynr::Model::Mpg
-      @vin = data['vin'] # Should be an instance of Lynr::Model::Vin
+      @mpg = data.fetch('mpg') { |k| Lynr::Model::Mpg.new(data) }
+      @vin = data.fetch('vin') { |k| Lynr::Model::Vin.new(data) }
       @images = data['images']
       @dealership = (data['dealership'].is_a?(Lynr::Model::Dealership) && data['dealership']) || nil
       @dealership_id = data['dealership'] if @dealership.nil?
@@ -74,12 +70,22 @@ module Lynr; module Model;
       !self.image.empty?
     end
 
+    def make
+      vin.make unless vin.nil?
+    end
+
     def mileage
       0
     end
 
+    def model
+      vin.model unless vin.nil?
+    end
+
     def name
-      (!@name.strip.empty? && @name) || "N/A"
+      return @name unless @name.nil?
+      name = "#{year} #{make} #{model}".strip
+      @name = (!name.strip.empty? && name) || "N/A"
     end
 
     def notes_html
@@ -104,6 +110,10 @@ module Lynr; module Model;
       data['vin'] = @vin.view if (@vin)
       data['dealership'] = @dealership.id if (@dealership.respond_to?(:id))
       data
+    end
+
+    def year
+      vin.year unless vin.nil?
     end
 
     # `Vehicle.inflate` takes a database record and inflates the properties

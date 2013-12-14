@@ -13,9 +13,6 @@ module Lynr; module Converter;
       return Lynr::Model::Vehicle.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       Lynr::Model::Vehicle.new({
-        'year' => contents(us_data, './basic_data/year').first,
-        'make' => contents(us_data, './basic_data/make').first,
-        'model' => contents(us_data, './basic_data/model').first,
         'price' => contents(us_data, './pricing/msrp').first,
         'mpg' => xml_to_mpg(query_response),
         'vin' => xml_to_vin(query_response)
@@ -37,6 +34,9 @@ module Lynr; module Converter;
       ext_colors = (contents(us_data, './/exterior_colors//generic_color_name')) || []
       int_colors = (contents(us_data, './/interior_colors//generic_color_name')) || []
       Lynr::Model::Vin.new(
+        'year' => contents(us_data, './basic_data/year').first,
+        'make' => contents(us_data, './basic_data/make').first,
+        'model' => contents(us_data, './basic_data/model').first,
         'transmission' => values(us_data, './/transmission/@name').first,
         'fuel' => contents(us_data, './/fuel_type').first,
         'doors' => contents(us_data, './/doors').first,
