@@ -2,14 +2,14 @@ require 'libxml'
 
 module Lynr; module Converter;
 
-  class LibXmlHelper
+  module LibXmlHelper
 
-    def self.contents(context, xpath)
+    def contents(context, xpath)
       enum = context.find(xpath) if context
       (enum || []).map { |node| node.content }
     end
 
-    def self.values(context, xpath)
+    def values(context, xpath)
       enum = context.find(xpath) if context
       (enum || []).map { |node| node.value }
     end
