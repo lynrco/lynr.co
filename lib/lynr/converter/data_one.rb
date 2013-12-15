@@ -7,7 +7,9 @@ require './lib/lynr/model/vin'
 
 module Lynr; module Converter;
 
-  class DataOne < LibXmlHelper
+  class DataOne
+
+    extend Lynr::Converter::LibXmlHelper
 
     def self.xml_to_vehicle(query_response)
       return Lynr::Model::Vehicle.new if query_response.nil?
