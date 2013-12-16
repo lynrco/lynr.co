@@ -5,6 +5,7 @@
 /config/*.yaml
 !/config/*.example.yaml
 !/config/*.heroku.yaml
+!/config/*.wercker.yaml
 !/config/database.spec.yaml
 /coverage/
 /public/css/*.css
