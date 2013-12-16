@@ -1,4 +1,4 @@
-box: wercker/ruby
+box: wercker/ubuntu12.04-ruby1.9.3@1.0.0
 # http://devcenter.wercker.com/articles/services/
 services:
   - wercker/mongodb
