@@ -37,21 +37,6 @@ module Lynr; class Queue;
       failure("Post to #{url} failed. #{rce.to_s}")
     end
 
-    def render_data
-      {
-        dealership: dealership,
-        vehicle: @vehicle,
-        username: @username,
-        password: @password
-      }
-    end
-
-    def vehicle_rss
-      @dealership = self.dealership
-      view = Sly::View::Erb.new(::File.join(Lynr.root, 'views', 'admin/vehicle/craigslist.erb'), data: render_data )
-      view.result
-    end
-
     private
 
     def cl_post
@@ -75,6 +60,15 @@ module Lynr; class Queue;
       Success
     end
 
+    def render_data
+      {
+        dealership: dealership,
+        vehicle: @vehicle,
+        username: @username,
+        password: @password
+      }
+    end
+
     def send(url)
       data = vehicle_rss
       headers = {
@@ -85,6 +79,12 @@ module Lynr; class Queue;
         'Content-length' => data.length
       }
       RestClient.post url, data, headers
+    end
+
+    def vehicle_rss
+      @dealership = self.dealership
+      view = Sly::View::Erb.new(::File.join(Lynr.root, 'views', 'admin/vehicle/craigslist.erb'), data: render_data )
+      view.result
     end
 
   end
