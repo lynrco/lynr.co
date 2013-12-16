@@ -2,7 +2,6 @@ require 'rspec/autorun'
 require './spec/spec_helper'
 
 require 'libxml'
-require 'rexml/document'
 require './lib/lynr/model/vin'
 
 describe Lynr::Model::Vin do
