@@ -8,8 +8,10 @@ module Lynr; module Controller;
   class Base < Sly::Node
 
     include Lynr::Logging
-    # Provides `render` and `render_partial` methods
+    # Provides `render`, `render_partial` and `render_view` methods
     include Sly::View::ErbHelpers
+    # Provides `set_render_options` and `render_options` methods
+    extend Sly::View::ErbHelpers::ClassMethods
 
     set_render_options({ layout: 'default.erb' })
 

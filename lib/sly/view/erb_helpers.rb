@@ -2,12 +2,13 @@ require './lib/sly/view/erb'
 
 module Sly; module View;
 
+  # Mixed in to add instance methods
   module ErbHelpers
 
-    include ERB::Util
+    include ::ERB::Util
 
     def render(view, opts={ status: 200 })
-      options = self.class.render_options.merge(opts)
+      options = render_options.merge(opts)
       template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
       layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, options[:layout].to_s) if options.has_key?(:layout)
       context = self unless options.has_key?(:data)
@@ -30,19 +31,13 @@ module Sly; module View;
       partial_view = Sly::View::Erb.new(partial, { context: self })
       partial_view.result
     end
-    
-    ##
-    # Extends the class that included this module so that the methods that
-    # this helper provides can be called outside of a class instance.
-    #
-    # Taken from [Ramaze's layout module][layout_module]
-    #
-    # [layout_module]: https://github.com/Ramaze/ramaze/blob/5eca0714b37e3d3b618929e35a7b0a447ff16ec3/lib/ramaze/helper/layout.rb
-    def self.included(into)
-      into.extend SingletonMethods
+
+    def render_options
+      (self.class.respond_to?(:render_options) && self.class.render_options) || {}
     end
 
-    module SingletonMethods
+    # Mixed in to add class methods
+    module ClassMethods
 
       def set_render_options(opts={})
         @_sly_render_opts = opts
@@ -53,7 +48,7 @@ module Sly; module View;
         opts.merge(@_sly_render_opts || {})
       end
 
-    end # SingletonMethods
+    end # ClassMethods
 
   end # ErbHelpers
 
