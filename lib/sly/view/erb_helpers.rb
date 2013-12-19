@@ -13,7 +13,7 @@ module Sly; module View;
       layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, options[:layout].to_s) if options.has_key?(:layout)
       context = self unless options.has_key?(:data)
       view = Sly::View::Erb.new(template, { layout: layout, context: context, data: options[:data] })
-      Rack::Response.new(view.result, options[:status], @headers)
+      Rack::Response.new(view.result, options.fetch(:status, 200), @headers)
     end
 
     def render_partial(path)
