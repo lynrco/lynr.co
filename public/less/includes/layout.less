@@ -1,0 +1,41 @@
+/* General Styles */
+/** Layout **/
+.window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
+.main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
+/*** Layout -- Markdown Block ***/
+.md h1 { font-size: 1.75rem; }
+.md h2 { font-size: 1.5rem; }
+.md h1, .md h2, .md h3 {
+  margin: 0 0 1rem; font-weight: 300; line-height: 1;
+}
+.md p, .md table { margin: 0 0 1rem; }
+.md table {
+  display: table; empty-cells: hide; table-layout: fixed; border-collapse: collapse;
+  margin: -1px 0 23px; background: rgba(0,0,0,0.05); padding: 0; width: 100%;
+}
+.md tbody { display: table-row-group; background: rgba(0,0,0,0.05); }
+.md tr { display: table-row; }
+.md tr:nth-child(odd) { background: rgba(255,255,255,0.06); }
+.md tr:nth-child(even) { background: rgba(0,0,0,0.06); }
+.md tr:hover { background: rgba(0,0,0,0.16); }
+.md thead tr { background: rgba(255,255,255,0.06) !important; }
+.md th { font-weight: bold; }
+.md td, .md th { display: table-cell; padding: 0.5em 1em; }
+.md ul, .md ol { margin: 0 0 1rem; padding: 0 0 0 4%; }
+.md ul { list-style: disc outside; }
+.md ol { list-style: decimal outside; }
+.md li { margin: 0 0 1rem; }
+.md a { color: #e74d00; }
+.md a:hover { text-decoration: underline; }
+/** Header **/
+.hat { position: relative; min-height: 6.875rem; height: 12vh; background: #f26522; }
+.hat-title { width: 100%; min-height: 6.875rem; height: 12vh; text-align: center; }
+.logo {
+  display: inline-block; width: 10%; min-height: 6.875rem; height: 12vh; min-width: 130px;
+  text-indent: 100%; .bg("logo-lynr.png", center, center); overflow: hidden;
+}
+.menu-link {
+  display: inline-block; position: absolute; top: 0; width: 10%; height: 100%; min-width: 130px;
+}
+.menu-link-primary { left: 0; }
+.menu-link-secondary { right: 0; }

@@ -1,51 +1,7 @@
 @import "includes.less";
 @import "includes/reset.less";
+@import "includes/layout.less";
 
-/* General Styles */
-/** Layout **/
-.window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
-.main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
-/*** Layout -- Markdown Block ***/
-.md h1 { font-size: 1.75rem; }
-.md h2 { font-size: 1.5rem; }
-.md h1, .md h2, .md h3 {
-  margin: 0 0 1rem; font-weight: 300; line-height: 1;
-}
-.md p, .md table { margin: 0 0 1rem; }
-.md table {
-  display: table; empty-cells: hide; table-layout: fixed; border-collapse: collapse;
-  margin: -1px 0 23px; background: rgba(0,0,0,0.05); padding: 0; width: 100%;
-}
-.md tbody { display: table-row-group; background: rgba(0,0,0,0.05); }
-.md tr { display: table-row; }
-.md tr:nth-child(odd) { background: rgba(255,255,255,0.06); }
-.md tr:nth-child(even) { background: rgba(0,0,0,0.06); }
-.md tr:hover { background: rgba(0,0,0,0.16); }
-.md thead tr { background: rgba(255,255,255,0.06) !important; }
-.md th { font-weight: bold; }
-.md td, .md th { display: table-cell; padding: 0.5em 1em; }
-.md ul, .md ol { margin: 0 0 1rem; padding: 0 0 0 4%; }
-.md ul { list-style: disc outside; }
-.md ol { list-style: decimal outside; }
-.md li { margin: 0 0 1rem; }
-.md a { color: #e74d00; }
-.md a:hover { text-decoration: underline; }
-/** Header **/
-.hat {
-  position: relative; min-height: 6.875rem; height: 12vh;
-  .linear_gradient(#ff5600, #d24400, #ff6600);
-  box-shadow: 0 0 23px 0 rgba(0, 0, 0, 0.17), 0 0 5px 0 #000;
-}
-.hat-title { width: 100%; min-height: 6.875rem; height: 12vh; text-align: center; }
-.logo {
-  display: inline-block; width: 10%; min-height: 6.875rem; height: 12vh; min-width: 130px;
-  text-indent: 100%; .bg("logo-lynr.png", center, center); overflow: hidden;
-}
-.menu-link {
-  display: inline-block; position: absolute; top: 0; width: 10%; height: 100%; min-width: 130px;
-}
-.menu-link-primary { left: 0; }
-.menu-link-secondary { right: 0; }
 /*** Layout - Menu ***/
 .menu {
   position: absolute; border-bottom: 1px solid #fff; width: 75%; height: 100%;
@@ -88,24 +44,7 @@
     .box_shadow(2px, 2px, 2px, 0px, rgba(0,0,0,0.6));
   }
 }
-/** Buttons **/
-.btn {
-  display: inline-block; border: 1px solid #fff; .border_radius_a(6px); padding: 1.25rem 0 0.9375rem;
-  height: 5.625rem; text-align: center; /*text-shadow: 0px 1px 1px rgba(0,0,0,0.4);*/
-  font-family: @font_stack; font-size: 2.25rem; font-weight: 100; color: lighten(@font_color, 40%);
-  .linear_gradient(#ffffff, @bg_color); .outer_glow(rgba(0,0,0,0.15)); .border_box();
-
-  &:hover { .linear_gradient(@bg_color, #ffffff); }
-}
-.btn-full { width: 100%; }
-.btn-half { width: 45.3125%; }
-.btn-inline { position: absolute; top: 0; right: 0; padding-left: 2%; padding-right: 2%; }
-.btn-delete {
-  border-color: @highlight; color: lighten(@highlight, 35%);
-  .linear_gradient(lighten(@highlight, 10%), darken(@highlight, 10%));
-
-  &:hover { .linear_gradient(darken(@highlight, 10%), lighten(@highlight, 10%)); }
-}
+@import "includes/button.less";
 /** Form **/
 #messages {
   position: relative; left: -3.333333333%; width: 106.666666667%;
@@ -172,7 +111,6 @@
 .fs .label-photo { display: block; position: relative; max-width: 100%; max-height: 100%; }
 .input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
 .photo-preview { .border_radius_a(6px); width: 100%; max-width: 100%; height: 100%; max-height: 100%; }
-@import "pages/home.less";
 /* Sign Up */
 #card_expiry { position: relative; .border_radius(0, 0, 0, 6px); .border_box(); }
 .btn-create { margin-top: 1.875rem; margin-bottom: 1.875rem; }

@@ -1,0 +1,17 @@
+/** Buttons **/
+.btn {
+  display: inline-block; padding: 1rem 0 0.9375rem; text-align: center;
+  font-family: @font_stack; font-size: 1.25rem; color: lighten(@font_color, 40%);
+
+  &:hover { text-decoration: underline; }
+}
+.btn-full { width: 100%; }
+.btn-half { width: 45.3125%; }
+.btn-inline { position: absolute; top: 0; right: 0; padding-left: 2%; padding-right: 2%; }
+.btn-delete {
+  border-color: @highlight; color: lighten(@highlight, 35%);
+  .linear_gradient(lighten(@highlight, 10%), darken(@highlight, 10%));
+
+  &:hover { .linear_gradient(darken(@highlight, 10%), lighten(@highlight, 10%)); }
+}
+.btn-positive { background: @brand_color; }

@@ -1,7 +1,22 @@
 @import "includes.less";
 @import "includes/reset.less";
+@import "includes/layout.less";
 
-/* General Styles */
-/** Layout **/
-.window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
-.main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400');
+
+@import "marketing/typography.less";
+
+@import "includes/button.less";
+
+.main { max-width: 700px; }
+
+.auth .btn { margin: 0 0 1.25rem; }
+
+@media only screen and (min-width: 540px) {
+  .auth .btn:last-child { float: right; }
+  .auth .btn { width: 48.3333%; }
+}
+
+@media only screen and (min-width: 746px) {
+  .main { margin: 0 auto; }
+}
