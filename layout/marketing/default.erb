@@ -8,11 +8,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5,target-densityDpi=device-dpi" />
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
+<%= render_partial :header -%>
     <div class="window">
       <div class="main">
 <%= yield -%>
       </div>
     </div>
+<%= render_partial :footer -%>
     <script data-main="/js/main.js" src="/js/libs/require-2.1.8.js" async="async"></script>
   </body>
 </html>
