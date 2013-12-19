@@ -1,37 +1,7 @@
 @import "includes.less";
-/* Reset Styles */
-html, body, div, h1, h2, h3, h4, h5, h6, img, p, ol, ul, li, dl, dt, dd,
-button, nav, section, aside, fieldset, input {
-  margin: 0; border: 0; padding: 0;
-}
-input[type=text], input[type=email], input[type=search], input[type=password], input[type=number], textarea {
-  webkit-appearance: none;
-  moz-appearance: none; /* mobile firefox too! */
-}
-textarea { border: 0; }
-ul, ol { list-style: none; }
-button { cursor: pointer; }
-html { font-family: @font_stack; color: @font_color; }
-body { background: @bg_color; }
-h1, h2 { font-size: 2.25rem; font-weight: 100; }
-a { color: @font_color; text-decoration: none; }
+@import "includes/reset.less";
+
 /* General Styles */
-/** Header **/
-.hat {
-  position: relative; min-height: 6.875rem; height: 12vh;
-  .linear_gradient(#ff5600, #d24400, #ff6600);
-  box-shadow: 0 0 23px 0 rgba(0, 0, 0, 0.17), 0 0 5px 0 #000;
-}
-.hat-title { width: 100%; min-height: 6.875rem; height: 12vh; text-align: center; }
-.logo {
-  display: inline-block; width: 10%; min-height: 6.875rem; height: 12vh; min-width: 130px;
-  text-indent: 100%; .bg("logo-lynr.png", center, center); overflow: hidden;
-}
-.menu-link {
-  display: inline-block; position: absolute; top: 0; width: 10%; height: 100%; min-width: 130px;
-}
-.menu-link-primary { left: 0; }
-.menu-link-secondary { right: 0; }
 /** Layout **/
 .window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
 .main { position: relative; margin: 0 3.125%; padding: 0.5rem 0 0; .border_box(); .clearfix(); }
@@ -60,6 +30,22 @@ a { color: @font_color; text-decoration: none; }
 .md li { margin: 0 0 1rem; }
 .md a { color: #e74d00; }
 .md a:hover { text-decoration: underline; }
+/** Header **/
+.hat {
+  position: relative; min-height: 6.875rem; height: 12vh;
+  .linear_gradient(#ff5600, #d24400, #ff6600);
+  box-shadow: 0 0 23px 0 rgba(0, 0, 0, 0.17), 0 0 5px 0 #000;
+}
+.hat-title { width: 100%; min-height: 6.875rem; height: 12vh; text-align: center; }
+.logo {
+  display: inline-block; width: 10%; min-height: 6.875rem; height: 12vh; min-width: 130px;
+  text-indent: 100%; .bg("logo-lynr.png", center, center); overflow: hidden;
+}
+.menu-link {
+  display: inline-block; position: absolute; top: 0; width: 10%; height: 100%; min-width: 130px;
+}
+.menu-link-primary { left: 0; }
+.menu-link-secondary { right: 0; }
 /*** Layout - Menu ***/
 .menu {
   position: absolute; border-bottom: 1px solid #fff; width: 75%; height: 100%;
