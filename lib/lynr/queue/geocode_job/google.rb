@@ -35,7 +35,7 @@ module Lynr; class Queue;
         end
         # TODO: If multiple addresses, create support ticket or way to resolve
         dao = Lynr::Persist::DealershipDao.new
-        dao.save(@dealership.set(address: addresses.first) if addresses.first != @dealership.address
+        dao.save(@dealership.set(address: addresses.first)) if addresses.first != @dealership.address
         Success
       rescue Geocoder::OverQueryLimitError
         failure("#{description} after limit reached. Retrying later.")
