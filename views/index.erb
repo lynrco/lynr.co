@@ -1,8 +1,25 @@
-      <p>Lynr is a cloud inventory tool and CRM sales assistant for the pre-owned automobile industy.</p>
-      <p>We set out to make something simple and efficient that would help you focus on what you do best, building great relationships and closing deals.</p>
-      <p>Take a tour, and your first 30 days are free to make sure Lynr is right for you.</p>
+        <p>Lynr is a cloud inventory tool and CRM sales assistant for the pre-owned automobile industy.</p>
+        <p>We set out to make something simple and efficient that would help you focus on what you do best, building great relationships and closing deals.</p>
+        <p>Once we launch you can take a tour and your first 30 days will be free to ensure Lynr is right for you.</p>
 
-      <nav class="auth">
-        <a class="btn btn-full btn-positive btn-signin" href="/signin" title="Sign In">Sign In</a>
-        <a class="btn btn-full btn-positive btn-signup" href="/signup" title="Sign Up">Sign Up</a>
-      </nav>
+        <!--
+        <nav class="auth">
+          <a class="btn btn-full btn-positive btn-signin" href="/signin" title="Sign In">Sign In</a>
+          <a class="btn btn-full btn-positive btn-signup" href="/signup" title="Sign Up">Sign Up</a>
+        </nav>
+        -->
+
+        <form class="signup" action="/launch-signup" method="POST">
+          <fieldset class="fs">
+            <label for="dealer_name">Dealership Name</label>
+            <input class="fs-full" type="text"
+                   id="dealer_name" name="dealer_name" placeholder="Dealership Name" />
+            <label for="name">Dealership Name</label>
+            <input class="fs-half" type="text"
+                   id="name" name="name" placeholder="Your Name" />
+            <label for="email">Dealership Name</label>
+            <input class="fs-half" type="email"
+                   id="email" name="email" placeholder="Your Email" />
+          </fieldset>
+          <button class="btn btn-full btn-positive">Sign Up</button>
+        </form>

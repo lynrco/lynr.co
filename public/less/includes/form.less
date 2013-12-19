@@ -1,0 +1,21 @@
+@input_font_size: 0.875rem;
+
+fieldset, .fs { position: relative; .clearfix(); }
+
+fieldset label, .fs-label { display: none; }
+fieldset input, fieldset textarea, .fs-input, .fs-textarea {
+  display: block; margin: 0 0 1rem; padding: 1.28125rem 5%; width: 100%;
+  font-size: @input_font_size; font-family: @font_stack; line-height: 1; color: #000;
+  background: #fff; .border_box(); outline: none;
+
+  &:focus { outline: 3px solid @highlight; }
+}
+fieldset input, .fs-input { }
+
+fieldset textarea, .fs-textarea {
+  height: 5.625rem; min-height: 11em; line-height: 1.1;
+}
+
+.fs-full { clear: both; }
+.fs-half { float: left; }
+.fs-error { border-right: 3px solid @error !important; }
