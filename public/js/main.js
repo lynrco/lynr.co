@@ -46,8 +46,9 @@
     });
   });
 
-  require(['modules/menu'], function(menu) {
-    menu(document.querySelectorAll('.menu-link'));
-  })
+  var menuLinks = document.querySelectorAll('.menu-link');
+  if (menuLinks.length > 0) {
+    require(['modules/menu'], function(menu) { menu(menuLinks); });
+  }
 
 })();
