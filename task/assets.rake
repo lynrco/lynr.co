@@ -8,7 +8,8 @@ namespace :assets do
     compress = true
     yuicompress = false
     sheets = [
-      ['public/less/main.less']
+      ['public/less/main.less'],
+      ['public/less/marketing.less']
     ]
 
     options = {
