@@ -8,8 +8,8 @@ module Lynr; module Controller;
 
     def index(req)
       @section = 'home'
-      log.info('Rendering index.erb')
-      render 'index.erb'
+      log.info('type=measure.render template=index.erb')
+      render 'index.erb', layout: 'marketing/default.erb'
     end
 
   end
