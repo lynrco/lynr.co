@@ -1,22 +1,19 @@
 @import "includes.less";
 @import "includes/reset.less";
 @import "includes/layout.less";
+@import "includes/button.less";
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400');
 
 @import "marketing/typography.less";
 
-@import "includes/button.less";
-
 .main { max-width: 700px; }
+@media only screen and (min-width: 746px) {
+  .main { margin: 0 auto; }
+}
 
 .auth .btn { margin: 0 0 1.25rem; }
-
 @media only screen and (min-width: 540px) {
   .auth .btn:last-child { float: right; }
   .auth .btn { width: 48.3333%; }
-}
-
-@media only screen and (min-width: 746px) {
-  .main { margin: 0 auto; }
 }
