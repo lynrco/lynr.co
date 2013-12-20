@@ -1,5 +1,6 @@
 define(function(require) {
 
+  // TODO: This needs to be pulled from configuration somehow
   require('stripe').setPublishableKey('pk_test_9YtMBBab3Eb9UbPvT0tQ4PAo');
 
   function emptyElement(el) {
