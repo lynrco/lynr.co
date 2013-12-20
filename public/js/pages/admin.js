@@ -160,7 +160,8 @@ define(function(require) {
   function uploadSuccessStopSpinner(assembly) {
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
-    form.data('spinner').stop();
+    var spinner = form.data('spinner');
+    if (spinner && typeof spinner.stop === 'function') { form.data('spinner').stop(); }
   }
 
   return api;
