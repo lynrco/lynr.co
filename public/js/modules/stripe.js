@@ -1,7 +1,6 @@
 define(function(require) {
 
-  // TODO: This needs to be pulled from configuration somehow
-  require('stripe').setPublishableKey('pk_test_9YtMBBab3Eb9UbPvT0tQ4PAo');
+  var stripe = require('stripe');
 
   function emptyElement(el) {
     while (el.childNodes.length !== 0) {
@@ -14,6 +13,8 @@ define(function(require) {
     var button = form.querySelector('button[type=submit]');
     var evt = require('modules/domEvents');
     var clazz = require('modules/clazz');
+    var data = require('modules/data-attrs');
+    stripe.setPublishableKey(data.get(form, 'stripe-pub'));
 
     if (!document.getElementById('stripeToken').value) {
       evt.on(form, 'submit', handleFormSubmit);
