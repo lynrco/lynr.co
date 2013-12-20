@@ -17,6 +17,7 @@ session:
 # Used for enabling money transactions with Stripe
 stripe:
   key: 'env:stripe_key'
+  pub_key: 'env:stripe_pub_key'
   version: '2013-02-13'
   live: false
 # Used to handle file uploads

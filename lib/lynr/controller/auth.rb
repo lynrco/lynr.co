@@ -45,6 +45,7 @@ module Lynr; module Controller;
     def get_signup(req)
       @subsection = "signup"
       @title = "Sign Up for Lynr"
+      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
       render 'auth/signup.erb'
     end
 
@@ -53,6 +54,7 @@ module Lynr; module Controller;
       @title = "Sign Up for Lynr"
       @posted = req.POST
       @errors = validate_signup(@posted)
+      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
       return render 'auth/signup.erb' if has_errors?
       # Create account
       identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])

@@ -17,7 +17,8 @@ session:
   old_secret: 'change me'
 # Used for enabling money transactions with Stripe
 stripe:
-  key: 'stripe_key from https://manage.stripe.com/account/apikeys'
+  key: 'secret key from https://manage.stripe.com/account/apikeys'
+  pub_key: 'publishable key from https://manage.stripe.com/account/apikeys'
   version: '2013-02-13'
   live: false
 # Used to handle file uploads
