@@ -6,7 +6,7 @@ require './lib/rack/middleware/timer'
 
 Lynr::Web.setup
 
-use Rack::Static, :urls => ["/css", "/js", "/img"], :root => "public"
+use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => "public"
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 # Uncomment for logs of every request start and end
 # use Rack::Middleware::Logger, Lynr::Web.instance.log
