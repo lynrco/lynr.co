@@ -9,17 +9,22 @@
         </nav>
         -->
 
-        <form class="signup" action="/launch-signup" method="POST">
+<%= render_partial 'form_messages.erb' -%>
+        <form class="signup" action="/" method="POST">
           <fieldset class="fs">
             <label for="dealer_name">Dealership Name</label>
             <input class="fs-full" type="text"
-                   id="dealer_name" name="dealer_name" placeholder="Dealership Name" />
+                   id="dealer_name" name="dealer_name" placeholder="Dealership Name"
+                   value="<%= posted.fetch('dealer_name', '') %>" />
             <label for="name">Dealership Name</label>
             <input class="fs-half" type="text"
-                   id="name" name="name" placeholder="Your Name" />
+                   id="name" name="name" placeholder="Your Name"
+                   value="<%= posted.fetch('name', '') %>" />
             <label for="email">Dealership Name</label>
-            <input class="fs-half" type="email"
-                   id="email" name="email" placeholder="Your Email" />
+            <input class="fs-half <%= error_class('email') %>" type="email"
+                   id="email" name="email" placeholder="Your Email Address"
+                   value="<%= posted.fetch('email', '') %>" />
           </fieldset>
+          <input type="hidden" name="list" value="" />
           <button class="btn btn-full btn-positive">Sign Up</button>
         </form>
