@@ -22,5 +22,6 @@ stripe:
 # Used to handle file uploads
 transloadit:
   auth_key: 'env:transloadit_key'
+  auth_secret: 'env:transloadit_secret'
   account_template_id: 'env:transloadit_account_template_id'
   vehicle_template_id: 'env:transloadit_vehicle_template_id'
