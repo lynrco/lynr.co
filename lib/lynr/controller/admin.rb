@@ -90,8 +90,6 @@ module Lynr; module Controller;
       req.session['dealer_id'] == BSON::ObjectId.from_string(req['slug'])
     end
 
-    protected
-
     def transloadit_params(template_id_name)
       transloadit = Lynr::Web.config['transloadit']
       expires = (Time.now + (60 * 10)).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
