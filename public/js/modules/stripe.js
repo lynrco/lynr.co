@@ -1,6 +1,6 @@
 define(function(require) {
 
-  require('stripe').setPublishableKey('pk_HXlEvJ3XN3plgPOBzzpulQ3JzaLGf');
+  require('stripe').setPublishableKey('pk_test_9YtMBBab3Eb9UbPvT0tQ4PAo');
 
   function emptyElement(el) {
     while (el.childNodes.length !== 0) {
