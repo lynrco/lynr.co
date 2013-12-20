@@ -24,6 +24,7 @@ module Lynr; module Controller;
 
     def index(req)
       @section = 'home'
+      @title = 'Lynr.co'
       log.info('type=measure.render template=index.erb')
       render 'index.erb', layout: 'marketing/default.erb'
     end
