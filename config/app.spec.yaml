@@ -1,0 +1,6 @@
+transloadit:
+  auth_key: '465844d0682711e39bcac1b6747869bc'
+  # NOTE: This auth_secret has been regenerated and is no longer valid
+  # It is useful only for testing in combination with the fixtures in
+  # `spec/lib/lynr/controller/admin_spec.rb`
+  auth_secret: 'c889ef8e3d1fd493e85e0f10a1cbd5b6c9f34dad'
