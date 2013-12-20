@@ -1,5 +1,12 @@
 @input_font_size: 0.875rem;
 
+/** Form **/
+#messages { position: relative; margin: 1rem 0 0; }
+#messages.empty { display: none; }
+.msg { margin-top: 0.5rem; line-height: 1.2; color: @brand_color_contrast_dark; }
+.msg-error { color: @brand_color_dark; }
+
+form { margin: 1.5rem 0 0; }
 fieldset, .fs { position: relative; .clearfix(); }
 
 fieldset label, .fs-label { display: none; }
@@ -18,4 +25,4 @@ fieldset textarea, .fs-textarea {
 
 .fs-full { clear: both; }
 .fs-half { float: left; }
-.fs-error { border-right: 3px solid @error !important; }
+.fs-error { border-left: 3px solid @brand_color_dark !important; }
