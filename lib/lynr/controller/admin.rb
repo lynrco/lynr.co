@@ -1,3 +1,6 @@
+require 'json'
+require 'openssl'
+
 require './lib/lynr/controller/base'
 require './lib/lynr/controller/form_helpers'
 require './lib/lynr/persist/dealership_dao'
@@ -90,10 +93,19 @@ module Lynr; module Controller;
     protected
 
     def transloadit_params(template_id_name)
-      {
-        auth: { key: Lynr::Web.config['transloadit']['auth_key'] },
-        template_id: Lynr::Web.config['transloadit'][template_id_name]
+      transloadit = Lynr::Web.config['transloadit']
+      expires = (Time.now + (60 * 10)).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
+      params = {
+        auth: { expires: expires, key: transloadit['auth_key'] },
+        template_id: transloadit[template_id_name]
       }
+    end
+
+    def transloadit_params_signature(params)
+      auth_secret = Lynr::Web.config['transloadit']['auth_secret']
+      return nil if auth_secret.nil?
+      digest = OpenSSL::Digest::Digest.new('sha1')
+      OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
     end
 
   end
