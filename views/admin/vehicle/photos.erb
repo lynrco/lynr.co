@@ -24,6 +24,9 @@
           </label>
         </fieldset>
         <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+        <% if @transloadit_params_signature %>
+        <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
+        <% end %>
         <input type="hidden" name="idx" value="<%= i %>" />
         <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
         <input type="hidden" name="vehicle_id" value="<%= @vehicle.id %>" />

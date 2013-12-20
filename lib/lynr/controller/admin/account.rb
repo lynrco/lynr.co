@@ -20,7 +20,9 @@ module Lynr; module Controller;
     def get_account(req)
       @subsection = 'account'
       @title = "Account Information"
-      @transloadit_params = transloadit_params('account_template_id').to_json
+      params = transloadit_params('account_template_id')
+      @transloadit_params = params.to_json
+      @transloadit_params_signature = transloadit_params_signature(params)
       render 'admin/account.erb'
     end
 

@@ -22,6 +22,9 @@
           </label>
         </fieldset>
         <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+        <% if @transloadit_params_signature %>
+        <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
+        <% end %>
         <button class="btn btn-full btn-create" type="submit">Update Account Image</button>
       </form>
       <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">

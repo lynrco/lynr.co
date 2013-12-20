@@ -91,7 +91,9 @@ module Lynr; module Controller;
     def get_edit_vehicle_photos(req)
       @subsection = 'vehicle-photos'
       @title = "Photos for #{@vehicle.name}"
-      @transloadit_params = transloadit_params('vehicle_template_id').to_json
+      params = transloadit_params('vehicle_template_id')
+      @transloadit_params = params.to_json
+      @transloadit_params_signature = transloadit_params_signature(params)
       render 'admin/vehicle/photos.erb'
     end
 
