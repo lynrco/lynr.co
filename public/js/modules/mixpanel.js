@@ -6,6 +6,7 @@ define(function(require) {
     b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
 
     mixpanel.init("974aad76b3b51c5f6f15b89aa944dc0d");
+    if (!(window.location.host && location.host.match(/lynr\.co$/))) { mixpanel.disable(); }
 
     return mixpanel;
 });
