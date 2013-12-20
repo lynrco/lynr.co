@@ -1,5 +1,5 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form class="signup" action="/signup" method="POST">
+      <form class="signup" action="/signup" method="POST" data-stripe-pub="<%= @stripe_pub_key %>">
         <h2 class="fs-title">1. Create an account</h2>
         <fieldset class="fs">
           <label for="email">Email Address</label>
