@@ -18,19 +18,22 @@ module Lynr; module Controller;
     get  '/', :index
     post '/', :launch_signup
 
+    def initialize
+      super
+      @section = 'home'
+      @title = 'Lynr.co'
+    end
+
     def before_POST(req)
       @posted = req.POST.dup
     end
 
     def index(req)
-      @section = 'home'
-      @title = 'Lynr.co'
       log.info('type=measure.render template=index.erb')
       render 'index.erb', layout: 'marketing/default.erb'
     end
 
     def launch_signup(req)
-      @section = 'home'
       log.info('type=measure.render template=index.erb')
       email = posted.fetch('email', '')
 
