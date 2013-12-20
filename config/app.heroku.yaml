@@ -6,8 +6,8 @@ amqp:
   consumer: 'env:RABBITMQ_BIGWIG_RX_URL'
 # Used for sending emails
 mailgun:
-  domain: 'lynr.co.mailgun.org'
-  from: 'Lynr.co <no-reply@lynr.co.mailgun.org>'
+  domain: 'mg.lynr.co'
+  from: 'Lynr.co <no-reply@lynr.co>'
   key: 'env:mailgun_api_key'
   url: 'api.mailgun.net/v2'
 # Used by Rack::Session::Cookie to encode/decode session information
