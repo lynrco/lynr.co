@@ -3,7 +3,7 @@
 Web project setup for lynr.co.
 
 *Status:*
-![Travis CI Build Status](https://api.travis-ci.com/bryanjswift/lynr.co.png?token=oxLp1vGhsNdKTFeLPEqN)
+![Travis CI Build Status](https://magnum.travis-ci.com/lynrco/lynr.co.png?token=oxLp1vGhsNdKTFeLPEqN)
 ![Code Climate Status](https://d3s6mut3hikguw.cloudfront.net/repos/512bed31f3ea007f57067646/badges/fd545693f44365c7620f/gpa.png)
 
 ## EditorConfig
