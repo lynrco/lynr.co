@@ -45,8 +45,7 @@ module Lynr
       end
     rescue Bunny::ConnectionClosedError, Bunny::NetworkFailure => be
       log.warn(be.message)
-      log.debug(be)
-      call
+      stop
     rescue SystemExit => sysexit
       stop unless sysexit.success?
     rescue Exception => e
