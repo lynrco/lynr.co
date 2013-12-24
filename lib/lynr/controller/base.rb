@@ -45,6 +45,9 @@ module Lynr; module Controller;
       super
       @headers = {
         "Content-Type" => "text/html; charset=utf-8",
+        "X-Frame-Options" => "SAMEORIGIN",
+        "X-Xss-Protection" => "1",
+        "X-Content-Type-Options" => "nosniff",
         "Server" => "Lynr.co Application Server"
       }
     end
