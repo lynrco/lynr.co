@@ -47,7 +47,7 @@ module Lynr
     rescue SystemExit => sysexit
       stop unless sysexit.success?
     rescue Exception => e
-      log.error(e)
+      log.error("#{queue_info} state=error message=`#{e.message}` backtrace=#{e.backtrace}")
       stop
     end
 
