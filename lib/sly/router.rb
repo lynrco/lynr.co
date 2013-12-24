@@ -23,7 +23,7 @@ module Sly
       routes = self.routes.select { |route| route.matches_filters?(req) }
       case routes.count
         when 1
-          routes[0].call(env)
+          routes.first.call(env)
         when 0
           None
         else
@@ -36,7 +36,7 @@ module Sly
             end
             a.path_regex.names.length <=> b.path_regex.names.length
           }
-          routes[0].call(env)
+          routes.first.call(env)
       end
     rescue Sly::TooManyRoutesError => tmre
       TooMany
