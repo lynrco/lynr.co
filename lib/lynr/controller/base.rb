@@ -36,7 +36,7 @@ module Lynr; module Controller;
       Sly::Route.new(verb, path, lambda { |req|
         controller = self.new
         response = controller.before_each(req)
-        response = controller.send(method, req) if !response.is_a?(Rack::Response)
+        response = controller.send(method, req) unless response.is_a?(Rack::Response)
         response
       })
     end
