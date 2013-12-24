@@ -34,8 +34,8 @@ module Lynr; module Converter;
       return Lynr::Model::Vin.inflate(nil) if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       basic_data = us_data.find('./basic_data').first unless us_data.nil?
-      ext_colors = (contents(us_data, './/exterior_colors//generic_color_name')) || []
-      int_colors = (contents(us_data, './/interior_colors//generic_color_name')) || []
+      ext_colors = contents(us_data, './/exterior_colors//generic_color_name')
+      int_colors = contents(us_data, './/interior_colors//generic_color_name')
       model = [
         contents(basic_data, './model').first,
         contents(basic_data, './trim').first
