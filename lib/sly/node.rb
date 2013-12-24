@@ -57,8 +57,9 @@ module Sly
     #
     # Delegates to `Sly::Node#map` with a 'GET' verb
     #
-    def self.get(path, method_name)
+    def self.get(path, method_name, opts={})
       map(path, method_name, 'GET')
+      map(path, method_name, 'HEAD') if opts.fetch(:head, true)
     end
 
     ##
