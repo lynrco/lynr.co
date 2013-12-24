@@ -31,8 +31,6 @@ module Lynr
         Signal.trap(sig) { stop }
       end
 
-      queue_info = "pid=#{Process.pid} queue=#{@consumer.name}"
-
       log.info("#{queue_info} state=started")
       @consumer.subscribe({ block: true }) do |job|
         result = job.perform
@@ -44,7 +42,7 @@ module Lynr
         end
       end
     rescue Bunny::ConnectionClosedError, Bunny::NetworkFailure => be
-      log.warn(be.message)
+      log.warn("#{queue_info} state=error message=`#{be.message}`")
       stop
     rescue SystemExit => sysexit
       stop unless sysexit.success?
@@ -53,10 +51,17 @@ module Lynr
       stop
     end
 
+    def queue_info
+      "pid=#{Process.pid} queue=#{@consumer.name}"
+    end
+
     def stop
-      log.info("Worker for queue '#{@consumer.name}' exiting on pid: #{Process.pid}")
+      log.info("#{queue_info} state=stopped")
       @consumer.disconnect
       Process.exit(0)
+    rescue Bunny::NetworkFailure => be
+      # Do nothing. We are quitting and if this happened it is probably because
+      # as similar error was raised in `#call`
     end
 
   end
