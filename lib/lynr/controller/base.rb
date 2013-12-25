@@ -10,10 +10,6 @@ module Lynr; module Controller;
     include Lynr::Logging
     # Provides `render`, `render_partial` and `render_view` methods
     include Sly::View::ErbHelpers
-    # Provides `set_render_options` and `render_options` methods
-    extend Sly::View::ErbHelpers::ClassMethods
-
-    set_render_options({ layout: 'default.erb' })
 
     # ## `Lynr::Controller::Base.create_route`
     #
@@ -103,6 +99,10 @@ module Lynr; module Controller;
     # nil
     #
     def before_POST(req)
+    end
+
+    def render_options
+      super.merge({ root: Lynr.root, layout: 'default.erb', layouts: 'layout' })
     end
 
     # ERROR RESPONSES

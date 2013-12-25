@@ -1,3 +1,5 @@
+require 'rack'
+
 require './lib/sly/view/erb'
 
 module Sly; module View;
@@ -7,13 +9,24 @@ module Sly; module View;
 
     include ::ERB::Util
 
+    DEFAULTS = {
+      root: File.dirname($0),
+      layouts: 'layouts',
+      partials: 'partials',
+      views: 'views',
+    }
+
     def render(view, opts={ status: 200 })
-      options = render_options.merge(opts)
-      template = ::File.join(Sly::App.options.root, Sly::App.options.views, view.to_s)
-      layout = ::File.join(Sly::App.options.root, Sly::App.options.layouts, options[:layout].to_s) if options.has_key?(:layout)
+      options = _render_options(opts)
+      template = ::File.join(*[options[:root], options[:views], view.to_s].compact)
+      layout = ::File.join(*[options[:root], options[:layouts], options[:layout].to_s].compact) if options.has_key?(:layout)
       context = self unless options.has_key?(:data)
       view = Sly::View::Erb.new(template, { layout: layout, context: context, data: options[:data] })
       Rack::Response.new(view.result, options.fetch(:status, 200), @headers)
+    end
+
+    def render_options
+      DEFAULTS
     end
 
     def render_partial(path)
@@ -32,23 +45,13 @@ module Sly; module View;
       partial_view.result
     end
 
-    def render_options
-      (self.class.respond_to?(:render_options) && self.class.render_options) || {}
+    def _render_options(opts)
+      opts = {} if opts.nil?
+      options = if (self.respond_to?(:render_options)) then self.render_options
+                else DEFAULTS
+                end
+      options.merge(opts)
     end
-
-    # Mixed in to add class methods
-    module ClassMethods
-
-      def set_render_options(opts={})
-        @_sly_render_opts = opts
-      end
-
-      def render_options
-        opts = (self.superclass.respond_to?(:render_options) && self.superclass.render_options) || {}
-        opts.merge(@_sly_render_opts || {})
-      end
-
-    end # ClassMethods
 
   end # ErbHelpers
 
