@@ -30,17 +30,18 @@ module Sly; module View;
     end
 
     def render_partial(path)
-      render_inline(path, Sly::App.options.partials)
+      render_inline(path, :partials)
     end
 
     def render_view(path)
-      render_inline(path, Sly::App.options.views)
+      render_inline(path, :views)
     end
 
     private
 
     def render_inline(path, type)
-      partial = ::File.join(Sly::App.options.root, type, path.to_s)
+      options = render_options
+      partial = ::File.join(*[options[:root], options[type], path.to_s].compact)
       partial_view = Sly::View::Erb.new(partial, { context: self })
       partial_view.result
     end
