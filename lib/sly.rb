@@ -23,9 +23,6 @@ module Sly
       o "The directory this application resides in",
         :root, File.dirname($0)
 
-      o "The directory containing static files to be served",
-        :publics, 'publics'
-
       o "Directory containing the view templates",
         :views, 'views'
 
