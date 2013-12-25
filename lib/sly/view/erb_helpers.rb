@@ -28,7 +28,7 @@ module Sly; module View;
       views: 'views',
     }
 
-    # ## `Sly::View::ErbHelpers#render`
+    # ## `ErbHelpers#render`
     #
     # This method is the primary way to generate a response from an .erb view.
     # `#render` generates the response body from the .erb file `path` provided and
@@ -62,7 +62,7 @@ module Sly; module View;
       Rack::Response.new(view, options.fetch(:status, 200), headers)
     end
 
-    # ## `Sly::View::ErbHelpers#render_options`
+    # ## `ErbHelpers#render_options`
     #
     # Method used to define the erb rendering options for this including class.
     # `#render_options` returns a `Hash` of options.
@@ -91,7 +91,7 @@ module Sly; module View;
       DEFAULTS
     end
 
-    # ## `Sly::View::ErbHelpers#render_partial`
+    # ## `ErbHelpers#render_partial`
     #
     # Intended to be used within an .erb template. `#render_partial` looks for `path`
     # in the folder defined by `#render_options[:partials]` and processes it in the
@@ -109,7 +109,7 @@ module Sly; module View;
       render_inline(path, :partials)
     end
 
-    # ## `Sly::View::ErbHelpers#render_view`
+    # ## `ErbHelpers#render_view`
     #
     # Intended to be used within an .erb template. `#render_view` looks for `path`
     # in the folder defined by `#render_options[:views]` and processes it in the context
@@ -129,7 +129,7 @@ module Sly; module View;
 
     private
 
-    # ## `Sly::View::ErbHelpers#render_inline`
+    # ## `ErbHelpers#render_inline`
     #
     # This is the *private* method that does the work of processing the options and
     # sending them to `Sly::View::Erb` for processing.
@@ -144,7 +144,7 @@ module Sly; module View;
       Sly::View::Erb.new(template, view_opts).result
     end
 
-    # ## `Sly::View::ErbHelpers#_render_options`
+    # ## `ErbHelpers#_render_options`
     #
     # *Private* method for putting together the defaults, `#render_options` and
     # options passed in as an argument.
