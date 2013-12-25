@@ -11,7 +11,7 @@ module Sly
     None    = [404, {"Content-Type" => "text/plain", "X-Cascade" => "pass"}, ["No matching routes."]]
 
     attr_reader :routes
-    
+
     def initialize(routes)
       @routes = []
       @has_route = Set.new

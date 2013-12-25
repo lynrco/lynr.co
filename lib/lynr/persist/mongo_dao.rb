@@ -33,7 +33,7 @@ module Lynr; module Persist;
     # up the configuration based on the environment.
     #
     # ### Params
-    # 
+    #
     # * `config` map of configuration options
     #
     # ### Config

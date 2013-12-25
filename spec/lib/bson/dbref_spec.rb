@@ -10,7 +10,7 @@ describe BSON::DBRef do
     let(:ns) { 'dealers' }
     let(:id) { BSON::ObjectId('52aa41336dbe987fb5000002') }
     let(:ref) { BSON::DBRef.new(ns, id) }
-    
+
     it "is false when given nil" do
       expect(ref).to_not eq(nil)
     end
@@ -22,7 +22,7 @@ describe BSON::DBRef do
     it "is false when given DBRef with different namespace" do
       expect(ref).to_not eq(BSON::DBRef.new('hi', BSON::ObjectId('52aa41336dbe987fb5000002')))
     end
-    
+
     it "is false when given DBRef with different object_id" do
       expect(ref).to_not eq(BSON::DBRef.new('dealers', BSON::ObjectId('52aa41336dbe987fb5000001')))
     end

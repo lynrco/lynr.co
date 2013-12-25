@@ -25,7 +25,7 @@ module Sly; module View;
     end
 
     private
-    
+
     def render_inline(path, type)
       partial = ::File.join(Sly::App.options.root, type, path.to_s)
       partial_view = Sly::View::Erb.new(partial, { context: self })

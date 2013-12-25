@@ -57,7 +57,7 @@ module Lynr; class Queue;
       def valid?
         !@address.nil? &&
             @address.line_one.is_a? String &&
-            @address.zip.is_a? String && 
+            @address.zip.is_a? String &&
             @address.line_one.length > 3 &&
             @address.zip.length >= 5
       end

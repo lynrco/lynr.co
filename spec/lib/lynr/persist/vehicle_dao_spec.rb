@@ -48,7 +48,7 @@ describe Lynr::Persist::VehicleDao do
   end
 
   context "with active connection", :if => (MongoHelpers.connected?) do
-    
+
     let(:vehicle) { Lynr::Model::Vehicle.new(vehicle_data) }
     let(:saved) { dao.save(vehicle) }
 

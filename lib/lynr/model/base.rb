@@ -16,7 +16,7 @@ module Lynr; module Model;
     def to_json
       view.to_json
     end
-    
+
     def view
       { }
     end

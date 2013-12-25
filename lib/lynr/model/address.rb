@@ -47,7 +47,7 @@ module Lynr; module Model;
     end
 
     private
-    
+
     def extract_point(data)
       geo = data.fetch('geo', default=nil)
       if (geo.is_a? GeoRuby::SimpleFeatures::Point) then geo

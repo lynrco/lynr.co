@@ -82,7 +82,7 @@ describe Lynr::Model::Dealership do
       expect(dummy_dealer.image).to eq(dummy_image)
       expect(dummy_dealer.image).to_not eq(image)
     end
-    
+
   end
 
   describe ".inflate" do

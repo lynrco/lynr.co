@@ -46,7 +46,7 @@ module Lynr
     end
 
     private
-    
+
     def external_name
       "config/#{@type}.#{@environment}.yaml"
     end

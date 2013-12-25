@@ -20,7 +20,7 @@ module Lynr; module Controller;
     # associated with the given field.
     #
     # ### Params
-    # 
+    #
     # * `field` to check `@errors` for
     #
     # ### Returns
