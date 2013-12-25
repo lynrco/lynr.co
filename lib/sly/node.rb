@@ -16,6 +16,8 @@ module Sly
   #
   class Node
 
+    attr_reader :headers
+
     ##
     # ## `Sly::Node.map`
     #
