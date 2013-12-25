@@ -17,6 +17,10 @@ module Sly; module View;
 
     include ::ERB::Util
 
+    # ## `ErbHelpers::DEFAULTS`
+    #
+    # `Hash` containing the default options returned by `#render_options`
+    #
     DEFAULTS = {
       root: File.dirname($0),
       layouts: 'layouts',
