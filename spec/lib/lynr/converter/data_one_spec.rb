@@ -8,14 +8,18 @@ require './lib/lynr/model/vin'
 
 describe Lynr::Converter::DataOne do
 
-  let(:converter) { Lynr::Converter::DataOne.new }
+  class DataOneConverter
+    include Lynr::Converter::DataOne
+  end
+
+  let(:converter) { DataOneConverter.new }
   let(:empty_mpg) { Lynr::Model::Mpg.new }
   let(:empty_vehicle) { Lynr::Model::Vehicle.new }
   let(:empty_vin) { Lynr::Model::Vin.new({}) }
 
   describe ".xml_to_vin" do
 
-    let(:vin) { Lynr::Converter::DataOne.xml_to_vin(query_response) }
+    let(:vin) { converter.xml_to_vin(query_response) }
 
     context "valid XML" do
 
@@ -86,7 +90,7 @@ describe Lynr::Converter::DataOne do
 
   describe ".xml_to_mpg" do
 
-    let(:mpg) { Lynr::Converter::DataOne.xml_to_mpg(query_response) }
+    let(:mpg) { converter.xml_to_mpg(query_response) }
 
     context "valid XML" do
 
@@ -140,9 +144,9 @@ describe Lynr::Converter::DataOne do
 
   describe ".xml_to_vehicle" do
 
-    let(:vehicle) { Lynr::Converter::DataOne.xml_to_vehicle(query_response) }
-    let(:mpg) { Lynr::Converter::DataOne.xml_to_mpg(query_response) }
-    let(:vin) { Lynr::Converter::DataOne.xml_to_vin(query_response) }
+    let(:vehicle) { converter.xml_to_vehicle(query_response) }
+    let(:mpg) { converter.xml_to_mpg(query_response) }
+    let(:vin) { converter.xml_to_vin(query_response) }
 
     context "valid XML" do
 

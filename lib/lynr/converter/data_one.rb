@@ -7,11 +7,11 @@ require './lib/lynr/model/vin'
 
 module Lynr; module Converter;
 
-  class DataOne
+  module DataOne
 
-    extend Lynr::Converter::LibXmlHelper
+    include Lynr::Converter::LibXmlHelper
 
-    def self.xml_to_vehicle(query_response)
+    def xml_to_vehicle(query_response)
       return Lynr::Model::Vehicle.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       Lynr::Model::Vehicle.new({
@@ -21,7 +21,7 @@ module Lynr; module Converter;
       })
     end
 
-    def self.xml_to_mpg(query_response)
+    def xml_to_mpg(query_response)
       return Lynr::Model::Mpg.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       Lynr::Model::Mpg.new({
@@ -30,7 +30,7 @@ module Lynr; module Converter;
       })
     end
 
-    def self.xml_to_vin(query_response)
+    def xml_to_vin(query_response)
       return Lynr::Model::Vin.inflate(nil) if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
       basic_data = us_data.find('./basic_data').first unless us_data.nil?
