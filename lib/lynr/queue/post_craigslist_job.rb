@@ -49,14 +49,15 @@ module Lynr; class Queue;
       response = send(VALIDATE_URL)
       # Quit if we didn't get a 200 response
       # TODO: Update vehicle posting status
-      return failure("#{self.info} message=`unsuccessful validation, aborting`", :norequeue) if response.code != 200
+      return failure("unsuccessful validation, aborting", :norequeue) if response.code != 200
       doc = LibXML::XML::Document.string(response.to_str)
       items = doc.find("/rdf:RDF/rss:item[@rdf:about=\"#{@vehicle.id.to_s}\"", XML_NAMESPACES)
       valid = items.length == 1 && contents(items.first, './cl:postedStatus').first == 'VALID'
       message = contents(items.first, './cl:postedExplanation').first
       # Quit if CL says we aren't valid
       # TODO: Update vehicle posting status
-      return failure("#{self.info} message=`Failed CL validation` cl.message=`#{message}`", :norequeue) if !valid
+      # Quotes in failure message are goofy because of quotes in JobResult#info
+      return failure("Failed CL validation' cl.message='#{message}'", :norequeue) if !valid
       Success
     end
 
