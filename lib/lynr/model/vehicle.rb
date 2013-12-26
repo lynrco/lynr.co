@@ -145,7 +145,7 @@ module Lynr; module Model;
     private
 
     def equality_fields
-      [:year, :make, :model, :price, :condition, :images, :mileage, :mpg, :vin, :notes, :dealership_id]
+      [ :price, :condition, :images, :mileage, :mpg, :vin, :notes, :dealership_id ]
     end
 
   end
