@@ -28,6 +28,7 @@ module Sly
     #
     def initialize(routes=[])
       @routes = []
+      # Set of `route.to_s` used to quickly check if a route is included
       @has_route = Set.new
       routes.each { |route| add route }
     end
