@@ -26,7 +26,7 @@ module Sly
     # Creates a new `Router` instance. The new `Router` will include all `routes`
     # passed into the constructor.
     #
-    def initialize(routes)
+    def initialize(routes=[])
       @routes = []
       @has_route = Set.new
       routes.each { |route| add route }

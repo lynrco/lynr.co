@@ -9,7 +9,7 @@ require './lib/sly/urlmap'
 module Sly
 
   DynaMap = Sly::URLMap.new
-  Director = Sly::Router.new([])
+  Director = Sly::Router.new
 
   # # `Sly::App`
   #
