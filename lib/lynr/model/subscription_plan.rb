@@ -28,7 +28,14 @@ module Lynr; module Model;
     end
 
     def view
-      { id: @id, amount: @amount, interval: @interval, name: @name, currency: @currency, trial_period_days: @trial_period_days }
+      {
+        id: @id,
+        amount: @amount,
+        interval: @interval,
+        name: @name,
+        currency: @currency,
+        trial_period_days: @trial_period_days
+      }
     end
 
     def self.inflate(record)

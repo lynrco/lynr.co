@@ -41,10 +41,10 @@ module Lynr; module Model;
 
       @condition = data['condition']
       @mileage = data['mileage']
-      @mpg = data.fetch('mpg') { |k| Lynr::Model::Mpg.new(data) }
+      @mpg = data.fetch('mpg') { |k| Mpg.new(data) }
       @notes = data.fetch('notes', default='')
       @price = data['price']
-      @vin = data.fetch('vin') { |k| Lynr::Model::Vin.new(data) }
+      @vin = data.fetch('vin') { |k| Vin.new(data) }
 
       @images = data.fetch('images', default=[])
 
@@ -56,15 +56,15 @@ module Lynr; module Model;
     def dealership_id
       return @dealership_id if !@dealership_id.nil?
 
-      @dealership_id = (@dealership.is_a?(Lynr::Model::Dealership) && @dealership.id) || @dealership
+      @dealership_id = (@dealership.is_a?(Dealership) && @dealership.id) || @dealership
     end
 
     def image
-      images.first || Lynr::Model::Image::Empty
+      images.first || Image::Empty
     end
 
     def images
-      @images.reject { |img| img.nil? || img == Lynr::Model::Image::Empty }
+      @images.reject { |img| img.nil? || img == Image::Empty }
     end
 
     def images?
@@ -90,7 +90,7 @@ module Lynr; module Model;
     end
 
     def set(data)
-      Lynr::Model::Vehicle.new(self.to_hash.merge(data), @id)
+      Vehicle.new(self.to_hash.merge(data), @id)
     end
 
     def slug
@@ -118,10 +118,10 @@ module Lynr; module Model;
     def self.inflate(record)
       record ||= {}
       data = record.dup
-      data['mpg'] = Lynr::Model::Mpg.inflate(data['mpg']) if data['mpg']
-      data['vin'] = Lynr::Model::Vin.inflate(data['vin']) if data['vin']
-      data['images'] = data['images'].map { |image| Lynr::Model::SizedImage.inflate(image) } if data['images']
-      Lynr::Model::Vehicle.new(data, data['id'])
+      data['mpg'] = Mpg.inflate(data['mpg']) if data['mpg']
+      data['vin'] = Vin.inflate(data['vin']) if data['vin']
+      data['images'] = data['images'].map { |image| SizedImage.inflate(image) } if data['images']
+      Vehicle.new(data, data['id'])
     end
 
     protected

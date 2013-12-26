@@ -10,7 +10,9 @@ module Lynr; class Queue;
     end
 
     def publish(job, opts = {})
-      raise ArgumentError.new("Must be given a `Lynr::Queue::Job` subclass") if !job.is_a? Lynr::Queue::Job
+      if !job.is_a? Lynr::Queue::Job
+        raise ArgumentError.new("Must be given a `Lynr::Queue::Job` subclass")
+      end
       opts[:content_type] = content_type if !opts.include? :content_type
       super(serialize(job), opts)
     end

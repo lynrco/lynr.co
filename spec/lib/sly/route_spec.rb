@@ -64,7 +64,9 @@ describe Sly::Route do
 
     context "path param followed by fixed string" do
 
-      let(:route) { Sly::Route.new('GET', '/admin/:slug/account', lambda { |req| Rack::Response.new }) }
+      let(:route) {
+        Sly::Route.new('GET', '/admin/:slug/account', lambda { |req| Rack::Response.new })
+      }
 
       it "matches an exact uri" do
         req = MockRequest.new('GET', '/admin/21345/account')
@@ -100,7 +102,9 @@ describe Sly::Route do
 
     context "multiple path params" do
 
-      let(:route) { Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new }) }
+      let(:route) {
+        Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new })
+      }
 
       it "matches an exact uri" do
         req = MockRequest.new('GET', '/admin/21345/fry')
@@ -179,7 +183,9 @@ describe Sly::Route do
     end
 
     it "deals with Array instances" do
-      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new.finish })
+      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req|
+        Rack::Response.new.finish
+      })
       response = route.call(env)
       expect(response[0]).to eq(200)
     end
@@ -191,7 +197,9 @@ describe Sly::Route do
     end
 
     it "returns _tail_ when requested" do
-      route = Sly::Route.new('GET', '/admin/:slug/*', lambda { |req| Rack::Response.new(req['_tail_']) })
+      route = Sly::Route.new('GET', '/admin/:slug/*', lambda { |req|
+        Rack::Response.new(req['_tail_'])
+      })
       response = route.call(env)
       expect(response[0]).to eq(200)
       expect(response[2].body).to eq(['fry'])

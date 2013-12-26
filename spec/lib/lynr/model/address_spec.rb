@@ -6,7 +6,13 @@ require './lib/lynr/model/address'
 describe Lynr::Model::Address do
 
   let(:address_props) {
-    { 'line_one' => "Addr L1", 'line_two' => "Addr L2", 'city' => "New York", 'state' => "NY", 'zip' => "10002" }
+    {
+      'line_one' => "Addr L1",
+      'line_two' => "Addr L2",
+      'city' => "New York",
+      'state' => "NY",
+      'zip' => "10002"
+    }
   }
   let(:empty_address) {
     Lynr::Model::Address.new({

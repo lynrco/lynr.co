@@ -38,7 +38,7 @@ module Lynr; module Controller;
     get  '/signout', :get_signout
 
     def before_GET(req)
-      redirect "/admin/#{req.session['dealer_id']}" if ['/signin', '/signup'].include?(req.path) && req.session['dealer_id']
+       send_to_admin(req) if ['/signin', '/signup'].include?(req.path) && req.session['dealer_id']
     end
 
     # ## Sign Up Handlers
@@ -131,7 +131,14 @@ module Lynr; module Controller;
       redirect '/'
     end
 
+    # ## Redirect Helpers
+
+    def send_to_admin(req)
+      redirect "/admin/#{req.session['dealer_id']}"
+    end
+
     # ## Validation Helpers
+
     def validate_signup(posted)
       errors = validate_required(posted, ['email', 'password'])
       email = posted['email']

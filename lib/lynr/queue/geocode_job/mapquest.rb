@@ -20,7 +20,13 @@ module Lynr; class Queue;
 
       def perform
         return failure("Address is not valid", :no_requeue) if !valid?
-        data = { 'location' => { 'street' => @address.line_one, 'postalCode' => @address.zip, 'country' => 'US' } }
+        data = {
+          'location' => {
+            'street' => @address.line_one,
+            'postalCode' => @address.zip,
+            'country' => 'US'
+          }
+        }
         headers = {
           'Content-type' => 'application/json;charset="utf-8"',
           'Accept' => 'application/json',
@@ -43,7 +49,7 @@ module Lynr; class Queue;
       end
 
       def to_s
-        "#<#{self.class.name}:#{object_id} dealership=#{@dealership.id.to_s}, name=#{@dealership.name}>"
+        "#<#{self.class.name}:#{object_id} dealership=#{@dealership.id}, name=#{@dealership.name}>"
       end
 
       private

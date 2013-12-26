@@ -84,7 +84,8 @@ module Lynr; class Queue;
 
     def vehicle_rss
       @dealership = self.dealership
-      view = Sly::View::Erb.new(::File.join(Lynr.root, 'views', 'admin/vehicle/craigslist.erb'), data: render_data )
+      path = ::File.join(Lynr.root, 'views', 'admin/vehicle/craigslist.erb')
+      view = Sly::View::Erb.new(path, data: render_data)
       view.result
     end
 

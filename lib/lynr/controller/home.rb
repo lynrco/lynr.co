@@ -57,7 +57,8 @@ module Lynr; module Controller;
     def add_list_member(posted)
       errors = {}
       config = Lynr.config('app').mailgun
-      url = "https://api:#{config['key']}@#{config['url']}/lists/launch-notify@#{config['domain']}/members"
+      request_info = "type=log.rest.post url=#{url} data=#{data}"
+      url = mail_list_url(config['key'], config['url'], config['domain'])
       data = {
         subscribed: true,
         address: posted.fetch('email', ''),
@@ -65,11 +66,11 @@ module Lynr; module Controller;
         vars: JSON.generate({ dealer_name: posted.fetch('dealer_name', '') })
       }
       response = RestClient.post(url, data)
-      log.debug("type=log.rest.post url=#{url} data=#{data} response=#{JSON.parse(response)} status=#{response.code}")
+      log.debug("#{request_info} response=#{JSON.parse(response)} status=#{response.code}")
       errors
     rescue RestClient::Exception => e
       response = JSON.parse(e.response)
-      log.debug("type=log.rest.post url=#{url} data=#{data} response=#{response} status=#{e.http_code}")
+      log.debug("#{request_info} response=#{response} status=#{e.http_code}")
       { e.http_code.to_s => response['message'] }
     end
 
@@ -78,6 +79,10 @@ module Lynr; module Controller;
       email = posted.fetch('email', '')
       errors['email'] = "You must enter a valid email address." if !is_valid_email?(email)
       errors
+    end
+
+    def mail_list_url(key, url, domain)
+      "https://api:#{key}@#{url}/lists/launch-notify@#{domain}/members"
     end
 
   end

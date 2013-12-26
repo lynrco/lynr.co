@@ -9,6 +9,8 @@ module Lynr; module Controller;
 
   class AdminAccount < Lynr::Controller::Admin
 
+    include Lynr::Model
+
     get  '/admin/:slug/account', :get_account
     post '/admin/:slug/account', :post_account
 
@@ -31,7 +33,7 @@ module Lynr; module Controller;
       @errors = validate_account_info
       if email_changed?
         notify_by_email
-        @posted['identity'] = Lynr::Model::Identity.new(posted['email'], @dealership.identity.password)
+        @posted['identity'] = Identity.new(posted['email'], @dealership.identity.password)
       end
       @posted['image'] = translate_image
       dealership = dealer_dao.save(@dealership.set(posted))

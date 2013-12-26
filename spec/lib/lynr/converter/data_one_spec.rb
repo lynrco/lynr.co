@@ -44,12 +44,15 @@ describe Lynr::Converter::DataOne do
       end
 
       it "creates a Vin with ext_colors from XML" do
-        ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el| el.content }
+        ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el|
+          el.content
+        }
         expect(vin.ext_color).to eq(ext_colors.join(', '))
       end
 
       it "creates a Vin with int_colors from XML" do
-        expect(vin.int_color).to eq(query_response.find("#{path}//interior_colors//generic_color_name").first.content)
+        expect(vin.int_color).to eq(query_response.find("#{path}//interior_colors//generic_color_name")\
+                                    .first.content)
       end
 
       it "creates a Vin with a number from XML" do
@@ -103,7 +106,8 @@ describe Lynr::Converter::DataOne do
       end
 
       it "creates a Mpg with highway from XML" do
-        expect(mpg.highway).to eq(query_response.find("#{path}//epa_fuel_efficiency//highway").first.content)
+        expect(mpg.highway).to eq(query_response.find("#{path}//epa_fuel_efficiency//highway")\
+                                  .first.content)
       end
 
     end

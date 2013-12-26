@@ -12,7 +12,11 @@ module Lynr
     attr_reader :name
 
     # Options used when creating the connection
-    DEFAULT_CONNECTION_OPTS = { automatically_recover: false, log_level: ::Logger::FATAL, locale: 'en_US' }
+    DEFAULT_CONNECTION_OPTS = {
+      automatically_recover: false,
+      log_level: ::Logger::FATAL,
+      locale: 'en_US'
+    }
     # Options used when publishing a message
     DEFAULT_PUBLISH_OPTS = { persistent: true }
     # Options used when creating the queue
@@ -60,7 +64,7 @@ module Lynr
     end
 
     def to_s
-      "#<#{self.class.name}:#{object_id} #{@connection.user}@#{@connection.host}:#{@connection.port}, vhost=#{@connection.vhost}, queue=#{@name}>"
+      "#<#{self.class.name}:#{object_id} #{connection_info}, queue=#{@name}>"
     end
 
     protected
@@ -94,6 +98,12 @@ module Lynr
 
     def queue(name)
       channel.queue(name, @queue_opts)
+    end
+
+    private
+
+    def connection_info
+      "#{@connection.user}@#{@connection.host}:#{@connection.port}, vhost=#{@connection.vhost}"
     end
 
   end

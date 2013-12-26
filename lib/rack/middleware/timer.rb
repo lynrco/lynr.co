@@ -14,7 +14,11 @@ module Rack; module Middleware;
       status, headers, @response = @app.call(env)
       stop = Time.now
       elapsed_ms = (stop - start) * 1000
-      @log.info("type=measure.response.elapsed method=#{env['REQUEST_METHOD']} path=#{env['PATH_INFO']} status=#{status} elapsed=#{elapsed_ms}ms")
+      @log.info("type=measure.response.elapsed \
+method=#{env['REQUEST_METHOD']} \
+path=#{env['PATH_INFO']} \
+status=#{status} \
+elapsed=#{elapsed_ms}ms")
       headers['x-response-time'] = "#{elapsed_ms}ms" if !headers.include? 'x-response-time'
       [status, headers, self]
     end

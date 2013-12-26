@@ -5,6 +5,8 @@ module Lynr; module Controller;
 
   class AdminVin < Lynr::Controller::Admin
 
+    include Lynr::Converter::DataOne
+
     post '/admin/:slug/vin/search', :search
 
     def search(req)
@@ -21,7 +23,9 @@ module Lynr; module Controller;
         @errors = { 'vin' => 'Vin not found.' }
         render 'admin/vehicle/add.erb'
       else
-        vehicle = vehicle_dao.save(Lynr::Converter::DataOne.xml_to_vehicle(query_response).set({ 'dealership' => @dealership }))
+        vehicle = vehicle_dao.save(xml_to_vehicle(query_response).set({
+          'dealership' => @dealership
+        }))
         redirect "/admin/#{@dealership.slug}/#{vehicle.slug}/edit"
       end
     end

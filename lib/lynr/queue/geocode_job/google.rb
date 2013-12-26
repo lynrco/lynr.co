@@ -19,10 +19,14 @@ module Lynr; class Queue;
       end
 
       def perform
-        description = "Geocode for #{@dealership.id} -- #{@address.line_one}, #{@address.postcode} --"
-        if (!geocodable?) then return failure("#{description} line_one and zip not specified", :no_requeue) end
+        desc = "Geocode for #{@dealership.id} -- #{@address.line_one}, #{@address.postcode} --"
+        if (!geocodable?)
+          return failure("#{desc} line_one and zip not specified", :no_requeue)
+        end
         results = Geocoder.search("#{@address.line_one}, #{@address.postcode}")
-        if (results.length == 0) then return failure("#{description} returned no results", :no_requeue) end
+        if (results.length == 0)
+          return failure("#{desc} returned no results", :no_requeue)
+        end
         addresses = results.map do |result|
           lnglat = result.coordinates.reverse
           Lynr::Model::Address.new(
@@ -34,13 +38,17 @@ module Lynr; class Queue;
           )
         end
         # TODO: If multiple addresses, create support ticket or way to resolve
-        dao = Lynr::Persist::DealershipDao.new
-        dao.save(@dealership.set(address: addresses.first)) if addresses.first != @dealership.address
+
+        # Do nothing if addresses are the same
+        if addresses.first != @dealership.address
+          dao = Lynr::Persist::DealershipDao.new
+          dao.save(@dealership.set(address: addresses.first))
+        end
         Success
       rescue Geocoder::OverQueryLimitError
-        failure("#{description} after limit reached. Retrying later.")
+        failure("#{desc} after limit reached. Retrying later.")
       rescue Geocoder::Error => ge
-        failure("#{description} errored. #{ge.class.name} -- #{ge.message}", :no_requeue)
+        failure("#{desc} errored. #{ge.class.name} -- #{ge.message}", :no_requeue)
       end
 
       protected

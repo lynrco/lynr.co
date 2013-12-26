@@ -83,7 +83,9 @@ describe Lynr::Queue::JobResult do
 
     let(:success) { Lynr::Queue::JobResult.new }
     let(:failure_requeue) { Lynr::Queue::JobResult.new('let(:failure_requeue)', false) }
-    let(:failure_no_requeue) { Lynr::Queue::JobResult.new('let(:failure_no_requeue)', false, :norequeue) }
+    let(:failure_no_requeue) {
+      Lynr::Queue::JobResult.new('let(:failure_no_requeue)', false, :norequeue)
+    }
 
     context "Success.and(Success)" do
 
@@ -173,7 +175,9 @@ describe Lynr::Queue::JobResult do
 
     let(:success) { Lynr::Queue::JobResult.new }
     let(:failure_requeue) { Lynr::Queue::JobResult.new('let(:failure_requeue)', false) }
-    let(:failure_no_requeue) { Lynr::Queue::JobResult.new('let(:failure_no_requeue)', false, :norequeue) }
+    let(:failure_no_requeue) {
+      Lynr::Queue::JobResult.new('let(:failure_no_requeue)', false, :norequeue)
+    }
 
     context "Success.then { Success }" do
 

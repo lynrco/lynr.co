@@ -4,7 +4,14 @@ require './lib/lynr/model/subscription_plan'
 describe Lynr::Model::SubscriptionPlan do
 
   let(:record) {
-    { id: 'gold', amount: 2000, interval: 'month', name: 'Amazing Gold Plan', currency: 'usd', trial_period_days: 30 }
+    {
+      id: 'gold',
+      amount: 2000,
+      interval: 'month',
+      name: 'Amazing Gold Plan',
+      currency: 'usd',
+      trial_period_days: 30
+    }
   }
 
   describe "#initialize" do

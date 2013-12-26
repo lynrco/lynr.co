@@ -38,8 +38,10 @@ module Lynr; module Controller;
 
     def before_GET(req)
       super
-      @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu") if !@vehicle.nil?
-      @posted = @vehicle.view if !@vehicle.nil?
+      if !@vehicle.nil?
+        @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
+        @posted = @vehicle.view
+      end
     end
 
     def before_POST(req)
@@ -98,7 +100,9 @@ module Lynr; module Controller;
     end
 
     def post_edit_vehicle_photos(req)
-      posted['images'] = JSON.parse(posted['images']).map { |image| Lynr::Model::SizedImage.inflate(image) }
+      posted['images'] = JSON.parse(posted['images']).map do |image|
+        Lynr::Model::SizedImage.inflate(image)
+      end
       vehicle_dao.save(@vehicle.set(posted))
       redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
     end

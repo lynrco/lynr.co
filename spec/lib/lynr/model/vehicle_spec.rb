@@ -120,12 +120,16 @@ describe Lynr::Model::Vehicle do
     it "contains no empty images" do
       v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
       expect(v.images).to_not include(Lynr::Model::Image::Empty)
-      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2] })
+      v = vehicle.set({
+        'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2]
+      })
       expect(v.images).to_not include(Lynr::Model::Image::Empty)
     end
 
     it "contains all non-empty images" do
-      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2] })
+      v = vehicle.set({
+        'images' => [Lynr::Model::Image::Empty, image1, Lynr::Model::Image::Empty, image2]
+      })
       expect(v.images).to include(image1)
       expect(v.images).to include(image2)
     end
