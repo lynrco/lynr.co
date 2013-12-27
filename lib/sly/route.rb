@@ -14,6 +14,7 @@ module Sly
 
     # Response to provide if handler doesn't return a `Rack::Response` or an Array
     Unimplemented = [501, {"Content-Type" => "text/plain"}, ["Unimplemented."]]
+    WrongRoute = [404, {"Content-Type" => "text/plain", 'X-Cascade' => 'pass'}, ["Wrong route."]]
 
     attr_reader :path, :path_regex
 
@@ -76,15 +77,7 @@ module Sly
       if (matches_filters?(request))
         handle(request)
       else
-        body = "Wrong Route for #{request.path}\n"
-        headers = {
-          'Content-Type' => 'text/plain',
-          'Content-Length' => body.size.to_s,
-          'X-Cascade' => 'pass'
-        }
-        # TODO: This is going to get expensive in large apps
-        res = Rack::Response.new(body = [body], status = 404, header = headers)
-        res.finish
+        WrongRoute
       end
     end
 
