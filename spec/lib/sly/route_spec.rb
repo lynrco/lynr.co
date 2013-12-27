@@ -207,4 +207,20 @@ describe Sly::Route do
 
   end
 
+  describe ".make_r" do
+
+    it "makes a Regexp with no capture groups for /admin/hanky/account" do
+      regex = Sly::Route.make_r('/admin/hanky/account')
+      expect(regex.match('/admin/hanky/account').length).to eq(1)
+    end
+
+    it "makes a Regexp with single capture group for :dealership" do
+      regex = Sly::Route.make_r('/admin/:dealership/account')
+      m = regex.match('/admin/hanky/account')
+      expect(m.length).to eq(2)
+      expect(m['dealership']).to eq('hanky')
+    end
+
+  end
+
 end
