@@ -2,13 +2,13 @@ require 'date'
 
 module Rack; module Middleware;
 
-  # # `Rack::Timer`
+  # # `Rack::Middleware::Timer`
   #
   # `Timer` is Rack Middleware to log data about how Rack takes to process requests.
   #
   class Timer
 
-    # ## `Rack::Timer.new(app, log)
+    # ## `Rack::Middleware::Timer.new(app, log)
     #
     # Middleware compatible constructor which accepts the downstream app to invoke.
     # `Timer` constructor also accepts `log` which is instance where response time
@@ -19,7 +19,7 @@ module Rack; module Middleware;
       @log = log
     end
 
-    # ## `Rack::Timer#call(env)`
+    # ## `Rack::Middleware::Timer#call(env)`
     #
     # Standard Rack application method to invoke when running. Tracks the request
     # start time before passing the request downstream and stop time, the time
@@ -40,7 +40,7 @@ elapsed=#{elapsed_ms}ms")
       [status, headers, self]
     end
 
-    # ## `Rack::Timer#each(&block)`
+    # ## `Rack::Middleware::Timer#each(&block)`
     #
     # Standard Rack response iterator.
     #
