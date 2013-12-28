@@ -66,7 +66,7 @@ module Lynr; module Controller;
     #
     # ### Returns
     #
-    # Currently logged in instance of `Lyrn::Model::Dealership`
+    # Currently logged in instance of `Lynr::Model::Dealership`
     #
     def session_user(req)
       id = req.session['dealer_id']
