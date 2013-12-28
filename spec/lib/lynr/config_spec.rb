@@ -63,6 +63,10 @@ describe Lynr::Config do
       expect(config['mongo']).to_not be_instance_of(Hash)
     end
 
+    it "reads a value when key is symbol or string" do
+      expect(config[:int_val]).to eq(1234)
+    end
+
   end
 
 end
