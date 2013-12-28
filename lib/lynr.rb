@@ -3,10 +3,6 @@ require './lib/lynr/queue/job_queue'
 
 module Lynr
 
-  API_ROOT = '/api'
-  API_VERSION = 'v1'
-  API_BASE = "#{API_ROOT}/#{API_VERSION}"
-
   VERSION = '0.0.1'
 
   def self.config(type, defaults = {})
