@@ -38,6 +38,11 @@ describe Lynr::Config do
       expect(c['mongo']['collection']).to eq('hi')
     end
 
+    it "contains values if given `nil` for defaults" do
+      c = Lynr::Config.new(config_type, config_env, nil)
+      expect(@config['int_val']).to eq(c['int_val'])
+    end
+
   end
 
   describe ".[]" do

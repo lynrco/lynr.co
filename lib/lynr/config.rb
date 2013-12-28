@@ -6,10 +6,10 @@ module Lynr
 
     attr_reader :environment, :type
 
-    def initialize(type, whereami='development', config={})
+    def initialize(type, whereami='development', defaults={})
       @type = type
       @environment = whereami || 'development'
-      @config = config
+      @config = defaults || {}
       merge_external if has_external?
     end
 
