@@ -2,8 +2,16 @@ require 'resolv'
 
 module Lynr; module Validator;
 
+  # # `Lynr::Validator::Helpers`
+  #
+  # Validation methods for checking form input against specified rules.
+  #
   module Helpers
 
+    # ## `Lynr::Validator::Helpers#is_valid_email?(email)
+    #
+    # Check if provided `email` is valid.
+    #
     def is_valid_email?(email)
       parts = email.partition('@')
       local = parts[0]
@@ -20,6 +28,10 @@ module Lynr; module Validator;
       valid && is_valid_email_domain?(domain)
     end
 
+    # ## `Lynr::Validator::Helpers#is_valid_email_domain?(domain)`
+    #
+    # Check if domain is valid by checking it has MX or A records defined.
+    #
     def is_valid_email_domain?(domain)
       mx_records = []
       a_records = []
@@ -30,10 +42,19 @@ module Lynr; module Validator;
       mx_records.size > 0 || a_records.size > 0
     end
 
+    # ## `Lynr::Validator::Helpers#is_valid_password?(password)`
+    #
+    # Check `password` against validation rules, presently only that the password
+    # is at least four (4) characters.
+    #
     def is_valid_password?(password)
       password.length > 3
     end
 
+    # ## `Lynr::Validator::Helpers#validate_required(posted, fields)`
+    #
+    # Check that `posted` contains a non-nil, non-empty value for each key in `fields`.
+    #
     def validate_required(posted, fields)
       errors = {}
       fields.each do |key|

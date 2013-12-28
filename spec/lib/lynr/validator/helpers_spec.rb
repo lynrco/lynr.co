@@ -12,7 +12,8 @@ describe Lynr::Validator::Helpers do
     {
       'hi' => '',
       'foo' => 'bar',
-      'boo' => "baz"
+      'boo' => "baz",
+      'oops' => nil,
     }
   }
 
@@ -84,6 +85,10 @@ thisismylon.com"
 
     it "returns empty `Hash` when no fields provided" do
       expect(helpers.validate_required(post, [])).to eq({})
+    end
+
+    it "returns a `Hash` with key for field if post contains nil value for field" do
+      errors = helpers.validate_required(post, ['oops'])
     end
 
     it "returns `Hash` with key for field if post doesn't contain field" do
