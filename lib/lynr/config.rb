@@ -48,7 +48,7 @@ module Lynr
     private
 
     def external_name
-      "config/#{@type}.#{@environment}.yaml"
+      "#{Lynr.root}/config/#{@type}.#{@environment}.yaml"
     end
 
     def has_external?
