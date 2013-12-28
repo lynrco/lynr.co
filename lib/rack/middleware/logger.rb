@@ -1,5 +1,3 @@
-require 'yajl/json_gem'
-
 module Rack; module Middleware;
 
   class Logger
