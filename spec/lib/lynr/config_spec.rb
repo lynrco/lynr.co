@@ -7,7 +7,9 @@ require './lib/lynr/config'
 describe Lynr::Config do
 
   before(:each) do
-    @config = YAML.load_file("config/database.#{RSpec.configuration.whereami}.yaml")
+    root = RSpec.configuration.root
+    whereami = RSpec.configuration.whereami
+    @config = YAML.load_file("#{root}/config/database.#{whereami}.yaml")
   end
 
   let(:config_type) { 'database' }

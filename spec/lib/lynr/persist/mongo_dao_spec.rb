@@ -6,7 +6,9 @@ require './lib/lynr/persist/mongo_dao'
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
-    @config = YAML.load_file("config/database.#{ENV['whereami']}.yaml")
+    root = RSpec.configuration.root
+    whereami = RSpec.configuration.whereami
+    @config = YAML.load_file("#{root}/config/database.#{whereami}.yaml")
   end
 
   let!(:dao) { MongoHelpers.dao }
