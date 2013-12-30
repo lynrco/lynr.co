@@ -21,4 +21,6 @@ build:
         code: export whereami=wercker
     - script:
         name: rspec
-        code: bundle exec rspec
+        code: |
+          cd $WERCKER_SOURCE_DIR
+          bundle exec rspec
