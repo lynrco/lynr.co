@@ -58,7 +58,7 @@ module Lynr; module Validator;
     def validate_required(posted, fields)
       errors = {}
       fields.each do |key|
-        if (!(posted.include?(key) && posted[key].length > 0))
+        if (!(posted.include?(key) && !posted[key].nil? && posted[key].length > 0))
           errors[key] = "#{key.capitalize} is required."
         end
       end
