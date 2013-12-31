@@ -10,26 +10,52 @@ require './lib/lynr/persist/dealership_dao'
 
 module Lynr; class Queue;
 
+  # # `Lynr::Queue::PostCraigslistJob
+  #
+  # Background `Job` to post data to validate a vehicle posting with Craigslist
+  # and then post the listing to the appropriate category using the Craigslist
+  # bulk posting interface API endpoints documented at
+  # [http://www.craigslist.org/about/bulk_posting_interface][bpi].
+  #
+  # [bpi]: http://www.craigslist.org/about/bulk_posting_interface
+  #
   class PostCraigslistJob < Job
 
     include Lynr::Converter::LibXmlHelper
 
+    # URL to post to for validation
     VALIDATE_URL = 'https://post.craigslist.org/bulk-rss/validate'
+    # URL to post to for posting
     POST_URL = 'https://post.craigslist.org/bulk-rss/post'
+    # XML Namepsaces used in validation and posting responses.
     XML_NAMESPACES = ['rss:http://purl.org/rss/1.0/']
 
+    # ## `Lynr::Queue::PostCraigslistJob.new(vehicle)`
+    #
+    # Create a new `PostCraigslistJob` to send a vehicle posting to Craigslist.
+    #
     def initialize(vehicle)
       @username = 'bryan.j.swift@gmail.com'
       @password = 'bundle exec rake worker:all'
       @vehicle = vehicle
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#dealership`
+    #
+    # Retrieve the dealership associated with `vehicle` given to constructor.
+    #
     def dealership
       return @dealership unless @dealership.nil?
       dao = Lynr::Persist::DealershipDao.new
       dao.get(@vehicle.dealership_id)
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#perform`
+    #
+    # Send `vehicle` data in the Craigslist RSS format to the validation endpoint.
+    # If `vehicle` is successfully validated then send the same `vehicle` data to
+    # the posting endpoint.
+    #
     def perform
       cl_validate.then(method(:cl_post))
     rescue RestClient::Exception => rce
@@ -39,12 +65,22 @@ module Lynr; class Queue;
 
     private
 
+    # ## `Lynr::Queue::PostCraigslistJob#cl_post`
+    #
+    # *Private* method to send data to the `POST_URL` and return `Job::Success` if
+    # everything goes smoothly.
+    #
     def cl_post
       response = send(POST_URL)
       # TODO: Verify response and mark vehicle as posted
       Success
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#cl_validate`
+    #
+    # *Private* method to send data to the `VALIDATE_URL` and return `Job::Success`
+    # if `vehicle` is successfully validated.
+    #
     def cl_validate
       response = send(VALIDATE_URL)
       # Quit if we didn't get a 200 response
@@ -61,6 +97,11 @@ module Lynr; class Queue;
       Success
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#render_data`
+    #
+    # *Private* method to provides the data passed to `Sly::View::Erb` to render
+    # `vehicle` in the bulk posting api's RSS format.
+    #
     def render_data
       {
         dealership: dealership,
@@ -70,6 +111,11 @@ module Lynr; class Queue;
       }
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#send(url)`
+    #
+    # *Private* method using `RestClient` to send `#vehicle_rss` to a CL endpoint
+    # at `url` and return the response as a `RestClient::Response`.
+    #
     def send(url)
       data = vehicle_rss
       headers = {
@@ -82,6 +128,11 @@ module Lynr; class Queue;
       RestClient.post url, data, headers
     end
 
+    # ## `Lynr::Queue::PostCraigslistJob#vehicle_rss`
+    #
+    # *Private* method to get `vehicle` given when constructing this Job as a bulk
+    # posting api compaitble xml format.
+    #
     def vehicle_rss
       @dealership = self.dealership
       path = ::File.join(Lynr.root, 'views', 'admin/vehicle/craigslist.erb')
