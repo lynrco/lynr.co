@@ -41,7 +41,7 @@ module Lynr; class Queue;
 
     def deserialize(delivery_info, metadata, payload)
       return nil if metadata.content_type != content_type
-      job = Marshal::load(payload)
+      job = Marshal.load(payload)
       return nil if !job.is_a? Lynr::Queue::Job
       job
     end
