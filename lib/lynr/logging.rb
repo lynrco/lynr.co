@@ -24,7 +24,8 @@ module Lynr
       end
 
       @logger
-     end
+    end
+
   end
 
 end
