@@ -114,9 +114,9 @@ module Lynr
     #
     def merge_external
       external = YAML.load_file(external_name)
-      @config = @config.merge(external) do |key, configval, externalval|
+      @config = external.merge(@config) do |key, externalval, configval|
         if (configval.is_a?(Hash))
-          configval.merge(externalval)
+          externalval.merge(configval)
         else
           externalval
         end
