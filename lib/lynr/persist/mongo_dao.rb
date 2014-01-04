@@ -10,8 +10,7 @@ module Lynr; module Persist;
   MongoDefaults = {
     'host'       => '127.0.0.1',
     'port'       => '27017',
-    'database'   => 'lynr',
-    'collection' => 'default'
+    'collection' => 'default',
   }
 
   # # Lynr::Persist::MongoDao
