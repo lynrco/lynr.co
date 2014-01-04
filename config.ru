@@ -17,4 +17,4 @@ use Rack::Session::Cookie,  :key          => '_lynr',
                             :secret       => Lynr::Web.instance.config['session']['secret'],
                             :old_secret   => Lynr::Web.instance.config['session']['old_secret']
 
-run Sly::App.core
+run Lynr::Web.instance

@@ -67,6 +67,12 @@ module Lynr
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
     end
 
+    def call(env)
+      Sly::App.core.call(env)
+    rescue Sly::InternalServerError => ise
+      Rack::Response.new(ise.backtrace, 500, {"Content-Type" => "text/plain"})
+    end
+
   end
 
 end
