@@ -45,7 +45,6 @@ group :test do
 
   gem 'codeclimate-test-reporter'
 
-  gem 'fuubar'
   gem 'guard-rspec'
 end
 
