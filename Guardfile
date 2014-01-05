@@ -63,7 +63,7 @@ end
 
 group :local do
 
-  guard 'rspec', cmd: 'bundle exec rspec', all_after_pass: true do
+  guard 'rspec', cmd: 'bundle exec rspec' do
     watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
