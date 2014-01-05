@@ -19,4 +19,6 @@ build:
     - script:
         name: set env vars
         code: export whereami=wercker
-    - script: bundle exec rspec
+    - script:
+        name: rspec
+        code: bundle exec rspec
