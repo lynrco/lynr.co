@@ -45,15 +45,15 @@ describe Lynr::Persist::MongoDao do
   describe "#config" do
 
     it "has a host" do
-      expect(dao.config['host']).to eq(@config['mongo']['host'])
+      expect(dao.config['host']).to be
     end
 
     it "has a port" do
-      expect(dao.config['port']).to eq(@config['mongo']['port'])
+      expect(dao.config['port']).to be
     end
 
     it "has a database" do
-      expect(dao.config['database']).to eq(@config['mongo']['database'])
+      expect(dao.config['database']).to be
     end
 
   end
