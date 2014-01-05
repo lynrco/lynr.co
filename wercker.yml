@@ -16,7 +16,8 @@ build:
           echo "ruby version $(ruby --version) running"
           echo "from location $(which ruby)"
           echo -p "gem list: $(gem list)"
-    - script: show config files
+    - script:
+        name: show config files
         code: |
           ls -al $WERCKER_SOURCE_DIR/config
     - script:
