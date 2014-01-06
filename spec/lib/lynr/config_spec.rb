@@ -47,31 +47,77 @@ describe Lynr::Config do
 
   end
 
-  describe ".[]" do
+  context "without defaults" do
 
-    it "reads an int value from YAML data and returns it" do
-      expect(config['int_val']).to equal(1234)
+    describe ".[]" do
+
+      it "reads an int value from YAML data and returns it" do
+        expect(config['int_val']).to eq(1234)
+      end
+
+      it "reads an boolean value from YAML data and returns it" do
+        expect(config['bool_val']).to equal(true)
+      end
+
+      it "reads an string value from YAML data and returns it" do
+        expect(config['string_val']).to eq('hithere')
+      end
+
+      it "reads an env value from YAML data and parses it" do
+        expect(config['env_val']).to eq(ENV['whereami'])
+      end
+
+      it "creates a new Config instead of a Hash" do
+        expect(config['mongo']).to be_instance_of(Lynr::Config)
+        expect(config['mongo']).to_not be_instance_of(Hash)
+      end
+
+      it "reads a value when key is symbol or string" do
+        expect(config[:int_val]).to eq(1234)
+      end
+
     end
 
-    it "reads an boolean value from YAML data and returns it" do
-      expect(config['bool_val']).to equal(true)
-    end
+  end
 
-    it "reads an string value from YAML data and returns it" do
-      expect(config['string_val']).to eq('hithere')
-    end
+  context "with defaults" do
 
-    it "reads an env value from YAML data and parses it" do
-      expect(config['env_val']).to eq(ENV['whereami'])
-    end
+    let(:defaults) {
+      { 'int_val' => 63, 'mongo' => { 'host' => '127.0.0.3' } }
+    }
+    let(:config) { Lynr::Config.new('database', 'spec', defaults) }
 
-    it "creates a new Config instead of a Hash" do
-      expect(config['mongo']).to be_instance_of(Lynr::Config)
-      expect(config['mongo']).to_not be_instance_of(Hash)
-    end
+    describe ".[]" do
 
-    it "reads a value when key is symbol or string" do
-      expect(config[:int_val]).to eq(1234)
+      it "reads an int value from YAML data and returns it" do
+        expect(config['int_val']).to eq(63)
+      end
+
+      it "reads an boolean value from YAML data and returns it" do
+        expect(config['bool_val']).to equal(true)
+      end
+
+      it "reads an string value from YAML data and returns it" do
+        expect(config['string_val']).to eq('hithere')
+      end
+
+      it "reads an env value from YAML data and parses it" do
+        expect(config['env_val']).to eq(ENV['whereami'])
+      end
+
+      it "creates a new Config instead of a Hash" do
+        expect(config['mongo']).to be_instance_of(Lynr::Config)
+        expect(config['mongo']).to_not be_instance_of(Hash)
+      end
+
+      it "reads provides the nested host value passed into config" do
+        expect(config['mongo']['host']).to eq('127.0.0.3')
+      end
+
+      it "reads a value when key is symbol or string" do
+        expect(config[:int_val]).to eq(1234)
+      end
+
     end
 
   end
