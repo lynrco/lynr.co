@@ -7,12 +7,6 @@ require './lib/lynr/config'
 
 module Lynr; module Persist;
 
-  MongoDefaults = {
-    'host'       => '127.0.0.1',
-    'port'       => '27017',
-    'collection' => 'default',
-  }
-
   # # Lynr::Persist::MongoDao
   #
   # Interface for use within other Data Access Objects to handle the interaction
@@ -43,7 +37,7 @@ module Lynr; module Persist;
     # * 'collection' name to interact with to on the MongoDB instance
     #
     def initialize(config={})
-      defaults = Lynr::Persist::MongoDefaults.merge(config)
+      defaults = config || {}
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
       @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
       @authed = !@needs_auth
