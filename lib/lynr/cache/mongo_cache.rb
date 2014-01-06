@@ -37,7 +37,8 @@ module Lynr::Cache
       end
     end
 
-    def remove
+    def remove(key)
+      @dao.collection.remove(selector(key))
     end
     
     def write(key, value)

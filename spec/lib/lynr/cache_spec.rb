@@ -111,9 +111,15 @@ shared_examples Lynr::Cache do
 
   describe "#remove" do
 
-    it "deletes a key that does exist"
+    it "deletes a key that does exist" do
+      cache.remove(:baz)
+      expect(cache.include?(:baz)).to be_false
+    end
 
-    it "does nothing to a key that does not exist"
+    it "does nothing to a key that does not exist" do
+      cache.remove(:foo)
+      expect(cache.include?(:baz)).to be_true
+    end
 
   end
 
