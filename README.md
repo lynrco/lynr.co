@@ -2,9 +2,11 @@
 
 Web project setup for lynr.co.
 
-*Status:*
-![Travis CI Build Status](https://magnum.travis-ci.com/lynrco/lynr.co.png?token=oxLp1vGhsNdKTFeLPEqN)
+![wercker status](https://app.wercker.com/status/1c82d289e988a71e4ebcc5a1bdb3525a/m "wercker status")
+
 ![Code Climate Status](https://d3s6mut3hikguw.cloudfront.net/repos/512bed31f3ea007f57067646/badges/fd545693f44365c7620f/gpa.png)
+
+![Origin Build Status](https://magnum.travis-ci.com/lynrco/lynr.co.png?token=oxLp1vGhsNdKTFeLPEqN)
 
 ## EditorConfig
 
