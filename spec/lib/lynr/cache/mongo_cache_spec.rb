@@ -1,6 +1,6 @@
 require 'rspec/autorun'
 require './spec/spec_helper'
-require './spec/lib/lynr/cache_spec'
+require './spec/lib/lynr/cache_specs_shared'
 
 require './lib/lynr/cache/mongo_cache'
 
