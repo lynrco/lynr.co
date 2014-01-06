@@ -86,7 +86,7 @@ shared_examples Lynr::Cache do
     it "overwrites a key that does exist" do
       expect(cache.include?(:baz)).to be_true
       cache.write(:baz, 'NEWBAR')
-      expect(cache.read(:foo)).to eq('NEWBAR')
+      expect(cache.read(:baz)).to eq('NEWBAR')
     end
 
   end
