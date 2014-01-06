@@ -25,7 +25,7 @@ module Lynr::Cache
     end
 
     def include?(key)
-      @dao.collection.count({ '_id' => key }) > 0
+      @dao.collection.count({ query: selector(key) }) > 0
     end
 
     def read(key, default=nil)
