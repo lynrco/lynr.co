@@ -118,7 +118,7 @@ module Lynr
         if (configval.is_a?(Hash))
           externalval.merge(configval)
         else
-          externalval
+          configval
         end
       end
     end

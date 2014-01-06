@@ -115,7 +115,7 @@ describe Lynr::Config do
       end
 
       it "reads a value when key is symbol or string" do
-        expect(config[:int_val]).to eq(1234)
+        expect(config[:int_val]).to eq(63)
       end
 
     end
