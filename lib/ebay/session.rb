@@ -22,7 +22,7 @@ module Ebay
       @id = nil
       @valid = false
       while reader.read
-        next if reader.node_type != LibXML::XML::Reader::TYPE_ELEMENT
+        next unless reader.node_type == LibXML::XML::Reader::TYPE_ELEMENT
         n = reader.node
         case n.name
           when 'Ack'
