@@ -28,7 +28,6 @@ group :vagrant do
         `touch #{lockfile}`
         oldpid = `cat #{pidfile}`.rstrip
         `kill -s HUP #{oldpid}`
-        sleep 0.1
         `rm #{lockfile}`
         ::Guard::UI.info "Restarted Unicorn. PID #{oldpid}"
       elsif (File.exist?(lockfile))
