@@ -22,20 +22,15 @@ group :vagrant do
   guard 'shell' do
 
     def restart_unicorn(m)
-      lockfile = "/home/vagrant/pids/unicorn.lock"
-      pidfile = "/home/vagrant/pids/unicorn.pid"
+      lockfile = "/tmp/lynr.unicorn.lock"
+      pidfile = "/tmp/lynr.unicorn.pid"
       if (File.exist?(pidfile) && !File.exist?(lockfile))
         `touch #{lockfile}`
         oldpid = `cat #{pidfile}`.rstrip
-        `kill -s USR2 #{oldpid}`
+        `kill -s HUP #{oldpid}`
         sleep 0.1
-        while (!File.exist?(pidfile) || oldpid == `cat #{pidfile}`.rstrip) do
-          sleep 1
-        end
-        newpid = `cat #{pidfile}`.rstrip
-        `kill #{oldpid}`
         `rm #{lockfile}`
-        ::Guard::UI.info "Restarted Unicorn. PID #{newpid}"
+        ::Guard::UI.info "Restarted Unicorn. PID #{oldpid}"
       elsif (File.exist?(lockfile))
         ::Guard::UI.info "Unicorn locked."
       else
