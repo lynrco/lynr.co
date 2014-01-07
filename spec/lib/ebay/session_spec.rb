@@ -5,6 +5,8 @@ require './lib/ebay/session'
 
 describe Ebay::Session do
 
+  LibXML::XML::Error.reset_handler
+
   let(:session) { Ebay::Session.new(@response) }
   let(:valid_success) {
     <<-EOF
@@ -78,9 +80,39 @@ describe Ebay::Session do
       expect(session.valid?).to be_false
     end
 
-    it "is false for nil"
+    it "is false for nil" do
+      @response = nil
+      expect(session.valid?).to be_false
+    end
 
-    it "is false for malformed response"
+    it "is false for malformed response" do
+      @response = '<?xml version="1.0" encoding="UTF-8"?><G'
+      expect(session.valid?).to be_false
+    end
+
+  end
+
+  describe "#id" do
+
+    it "is +3cCAA**69b135111430a471d220cf50ffffff72 for success" do
+      @response = valid_success
+      expect(session.id).to eq('+3cCAA**69b135111430a471d220cf50ffffff72')
+    end
+
+    it "is nil for failure" do
+      @response = valid_failure
+      expect(session.id).to be_nil
+    end
+
+    it "is nil for nil" do
+      @response = nil
+      expect(session.id).to be_nil
+    end
+
+    it "is nil for malformed response" do
+      @response = '<?xml version="1.0" encoding="UTF-8"?><G'
+      expect(session.id).to be_nil
+    end
 
   end
 
