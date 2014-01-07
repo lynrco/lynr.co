@@ -1,12 +1,20 @@
 worker_processes 3
+timeout 15
 
-listen "/tmp/.lynr.unicorn.sock", :backlog => 64
+listen "/tmp/lynr.unicorn.sock", :backlog => 64
 listen 8080
 
-timeout 30
+before_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
+    Process.kill 'QUIT', Process.pid
+  end
+end
 
-pid         "/home/vagrant/pids/unicorn.pid"
-stderr_path "/home/vagrant/logs/unicorn.log"
-stdout_path "/home/vagrant/logs/unicorn.log"
+after_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
+  end
+end
 
-ENV['LOGDIR'] = '/home/vagrant/logs'
+pid "/tmp/lynr.unicorn.pid"
