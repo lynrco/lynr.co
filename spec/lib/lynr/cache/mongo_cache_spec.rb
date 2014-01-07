@@ -9,7 +9,7 @@ describe Lynr::Cache::MongoCache do
   let(:cn) { 'lynr_cache' }
   let(:cache) { described_class.new({ 'collection' => cn }) }
 
-  it_behaves_like Lynr::Cache, :if => (MongoHelpers.connected?)
+  it_behaves_like Lynr::Cache if MongoHelpers.connected?
 
   describe "#available?" do
 
