@@ -5,6 +5,10 @@ require './lib/lynr/converter/libxml_helper'
 
 module Ebay
 
+  # # `Ebay::Session`
+  #
+  # Represent the data retrieved from the Ebay API for getting a session.
+  #
   class Session
 
     EMPTY_RESPONSE = <<-EOF
@@ -16,6 +20,12 @@ module Ebay
     attr_reader :id, :valid
     alias :valid? :valid
 
+    # ## `Session.new(response)`
+    #
+    # Extract the session id from xml `response`. If `response` is malformed or
+    # didn't come back with `Ack` element with content of Success then `#id` will
+    # be `nil` and `Session#valid?` will be false.
+    #
     def initialize(response)
       response = EMPTY_RESPONSE if response.nil?
       reader = LibXML::XML::Reader.string(response)
