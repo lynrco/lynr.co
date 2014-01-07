@@ -1,7 +1,6 @@
 require 'libxml'
 
 require './lib/ebay'
-require './lib/lynr/converter/libxml_helper'
 
 module Ebay
 
@@ -14,8 +13,6 @@ module Ebay
     EMPTY_RESPONSE = <<-EOF
 <?xml version="1.0" encoding="UTF-8"?><GetSessionIDResponse xmlns="#{Ebay::NS}" />
     EOF
-
-    include Lynr::Converter::LibXmlHelper
 
     attr_reader :id, :valid
     alias :valid? :valid
