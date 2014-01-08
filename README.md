@@ -35,6 +35,53 @@ the following services:
 * [RabbitMQ][rabbitmq] SaaS provider, [CloudAMQP](http://www.cloudamqp.com) is a
   decent, free, choice.
 
+## Self-Signed Certificates
+
+In order to develop with the [eBay](https://developer.ebay.com/) API you will need a local SSL end point set up. In order to do this with the local `shotgun` server some files must be created containing certificate information. To generate the certificates execute the following steps from the root of your working directory:
+
+1. `openssl req -new > certs/server.cert.csr`. This will ask you a series
+	of questions about the certificate. Sample output of this command is
+	included below, see
+	[Self-Signed Certificate Generation](#self-signed-certificate-generation)
+1. `mv privkey.pem certs/`
+1. `openssl rsa -in certs/privkey.pem -out certs/server.cert.key`
+1. `openssl x509 -in certs/server.cert.csr -out certs/server.cert.crt -req -signkey certs/server.cert.key -days 365`
+
+These steps will put the certificats in the certs directory with the names that are used in [bin/shotgun](bin/shotgun) which runs the local server.
+
+### Self-Signed Certificate Generation
+
+These questions help to generate the certificate information. Information in [] are defaults or suggested answers by the openssl software, information after : are the provided answers. The PEM pass phrase is used in another step of the certificate generation but then shouldn't be needed again so this can be anything as long as it is more than four characters. Common name must match whatever 'domain' you are using for local development, 'lynr.co.local' is suggested but not required but it can not be 'localhost' or '127.0.0.1'. Do not include provide an answer for 'A challenge password' or 'An optional company name'.
+
+```
+Generating a 1024 bit RSA private key
+.++++++
+..............++++++
+writing new private key to 'privkey.pem'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:CA
+Locality Name (eg, city) []:Los Angeles
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Lynr, LLC
+Organizational Unit Name (eg, section) []:Tech
+Common Name (e.g. server FQDN or YOUR name) []:lynr.co.local
+Email Address []:email@domain.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+```
+
 ## Development Cycle
 
 Development can be done with a web server and other tasks running locally or
@@ -54,13 +101,16 @@ via shotgun and run guard to compile LESS into CSS. If you are doing job
 processing development you will also need to run the queue workers. The specific
 commands are:
 
-1. `bundle exec shotgun` for the web server
+1. `bundle exec ./bin/shotgun` for the web server
 1. `bundle exec guard -g local` for asset compilation
 1. `bundle exec rake worker:all` for queue workers
 
 If you did the above and set up the external dependencies correctly
 you should now have a server up and running. Point a browser to
-[http://lynr.co.local:9393](http://lynr.co.local:9393) and see.
+[https://lynr.co.local:9393](http://lynr.co.local:9393) and see. The browse will
+likely tell you about a certificate problem, this is because the certificate is
+self-signed. Feel free to look at the certificate details to verify they are the
+ones typed in when creating the certificate.
 
 ## Up and Running with Vagrant
 
@@ -80,6 +130,10 @@ steps are included largely for future planning.
 
 This gets a basic Ubuntu box up and running and exposes [MongoDB][mongodb] running
 on port 27017 (the default).
+
+---
+
+Ignore the instructions after the rule, do the development locally for now. Since Lynr is hosted on a PaaS provider the puppet configuration for a web server is incomplete. The below instructions were an attempt to work around that but the need for an SSL certificate means the [Unicorn][unicorn] process needs to run behind an SSL endpoint (like Nginx or Apache) and updating the Puppet manifests is not, at present, worth the effort.
 
 ### Box Dependencies
 
