@@ -1,4 +1,5 @@
 require 'rack'
+require 'rack/ssl'
 
 require './lib/lynr/web'
 require './lib/rack/middleware/logger'
@@ -6,6 +7,7 @@ require './lib/rack/middleware/timer'
 
 Lynr::Web.setup
 
+use Rack::SSL
 use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => "public"
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 # Uncomment for logs of every request start and end

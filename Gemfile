@@ -14,6 +14,7 @@ gem 'kramdown',         '1.3.0'
 gem 'libxml-ruby',      '2.7.0'
 gem 'log4r',            '1.1.10'
 gem 'mongo',            '1.9.2'
+gem 'rack-ssl',         '1.3.3'
 gem 'stripe',           '1.9.9'
 gem 'yajl-ruby',        '1.1.0'
 
