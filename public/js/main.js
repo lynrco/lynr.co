@@ -31,6 +31,7 @@
 
   require(['domReady'], function(domready) {
     domready(function() {
+      if (!document.body.id || document.body.id.length) { return; }
       require(['pages/' + document.body.id], function(page) {
         // Run page init
         if ('function' === typeof page) { page(); }
