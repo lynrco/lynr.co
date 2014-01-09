@@ -18,4 +18,4 @@ build:
           echo -p "gem list: $(gem list)"
     - script:
         name: rspec
-        code: bundle exec rspec --require spec/spec_helper_wercker.rb
+        code: bundle exec rspec --require $WERCKER_ROOT/spec/spec_helper_wercker.rb
