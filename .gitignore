@@ -1,5 +1,6 @@
 .cane
 .ctrlp
+.env
 .vagrant*
 !.giturd
 /tmp/
