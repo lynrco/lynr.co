@@ -13,9 +13,8 @@ module Ebay
 
     extend Lynr::Logging
 
-    def self.sign_in_url
+    def self.sign_in_url(session)
       config = Lynr.config('app').ebay
-      session = Api.session
       "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll?SignIn&RuName=#{config.runame}&SessID=#{CGI.escape(session.id)}"
     end
 
@@ -31,12 +30,12 @@ module Ebay
       Session.new(send('GetSessionID', url, data))
     end
 
-    def self.token(session_id)
+    def self.token(session)
       url = 'https://api.sandbox.ebay.com/ws/api.dll'
       data = <<-EOF
 <?xml version="1.0" encoding="utf-8"?>
 <FetchTokenRequest xmlns="urn:ebay:apis:eBLBaseComponents">
-  <SessionID>#{session_id}</SessionID>
+  <SessionID>#{session.id}</SessionID>
 </FetchTokenRequest>
       EOF
       Token.new(send('FetchToken', url, data))
