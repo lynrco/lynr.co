@@ -7,10 +7,8 @@ CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
 # Set the environment so we run under the 'spec' settings
 RSpec.configure do |c|
-  c.add_setting :whereami
-  c.add_setting :root
-  c.whereami = ENV['whereami'] || 'spec'
-  c.root = File.expand_path(File.dirname(__FILE__)).chomp('/spec')
+  c.add_setting :whereami, default: 'spec'
+  c.add_setting :root, default: File.expand_path(File.dirname(__FILE__)).chomp('/spec')
   ENV['whereami'] = c.whereami
 end
 
