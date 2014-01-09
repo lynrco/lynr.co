@@ -13,13 +13,14 @@ module Ebay
 
     extend Lynr::Logging
 
+    SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll'
+
     def self.sign_in_url(session)
       config = Lynr.config('app').ebay
       "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll?SignIn&RuName=#{config.runame}&SessID=#{CGI.escape(session.id)}"
     end
 
     def self.session
-      url = 'https://api.sandbox.ebay.com/ws/api.dll'
       config = Lynr.config('app').ebay
       data = <<-EOF
 <?xml version="1.0" encoding="utf-8"?>
@@ -27,18 +28,17 @@ module Ebay
   <RuName>#{config.runame}</RuName>
 </GetSessionIDRequest>
       EOF
-      Session.new(send('GetSessionID', url, data))
+      Session.new(send('GetSessionID', SANDBOX, data))
     end
 
     def self.token(session)
-      url = 'https://api.sandbox.ebay.com/ws/api.dll'
       data = <<-EOF
 <?xml version="1.0" encoding="utf-8"?>
 <FetchTokenRequest xmlns="urn:ebay:apis:eBLBaseComponents">
   <SessionID>#{session.id}</SessionID>
 </FetchTokenRequest>
       EOF
-      Token.new(send('FetchToken', url, data))
+      Token.new(send('FetchToken', SANDBOX, data))
     end
 
     def self.send(method, url, data)
