@@ -1,3 +1,10 @@
+# Used for publishing to ebay
+ebay:
+  devid: 'env:EBAY_DEVID'
+  appid: 'env:EBAY_APPID'
+  certid: 'env:EBAY_CERTID'
+  runame: 'env:EBAY_RUNAME'
+# Used to handle file uploads
 transloadit:
   auth_key: '465844d0682711e39bcac1b6747869bc'
   # NOTE: This auth_secret has been regenerated and is no longer valid

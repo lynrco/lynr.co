@@ -4,6 +4,12 @@ domain: 'env:app_domain'
 amqp:
   producer: 'env:RABBITMQ_BIGWIG_URL'
   consumer: 'env:RABBITMQ_BIGWIG_RX_URL'
+# Used for publishing to ebay
+ebay:
+  devid: 'env:EBAY_DEVID'
+  appid: 'env:EBAY_APPID'
+  certid: 'env:EBAY_CERTID'
+  runame: 'env:EBAY_RUNAME'
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'
