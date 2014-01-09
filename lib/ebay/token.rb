@@ -27,14 +27,14 @@ module Ebay
       @valid = false
       while reader.read
         next unless reader.node_type == LibXML::XML::Reader::TYPE_ELEMENT
-        n = reader.node
-        case n.name
+        content = reader.read_inner_xml
+        case reader.node.name
           when 'Ack'
-            @valid = n.content == 'Success'
+            @valid = content == 'Success'
           when 'eBayAuthToken'
-            @id = n.content
+            @id = content
           when 'HardExpirationTime'
-            @expires = n.content
+            @expires = content
         end
       end
     rescue LibXML::XML::Error
