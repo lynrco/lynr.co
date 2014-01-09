@@ -16,7 +16,8 @@ RSpec.configure do |c|
       ENV[parts[0]] = parts[1]
     end
   end
-  ENV['whereami'] = c.whereami
+  c.whereami = ENV['whereami'] if ENV.include?('whereami')
+  puts "ENVIRONMENT UNDER TEST = #{c.whereami}"
 end
 
 # Define some helpers for interacting with Mongo

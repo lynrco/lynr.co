@@ -17,5 +17,8 @@ build:
           echo "from location $(which ruby)"
           echo -p "gem list: $(gem list)"
     - script:
+        name: set env vars
+        code: export whereami=wercker
+    - script:
         name: rspec
-        code: bundle exec rspec --require $WERCKER_ROOT/spec/spec_helper_wercker.rb
+        code: bundle exec rspec
