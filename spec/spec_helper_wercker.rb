@@ -1,0 +1,1 @@
+RSpec.configuration.whereami = 'wercker'
