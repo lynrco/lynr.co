@@ -16,7 +16,15 @@ describe Ebay::Token do
   <Ack>Success</Ack>
   <Version>853</Version>
   <Build>E853_CORE_API_16609591_R1</Build>
-  <eBayAuthToken>AgAAAA**AQAAAA**aAAAAA**A+HNUg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhC5eAowidj6x9nY+seQ**+3cCAA**AAMAAA**+iEIGKazUGyDne0jAHjhpYmnv/Ul7M6BYufxbOzIlrY9mjzAQV2bM5XUyEjHLZkrb6TZx1zZ2Tb9U8k5pOqTzgJB16pA1YyzJ31sGD+2+GRQ0r9XG6ve+jK0TSk1OnH6wmdxfsP4XzRZka1akouci0Gx2TI7sgXTGdOP9yJQ/gGFCEIdaCA+gtV8hMcniBWZtmfLi0rJH/yQUkZ8ix5IUFoo9+lKGtysGUh3vxla9jvnFSrzAA3q8ii4AcxpTossNlNrRwdlA2FMRro55o8U8x4hyCQdi/Ket5keJtdttf08aVudgVR/l0C76bDtrdVDFEtsfeerj1Nz1+HYeUSCArGU9g1eC9fIgzbEPd9kLOcWIlltbsQWv8BE9h7FhVdHqZhkli343W0gI2EGGKO+UOdpb868ebKL+vTZ+L3HxS3iMOn6V3Mtm1ukBFCIEgNxmOfss16WDKtEpfZjpOZ++2N47hy2U+kPssi3KwQHo5iT9mJFkagV9OYnK5C5xpZ+sErt8GTd5e0VM7zvpS8TzT2He3Rh5fDQLzmjT345Ofk5MYePf7ld4z5pRc/n+R7z9cFKF7P9jCdq9XRAdjXKW0KsyuV6WvMDoEXS4UPv8YT0gmwxwumxb6U0RZ62jnpDJ7cbx0yKu2H7KybP9O4AfS0V5B6gQ1zSFFfysmXtYot/e/sfzt6OqDreSDiScykc5STca8/bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN</eBayAuthToken>
+  <eBayAuthToken>AgAAAA**AQAAAA**aAAAAA**A+HNUg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhC5eAowidj6x9nY+seQ*\
+*+3cCAA**AAMAAA**+iEIGKazUGyDne0jAHjhpYmnv/Ul7M6BYufxbOzIlrY9mjzAQV2bM5XUyEjHLZkrb6TZx1zZ2Tb9U8k5pOqTzgJ\
+B16pA1YyzJ31sGD+2+GRQ0r9XG6ve+jK0TSk1OnH6wmdxfsP4XzRZka1akouci0Gx2TI7sgXTGdOP9yJQ/gGFCEIdaCA+gtV8hMcniBW\
+ZtmfLi0rJH/yQUkZ8ix5IUFoo9+lKGtysGUh3vxla9jvnFSrzAA3q8ii4AcxpTossNlNrRwdlA2FMRro55o8U8x4hyCQdi/Ket5keJtd\
+ttf08aVudgVR/l0C76bDtrdVDFEtsfeerj1Nz1+HYeUSCArGU9g1eC9fIgzbEPd9kLOcWIlltbsQWv8BE9h7FhVdHqZhkli343W0gI2E\
+GGKO+UOdpb868ebKL+vTZ+L3HxS3iMOn6V3Mtm1ukBFCIEgNxmOfss16WDKtEpfZjpOZ++2N47hy2U+kPssi3KwQHo5iT9mJFkagV9OY\
+nK5C5xpZ+sErt8GTd5e0VM7zvpS8TzT2He3Rh5fDQLzmjT345Ofk5MYePf7ld4z5pRc/n+R7z9cFKF7P9jCdq9XRAdjXKW0KsyuV6WvM\
+DoEXS4UPv8YT0gmwxwumxb6U0RZ62jnpDJ7cbx0yKu2H7KybP9O4AfS0V5B6gQ1zSFFfysmXtYot/e/sfzt6OqDreSDiScykc5STca8/\
+bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN</eBayAuthToken>
   <HardExpirationTime>2015-07-02T23:36:35.000Z</HardExpirationTime>
 </FetchTokenResponse>
     EOF
@@ -42,7 +50,8 @@ describe Ebay::Token do
   <Ack>Failure</Ack>
   <Errors>
     <ShortMessage>Invalid value for header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot;.</ShortMessage>
-    <LongMessage>Header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot; with value &quot;(null)&quot; is out of range.</LongMessage>
+    <LongMessage>Header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot; with value &quot;(null)&quot; is out \
+of range.</LongMessage>
     <ErrorCode>10012</ErrorCode>
     <SeverityCode>Error</SeverityCode>
     <ErrorParameters ParamID="0">
@@ -111,7 +120,15 @@ describe Ebay::Token do
 
     it "is YourAuthToken for success" do
       @response = valid_success
-      expect(token.id).to eq('AgAAAA**AQAAAA**aAAAAA**A+HNUg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhC5eAowidj6x9nY+seQ**+3cCAA**AAMAAA**+iEIGKazUGyDne0jAHjhpYmnv/Ul7M6BYufxbOzIlrY9mjzAQV2bM5XUyEjHLZkrb6TZx1zZ2Tb9U8k5pOqTzgJB16pA1YyzJ31sGD+2+GRQ0r9XG6ve+jK0TSk1OnH6wmdxfsP4XzRZka1akouci0Gx2TI7sgXTGdOP9yJQ/gGFCEIdaCA+gtV8hMcniBWZtmfLi0rJH/yQUkZ8ix5IUFoo9+lKGtysGUh3vxla9jvnFSrzAA3q8ii4AcxpTossNlNrRwdlA2FMRro55o8U8x4hyCQdi/Ket5keJtdttf08aVudgVR/l0C76bDtrdVDFEtsfeerj1Nz1+HYeUSCArGU9g1eC9fIgzbEPd9kLOcWIlltbsQWv8BE9h7FhVdHqZhkli343W0gI2EGGKO+UOdpb868ebKL+vTZ+L3HxS3iMOn6V3Mtm1ukBFCIEgNxmOfss16WDKtEpfZjpOZ++2N47hy2U+kPssi3KwQHo5iT9mJFkagV9OYnK5C5xpZ+sErt8GTd5e0VM7zvpS8TzT2He3Rh5fDQLzmjT345Ofk5MYePf7ld4z5pRc/n+R7z9cFKF7P9jCdq9XRAdjXKW0KsyuV6WvMDoEXS4UPv8YT0gmwxwumxb6U0RZ62jnpDJ7cbx0yKu2H7KybP9O4AfS0V5B6gQ1zSFFfysmXtYot/e/sfzt6OqDreSDiScykc5STca8/bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN')
+      expect(token.id).to eq("AgAAAA**AQAAAA**aAAAAA**A+HNUg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhC5eAow\
+idj6x9nY+seQ**+3cCAA**AAMAAA**+iEIGKazUGyDne0jAHjhpYmnv/Ul7M6BYufxbOzIlrY9mjzAQV2bM5XUyEjHLZkrb6TZx1zZ2T\
+b9U8k5pOqTzgJB16pA1YyzJ31sGD+2+GRQ0r9XG6ve+jK0TSk1OnH6wmdxfsP4XzRZka1akouci0Gx2TI7sgXTGdOP9yJQ/gGFCEIdaC\
+A+gtV8hMcniBWZtmfLi0rJH/yQUkZ8ix5IUFoo9+lKGtysGUh3vxla9jvnFSrzAA3q8ii4AcxpTossNlNrRwdlA2FMRro55o8U8x4hyC\
+Qdi/Ket5keJtdttf08aVudgVR/l0C76bDtrdVDFEtsfeerj1Nz1+HYeUSCArGU9g1eC9fIgzbEPd9kLOcWIlltbsQWv8BE9h7FhVdHqZ\
+hkli343W0gI2EGGKO+UOdpb868ebKL+vTZ+L3HxS3iMOn6V3Mtm1ukBFCIEgNxmOfss16WDKtEpfZjpOZ++2N47hy2U+kPssi3KwQHo5\
+iT9mJFkagV9OYnK5C5xpZ+sErt8GTd5e0VM7zvpS8TzT2He3Rh5fDQLzmjT345Ofk5MYePf7ld4z5pRc/n+R7z9cFKF7P9jCdq9XRAdj\
+XKW0KsyuV6WvMDoEXS4UPv8YT0gmwxwumxb6U0RZ62jnpDJ7cbx0yKu2H7KybP9O4AfS0V5B6gQ1zSFFfysmXtYot/e/sfzt6OqDreSD\
+iScykc5STca8/bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN")
     end
 
     it "is nil for failure" do
