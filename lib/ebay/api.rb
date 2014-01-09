@@ -4,11 +4,14 @@ require 'rest-client'
 
 require './lib/ebay/session'
 require './lib/lynr'
+require './lib/lynr/logging'
 require './lib/lynr/converter/libxml_helper'
 
 module Ebay
 
   class Api
+
+    extend Lynr::Logging
 
     def self.sign_in_url
       config = Lynr.config('app').ebay
@@ -54,7 +57,9 @@ module Ebay
         'X-EBAY-API-COMPATIBILITY-LEVEL' => '849',
         'Content-length' => data.length,
       }
-      RestClient.post url, data, headers
+      response = RestClient.post url, data, headers
+      log.debug("type=record.external.ebay url=#{url} data=#{data} headers=#{headers} response=#{response}")
+      response
     end
 
   end
