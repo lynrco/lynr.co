@@ -23,13 +23,18 @@ module Lynr::Model
     # ## `Accounts#ebay`
     #
     # Get the `EbayAccount` from the `data` provided to the constructor. Provides an
-    # empty and expired `EbayAccount` if no `Hash` of type `EbayAccount::TYPE` was
-    # provided.
+    # empty and expired `EbayAccount` if no `Hash` of type `EbayAccount::TYPE` or
+    # instance of `EbayAccount` was provided.
     #
     def ebay
       return @ebay unless @ebay.nil?
-      ebay_data = @data.find { |a| a['type'] == EbayAccount::TYPE }
-      @ebay = EbayAccount.inflate(ebay_data)
+
+      ebay_data = @data.find { |a| a.is_a?(EbayAccount) || a['type'] == EbayAccount::TYPE }
+      if ebay_data.is_a?(EbayAccount)
+        @ebay = ebay_data
+      else
+        @ebay = EbayAccount.inflate(ebay_data)
+      end
     end
 
     # ## `Accounts#view`

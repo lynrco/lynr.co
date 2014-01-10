@@ -28,6 +28,11 @@ describe Lynr::Model::Accounts do
       expect(accounts.ebay).to eq(ebay_account)
     end
 
+    it "gets the EbayAccount when Accounts isn't given a view" do
+      accounts = Lynr::Model::Accounts.new([ ebay_account ])
+      expect(accounts.ebay).to eq(ebay_account)
+    end
+
   end
 
   describe "#view" do
