@@ -14,6 +14,16 @@ describe Lynr::Persist::DealershipDao do
   let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
   let(:dao) { Lynr::Persist::DealershipDao.new }
+  let(:dealer_data) {
+    {
+      'name' => 'CarMax San Diego',
+      'phone' => '+1 123-123-1234',
+      'address' => address,
+      'image' => image,
+      'identity' => identity
+    }
+  }
+
 
   describe "#get result" do
 
@@ -21,7 +31,7 @@ describe Lynr::Persist::DealershipDao do
       {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
-        'address' => address,
+        'address' => address.view,
         'image' => image.view,
         'identity' => identity.view
       }
@@ -47,16 +57,6 @@ describe Lynr::Persist::DealershipDao do
   end
 
   describe "#save result" do
-
-    let(:dealer_data) {
-      {
-        'name' => 'CarMax San Diego',
-        'phone' => '+1 123-123-1234',
-        'address' => address,
-        'image' => image,
-        'identity' => identity
-      }
-    }
 
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:save) do |record, id|
@@ -84,15 +84,6 @@ describe Lynr::Persist::DealershipDao do
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
-    let(:dealer_data) {
-      {
-        'name' => 'CarMax San Diego',
-        'phone' => '+1 123-123-1234',
-        'address' => address,
-        'image' => image,
-        'identity' => identity
-      }
-    }
     let(:dealer) { Lynr::Model::Dealership.new(dealer_data) }
     let(:customer_id) { "cus_1bFL8vciXXchnm" }
     let(:dealership) {
