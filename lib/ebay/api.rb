@@ -17,7 +17,8 @@ module Ebay
 
     def self.sign_in_url(session)
       config = Lynr.config('app').ebay
-      "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll?SignIn&RuName=#{config.runame}&SessID=#{CGI.escape(session.id)}"
+      query = "SignIn&RuName=#{config.runame}&SessID=#{CGI.escape(session.id)}"
+      "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll?#{query}"
     end
 
     def self.session
@@ -56,9 +57,9 @@ module Ebay
         'X-EBAY-API-COMPATIBILITY-LEVEL' => '849',
         'Content-length' => data.length,
       }
-      response = RestClient.post url, data, headers
-      log.debug("type=record.external.ebay url=#{url} data=#{data} headers=#{headers} response=#{response}")
-      response
+      res = RestClient.post url, data, headers
+      log.debug("type=record.external.ebay url=#{url} data=#{data} headers=#{headers} response=#{res}")
+      res
     end
 
   end

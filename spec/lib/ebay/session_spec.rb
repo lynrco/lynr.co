@@ -27,7 +27,8 @@ describe Ebay::Session do
   <Ack>Failure</Ack>
   <Errors>
     <ShortMessage>Invalid value for header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot;.</ShortMessage>
-    <LongMessage>Header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot; with value &quot;(null)&quot; is out of range.</LongMessage>
+    <LongMessage>Header &quot;X-EBAY-API-COMPATIBILITY-LEVEL&quot; with value &quot;(null)&quot; \
+is out of range.</LongMessage>
     <ErrorCode>10012</ErrorCode>
     <SeverityCode>Error</SeverityCode>
     <ErrorParameters ParamID="0">
