@@ -9,6 +9,14 @@ require './lib/lynr/model/sized_image'
 
 describe Lynr::Persist::DealershipDao do
 
+  let(:ebay_account) {
+    Lynr::Model::EbayAccount.new(
+      'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
+      'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
+      'token'   => 'YourAuthToken',
+    )
+  }
+  let(:accounts) { Lynr::Model::Accounts.new([ ebay_account ]) }
   let(:address) { Lynr::Model::Address.new('line_one' => "122 Forsyth St\nApt 4D") }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
@@ -18,6 +26,7 @@ describe Lynr::Persist::DealershipDao do
     {
       'name' => 'CarMax San Diego',
       'phone' => '+1 123-123-1234',
+      'accounts' => accounts,
       'address' => address,
       'image' => image,
       'identity' => identity
@@ -31,6 +40,7 @@ describe Lynr::Persist::DealershipDao do
       {
         'name' => 'CarMax San Diego',
         'phone' => '+1 123-123-1234',
+        'accounts' => accounts.view,
         'address' => address.view,
         'image' => image.view,
         'identity' => identity.view

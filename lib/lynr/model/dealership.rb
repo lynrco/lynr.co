@@ -24,7 +24,7 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :accounts, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data={}, id=nil)
       @id = id
@@ -75,6 +75,7 @@ module Lynr; module Model;
         'name' => @name,
         'phone' => @phone,
         'identity' => @identity,
+        'accounts' => @accounts,
         'address' => @address,
         'image' => @image,
         'customer_id' => @customer_id,
