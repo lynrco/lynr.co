@@ -4,7 +4,7 @@ describe Lynr::Model::Accounts do
 
   let(:ebay_account) {
     Lynr::Model::EbayAccount.new(
-      'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+      'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
       'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
       'token'   => 'YourAuthToken',
     )

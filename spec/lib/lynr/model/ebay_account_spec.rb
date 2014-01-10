@@ -7,7 +7,7 @@ describe Lynr::Model::EbayAccount do
 
   let(:account) {
     Lynr::Model::EbayAccount.new(
-      'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+      'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
       'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
       'token'   => 'YourAuthToken',
     )
@@ -66,17 +66,17 @@ describe Lynr::Model::EbayAccount do
     end
 
     it "is true if expires is before now" do
-      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.prev_day)
+      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.prev_day.to_time)
       expect(account.expired?).to be_true
     end
 
     it "is true if expires is now" do
-      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now)
+      account = Lynr::Model::EbayAccount.new('expires' => Time.now)
       expect(account.expired?).to be_true
     end
 
     it "is false if expires is after now" do
-      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.next_day)
+      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.next_day.to_time)
       expect(account.expired?).to be_false
     end
 
@@ -110,7 +110,7 @@ describe Lynr::Model::EbayAccount do
 
     it "is true if all properties are equal" do
       a = Lynr::Model::EbayAccount.new(
-        'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+        'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
         'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
         'token'   => 'YourAuthToken',
       )
@@ -119,7 +119,7 @@ describe Lynr::Model::EbayAccount do
 
     it "is true if token and expires are equal" do
       a = Lynr::Model::EbayAccount.new(
-        'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+        'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
         'session' => 'YourSessionValue',
         'token'   => 'YourAuthToken',
       )
@@ -128,7 +128,7 @@ describe Lynr::Model::EbayAccount do
 
     it "is false if token valures are not equal" do
       a = Lynr::Model::EbayAccount.new(
-        'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+        'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
         'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
         'token'   => 'YourOtherAuthToken',
       )
@@ -137,7 +137,7 @@ describe Lynr::Model::EbayAccount do
 
     it "is false if expires values are not equal" do
       a = Lynr::Model::EbayAccount.new(
-        'expires' => DateTime.parse('2014-07-02T23:36:35.000Z'),
+        'expires' => Time.parse('2014-07-02T23:36:35.000Z'),
         'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
         'token'   => 'YourAuthToken',
       )
@@ -150,7 +150,7 @@ describe Lynr::Model::EbayAccount do
 
     it "creates equivalent account instances from properties" do
       a = Lynr::Model::EbayAccount.inflate(
-        'expires' => DateTime.parse('2015-07-02T23:36:35.000Z'),
+        'expires' => Time.parse('2015-07-02T23:36:35.000Z'),
         'session' => '+3cCAA**69b135111430a471d220cf50ffffff72',
         'token'   => 'YourAuthToken',
       )

@@ -35,7 +35,7 @@ module Ebay
           when 'eBayAuthToken'
             @id = content
           when 'HardExpirationTime'
-            @expires = DateTime.parse(content)
+            @expires = Time.parse(content)
         end
       end
     rescue LibXML::XML::Error

@@ -21,12 +21,12 @@ module Lynr::Model
     #
     # Contruct an `EbayAccount` from a `Hash` of fields. Raises an error if `data` is `nil`.
     #
-    # * `expires` String representing the `DateTime` when the auth token expires
+    # * `expires` String representing the `Time` when the auth token expires
     # * `session` SessionID used to get the auth token
     # * `token`   Authentication token
     #
     def initialize(data={})
-      @expires = data.fetch('expires', default=DateTime.parse('Feb 11 13:32:16 2013 -0500'))
+      @expires = data.fetch('expires', default=Time.parse('Feb 11 13:32:16 2013 -0500'))
       @session = data.fetch('session', default="")
       @token = data.fetch('token', default="")
     end
@@ -44,7 +44,7 @@ module Lynr::Model
     # False if and only if value of `expires` is later than now.
     #
     def expired?
-      expires.nil? || expires <= DateTime.now
+      expires.nil? || expires <= Time.now
     end
 
     # ## `EbayAccount#view`
