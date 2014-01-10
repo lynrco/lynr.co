@@ -16,7 +16,11 @@ RSpec.configure do |c|
       ENV[parts[0]] = parts[1]
     end
   end
-  c.whereami = ENV['whereami'] if ENV.include?('whereami')
+  if ENV.include?('whereami')
+    c.whereami = ENV['whereami']
+  else
+    ENV['whereami'] = c.whereami
+  end
   puts "ENVIRONMENT UNDER TEST = #{c.whereami}"
 end
 
