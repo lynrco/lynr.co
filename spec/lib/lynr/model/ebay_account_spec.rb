@@ -14,6 +14,74 @@ describe Lynr::Model::EbayAccount do
   }
   let(:empty_account) { Lynr::Model::EbayAccount.new }
 
+  describe "empty?" do
+
+    it "is true if session is nil and token is nil" do
+      account = Lynr::Model::EbayAccount.new('session' => nil, 'token' => nil)
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is nil and token is empty" do
+      account = Lynr::Model::EbayAccount.new('session' => nil, 'token' => '')
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is empty and token is nil" do
+      account = Lynr::Model::EbayAccount.new('session' => '', 'token' => nil)
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is empty and token is empty" do
+      account = Lynr::Model::EbayAccount.new('session' => '', 'token' => '')
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is empty and token is empty" do
+      account = Lynr::Model::EbayAccount.new('session' => '', 'token' => '')
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is not empty and token is empty" do
+      account = Lynr::Model::EbayAccount.new('session' => 'Hi', 'token' => '')
+      expect(account.empty?).to be_true
+    end
+
+    it "is true if session is empty and token is not empty" do
+      account = Lynr::Model::EbayAccount.new('session' => '', 'token' => 'Hi')
+      expect(account.empty?).to be_true
+    end
+
+    it "is false if session is not empty and token is not empty" do
+      account = Lynr::Model::EbayAccount.new('session' => 'Hi', 'token' => 'Hi')
+      expect(account.empty?).to be_false
+    end
+
+  end
+
+  describe "#expired?" do
+
+    it "is true for an default EbayAccount" do
+      account = Lynr::Model::EbayAccount.new
+      expect(account.expired?).to be_true
+    end
+
+    it "is true if expires is before now" do
+      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.prev_day)
+      expect(account.expired?).to be_true
+    end
+
+    it "is true if expires is now" do
+      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now)
+      expect(account.expired?).to be_true
+    end
+
+    it "is false if expires is after now" do
+      account = Lynr::Model::EbayAccount.new('expires' => DateTime.now.next_day)
+      expect(account.expired?).to be_false
+    end
+
+  end
+
   describe "#view" do
 
     it "has an expires property" do
