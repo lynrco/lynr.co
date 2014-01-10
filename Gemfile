@@ -29,26 +29,22 @@ group :development do
   gem 'rb-fchange', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-inotify', :require => false
+
+  group :local do
+    gem 'shotgun',        '0.9'
+  end
+
+  group :test do
+    gem 'rspec'
+
+    gem 'codeclimate-test-reporter'
+
+    gem 'guard-rspec'
+  end
 end
 
 group :heroku do
   gem 'less',           '2.4.0'
   gem 'therubyracer'
-  gem 'unicorn',        '4.7.0'
-end
-
-group :local do
-  gem 'shotgun',        '0.9'
-end
-
-group :test do
-  gem 'rspec'
-
-  gem 'codeclimate-test-reporter'
-
-  gem 'guard-rspec'
-end
-
-group :vagrant do
   gem 'unicorn',        '4.7.0'
 end
