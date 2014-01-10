@@ -22,6 +22,8 @@ module Ebay
 
     # eBay API endpoint used for testing
     SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll'
+    # eBay API endpoint for production
+    PRODUCTION = 'https://api.ebay.com/ws/api.dll'
 
     # ## `Api.sign_in_url(session)`
     #
@@ -84,9 +86,10 @@ module Ebay
     def self.send(method, url, data)
       config = Lynr.config('app').ebay
       headers = {
-        'Content-type' => 'application/x-www-form-urlencoded',
         'Accept' => '*/*',
         'Cache-Control' => 'no-cache',
+        'Content-type' => 'text/xml',
+        'Content-length' => data.length,
         'Pragma' => 'no-cache',
         'X-EBAY-API-APP-NAME' => config.appid,
         'X-EBAY-API-DEV-NAME' => config.devid,
@@ -94,7 +97,6 @@ module Ebay
         'X-EBAY-API-CALL-NAME' => method,
         'X-EBAY-API-SITEID' => '0',
         'X-EBAY-API-COMPATIBILITY-LEVEL' => '849',
-        'Content-length' => data.length,
       }
       res = RestClient.post url, data, headers
       log.debug("type=record.external.ebay url=#{url} data=#{data} headers=#{headers} response=#{res}")
