@@ -17,7 +17,7 @@ module Lynr::Model
     end
 
     def view
-      { 'expires' => expires, 'session' => session, 'token' => token, }
+      { 'expires' => expires, 'session' => session, 'token' => token, 'type' => 'eBay', }
     end
 
     def self.inflate(record)

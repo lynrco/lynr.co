@@ -28,6 +28,14 @@ describe Lynr::Model::EbayAccount do
       expect(account.view).to include('token')
     end
 
+    it "has a type property" do
+      expect(account.view).to include('type')
+    end
+
+    it "has a type == 'eBay'" do
+      expect(account.view['type']).to eq('eBay')
+    end
+
   end
 
   describe "#==" do
