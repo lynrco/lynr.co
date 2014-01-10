@@ -5,6 +5,11 @@ require './lib/lynr/cache'
 
 module Lynr::Controller
 
+  # # `Lynr::Controller::Ebay::Callback`
+  #
+  # Resource/Controller class to handle the case where authentication with eBay
+  # succeeds.
+  #
   class Ebay::Callback < Lynr::Controller::Base
 
     get  '/auth/ebay/callback', :get

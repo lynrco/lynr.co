@@ -5,6 +5,11 @@ require './lib/lynr/cache'
 
 module Lynr::Controller
 
+  # # `Lynr::Controller::Ebay`
+  #
+  # Resource/Controller class to handle redirecting the customer to eBay for
+  # authentication.
+  #
   class Ebay < Lynr::Controller::Base
 
     get  '/auth/ebay', :get
