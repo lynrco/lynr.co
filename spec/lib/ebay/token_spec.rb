@@ -150,9 +150,14 @@ iScykc5STca8/bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN")
 
   describe "#expires" do
 
+    it "is a DateTime" do
+      @response = valid_success
+      expect(token.expires).to be_a(DateTime)
+    end
+
     it "is 2012-05-03T20:36:32.000Z for success" do
       @response = valid_success
-      expect(token.expires).to eq('2015-07-02T23:36:35.000Z')
+      expect(token.expires).to eq(DateTime.parse('2015-07-02T23:36:35.000Z'))
     end
 
     it "is nil for failure" do

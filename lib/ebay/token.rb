@@ -1,4 +1,5 @@
 require 'libxml'
+require 'time'
 
 require './lib/ebay'
 
@@ -34,7 +35,7 @@ module Ebay
           when 'eBayAuthToken'
             @id = content
           when 'HardExpirationTime'
-            @expires = content
+            @expires = DateTime.parse(content)
         end
       end
     rescue LibXML::XML::Error
