@@ -14,22 +14,6 @@ describe Lynr::Model::Accounts do
     Lynr::Model::Accounts.new([ ebay_account.view ])
   }
 
-  describe "#view" do
-
-    it "is an array" do
-      expect(accounts.view).to be_a(Array)
-    end
-
-    it "contains `Hash` instances" do
-      accounts.view.each { |v| expect(v).to be_a(Hash) }
-    end
-
-    it "contains an ebay account Hash" do
-      expect(accounts.view).to include(ebay_account.view)
-    end
-
-  end
-
   describe "#ebay" do
 
     it "is empty EbayAccount for empty Accounts" do
@@ -42,6 +26,22 @@ describe Lynr::Model::Accounts do
 
     it "is equivalent to account whose view was used" do
       expect(accounts.ebay).to eq(ebay_account)
+    end
+
+  end
+
+  describe "#view" do
+
+    it "is an array" do
+      expect(accounts.view).to be_a(Array)
+    end
+
+    it "contains `Hash` instances" do
+      accounts.view.each { |v| expect(v).to be_a(Hash) }
+    end
+
+    it "contains an ebay account Hash" do
+      expect(accounts.view).to include(ebay_account.view)
     end
 
   end
