@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddFixedPriceItemRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+  <RequesterCredentials>
+    <eBayAuthToken><%= ebay.token %></eBayAuthToken>
+  </RequesterCredentials>
+  <!-- Call-specific Input Fields -->
+  <Item>
+    <Title><%= vehicle.name %></Title>
+    <Description>
+    <![CDATA[
+Hi
+    ]]>
+    </Description>
+    <!--
+    See http://developer.ebay.com/DevZone/guides/ebayfeatures/Development/Desc-ItemCondition.html
+    Use a call to `GetCategoryFeatures` for the appropriate category to determin `ConditionId`s.
+    http://developer.ebay.com/DevZone/XML/docs/Reference/ebay/GetCategories.html
+    http://developer.ebay.com/DevZone/XML/docs/Reference/ebay/GetCategoryFeatures.html
+    http://pages.ebay.com/help/sell/item-condition.html#motors_cars
+    -->
+    <ConditionId></ConditionId>
+    <ConditionDescription></ConditionDescription>
+  </Item>
+</AddFixedPriceItemRequest>
