@@ -5,6 +5,5 @@ module Ebay
 end
 
 require './lib/ebay/api'
-require './lib/ebay/api/response'
-require './lib/ebay/token'
 require './lib/ebay/session'
+require './lib/ebay/token'

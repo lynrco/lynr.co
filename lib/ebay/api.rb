@@ -3,6 +3,7 @@ require 'libxml'
 require 'rest-client'
 
 require './lib/ebay/session'
+require './lib/ebay/token'
 require './lib/lynr'
 require './lib/lynr/logging'
 require './lib/lynr/converter/libxml_helper'
@@ -17,6 +18,8 @@ module Ebay
   # reconstituted.
   #
   class Api
+
+    autoload :Response, './lib/ebay/api/response'
 
     extend Lynr::Logging
 
@@ -48,7 +51,7 @@ module Ebay
       config = Lynr.config('app').ebay
       data = <<-EOF
 <?xml version="1.0" encoding="utf-8"?>
-<GetSessionIDRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+<GetSessionIDRequest xmlns="#{Ebay::NS}">
   <RuName>#{config.runame}</RuName>
 </GetSessionIDRequest>
       EOF
@@ -67,7 +70,7 @@ module Ebay
     def self.token(session)
       data = <<-EOF
 <?xml version="1.0" encoding="utf-8"?>
-<FetchTokenRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+<FetchTokenRequest xmlns="#{Ebay::NS}">
   <SessionID>#{session.id}</SessionID>
 </FetchTokenRequest>
       EOF

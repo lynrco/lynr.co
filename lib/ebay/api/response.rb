@@ -1,6 +1,6 @@
 require 'libxml'
 
-require './lib/ebay'
+require './lib/ebay/api'
 
 module Ebay
 

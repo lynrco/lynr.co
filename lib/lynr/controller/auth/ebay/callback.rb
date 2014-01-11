@@ -45,6 +45,10 @@ module Lynr::Controller
 
     private
 
+    # ## `Ebay::Callback#get_session(req)`
+    #
+    # Get the `Ebay::Session` out of the cache.
+    #
     def get_session(req)
       session_data = Lynr::Cache.mongo.get("#{req.session['dealer_id']}_ebay_session")
       YAML.load(session_data)
