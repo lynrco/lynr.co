@@ -65,7 +65,7 @@ bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN</eBayAuthToken>
 
     before(:each) do
       RestClient.stub(:post) do |url, data, headers|
-        expect(url).to eq(Ebay::Api::SANDBOX)
+        expect(url).to eq(config.api_url)
         expect(data).to include(config.runame)
         expect(headers['X-EBAY-API-CALL-NAME']).to eq('GetSessionID')
         valid_session
@@ -110,7 +110,7 @@ bUX29vmK98uxwrK1eqMS2fgSsV9tC8GUaPZv3WPkJkDWUyOYUWd2EO1CN</eBayAuthToken>
 
     before(:each) do
       RestClient.stub(:post) do |url, data, headers|
-        expect(url).to eq(Ebay::Api::SANDBOX)
+        expect(url).to eq(config.api_url)
         expect(data).to include(session.id)
         expect(headers['X-EBAY-API-CALL-NAME']).to eq('FetchToken')
         valid_session

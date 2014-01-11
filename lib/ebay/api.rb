@@ -23,11 +23,6 @@ module Ebay
 
     extend Lynr::Logging
 
-    # eBay API endpoint used for testing
-    SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll'
-    # eBay API endpoint for production
-    PRODUCTION = 'https://api.ebay.com/ws/api.dll'
-
     # ## `Api.sign_in_url(session)`
     #
     # Takes an `Ebay::Session` instance and uses it to generate an oauth style URL
@@ -37,7 +32,7 @@ module Ebay
     def self.sign_in_url(session)
       config = Lynr.config('app').ebay
       query = "SignIn&RuName=#{config.runame}&SessID=#{CGI.escape(session.id)}"
-      "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll?#{query}"
+      "#{config.sign_in}?#{query}"
     end
 
     # ## `Api.session`
@@ -55,7 +50,7 @@ module Ebay
   <RuName>#{config.runame}</RuName>
 </GetSessionIDRequest>
       EOF
-      Session.new(send('GetSessionID', SANDBOX, data))
+      Session.new(send('GetSessionID', data))
     end
 
     # ## `Api.token(session)`
@@ -74,7 +69,7 @@ module Ebay
   <SessionID>#{session.id}</SessionID>
 </FetchTokenRequest>
       EOF
-      Token.new(send('FetchToken', SANDBOX, data))
+      Token.new(send('FetchToken', data))
     end
 
     private
@@ -86,8 +81,9 @@ module Ebay
     # appropriately and then POSTing the request to the eBay API endpoint provided in `url`.
     # The value of the response from the POST request is returned.
     #
-    def self.send(method, url, data)
+    def self.send(method, data)
       config = Lynr.config('app').ebay
+      url = config.api_url
       headers = {
         'Accept' => '*/*',
         'Cache-Control' => 'no-cache',
