@@ -40,7 +40,7 @@ module Lynr::Controller
         'expires' => token.expires, 'token' => token.id, 'session' => session.id,
       )
       dealer_dao.save(dealership.set({ 'accounts' => Lynr::Model::Accounts.new([@account]) }))
-      render 'auth/ebay/callback.erb', layout: 'default.erb'
+      redirect "/admin/#{dealership.slug}/account?eBay_connect=success"
     end
 
     private
