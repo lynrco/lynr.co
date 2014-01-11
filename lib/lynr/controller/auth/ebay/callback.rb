@@ -1,11 +1,8 @@
-require 'yaml'
-
 require './lib/ebay'
-require './lib/lynr/cache'
+require './lib/lynr/controller/admin'
+require './lib/lynr/controller/auth/ebay'
 require './lib/lynr/model/accounts'
-require './lib/lynr/model/dealership'
 require './lib/lynr/model/ebay_account'
-require './lib/lynr/persist/dealership_dao'
 
 module Lynr::Controller
 
@@ -16,14 +13,11 @@ module Lynr::Controller
   #
   class Ebay::Callback < Lynr::Controller::Admin
 
+    include Ebay::Helpers
+
     get  '/auth/ebay/callback', :get
 
-    def initialize
-      super
-      @title = "Callback Success"
-    end
-
-    # ## `Ebay::Callback#get(req)
+    # ## `Ebay::Callback#get(req)`
     #
     # Process `req` to determine if dealership in request session has authorized
     # us. If they have save the authorization token to the dealership instance and
@@ -41,17 +35,6 @@ module Lynr::Controller
       )
       dealer_dao.save(dealership.set({ 'accounts' => Lynr::Model::Accounts.new([@account]) }))
       redirect "/admin/#{dealership.slug}/account?eBay_connect=success"
-    end
-
-    private
-
-    # ## `Ebay::Callback#get_session(req)`
-    #
-    # Get the `Ebay::Session` out of the cache.
-    #
-    def get_session(req)
-      session_data = Lynr::Cache.mongo.get("#{req.session['dealer_id']}_ebay_session")
-      YAML.load(session_data)
     end
 
   end
