@@ -49,6 +49,8 @@ module Lynr; module Controller;
     def connect_message(req)
       if req.params['eBay_connect'] == 'success'
         "Successfully connected to eBay"
+      elsif req.params['eBay_connect'] == 'failure'
+        "eBay connection declined. We can't list on your behalf without it."
       end
     end
 
