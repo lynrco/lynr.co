@@ -5,6 +5,10 @@ require './lib/ebay'
 
 module Ebay
 
+  # # `Ebay::Token`
+  #
+  # Represent the data retrieved from the eBay API for authenticating a `Session`.
+  #
   class Token
 
     EMPTY_RESPONSE = <<-EOF
@@ -14,11 +18,11 @@ module Ebay
     attr_reader :id, :expires, :valid
     alias :valid? :valid
 
-    # ## `Session.new(response)`
+    # ## `Token.new(response)`
     #
-    # Extract the session id from xml `response`. If `response` is malformed or
-    # didn't come back with `Ack` element with content of Success then `#id` will
-    # be `nil` and `Session#valid?` will be false.
+    # Extract the token data from xml `response`. If `response` is malformed or
+    # didn't come back with `Ack` element with content of Success then `#id` and `#expires`
+    # will be `nil` and `Token#valid?` will be false.
     #
     def initialize(response)
       response = EMPTY_RESPONSE if response.nil?
