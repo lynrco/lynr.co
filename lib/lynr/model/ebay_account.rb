@@ -10,7 +10,7 @@ module Lynr::Model
   # with the eBay API.
   #
   class EbayAccount
-  
+
     include Lynr::Model::Base
 
     TYPE = 'eBay'
