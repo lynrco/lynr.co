@@ -1,27 +1,27 @@
 <%= render_partial 'form_messages.erb' -%>
       <form class="signup" action="/signup" method="POST" data-stripe-pub="<%= @stripe_pub_key %>">
-        <h2 class="fs-title">1. Create an account</h2>
         <fieldset class="fs">
+          <h2 class="fs-title">1. Create an account</h2>
           <label for="email">Email Address</label>
-          <input class="fs-top fs-full <%= error_class('email') %>" type="email" name="email"
+          <input class="fs-full <%= error_class('email') %>" type="email" name="email"
                  id="email" value="<%= posted['email'] %>" placeholder="johndoe@me.com" />
           <label for="password">Password</label>
-          <input class="fs-bottom fs-half <%= error_class('password') %>" type="password"
-                 name="password" id="password" value="" placeholder="****" />
-          <input class="fs-bottom fs-half <%= error_class('password_confirm') %>" type="password"
-                 name="password_confirm" id="password_confirm" value="" placeholder="****" />
+          <input class="fs-half <%= error_class('password') %>" type="password"
+                 name="password" id="password" value="" placeholder="Choose a PIN" />
+          <input class="fs-half <%= error_class('password_confirm') %>" type="password"
+                 name="password_confirm" id="password_confirm" value="" placeholder="Confirm your PIN" />
         </fieldset>
         <label for="agree_terms">
-          I agree to the <a href="/terms-of-use">Terms &amp; Conditions</a>
+          I agree to the <a href="/terms">Terms &amp; Conditions</a>
           <input type="checkbox" name="agree_terms" id="agree_terms" />
         </label>
-        <h2 class="fs-title">2. Enter payment details</h2>
         <fieldset class="fs">
+          <h2 class="fs-title">2. Enter payment details</h2>
           <label for="card_number">Card Number</label>
-          <input class="fs-top fs-full <%= error_class('stripeToken') %>" type="text"
+          <input class="fs-full <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                  id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number"
                  value="<%= card_data['card_number'] %>" />
-          <div id="card_expiry" class="fs-half fs-bottom">
+          <div id="card_expiry" class="fs-half">
             <label for="card_expiry_month">Card Expiration Date</label>
             <input class="fs-half <%= error_class('stripeToken') %>" type="text"
                    id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM"
@@ -31,10 +31,10 @@
                    value="<%= card_data['card_expiry_year'] %>" />
           </div>
           <label for="card_cvv">CVV</label>
-          <input class="fs-bottom fs-half <%= error_class('stripeToken') %>" type="text"
+          <input class="fs-half <%= error_class('stripeToken') %>" type="text"
                  id="card_cvv" placeholder="CVV" data-stripe="cvc"
                  value="<%= card_data['card_cvv'] %>" />
         </fieldset>
         <input type="hidden" name="stripeToken" id="stripeToken" value="<%= posted['stripeToken'] %>" />
-        <button class="btn btn-full btn-create" type="submit">Create Account</button>
+        <button class="btn btn-full btn-positive" type="submit">Create Account</button>
       </form>
