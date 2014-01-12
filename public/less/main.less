@@ -1,132 +1,17 @@
 @import "includes.less";
 @import "includes/reset.less";
 @import "includes/layout.less";
+@import "includes/typography.less";
 @import "includes/menu.less";
 @import "includes/button.less";
-/** Form **/
-#messages {
-  position: relative; left: -3.333333333%; width: 106.666666667%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
-}
-#messages.empty { display: none; }
-.msg { padding: 0 3.125%; font-size: 2rem; line-height: 2; }
-.msg:last-child { border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
-.msg-error { color: @error; }
-.msg-error:before { content: '* '; color: @error; }
-.fs {
-  position: relative; .border_radius_a(6px);
-  background: #e4e4e4; .box_shadow(0px, 1px, 5px, 2px, rgba(0, 0, 0, 0.5), inset);
-  .clearfix();
+@import "includes/form.less";
 
-  label, .label { display: none; }
-  input, .input {
-    padding: 1.875rem 5%; height: 5.625rem; color: #000;
-    font-size: 2.25rem; font-family: @font_stack; font-weight: 100; line-height: 1;
-    background: transparent; .border_box(); outline: none;
+@import "pages/home.less";
+@import "pages/signup.less";
 
-    &:focus { outline: 3px solid @highlight; }
-  }
+@import "media/min-540.less";
 
-  textarea, .textarea {
-    padding: 1.875rem 5%; height: 5.625rem; min-height: 11em; color: #000;
-    font-size: 1rem; font-family: @font_stack; font-weight: 300; line-height: 1.1;
-    background: transparent; .border_box(); outline: none;
-
-    &:focus { outline: 3px solid @highlight; }
-  }
-
-  .fs-error { border-right: 3px solid @error !important; }
+.main { max-width: 700px; }
+@media only screen and (min-width: 746px) {
+  .main { margin: 0 auto; }
 }
-
-.fs-top { .border_radius(6px, 6px, 0, 0); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
-.fs-mid { border-top: 1px solid rgba(255, 255, 255, 0.7); border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
-.fs-bottom { border-top: 1px solid rgba(255, 255, 255, 0.7); }
-.fs {
-  .fs-combo-top, .fs-combo-mid, .fs-combo-bottom { height: 4.750rem; }
-  .fs-combo-top { padding-bottom: 1rem; }
-  .fs-combo-mid { padding-top: 1rem; padding-bottom: 1rem; height: 3.875rem; }
-  .fs-combo-bottom { padding-top: 1rem; }
-}
-.fs-combo-top { border-bottom: 0; }
-.fs-combo-mid { border-top: 0; border-bottom: 0; }
-.fs-combo-bottom { border-top: 0; }
-.fs-only { .border_radius_a(6px); }
-.fs-full { clear: both; display: block; width: 100%; }
-.fs-half { float: left; display: block; width: 50%; }
-.fs-half:nth-child(odd) {
-  border-left: 1px solid rgba(255, 255, 255, 0.7);
-}
-.fs-half:nth-child(even) {
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
-}
-.fs-half .fs-half { padding-right: 10%; padding-left: 10%; }
-.fs-half .fs-half:nth-child(odd) { border-right: 1px solid rgba(0, 0, 0, 0.2); }
-.fs-thirds, .fs-third { float: left; display: block; }
-.fs-thirds { .border_radius(0, 0, 0, 6px); border-right: 1px solid rgba(0, 0, 0, 0.2); width: 67%; }
-.fs-third { .border_radius(0, 0, 6px, 0); border-left: 1px solid rgba(255, 255, 255, 0.7); width: 33%; }
-.fs-title { clear: both; margin: 2.1875rem 0 1.25rem; }
-/*** Form - Image Upload ***/
-.fs .label-photo { display: block; position: relative; max-width: 100%; max-height: 100%; }
-.input-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; visibility: hidden; }
-.photo-preview { .border_radius_a(6px); width: 100%; max-width: 100%; height: 100%; max-height: 100%; }
-/* Sign Up */
-#card_expiry { position: relative; .border_radius(0, 0, 0, 6px); .border_box(); }
-.btn-create { margin-top: 1.875rem; margin-bottom: 1.875rem; }
-label[for=agree_terms] {
-  float: right; margin: 1.5rem 0 1.25rem; font-size: 1.5rem; font-weight: 300; color: #cecece;
-
-  a { color: #cecece; text-decoration: underline; }
-}
-#card_expiry_year { .border_radius(0, 0, 0, 0); }
-/* Vehicle List */
-.vehicle-list .main { padding-top: 0; }
-.m-vehicles {
-  position: relative; left: -3.333333333%;  width: 106.666666667%;
-}
-.m-vehicle {
-  position: relative;
-  border-top: 1px solid #fff; border-bottom: 1px solid #ccc; padding: 0.5rem 0 0.5rem 25.78125%;
-}
-.m-vehicle:first-child { border-top: none; }
-.m-vehicle > a { display: block; }
-.m-vehicle-image { position: absolute; top: 4%; left: 1.5625%; max-width: 23%; max-height: 92%; }
-.m-vehicle-price, .m-vehicle-name, .m-vehicle-desc { display: block; line-height: 1.1; }
-.m-vehicle-price { font-size: 4.25rem; font-weight: bold; }
-.m-vehicle-name { font-size: 2.25rem; }
-.m-vehicle-desc { font-size: 1.75rem; }
-.m-vehicles-add {
-  display: block; border-top: 1px solid #fff; padding: 0 0 1rem;
-  font-size: 3rem; font-weight: bold; text-align: center;
-}
-/* Account Information */
-.account-photo { margin: 0 0 1rem; }
-.fs-photo-account { margin: 0 auto; max-width: 160px; max-height: 160px; }
-.account-photo .btn { display: none; }
-/* Billing Information */
-.m-billing, .m-billing { display: none; }
-.m-billing-active, .m-billing-active { display: block; }
-/* Vehicle - Add */
-.f-vin { margin-bottom: 1rem; }
-/* Vehicle - View */
-.vehicle { margin-bottom: 1.875rem; }
-.vehicle-notes { margin-top: 1.875rem; padding: 0 2%; font-weight: 200; }
-/* Vehicle - Edit */
-.photos-vehicle {
-  position: relative; left: -3.333333333%; margin: 0.1875rem 0 -5rem; width: 106.666666667%;
-  overflow: hidden; .clearfix();
-}
-.photos-vehicle-inner { display: block; width: 700%; .clearfix(); }
-.photo-vehicle-wrapper { float: left; display: block; margin: 0 0 0 1.5625vw; border: 7px solid #fff; max-width: 93.75vw; }
-.photo-vehicle { display: block; }
-.photos-vehicle-single { display: block; width: 100%; .clearfix(); }
-.photo-vehicle-single {
-  .border_box(); position: relative; left: 1.5625%; border: 7px solid #fff; width: 96.875%; min-height: 247px;
-}
-.photo-vehicle-empty { height: 54.4921875vw; }
-/* Vehicle - Edit Photos */
-.vehicle-photos .main { padding-top: 2.125rem; }
-.vehicle-photo { float: left; position: relative; margin: 0 7.5% 2.75rem 4.166666667%; width: 42.083333333%; height: 38.59375vw; }
-.vehicle-photo-odd { margin: 0; }
-.vehicle-photo .fs { height: 38.59375vw; }
-.vehicle-photo .btn { display: none; }
-.vehicle-photo-data .btn-create { margin-top: 0; }
