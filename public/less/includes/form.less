@@ -1,4 +1,6 @@
+@input_font_color: #000;
 @input_font_size: 0.875rem;
+@input_background_color: #fff;
 
 /** Form **/
 #messages { position: relative; margin: 1rem 0 0; }
@@ -12,8 +14,8 @@ fieldset, .fs { position: relative; padding: 1.5rem 0 0; .clearfix(); }
 fieldset label, .fs-label { display: none; }
 fieldset input, fieldset textarea, .fs-input, .fs-textarea {
   display: block; margin: 0 0 1rem; padding: 1.28125rem 1.5rem; width: 100%;
-  font-size: @input_font_size; font-family: @font_stack; line-height: 1; color: #000;
-  background: #fff; .border_box(); outline: none;
+  font-size: @input_font_size; font-family: @font_stack; line-height: 1; color: @input_font_color;
+  background: @input_background_color; .border_box(); outline: none;
 
   &:focus { outline: 3px solid @highlight; }
 }
@@ -30,11 +32,11 @@ fieldset textarea, .fs-textarea {
 /* Styled Checkbox */
 .scheckbox {
   display: inline-block; position: relative; width: 1.75rem; height: 1.75rem;
-  background: @brand_color; color: #fff; overflow: hidden;
+  background: @brand_color; color: @accent_color; overflow: hidden;
 }
 .scheckbox input { position: relative; opacity: 0.01; }
 .scheckbox-focused { outline: 3px solid @highlight; }
 .scheckbox-checked:after {
   content: '✔'; display: block; position: absolute; top: 0; left: 0;
-  width: 1.75rem; line-height: 1.75rem; color: #fff; text-align: center;
+  width: 1.75rem; line-height: 1.75rem; color: @accent_color; text-align: center;
 }
