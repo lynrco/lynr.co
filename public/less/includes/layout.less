@@ -1,7 +1,10 @@
 /* General Styles */
 /** Layout **/
 .window { position: relative; width: 100%; min-height: 88vh; overflow: hidden; }
-.main { position: relative; margin: 0 3.125%; padding: 0.001rem 0 0; .border_box(); .clearfix(); }
+.main {
+  position: relative; margin: 0 3.125%; padding: 0.001rem 0 0; max-width: 700px;
+  .border_box(); .clearfix();
+}
 /*** Layout -- Markdown Block ***/
 .md h1 { font-size: 1.75rem; }
 .md h2 { font-size: 1.5rem; }
