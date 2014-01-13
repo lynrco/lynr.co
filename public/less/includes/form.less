@@ -26,3 +26,15 @@ fieldset textarea, .fs-textarea {
 .fs-full { clear: both; }
 .fs-half { float: left; }
 .fs-error { border-left: 3px solid @brand_color_dark !important; }
+
+/* Styled Checkbox */
+.scheckbox {
+  display: inline-block; position: relative; width: 1.75rem; height: 1.75rem;
+  background: @brand_color; color: #fff; overflow: hidden;
+}
+.scheckbox input { position: relative; opacity: 0.01; }
+.scheckbox-focused { outline: 3px solid @highlight; }
+.scheckbox-checked:after {
+  content: '✔'; display: block; position: absolute; top: 0; left: 0;
+  width: 1.75rem; line-height: 1.75rem; color: #fff; text-align: center;
+}
