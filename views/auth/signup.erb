@@ -19,7 +19,7 @@
           <h2 class="fs-title">2. Enter payment details</h2>
           <label for="card_number">Card Number</label>
           <input class="fs-full <%= error_class('stripeToken') %>" type="text" pattern="\d*"
-                 id="card_number" size="20" placeholder="1234 1234 1234 1234" data-stripe="number"
+                 id="card_number" size="20" placeholder="Credit card number" data-stripe="number"
                  value="<%= card_data['card_number'] %>" />
           <div id="card_expiry" class="fs-half">
             <label for="card_expiry_month">Card Expiration Date</label>
