@@ -3,6 +3,9 @@
   .auth .btn:last-child { float: right; }
   .auth .btn { width: 48.3333%; }
   /* Changes 'includes/form.less' */
-  .fs-half { width: 48.571428571%; }
+  .fs-half { float: left; width: 48.571428571%; }
+  /* TODO: This will cause a problem if three .fs-half elements are repeated */
   .fs-half + .fs-half, .fs-half + label + .fs-half { float: right; }
+  /* Changes 'includes/button.less' */
+  .btn-half { width: 48.571428571%; }
 }
