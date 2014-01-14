@@ -1,22 +1,13 @@
     <nav class="menu menu-vehicle menu-secondary">
       <ul class="menu-items">
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">View Vehicle</span>
-          </a>
+          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>">View Vehicle</a>
         </li>
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Edit Vehicle</span>
-          </a>
+          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit">Edit Vehicle</a>
         </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/delete">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Delete Vehicle</span>
-          </a>
+        <li class="menu-item menu-item-delete">
+          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/delete">Delete Vehicle</a>
         </li>
       </ul>
     </nav>

@@ -3,8 +3,8 @@
   position: absolute; border-bottom: 1px solid #fff; width: 75%; height: 100%;
   .border_box(); overflow: hidden;
 }
-.menu-primary { left: -75%; border-right: 1px solid #707070; }
-.menu-secondary { left: 100%; border-left: 1px solid #707070; }
+.menu-primary { left: -75%; }
+.menu-secondary { left: 100%; }
 .menu-active {
   .main, .menu-primary, .menu-secondary {
     .transition(left 0.5s);
@@ -39,3 +39,6 @@
   display: block; position: absolute; top: 50%; left: 3.258655804%;
   .border_radius_a(21px); margin: -21px 0 0; width: 42px; height: 42px;
 }
+/* Special treatment for the delete vehicle item */
+.menu-item-delete { padding-top: 3.125rem; }
+.menu-item-delete a { font-weight: 700; color: @brand_color_dark; }
