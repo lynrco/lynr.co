@@ -9,11 +9,15 @@ define(function(require) {
   }
 
   function setupStripeForm(form) {
-    var messages = document.getElementById('messages');
-    var button = form.querySelector('button[type=submit]');
-    var evt = require('modules/domEvents');
+    var card = require('modules/credit-card-numbers');
+    var evt = require('modules/dom-events');
     var clazz = require('modules/clazz');
     var data = require('modules/data-attrs');
+
+    var button = form.querySelector('button[type=submit]');
+    var cardNumber = document.querySelector('#card_number');
+    var messages = document.getElementById('messages');
+
     stripe.setPublishableKey(data.get(form, 'stripe-pub'));
 
     if (!document.getElementById('stripeToken').value) {
@@ -21,6 +25,13 @@ define(function(require) {
     }
     // TODO: if there is a `stripeToken` on change of card inputs add the
     // form submit handler
+
+    evt.on(cardNumber, 'keyup', function(e) {
+      // Only reformat if typed character is a digit or whitespace
+      if (!!/[\d ]/.test(String.fromCharCode(e.which))) {
+        cardNumber.value = card.format(cardNumber.value);
+      }
+    });
 
     function handleFormSubmit(e) {
       evt.prevent(e);
