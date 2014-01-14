@@ -17,15 +17,21 @@
 .vehicle-property strong { font-size: 1.5625rem; line-height: 1.169811321; }
 .vehicle-notes { border-top: 1px solid @font_color_secondary; color: @font_color_secondary; }
 /* Vehicle List */
+.vehicles { margin: 1.25rem @margin_width 0; }
+.vehicles .vehicle { margin-top: 0.625rem; }
 .vehicle-title {
-  padding: 1rem;
-  color: @accent_color; text-align: right; text-transform: uppercase; background: @brand_color;
+  position: relative; padding: 0.5rem;
+  text-align: right; text-transform: uppercase; background: @brand_color;
 }
-.vehicle-title > a { display: block; position: relative; color: @accent_color; }
-.vehicles .vehicle-name, .vehicles .vehicle-price { display: block; }
-.vehicles .vehicle-name { position: absolute; left: 0; font-size: 0.875rem; line-height: 1.285714286; }
-.vehicles .vehicle-price { position: relative; padding-right: 1rem; line-height: 1; }
+.vehicle-title a, .vehicle-title span { display: block; position: relative; color: @accent_color; }
+.vehicles .vehicle-name, .vehicles .vehicle-price { display: block; margin: 0; padding: 0; }
+.vehicles .vehicle-name {
+  position: absolute; left: 0; font-size: 0.875rem; line-height: 1.285714286;
+}
+.vehicles .vehicle-price {
+  position: relative; padding-right: 1rem; font-size: 1.125rem;
+  font-weight: 400; line-height: 1;
+}
 .vehicles .vehicle-price:after {
-  content: '›'; display: block; position: absolute; bottom: -0.05rem; right: 0;
-  font-size: 1.5rem;
+  content: '›'; display: block; position: absolute; bottom: -0.05rem; right: 0; font-size: 1.5rem;
 }
