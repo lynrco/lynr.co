@@ -11,9 +11,7 @@ module.exports = function(grunt) {
         },
         files: {
           "public/css/main.css": "public/less/main.less",
-          "public/css/marketing.css": "public/less/marketing.less",
-          "public/css/icons.data.png.css": "public/less/icons.data.png.less",
-          "public/css/icons.data.svg.css": "public/less/icons.data.svg.less"
+          "public/css/marketing.css": "public/less/marketing.less"
         }
       }
     },
@@ -26,7 +24,8 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "public/img/wordmark.min.svg": "public/img/wordmark.svg"
+          "public/img/wordmark.svg": "public/img/wordmark.max.svg",
+          "public/img/wordmark-white.svg": "public/img/wordmark-white.max.svg"
         }
       }
     },
