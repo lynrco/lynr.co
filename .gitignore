@@ -11,6 +11,7 @@
 !/config/*.spec.yaml
 /coverage/
 /public/css/*.css
+/public/css/*.css.map
 
 /.dotcloud/
 /dotcloud.yml
