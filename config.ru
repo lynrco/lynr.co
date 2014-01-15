@@ -9,6 +9,7 @@ Lynr::Web.setup
 
 use Rack::SSL
 use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => "public"
+if Lynr.env == 'development' then use Rack::Static, :urls => ["/less"], :root => "public" end
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 # Uncomment for logs of every request start and end
 # use Rack::Middleware::Logger, Lynr::Web.instance.log
