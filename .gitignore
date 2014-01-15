@@ -12,7 +12,7 @@
 /coverage/
 /node_modules/
 /public/css/*.css
-/public/css/*.css.map
+/public/img/*.min.svg
 
 /.dotcloud/
 /dotcloud.yml

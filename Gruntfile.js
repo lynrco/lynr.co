@@ -17,6 +17,19 @@ module.exports = function(grunt) {
         }
       }
     },
+    svgmin: {
+      options: {
+        plugins: [
+          { removeViewBox: false },
+          { removeUselessStrokeAndFill: false }
+        ]
+      },
+      dist: {
+        files: {
+          "public/img/wordmark.min.svg": "public/img/wordmark.svg"
+        }
+      }
+    },
     watch: {
       less: {
         files: 'public/less/**/*.less',
@@ -27,5 +40,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-svgmin');
+
+  grunt.registerTask('default', ['less', 'watch']);
 
 };

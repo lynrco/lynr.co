@@ -1,9 +1,11 @@
 {
   "name": "lynr.co",
   "version": "0.0.1",
+  "repository": "git@github.com:lynrco/lynr.co",
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-svgmin": "~0.3.0"
   }
 }
