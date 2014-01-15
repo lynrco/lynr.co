@@ -4,7 +4,7 @@
           <label for="vin">VIN</label>
           <input class="fs-top fs-bottom fs-full <%= error_class('vin') %>" type="text" name="vin"
                  id="vin" value="<%= posted['vin'] %>" placeholder="VIN" />
-          <button class="btn btn-inline" type="submit">Import</button>
+          <button class="btn btn-inline btn-positive" type="submit">Import</button>
         </fieldset>
       </form>
       <form class="vehicle-add" action="/admin/<%= @dealership.slug %>/vehicle/add" method="POST">
@@ -63,5 +63,5 @@
                  name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
                  value="<%= posted.fetch('vin', default={})['int_color'] %>" />
         </fieldset>
-        <button class="btn btn-full btn-create" type="submit">Add Vehicle</button>
+        <button class="btn btn-full btn-positive" type="submit">Add Vehicle</button>
       </form>
