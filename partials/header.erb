@@ -1,11 +1,11 @@
     <header class="hat">
       <%- if @dealership -%>
-      <h1 class="hat-title"><a class="logo" href="/admin/<%= @dealership.id %>">Lynr</a></h1>
+      <h1 class="hat-title"><a class="icon-wordmark" href="/admin/<%= @dealership.id %>">Lynr</a></h1>
       <a class="menu-link menu-link-primary" href="/menu/<%= @dealership.id %>" data-type="primary">Menu</a>
       <%- if !@menu_secondary.nil? -%>
       <a class="menu-link menu-link-secondary" href="<%= @menu_secondary.href %>" data-type="secondary"><%= @menu_secondary.text %></a>
       <%- end -%>
       <%- else -%>
-      <h1 class="hat-title"><a class="logo" href="/">Lynr</a></h1>
+      <h1 class="hat-title"><a class="icon-wordmark" href="/">Lynr</a></h1>
       <%- end -%>
     </header>
