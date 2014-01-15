@@ -23,15 +23,20 @@
       <div class="m-billing <%= if !has_errors? then "m-billing-active" end %>">
         <div class="fs">
           <p id="card_number" class="fs-full fs-input">
-            <% if @card.type == 'Amex' %>
+            <% if @card.type == 'American Express' %>
+            <span class="group">****</span>
+            <span class="group">******</span>
+            <span class="group">*<%= @card.last4 %></span>
+            <% elsif @card.type == 'Diners Club' %>
+            <span class="group">****</span>
+            <span class="group">****</span>
+            <span class="group">**<%= @card.last4.slice(0,2) %></span>
+            <span class="group"><%= @card.last4.slice(2,4) %></span>
+            <% else %>
             <span class="group">****</span>
             <span class="group">****</span>
             <span class="group">****</span>
             <span class="group"><%= @card.last4 %></span>
-            <% else %>
-            <span class="group">****</span>
-            <span class="group">******</span>
-            <span class="group">*<%= @card.last4 %></span>
             <% end %>
           </p>
           <p id="card_expiry" class="fs-half">
