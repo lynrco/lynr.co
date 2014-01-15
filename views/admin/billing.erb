@@ -1,5 +1,5 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form class="m-billing <%= if @msg || has_errors? then "m-billing-active" end %>" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST">
+      <form class="m-billing <%= if has_errors? then "m-billing-active" end %>" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST" data-stripe-pub="<%= @stripe_pub_key %>">
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
           <input class="fs-full <%= error_class('stripeToken') %>" type="text"
@@ -20,13 +20,19 @@
         <a class="btn btn-half btn-negative" href="#cancel">Cancel</a>
       </form>
       <%- # TODO: Number and pattern of stars needs to change based on card type -%>
-      <div class="m-billing <%= if !@msg && !has_errors? then "m-billing-active" end %>">
+      <div class="m-billing <%= if !has_errors? then "m-billing-active" end %>">
         <div class="fs">
           <p id="card_number" class="fs-full fs-input">
+            <% if @card.type == 'Amex' %>
             <span class="group">****</span>
             <span class="group">****</span>
             <span class="group">****</span>
             <span class="group"><%= @card.last4 %></span>
+            <% else %>
+            <span class="group">****</span>
+            <span class="group">******</span>
+            <span class="group">*<%= @card.last4 %></span>
+            <% end %>
           </p>
           <p id="card_expiry" class="fs-half">
             <span id="card_expiry_month" class="fs-half fs-input">
