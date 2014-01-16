@@ -5,9 +5,9 @@
     <defs></defs>
     <g id="General" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="menu" sketch:type="MSLayerGroup" stroke="#BF7608" fill="#FFFFFF">
-            <rect id="Bottom" sketch:type="MSShapeGroup" x="0" y="30" width="70" height="10" rx="1"></rect>
-            <rect id="Middle" sketch:type="MSShapeGroup" x="0" y="15" width="70" height="10" rx="1"></rect>
-            <rect id="Top" sketch:type="MSShapeGroup" x="0" y="0" width="70" height="10" rx="1"></rect>
+            <rect id="Bottom" sketch:type="MSShapeGroup" x="0" y="30" width="70" height="10"></rect>
+            <rect id="Middle" sketch:type="MSShapeGroup" x="0" y="15" width="70" height="10"></rect>
+            <rect id="Top" sketch:type="MSShapeGroup" x="0" y="0" width="70" height="10"></rect>
         </g>
     </g>
 </svg>
