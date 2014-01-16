@@ -2,17 +2,17 @@
       <form class="m-billing <%= if has_errors? then "m-billing-active" end %>" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST" data-stripe-pub="<%= @stripe_pub_key %>">
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
-          <input class="fs-full <%= error_class('stripeToken') %>" type="text"
+          <input class="fs-full <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                  id="card_number" size="20" placeholder="Credit card number" data-stripe="number" />
           <div id="card_expiry" class="fs-half">
             <label for="card_expiry_month">Card Expiration Date</label>
-            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                    id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM" />
-            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                    id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY" />
           </div>
           <label for="card_cvv">CVV</label>
-          <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+          <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                  id="card_cvv" placeholder="CVV" data-strip="cvc" />
         </fieldset>
         <input type="hidden" name="stripeToken" id="stripeToken" value="" />
@@ -44,7 +44,7 @@
               <%= @card.exp_month.to_s.rjust(2, '0') %>
             </span>
             <span id="card_expiry_year" class="fs-half fs-input">
-              <%= @card.exp_month.to_s %>
+              <%= @card.exp_year.to_s %>
             </span>
           </p>
           <p id="card_cvv" class="fs-half fs-input">***</p>

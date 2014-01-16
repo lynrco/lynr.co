@@ -23,15 +23,15 @@
                  value="<%= card_data['card_number'] %>" />
           <div id="card_expiry" class="fs-half">
             <label for="card_expiry_month">Card Expiration Date</label>
-            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                    id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM"
                    value="<%= card_data['card_expiry_month'] %>" />
-            <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+            <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                    id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY"
                    value="<%= card_data['card_expiry_year'] %>" />
           </div>
           <label for="card_cvv">CVV</label>
-          <input class="fs-half <%= error_class('stripeToken') %>" type="text"
+          <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
                  id="card_cvv" placeholder="CVV" data-stripe="cvc"
                  value="<%= card_data['card_cvv'] %>" />
         </fieldset>
