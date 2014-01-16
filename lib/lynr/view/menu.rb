@@ -7,7 +7,7 @@ module Lynr; module View;
   #
   class Menu
 
-    attr_reader :text, :href, :partial
+    attr_reader :text, :href, :partial, :icon
 
     # ## `Lynr::View::Menu.new(text, href, partial)`
     #
@@ -16,10 +16,11 @@ module Lynr; module View;
     # show the page with the menu content already shown. Partial is the menu template
     # to render.
     #
-    def initialize(text, href, partial)
+    def initialize(text, href, partial, icon="icon-menu")
       @text = text
       @href = href
       @partial = partial
+      @icon = icon
     end
 
     # ## `Lynr::View::Menu#set_href(href)`
