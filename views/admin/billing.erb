@@ -1,5 +1,7 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form class="m-billing <%= if has_errors? then "m-billing-active" end %>" action="/admin/<%= @dealership.id.to_s %>/billing" method="POST" data-stripe-pub="<%= @stripe_pub_key %>">
+      <form class="m-billing <%= if has_errors? then "m-billing-active" end %>" novalidate="novalidate"
+          action="/admin/<%= @dealership.id.to_s %>/billing" method="POST"
+          data-stripe-pub="<%= @stripe_pub_key %>" autocomplete="on">
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
           <input class="fs-full <%= error_class('stripeToken') %>" type="text" pattern="\d*"

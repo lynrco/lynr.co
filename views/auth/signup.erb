@@ -1,5 +1,5 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form class="signup" action="/signup" method="POST"
+      <form class="signup" action="/signup" method="POST" novalidate="novalidate"
           data-stripe-pub="<%= @stripe_pub_key %>" autocomplete="on">
         <fieldset class="fs">
           <h2 class="fs-title">1. Create an account</h2>
