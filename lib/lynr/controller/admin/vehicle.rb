@@ -20,7 +20,6 @@ module Lynr; module Controller;
 
     def initialize
       super
-      @base_menu = Lynr::View::Menu.new('Vehicle Menu', "", :menu_vehicle)
     end
 
     # BEFORE HANDLING
@@ -39,7 +38,6 @@ module Lynr; module Controller;
     def before_GET(req)
       super
       if !@vehicle.nil?
-        @menu_secondary = @base_menu.set_href("/admin/#{@dealership.slug}/#{@vehicle.slug}/menu")
         @posted = @vehicle.view
       end
     end
@@ -118,6 +116,14 @@ module Lynr; module Controller;
       posted['deleted_at'] = Time.now
       vehicle_dao.save(@vehicle.set(posted))
       redirect "/admin/#{@dealership.slug}"
+    end
+
+    def menu_secondary
+      Lynr::View::Menu.new(
+        'Vehicle Menu',
+        "/admin/#{@dealership.slug}/#{@vehicle.slug}/menu",
+        :menu_vehicle
+      ) unless @vehicle.nil?
     end
 
   end

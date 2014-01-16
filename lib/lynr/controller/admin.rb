@@ -6,6 +6,7 @@ require './lib/lynr/controller/form_helpers'
 require './lib/lynr/persist/dealership_dao'
 require './lib/lynr/persist/vehicle_dao'
 require './lib/lynr/validator/helpers'
+require './lib/lynr/view/menu'
 
 module Lynr; module Controller;
 
@@ -71,6 +72,16 @@ module Lynr; module Controller;
     def session_user(req)
       id = req.session['dealer_id']
       dealer_dao.get(id)
+    end
+
+    # ## Menus
+
+    # ## `Admin#menu_primary`
+    #
+    # Overrides `Lynr::Controller::Base#menu_primary` to return a menu for the dealership.
+    #
+    def menu_primary
+      Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin)
     end
 
     # ## `Lynr::Controller::Admin#authorized?`

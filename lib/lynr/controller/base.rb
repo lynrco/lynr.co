@@ -105,6 +105,32 @@ module Lynr; module Controller;
       super.merge({ root: Lynr.root, layout: 'default.erb', layouts: 'layout' })
     end
 
+    # MENUS
+
+    # ## `Lynr::Controller::Base#menu_primary`
+    #
+    # Gets a refence to the primary menu
+    #
+    # ### Returns
+    #
+    # `Lynr::View::Menu` instance for primary menu if one exists, nil otherwise
+    #
+    def menu_primary
+      nil
+    end
+
+    # ## `Lynr::Controller::Base#menu_secondary`
+    #
+    # Gets a refence to the primary menu
+    #
+    # ### Returns
+    #
+    # `Lynr::View::Menu` instance for secondary menu if one exists, nil otherwise
+    #
+    def menu_secondary
+      nil
+    end
+
     # ERROR RESPONSES
 
     def error(status=500)
