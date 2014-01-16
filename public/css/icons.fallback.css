@@ -2,6 +2,10 @@
 	background-image: url('/img/icon/add-photo.png');
 	background-repeat: no-repeat;
 }
+.icon-menu {
+	background-image: url('/img/icon/menu.png');
+	background-repeat: no-repeat;
+}
 .icon-wordmark-white {
 	background-image: url('/img/icon/wordmark-white.png');
 	background-repeat: no-repeat;
