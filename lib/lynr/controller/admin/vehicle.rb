@@ -118,6 +118,10 @@ module Lynr; module Controller;
       redirect "/admin/#{@dealership.slug}"
     end
 
+    def menu_primary
+      super.set_icon('icon-back')
+    end
+
     def menu_secondary
       Lynr::View::Menu.new(
         'Vehicle Menu',
