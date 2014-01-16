@@ -19,8 +19,12 @@ describe Lynr::Validator::Helpers do
 
   describe "#is_valid_email?" do
 
-    it "passes well formed email addresses" do
-      expect(helpers.is_valid_email?("help@gmail.com")).to be_true
+    ["help@gmail.com", "mail@bryanwrit.es"].each do |email|
+
+      it "passes well formed email addresses - #{email}" do
+        expect(helpers.is_valid_email?("help@gmail.com")).to be_true
+      end
+
     end
 
     it "fails with no @ in email" do
