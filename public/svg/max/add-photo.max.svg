@@ -3,9 +3,11 @@
     <title>add-photo</title>
     <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <text id="+" fill="#CCCCCC" sketch:type="MSTextLayer" font-family="Montserrat" font-size="62" font-weight="bold" sketch:alignment="middle">
-            <tspan x="-1.104" y="38" fill="#000000">+</tspan>
-        </text>
+    <g id="General" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="add-photo" sketch:type="MSLayerGroup" transform="translate(-21.000000, -22.000000)" font-weight="bold" font-family="Montserrat" fill="#CCCCCC" sketch:alignment="middle" font-size="62">
+            <text id="+" sketch:type="MSTextLayer">
+                <tspan x="19.896" y="60">+</tspan>
+            </text>
+        </g>
     </g>
 </svg>
