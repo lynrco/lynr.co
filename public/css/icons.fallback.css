@@ -1,0 +1,8 @@
+.icon-wordmark-white {
+	background-image: url('png/wordmark-white.png');
+	background-repeat: no-repeat;
+}
+.icon-wordmark {
+	background-image: url('png/wordmark.png');
+	background-repeat: no-repeat;
+}
