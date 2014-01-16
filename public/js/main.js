@@ -30,7 +30,7 @@
   });
 
   require(['modules/grunticon'], function(grunticon) {
-    grunticon(["/css/icons.data.svg.css", "/css/icons.data.png.css", "/css/main.css"]);
+    grunticon(["/css/icons.data.svg.css", "/css/icons.data.png.css", "/css/icons.fallback.css"]);
   });
   require(['domReady'], function(domready) {
     domready(function() {
