@@ -1,5 +1,5 @@
 <%= render_view 'admin/vehicle/view.erb' -%>
-      <form class="f-delete" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/delete" method="POST">
-        <input type="hidden" name="deleted_at" value="<%= Time.now %>" />
-        <button class="btn btn-full btn-delete" type="submit">Delete Vehicle</button>
-      </form>
+        <form class="f-delete" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/delete" method="POST">
+          <input type="hidden" name="deleted_at" value="<%= Time.now %>" />
+          <button class="btn btn-full btn-delete" type="submit">Delete Vehicle</button>
+        </form>

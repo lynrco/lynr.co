@@ -1,32 +1,32 @@
-    <nav class="menu menu-account menu-primary">
-      <span class="menu-search-wrapper">
-        <input class="menu-search" type="text" placeholder="Search" />
-      </span>
-      <ul class="menu-items">
-        <li class="menu-item menu-item-dealership">
-          <img class="dealership-icon" src="<%= @dealership.image.url %>" alt="" />
-          <strong><%= @dealership.name %></strong>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>">Inventory</a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/add">Add Vehicle</a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/manage">Manage Vehicles</a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/account">Account Settings</a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/billing">Billing Information</a>
-        </li>
-        <li class="menu-item">
-          <a href="/admin/<%=@dealership.id %>/contact">Contact &amp; Support</a>
-        </li>
-        <li class="menu-item">
-          <a href="/signout">Sign Out</a>
-        </li>
-      </ul>
-    </nav>
+      <nav class="menu menu-account menu-primary">
+        <span class="menu-search-wrapper">
+          <input class="menu-search" type="text" placeholder="Search" />
+        </span>
+        <ul class="menu-items">
+          <li class="menu-item menu-item-dealership">
+            <img class="dealership-icon" src="<%= @dealership.image.url %>" alt="" />
+            <strong><%= @dealership.name %></strong>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%= @dealership.id %>">Inventory</a>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%= @dealership.id %>/vehicle/add">Add Vehicle</a>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%= @dealership.id %>/vehicle/manage">Manage Vehicles</a>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%= @dealership.id %>/account">Account Settings</a>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%= @dealership.id %>/billing">Billing Information</a>
+          </li>
+          <li class="menu-item">
+            <a href="/admin/<%=@dealership.id %>/contact">Contact &amp; Support</a>
+          </li>
+          <li class="menu-item">
+            <a href="/signout">Sign Out</a>
+          </li>
+        </ul>
+      </nav>

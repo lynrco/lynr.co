@@ -1,55 +1,55 @@
 <%= render_partial 'form_messages.erb' -%>
-      <form id="photo-0" class="account-photo"
-            action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
-        <fieldset class="fs fs-photo fs-photo-account">
-          <label for="photo" class="label-photo">
-            <% if !@dealership.image.empty? %>
-            <img class="photo-preview"
-                 src="<%= @dealership.image.url %>"
-                 width="<%= @dealership.image.width %>"
-                 height="<%= @dealership.image.height %>"
-                 alt="" />
-            <% else %>
-            <img class="photo-preview photo-preview-empty icon-add-photo"
-                 src="/img/blank.gif"
-                 width="160"
-                 height="160"
-                 alt="Add your image" />
-            <% end %>
-            <input id="photo" class="input-photo" type="file" value="" name="photo" />
-            <input type="hidden" name="idx" value="0" />
-            <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
-          </label>
-        </fieldset>
-        <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
-        <% if @transloadit_params_signature %>
-        <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
-        <% end %>
-        <button class="btn btn-full btn-positive" type="submit">Update Account Image</button>
-      </form>
-      <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
-        <fieldset class="fs">
-          <label for="name">Dealership Name</label>
-          <input class="fs-full" type="text" name="name"
-                 id="name" value="<%= @dealership.name %>" placeholder="Dealership name" />
-          <label for="email">Email Address</label>
-          <input class="fs-full" type="email" name="email"
-                 id="email" value="<%= @dealership.identity.email %>" placeholder="Your email address" />
-          <label for="phone">Phone Number</label>
-          <input class="fs-full" type="text" name="phone"
-                 id="phone" value="<%= @dealership.phone %>" placeholder="Phone number" />
-          <input class="fs-half" type="text" name="address[line_one]"
-                 id="address" value="<%= @dealership.address.line_one %>" placeholder="Street address" />
-          <input class="fs-half" type="text" name="address[zip]"
-                 id="postcode" value="<%= @dealership.address.zip %>" placeholder="Zip code" />
-          <input type="hidden" name="image" value="<%= CGI.escape_html(@dealership.image.to_json) %>" />
-        </fieldset>
-        <button class="btn btn-full btn-positive" type="submit">Update Account Information</button>
-      </form>
-      <section class="accounts">
-        <% if @dealership.accounts.ebay.empty? %>
-        <a class="btn btn-half btn-plain" href="/auth/ebay">Connect to eBay</a>
-        <% else %>
-        <span class="btn btn-half btn-plain">Connected to eBay</span>
-        <% end %>
-      </section>
+        <form id="photo-0" class="account-photo"
+              action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
+          <fieldset class="fs fs-photo fs-photo-account">
+            <label for="photo" class="label-photo">
+              <%- if !@dealership.image.empty? -%>
+              <img class="photo-preview"
+                   src="<%= @dealership.image.url %>"
+                   width="<%= @dealership.image.width %>"
+                   height="<%= @dealership.image.height %>"
+                   alt="" />
+              <%- else -%>
+              <img class="photo-preview photo-preview-empty icon-add-photo"
+                   src="/img/blank.gif"
+                   width="160"
+                   height="160"
+                   alt="Add your image" />
+              <%- end -%>
+              <input id="photo" class="input-photo" type="file" value="" name="photo" />
+              <input type="hidden" name="idx" value="0" />
+              <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
+            </label>
+          </fieldset>
+          <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+          <% if @transloadit_params_signature %>
+          <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
+          <% end %>
+          <button class="btn btn-full btn-positive" type="submit">Update Account Image</button>
+        </form>
+        <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
+          <fieldset class="fs">
+            <label for="name">Dealership Name</label>
+            <input class="fs-full" type="text" name="name"
+                   id="name" value="<%= @dealership.name %>" placeholder="Dealership name" />
+            <label for="email">Email Address</label>
+            <input class="fs-full" type="email" name="email"
+                   id="email" value="<%= @dealership.identity.email %>" placeholder="Your email address" />
+            <label for="phone">Phone Number</label>
+            <input class="fs-full" type="text" name="phone"
+                   id="phone" value="<%= @dealership.phone %>" placeholder="Phone number" />
+            <input class="fs-half" type="text" name="address[line_one]"
+                   id="address" value="<%= @dealership.address.line_one %>" placeholder="Street address" />
+            <input class="fs-half" type="text" name="address[zip]"
+                   id="postcode" value="<%= @dealership.address.zip %>" placeholder="Zip code" />
+            <input type="hidden" name="image" value="<%= CGI.escape_html(@dealership.image.to_json) %>" />
+          </fieldset>
+          <button class="btn btn-full btn-positive" type="submit">Update Account Information</button>
+        </form>
+        <section class="accounts">
+          <%- if @dealership.accounts.ebay.empty? -%>
+          <a class="btn btn-half btn-plain" href="/auth/ebay">Connect to eBay</a>
+          <%- else -%>
+          <span class="btn btn-half btn-plain">Connected to eBay</span>
+          <%- end -%>
+        </section>

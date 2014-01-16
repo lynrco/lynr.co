@@ -1,22 +1,22 @@
-      <div class="vehicles">
-        <% @vehicles.each do |vehicle| %>
-        <article class="vehicle">
-          <% if !vehicle.image.empty? %>
-          <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
-            <img class="vehicle-image"
-                 src="<%= vehicle.image.url %>"
-                 width="<%= vehicle.image.width %>"
-                 height="<%= vehicle.image.height %>"
-                 alt="" />
-          </a>
-          <% end %>
-          <h2 class="vehicle-title">
+        <div class="vehicles">
+          <%- @vehicles.each do |vehicle| -%>
+          <article class="vehicle">
+            <%- if !vehicle.image.empty? -%>
             <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
-              <span class="vehicle-name"><%= vehicle.name %></span>
-              <span class="vehicle-price"><%= vehicle.price %></span>
+              <img class="vehicle-image"
+                   src="<%= vehicle.image.url %>"
+                   width="<%= vehicle.image.width %>"
+                   height="<%= vehicle.image.height %>"
+                   alt="" />
             </a>
-          </h2>
-        </article>
-        <% end %>
-        <a class="vehicles-add" href="/admin/<%= @dealership.id %>/vehicle/add">+</a>
-      </div>
+            <%- end -%>
+            <h2 class="vehicle-title">
+              <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
+                <span class="vehicle-name"><%= vehicle.name %></span>
+                <span class="vehicle-price"><%= vehicle.price %></span>
+              </a>
+            </h2>
+          </article>
+          <%- end -%>
+          <a class="vehicles-add" href="/admin/<%= @dealership.id %>/vehicle/add">+</a>
+        </div>

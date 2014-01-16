@@ -1,39 +1,39 @@
-      <%
-      images = @posted['images']
-      (0..5).each do |i|
-        image = images[i]
-      %>
-      <form id="photo-<%= i %>" class="vehicle-photo <%= (i % 2 == 0 && 'vehicle-photo-even') || 'vehicle-photo-odd' %>"
-            action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
-        <fieldset class="fs fs-photo fs-photo-vehicle">
-          <label for="vehicle-photo-<%= i %>" class="label-photo">
-            <% if image && !image.empty? %>
-            <img class="photo-preview"
-                 src="<%= image['full']['url'] %>"
-                 width="<%= image['full']['width'] %>"
-                 height="<%= image['full']['height'] %>"
-                 alt="" />
-            <% else %>
-            <img class="photo-preview"
-                 src="/img/blank.gif"
-                 width="160"
-                 height="160"
-                 alt="Add your image" />
-            <% end %>
-            <input id="vehicle-photo-<%= i %>" class="input-photo" type="file" value="" name="photo" />
-          </label>
-        </fieldset>
-        <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
-        <% if @transloadit_params_signature %>
-        <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
-        <% end %>
-        <input type="hidden" name="idx" value="<%= i %>" />
-        <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
-        <input type="hidden" name="vehicle_id" value="<%= @vehicle.id %>" />
-        <button class="btn btn-full btn-create" type="submit">Update Vehicle Image</button>
-      </form>
-      <% end %>
-      <form class="vehicle-photo-data" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" method="POST">
-        <input type="hidden" name="images" value="<%= CGI.escape_html(@vehicle.view['images'].to_json) %>" />
-        <button class="btn btn-full btn-create" type="submit">Finished</button>
-      </form>
+        <%-
+        images = @posted['images']
+        (0..5).each do |i|
+          image = images[i]
+        -%>
+        <form id="photo-<%= i %>" class="vehicle-photo <%= (i % 2 == 0 && 'vehicle-photo-even') || 'vehicle-photo-odd' %>"
+              action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
+          <fieldset class="fs fs-photo fs-photo-vehicle">
+            <label for="vehicle-photo-<%= i %>" class="label-photo">
+              <%- if image && !image.empty? -%>
+              <img class="photo-preview"
+                   src="<%= image['full']['url'] %>"
+                   width="<%= image['full']['width'] %>"
+                   height="<%= image['full']['height'] %>"
+                   alt="" />
+              <%- else -%>
+              <img class="photo-preview"
+                   src="/img/blank.gif"
+                   width="160"
+                   height="160"
+                   alt="Add your image" />
+              <%- end -%>
+              <input id="vehicle-photo-<%= i %>" class="input-photo" type="file" value="" name="photo" />
+            </label>
+          </fieldset>
+          <input type="hidden" name="params" value="<%= CGI.escape_html(@transloadit_params) %>" />
+          <%- if @transloadit_params_signature -%>
+          <input type="hidden" name="signature" value="<%= @transloadit_params_signature %>" />
+          <%- end -%>
+          <input type="hidden" name="idx" value="<%= i %>" />
+          <input type="hidden" name="dealership_id" value="<%= @dealership.id %>" />
+          <input type="hidden" name="vehicle_id" value="<%= @vehicle.id %>" />
+          <button class="btn btn-full btn-create" type="submit">Update Vehicle Image</button>
+        </form>
+        <%- end -%>
+        <form class="vehicle-photo-data" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" method="POST">
+          <input type="hidden" name="images" value="<%= CGI.escape_html(@vehicle.view['images'].to_json) %>" />
+          <button class="btn btn-full btn-create" type="submit">Finished</button>
+        </form>

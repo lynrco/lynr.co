@@ -1,8 +1,8 @@
-      <div id="messages" class="<%= "empty" unless !@msg.nil? || has_errors? %>">
-        <%- if @msg -%>
-        <p class="msg"><%= @msg %></p>
-        <%- end -%>
-        <%- has_errors? && @errors.values.each do |error| -%>
-        <p class="msg msg-error"><%= error %></p>
-        <%- end -%>
-      </div>
+        <div id="messages" class="<%= "empty" unless !@msg.nil? || has_errors? %>">
+          <%- if @msg -%>
+          <p class="msg"><%= @msg %></p>
+          <%- end -%>
+          <%- has_errors? && @errors.values.each do |error| -%>
+          <p class="msg msg-error"><%= error %></p>
+          <%- end -%>
+        </div>

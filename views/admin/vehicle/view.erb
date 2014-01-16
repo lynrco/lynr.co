@@ -1,44 +1,44 @@
-      <article class="vehicle">
-        <div class="vehicle-photos">
-          <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
-          <span class="vehicle-photos-inner">
-            <%-
-            images = @vehicle.images
-            images.each do |image|
-              if !image.empty?
-            -%>
-            <img class="vehicle-image"
-                 src="<%= image.full.url %>"
-                 width="<%= image.full.width %>"
-                 alt="" />
-            <%-
+        <article class="vehicle">
+          <div class="vehicle-photos">
+            <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
+            <span class="vehicle-photos-inner">
+              <%-
+              images = @vehicle.images
+              images.each do |image|
+                if !image.empty?
+              -%>
+              <img class="vehicle-image"
+                   src="<%= image.full.url %>"
+                   width="<%= image.full.width %>"
+                   alt="" />
+              <%-
+                end
               end
-            end
-            -%>
-          </span>
-          <%- else -%>
-          <span class="vehicle-photos-inner vehicle-photos-single">
-            <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
-                 src="<%= @vehicle.image.url %>"
-                 alt="Manage vehicle photos" />
-          </span>
+              -%>
+            </span>
+            <%- else -%>
+            <span class="vehicle-photos-inner vehicle-photos-single">
+              <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
+                   src="<%= @vehicle.image.url %>"
+                   alt="Manage vehicle photos" />
+            </span>
+            <%- end -%>
+          </div>
+          <h2 class="vehicle-name"><%= @vehicle.name %></h2>
+          <p class="vehicle-price"><%= @vehicle.price %></p>
+          <ul class="vehicle-properties">
+            <li class="vehicle-property"><strong><%= @vehicle.condition %> Condition</strong></li>
+            <li class="vehicle-property"><strong><%= @vehicle.mileage %> Miles</strong></li>
+            <li class="vehicle-property"><%= @vehicle.vin.transmission %></li>
+            <li class="vehicle-property"><%= @vehicle.vin.fuel %></li>
+            <li class="vehicle-property"><%= @vehicle.vin.doors %></li>
+            <li class="vehicle-property"><%= @vehicle.vin.drivetrain %></li>
+            <li class="vehicle-property"><%= @vehicle.vin.ext_color %></li>
+            <li class="vehicle-property"><%= @vehicle.vin.int_color %></li>
+          </ul>
+          <%- if !@vehicle.notes.nil? && !@vehicle.notes.empty? -%>
+          <div class="vehicle-notes md">
+            <%= @vehicle.notes_html %>
+          </div>
           <%- end -%>
-        </div>
-        <h2 class="vehicle-name"><%= @vehicle.name %></h2>
-        <p class="vehicle-price"><%= @vehicle.price %></p>
-        <ul class="vehicle-properties">
-          <li class="vehicle-property"><strong><%= @vehicle.condition %> Condition</strong></li>
-          <li class="vehicle-property"><strong><%= @vehicle.mileage %> Miles</strong></li>
-          <li class="vehicle-property"><%= @vehicle.vin.transmission %></li>
-          <li class="vehicle-property"><%= @vehicle.vin.fuel %></li>
-          <li class="vehicle-property"><%= @vehicle.vin.doors %></li>
-          <li class="vehicle-property"><%= @vehicle.vin.drivetrain %></li>
-          <li class="vehicle-property"><%= @vehicle.vin.ext_color %></li>
-          <li class="vehicle-property"><%= @vehicle.vin.int_color %></li>
-        </ul>
-        <%- if !@vehicle.notes.nil? && !@vehicle.notes.empty? -%>
-        <div class="vehicle-notes md">
-          <%= @vehicle.notes_html %>
-        </div>
-        <%- end -%>
-      </article>
+        </article>
