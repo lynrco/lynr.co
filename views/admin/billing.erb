@@ -3,13 +3,16 @@
         <fieldset class="fs">
           <label for="card_number">Card Number</label>
           <input class="fs-full <%= error_class('stripeToken') %>" type="text" pattern="\d*"
-                 id="card_number" size="20" placeholder="Credit card number" data-stripe="number" />
+                 id="card_number" size="20" placeholder="Credit card number" data-stripe="number"
+                 autocomplete="cc-number" autocompletetype="cc-number" />
           <div id="card_expiry" class="fs-half">
             <label for="card_expiry_month">Card Expiration Date</label>
             <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
-                   id="card_expiry_month" size="2" data-stripe="exp-month" placeholder="MM" />
+                   id="card_expiry_month" size="2" maxlength="2" data-stripe="exp-month" placeholder="MM"
+                   autocomplete="cc-exp-month" autocompletetype="cc-exp-month" />
             <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
-                   id="card_expiry_year" size="2" data-stripe="exp-year" placeholder="YY" />
+                   id="card_expiry_year" size="2" maxlength="2" data-stripe="exp-year" placeholder="YY"
+                   autocomplete="cc-exp-year" autocompletetype="cc-exp-year" />
           </div>
           <label for="card_cvv">CVV</label>
           <input class="fs-half <%= error_class('stripeToken') %>" type="text" pattern="\d*"
