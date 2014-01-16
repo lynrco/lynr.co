@@ -29,7 +29,11 @@ module Lynr; module View;
     # new `href` value.
     #
     def set_href(href)
-      Menu.new(@text, href, @partial)
+      Menu.new(@text, href, @partial, @icon)
+    end
+
+    def set_icon(icon)
+      Menu.new(@text, @href, @partial, icon)
     end
 
   end
