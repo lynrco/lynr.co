@@ -18,6 +18,7 @@ define(
     function bindEvents(el, els) {
       var type = data.get(el, 'type')
       var types = [];
+      if (!document.querySelector('.menu-' + type)) { return; }
       var i;
       for (i = 0; i < els.length; i++) {
         if (el === els[i]) { continue; }
