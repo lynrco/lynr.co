@@ -119,7 +119,7 @@ module Lynr; module Controller;
     end
 
     def menu_primary
-      super.set_icon('icon-back')
+      Lynr::View::Menu.new('Menu', "/admin/#{@dealership.slug}", nil, 'icon-back')
     end
 
     def menu_secondary
