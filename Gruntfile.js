@@ -2,23 +2,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    grunticon: {
-      icons: {
-        files: [
-          {
-            expand: true,
-            src: ['public/svg/*.svg'],
-            dest: 'public'
-          }
-        ],
-        options: {
-          datasvgcss: '/css/icons.data.svg.css',
-          datapngcss: '/css/icons.data.png.css',
-          urlpngcss: '/css/icons.fallback.css',
-          pngfolder: '/img/icon'
-        }
-      }
-    },
     // /usr/local/share/npm/lib/node_modules/less/bin/lessc --source-map --source-map-url=/css/main.css.map --source-map-rootpath=https://lynr.co.local:9393/less public/less/main.less public/css/main.css
     less: {
       development: {
@@ -64,7 +47,6 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-grunticon');
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less', 'watch']);
