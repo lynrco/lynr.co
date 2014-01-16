@@ -1,5 +1,6 @@
 .cane
 .ctrlp
+.env
 .vagrant*
 !.giturd
 /tmp/
@@ -9,7 +10,10 @@
 !/config/*.wercker.yaml
 !/config/*.spec.yaml
 /coverage/
+/node_modules/
 /public/css/*.css
+!/public/css/icons.*.css
+/public/svg/*.svg
 
 /.dotcloud/
 /dotcloud.yml

@@ -22,6 +22,7 @@ module Lynr; module Controller;
     def get_account(req)
       @subsection = 'account'
       @title = "Account Information"
+      @msg = connect_message(req)
       params = transloadit_params('account_template_id')
       @transloadit_params = params.to_json
       @transloadit_params_signature = transloadit_params_signature(params)
@@ -44,6 +45,14 @@ module Lynr; module Controller;
     protected
 
     # ## Logic Helpers
+
+    def connect_message(req)
+      if req.params['eBay_connect'] == 'success'
+        "Successfully connected to eBay"
+      elsif req.params['eBay_connect'] == 'failure'
+        "eBay connection declined. We can't list on your behalf without it."
+      end
+    end
 
     def email_changed?
       @dealership.identity.email != posted['email']

@@ -17,7 +17,7 @@ def check_syntax(m)
   end
 end
 
-group :vagrant do
+group :unicorn do
 
   guard 'shell' do
 
@@ -55,7 +55,7 @@ group :vagrant do
 
 end
 
-group :local do
+group :rspec do
 
   guard 'rspec', cmd: 'bundle exec rspec' do
     watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
@@ -65,13 +65,9 @@ group :local do
     watch('spec/lib/lynr/cache_spec.rb') { 'spec/lib/lynr/cache' }
   end
 
-  guard 'rake', :task => 'assets:precompile' do
-    watch(%r{^public/less/(.+)\.less$})
-  end
-
 end
 
-group :nitrous do
+group :assets do
 
   guard 'rake', :task => 'assets:precompile' do
     watch(%r{^public/less/(.+)\.less$})

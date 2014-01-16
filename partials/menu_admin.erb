@@ -4,42 +4,29 @@
       </span>
       <ul class="menu-items">
         <li class="menu-item menu-item-dealership">
-          <img class="menu-item-icon" src="<%= @dealership.image.url %>" alt="" />
-          <span class="menu-item-name"><%= @dealership.name %></span>
+          <img class="dealership-icon" src="<%= @dealership.image.url %>" alt="" />
+          <strong><%= @dealership.name %></strong>
         </li>
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/add">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Add Vehicle</span>
-          </a>
+          <a href="/admin/<%= @dealership.id %>">Inventory</a>
         </li>
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/vehicle/manage">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Manage Vehicles</span>
-          </a>
+          <a href="/admin/<%= @dealership.id %>/vehicle/add">Add Vehicle</a>
         </li>
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/account">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Account Settings</span>
-          </a>
+          <a href="/admin/<%= @dealership.id %>/vehicle/manage">Manage Vehicles</a>
         </li>
         <li class="menu-item">
-          <a href="/admin/<%= @dealership.id %>/billing">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Billing Information</span>
-          </a>
+          <a href="/admin/<%= @dealership.id %>/account">Account Settings</a>
         </li>
         <li class="menu-item">
-          <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-          <span class="menu-item-name">Contact Us</span>
+          <a href="/admin/<%= @dealership.id %>/billing">Billing Information</a>
         </li>
         <li class="menu-item">
-          <a href="/signout">
-            <img class="menu-item-icon" src="/img/blank.gif" alt="" />
-            <span class="menu-item-name">Sign Out</span>
-          </a>
+          <a href="/admin/<%=@dealership.id %>/contact">Contact &amp; Support</a>
+        </li>
+        <li class="menu-item">
+          <a href="/signout">Sign Out</a>
         </li>
       </ul>
     </nav>

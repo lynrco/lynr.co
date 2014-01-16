@@ -1,5 +1,6 @@
 require 'bson'
 
+require './lib/lynr/model/accounts'
 require './lib/lynr/model/address'
 require './lib/lynr/model/base'
 require './lib/lynr/model/identity'
@@ -23,7 +24,7 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :accounts, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data={}, id=nil)
       @id = id
@@ -32,6 +33,7 @@ module Lynr; module Model;
       @identity = data.fetch('identity', default=nil)
       @address = extract_address(data)
       @image = data.fetch('image', default=nil)
+      @accounts = data.fetch('accounts', default=Accounts.new)
       @customer_id = data.fetch('customer_id', default=nil)
       @created_at = data.fetch('created_at', default=nil)
       @updated_at = data.fetch('updated_at', default=nil)
@@ -47,6 +49,7 @@ module Lynr; module Model;
 
     def view
       data = self.to_hash
+      data['accounts'] = @accounts.view
       data['address'] = @address.view if @address
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
@@ -56,6 +59,7 @@ module Lynr; module Model;
     def self.inflate(record)
       if (record)
         data = record.dup
+        data['accounts'] = Lynr::Model::Accounts.inflate(record['accounts'])
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
         data['image'] = Lynr::Model::SizedImage.inflate(record['image'])
         Lynr::Model::Dealership.new(data, record['id'])
@@ -71,6 +75,7 @@ module Lynr; module Model;
         'name' => @name,
         'phone' => @phone,
         'identity' => @identity,
+        'accounts' => @accounts,
         'address' => @address,
         'image' => @image,
         'customer_id' => @customer_id,

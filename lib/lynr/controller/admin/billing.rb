@@ -7,11 +7,16 @@ module Lynr; module Controller;
     get  '/admin/:slug/billing', :get_billing
     post '/admin/:slug/billing', :post_billing
 
+    def initialize
+      super
+      @title = "Billing Information"
+      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
+    end
+
     def get_billing(req)
       return unauthorized unless authorized?(req)
       @subsection = 'billing'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @title = "Billing Information"
       @msg = req.session.delete('billing_flash_msg')
       # TODO: This card information should be stored locally. It is innocuous enough.
       # Or perhaps in memcache or something

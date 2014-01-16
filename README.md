@@ -91,6 +91,12 @@ way the Lynr application is architected right now it will likely be faster to
 get up and running using your local machine for development and relying on
 SaaS providers for dependencies.
 
+### Setting up the Development Environment
+
+1. `gem install bundler`
+1. `brew install node`
+1. `npm install`
+
 ### Local Development
 
 Local machine development can be done without the need for a Vagrant virtual
@@ -102,7 +108,9 @@ processing development you will also need to run the queue workers. The specific
 commands are:
 
 1. `bundle exec ./bin/shotgun` for the web server
-1. `bundle exec guard -g local` for asset compilation
+1. `bundle exec guard -g assets` or `grunt watch` for asset compilation. `grunt watch`
+   will generate source maps to show which .less file the styles came from.
+1. `bundle exec guard -g rspec` for spec running
 1. `bundle exec rake worker:all` for queue workers
 
 If you did the above and set up the external dependencies correctly

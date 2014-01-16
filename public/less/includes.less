@@ -2,14 +2,16 @@
 @error: #cd0000;
 @highlight: #e94d00;
 @bg_color: #ebebeb;
-@font_color: #808080;
+@font_color: #484848;
+@font_color_secondary: #ccc;
+@margin_width: 3.125%;
 // See https://kuler.adobe.com/Lynr-color-theme-3323317/
+@accent_color: #fff;
 @brand_color: #f26522;
 @brand_color_muted: #bf7608;
 @brand_color_dark: #8c1c17;
 @brand_color_contrast_light: #5ff4bc;
 @brand_color_contrast_dark: #08bf46;
-@font_stack: "Helvetica Neue", "Helvetica", Arial, sans-serif;
 .depth(@padding:50px) {
   position: relative; padding: @padding;
 
@@ -19,7 +21,7 @@
   }
 }
 .linear_gradient(@start, @stop, @color:~'transparent') {
-  background: #ffffff; /* Old browsers */
+  background: #fff; /* Old browsers */
   background: @color linear-gradient(to bottom, @start 0%,@stop 100%); /* W3C */
   background: @color -webkit-gradient(linear, left top, left bottom, color-stop(0%,@start), color-stop(100%,@stop)); /* Chrome,Safari4+ */
   background: @color -webkit-linear-gradient(top, @start 0%,@stop 100%); /* Chrome10+,Safari5.1+ */

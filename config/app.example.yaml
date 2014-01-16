@@ -6,9 +6,11 @@ amqp:
   consumer: 'amqp://user:pass@amqp.url:port/path'
 # Used for publishing to ebay
 ebay:
-  devid: 'DEVID from https://developer.ebay.com/DevZone/account/Default.aspx'
+  api_url: 'https://api.ebay.com/ws/api.dll | https://api.sandbox.ebay.com/ws/api.dll'
+  sign_in: 'https://signin.ebay.com/ws/eBayISAPI.dll | https://signin.sandbox.ebay.com/ws/eBayISAPI.dll'
   appid: 'AppID from https://developer.ebay.com/DevZone/account/Default.aspx'
   certid: 'CertID from https://developer.ebay.com/DevZone/account/Default.aspx'
+  devid: 'DEVID from https://developer.ebay.com/DevZone/account/Default.aspx'
   runame: 'RuName to use from https://developer.ebay.com/DevZone/account/Default.aspx'
 # Used for sending emails
 mailgun:
@@ -26,6 +28,7 @@ stripe:
   key: 'secret key from https://manage.stripe.com/account/apikeys'
   pub_key: 'publishable key from https://manage.stripe.com/account/apikeys'
   version: '2013-02-13'
+  plan: 'plan id from https://manage.stripe.com/plans'
   live: false
 # Used to handle file uploads
 transloadit:

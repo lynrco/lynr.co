@@ -61,7 +61,7 @@ module Lynr; module Controller;
       # Create Customer and subscribe them
       customer = Stripe::Customer.create(
         card: @posted['stripeToken'],
-        plan: 'lynr_alpha',
+        plan: Lynr::Web.config['stripe']['plan'],
         email: identity.email
       )
       # Create and Save dealership
@@ -102,7 +102,7 @@ module Lynr; module Controller;
     def handle_stripe_error!(err, message)
       log.warn { err }
       @errors['stripeToken'] = message
-      @posted['stripeToken'].delete
+      @posted.delete('stripeToken')
       render 'auth/signup.erb'
     end
 

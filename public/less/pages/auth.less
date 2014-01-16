@@ -1,0 +1,19 @@
+form.signup, form.signin { margin: 0 @margin_width; padding-bottom: 2rem; }
+
+label[for=agree_terms] {
+  display: block; position: relative; padding-right: 2.25rem; line-height: 2.333333333;
+  text-align: right; font-size: 0.75rem; color: @font_color_secondary;
+}
+label[for=agree_terms] a { text-decoration: underline; color: @font_color_secondary; }
+label[for=agree_terms] a:hover { color: @brand_color; }
+label[for=agree_terms] .scheckbox {
+  position: absolute; top: 50%; right: 0; margin-top: -0.875rem; margin-left: 0.5rem;
+}
+
+#card_expiry { width: 48.571428571%; }
+#card_expiry .fs-half {
+  float: left; position: relative; width: 50%; padding-right: 0;
+
+  &:focus { z-index: 5; }
+}
+#card_cvv { float: right; width: 48.571428571%; }

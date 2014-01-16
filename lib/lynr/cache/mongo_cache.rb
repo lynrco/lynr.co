@@ -72,7 +72,7 @@ module Lynr::Cache
     def remove(key)
       @dao.collection.remove(selector(key))
     end
-    
+
     # ## `MongoCache#write(key, value)`
     #
     # *Aliased as `#set`*.

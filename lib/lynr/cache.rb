@@ -7,4 +7,14 @@ require './lib/lynr/cache/mongo_cache'
 # [spec/lib/lynr/cache_spec.rb](spec/lib/lynr/cache_spec.rb)
 #
 module Lynr::Cache
+
+  # ## `Lynr::Cache.mongo`
+  #
+  # Provides an instance of `Lynr::Cache::MongoCache` with the default configuration.
+  #
+  def self.mongo
+    return @mongo unless @mongo.nil?
+    @mongo = Lynr::Cache::MongoCache.new
+  end
+
 end

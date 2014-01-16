@@ -29,8 +29,12 @@
     }
   });
 
+  require(['modules/grunticon'], function(grunticon) {
+    grunticon(["/css/icons.data.svg.css", "/css/icons.data.png.css", "/css/icons.fallback.css"]);
+  });
   require(['domReady'], function(domready) {
     domready(function() {
+      if (!(document.body.id || document.body.id.length)) { return; }
       require(['pages/' + document.body.id], function(page) {
         // Run page init
         if ('function' === typeof page) { page(); }

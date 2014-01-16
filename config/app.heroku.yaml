@@ -4,6 +4,14 @@ domain: 'env:app_domain'
 amqp:
   producer: 'env:RABBITMQ_BIGWIG_URL'
   consumer: 'env:RABBITMQ_BIGWIG_RX_URL'
+# Used for publishing to ebay
+ebay:
+  api_url: 'env:EBAY_API_URL'
+  sign_in: 'env:EBAY_SIGN_IN'
+  devid: 'env:EBAY_DEVID'
+  appid: 'env:EBAY_APPID'
+  certid: 'env:EBAY_CERTID'
+  runame: 'env:EBAY_RUNAME'
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'
@@ -19,6 +27,7 @@ stripe:
   key: 'env:stripe_key'
   pub_key: 'env:stripe_pub_key'
   version: '2013-02-13'
+  plan: 'env:stripe_plan'
   live: false
 # Used to handle file uploads
 transloadit:

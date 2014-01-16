@@ -50,11 +50,14 @@ define(function(require) {
         var form = document.querySelector('form.m-billing');
         var div = document.querySelector('div.m-billing');
         setupStripeForm(form);
-        evt.on(document.querySelector('a.btn-create'), 'click', function(e) {
+        evt.on(document.querySelector('a.btn-positive'), 'click', toggleActive);
+        evt.on(document.querySelector('a.btn-negative'), 'click', toggleActive);
+
+        function toggleActive(e) {
           evt.prevent(e);
           clazz.toggle(form, 'm-billing-active');
           clazz.toggle(div, 'm-billing-active');
-        });
+        }
       }
     );
   }
