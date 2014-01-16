@@ -8,7 +8,7 @@
       </a>
       <%- end -%>
       <%- if respond_to?(:menu_secondary) && !menu_secondary.nil? -%>
-      <a class="menu-link menu-link-secondary <%= menu_primary.icon %>"
+      <a class="menu-link menu-link-secondary <%= menu_secondary.icon %>"
           href="<%= menu_secondary.href %>" data-type="secondary">
         <%= menu_secondary.text %>
       </a>
