@@ -9,7 +9,7 @@ module Lynr; module Controller;
 
     def get(req)
       return unauthorized unless authorized?(req)
-      @subsection = "vehicle vehicle-list"
+      @subsection = "vehicle-list"
       @title = "Manage Vehicles"
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicles = vehicle_dao.list(@dealership)
