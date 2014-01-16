@@ -7,8 +7,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: 'public',
-            src: ['svg/*.svg'],
+            src: ['public/svg/*.svg'],
             dest: 'public'
           }
         ],
@@ -41,11 +40,18 @@ module.exports = function(grunt) {
         ]
       },
       dist: {
-        files: {
-          "public/svg/add-photo.svg": "public/svg/max/add-photo.max.svg",
-          "public/svg/wordmark.svg": "public/svg/max/wordmark.max.svg",
-          "public/svg/wordmark-white.svg": "public/svg/max/wordmark-white.max.svg"
-        }
+        files: [
+          {
+            expand: true,
+            src: ['public/svg/max/*.svg'],
+            dest: 'public/svg/',
+            rename: function(dest, src, opts) {
+              var path = dest;
+              var filename = src.replace(/^.*\/(.*)\.max\.svg$/, '$1');
+              return path + '/' + filename + '.svg';
+            }
+          }
+        ]
       }
     },
     watch: {
