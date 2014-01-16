@@ -13,8 +13,7 @@
 /node_modules/
 /public/css/*.css
 !/public/css/icons.*.css
-/public/img/*.svg
-!/public/img/*.max.svg
+/public/svg/*.svg
 
 /.dotcloud/
 /dotcloud.yml

@@ -24,8 +24,9 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "public/img/wordmark.svg": "public/img/wordmark.max.svg",
-          "public/img/wordmark-white.svg": "public/img/wordmark-white.max.svg"
+          "public/svg/add-photo.svg": "public/svg/max/add-photo.max.svg",
+          "public/svg/wordmark.svg": "public/svg/max/wordmark.max.svg",
+          "public/svg/wordmark-white.svg": "public/svg/max/wordmark-white.max.svg"
         }
       }
     },
