@@ -61,7 +61,7 @@ module Lynr; module Controller;
       # Create Customer and subscribe them
       customer = Stripe::Customer.create(
         card: @posted['stripeToken'],
-        plan: 'lynr_alpha',
+        plan: Lynr::Web.config['stripe']['plan'],
         email: identity.email
       )
       # Create and Save dealership
