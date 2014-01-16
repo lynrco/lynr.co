@@ -2,10 +2,16 @@
       <%- if @dealership -%>
       <h1 class="hat-title"><a class="logo icon-wordmark-white" href="/admin/<%= @dealership.id %>">Lynr</a></h1>
       <%- if respond_to?(:menu_primary) && !menu_primary.nil? -%>
-      <a class="menu-link menu-link-primary" href="<%= menu_primary.href %>" data-type="primary"><%= menu_primary.text %></a>
+      <a class="menu-link menu-link-primary <%= menu_primary.icon %>"
+          href="<%= menu_primary.href %>" data-type="primary">
+        <%= menu_primary.text %>
+      </a>
       <%- end -%>
       <%- if respond_to?(:menu_secondary) && !menu_secondary.nil? -%>
-      <a class="menu-link menu-link-secondary" href="<%= menu_secondary.href %>" data-type="secondary"><%= menu_secondary.text %></a>
+      <a class="menu-link menu-link-secondary <%= menu_primary.icon %>"
+          href="<%= menu_secondary.href %>" data-type="secondary">
+        <%= menu_secondary.text %>
+      </a>
       <%- end -%>
       <%- else -%>
       <h1 class="hat-title"><a class="logo icon-wordmark-white" href="/">Lynr</a></h1>
