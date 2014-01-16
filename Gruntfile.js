@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: 'public/less/**/*.less',
-        tasks: ['less']
+        tasks: ['less:development']
       }
     }
   });
