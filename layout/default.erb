@@ -12,10 +12,10 @@
 <%= render_partial :header -%>
     <div class="window">
       <%- if @dealership -%>
-<%= render_partial :menu_admin -%>
+<%= render_partial menu_primary.partial -%>
       <%- end -%>
       <%- if !@menu_secondary.nil? -%>
-<%= render_partial @menu_secondary.partial -%>
+<%= render_partial menu_secondary.partial -%>
       <%- end -%>
       <div class="main">
 <%= yield -%>
