@@ -3,9 +3,8 @@ define(function(require) {
   var $ = require('jquery');
 
   var api = {
-    account: initAccount,
-    billing: initBilling,
-    'vehicle-edit': initVehiclePhotos
+    _init: initAdmin,
+    billing: initBilling
   };
 
   var baseTransloaditOpts = {
@@ -33,12 +32,22 @@ define(function(require) {
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
   }
 
-  function initAccount() {
+  function initAdmin() {
+    var imageForms = document.querySelectorAll('.f-image');
+    if (imageForms.length > 0) { setupImageForms(imageForms); }
+  }
+
+  function setupImageForms(els) {
     require(
       // spinner module is included so it gets preloaded
       ['jquery.transloadit', 'modules/spinner'],
       function(jtl) {
-        $('.f-image-account').transloadit(transloaditOpts('account'));
+        var forms = $(els);
+        forms.each(function() {
+          var form = $(this);
+          var opts = transloaditOpts(form.data('image-type'));
+          form.transloadit(opts);
+        });
       }
     );
   }
@@ -62,27 +71,10 @@ define(function(require) {
     );
   }
 
-  function initVehiclePhotos() {
-    require(
-      // spinner module is included so it gets preloaded
-      ['jquery.transloadit', 'modules/spinner'],
-      function(jtl) {
-        var forms = $('.f-image');
-        var opts = transloaditOpts('vehicle-photos');
-        forms.each(function() {
-          var form = $(this);
-          form.transloadit(opts);
-          //form.find('input[type=file]').bind('change', handleFileSelect);
-          //form.find('input[type=file]').bind('change', function(e) { form.trigger('submit.transloadit'); });
-        });
-      }
-    );
-  }
-
   function transloaditOpts(page) {
     var specific;
     switch (page) {
-      case 'vehicle-photos':
+      case 'vehicle':
         specific = {
           onSuccess: uploadPhotosSuccess,
           fields: 'input[name=idx], input[name=dealership_id], input[name=vehicle_id]'

@@ -3,7 +3,7 @@
         (0..5).each do |i|
           image = images[i]
         -%>
-        <form id="photo-<%= i %>" class="f-image f-image-vehicle"
+        <form id="photo-<%= i %>" class="f-image f-image-vehicle" data-image-type="vehicle"
               action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
           <fieldset class="fs fs-image">
             <label for="vehicle-photo-<%= i %>" class="f-image-label">
