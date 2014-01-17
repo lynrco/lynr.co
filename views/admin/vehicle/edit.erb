@@ -8,8 +8,8 @@
               if !image.empty?
             -%>
             <img class="vehicle-image"
-                 src="<%= image.full.url %>"
-                 width="<%= image.full.width %>"
+                 src="<%= image.thumb.url %>"
+                 width="<%= image.thumb.width / 2 %>"
                  alt="" />
             <%-
               end
