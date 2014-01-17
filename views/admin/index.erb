@@ -4,7 +4,7 @@
             <%- if !vehicle.image.empty? -%>
             <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>">
               <img class="vehicle-image"
-                   src="<%= vehicle.image.full.url %>"
+                   src="<%= vehicle.image.thumb.url %>"
                    alt="" />
             </a>
             <%- end -%>
