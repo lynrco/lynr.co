@@ -38,7 +38,7 @@ define(function(require) {
       // spinner module is included so it gets preloaded
       ['jquery.transloadit', 'modules/spinner'],
       function(jtl) {
-        $('form.account-photo').transloadit(transloaditOpts('account'));
+        $('.f-image-account').transloadit(transloaditOpts('account'));
       }
     );
   }
@@ -112,7 +112,7 @@ define(function(require) {
       height: full.meta.height
     };
     input.val(JSON.stringify(image));
-    $('img.photo-preview').attr(image);
+    $('img.f-image-preview').attr(image).removeClass('f-image-preview-empty icon-add-photo');
   }
 
   function uploadPhotosSuccess(assembly) {
@@ -147,7 +147,7 @@ define(function(require) {
     var images = JSON.parse(input.val());
     images[fields.idx] = image;
     input.val(JSON.stringify(images));
-    form.find('img.photo-preview').attr(image.full);
+    form.find('img.f-image-preview').attr(image.full).removeClass('f-image-preview-empty icon-add-photo');
   }
 
   function uploadStart(assembly) {
