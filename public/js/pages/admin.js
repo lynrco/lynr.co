@@ -5,7 +5,7 @@ define(function(require) {
   var api = {
     account: initAccount,
     billing: initBilling,
-    'vehicle-photos': initVehiclePhotos
+    'vehicle-edit': initVehiclePhotos
   };
 
   var baseTransloaditOpts = {
@@ -67,7 +67,7 @@ define(function(require) {
       // spinner module is included so it gets preloaded
       ['jquery.transloadit', 'modules/spinner'],
       function(jtl) {
-        var forms = $('.vehicle-photo');
+        var forms = $('.f-image');
         var opts = transloaditOpts('vehicle-photos');
         forms.each(function() {
           var form = $(this);
