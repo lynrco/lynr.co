@@ -7,6 +7,7 @@
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
         'mixpanel': 'modules/mixpanel',
+        'modernizr': 'libs/modernizr.custom.24126',
         'spinner': 'libs/spin-1.3.2',
         'stripe': 'https://js.stripe.com/v1/',
         'underscore': 'libs/underscore-1.3.3'
@@ -29,6 +30,7 @@
     }
   });
 
+  require(['modernizr'], function(modernizr) { /* nothing to see here */ });
   require(['modules/grunticon'], function(grunticon) {
     grunticon(["/css/icons.data.svg.css", "/css/icons.data.png.css", "/css/icons.fallback.css"]);
   });
