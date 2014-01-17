@@ -4,6 +4,6 @@
     <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
     <defs></defs>
     <g id="General" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <path d="M0.761670299,50.259145 L2.13162821e-14,49.4974747 L49.4974747,2.13162821e-14 L61.51829,12.0208153 L23.2799603,50.259145 L61.51829,88.4974747 L49.4974747,100.51829 L2.13162821e-14,51.0208153 L0.761670299,50.259145 Z" id="back" stroke="#BF7608" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+        <path d="M0.761670299,50.259145 L2.13162821e-14,49.4974747 L49.4974747,2.13162821e-14 L61.51829,12.0208153 L23.2799603,50.259145 L61.51829,88.4974747 L49.4974747,100.51829 L2.13162821e-14,51.0208153 L0.761670299,50.259145 Z" id="back" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
     </g>
 </svg>
