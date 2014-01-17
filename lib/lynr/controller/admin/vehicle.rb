@@ -89,7 +89,7 @@ module Lynr; module Controller;
 
     # Handle edit photos
     def get_edit_vehicle_photos(req)
-      @subsection = 'vehicle-photos'
+      @subsection = 'vehicle-edit'
       @title = "Photos for #{@vehicle.name}"
       params = transloadit_params('vehicle_template_id')
       @transloadit_params = params.to_json
