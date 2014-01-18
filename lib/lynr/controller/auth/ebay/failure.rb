@@ -10,7 +10,7 @@ module Lynr::Controller
   #
   class Ebay::Failure < Lynr::Controller::Admin
 
-    include Ebay::Helpers
+    include Lynr::Controller::Ebay::Helpers
 
     get  '/auth/ebay/failure', :get
 
@@ -22,7 +22,7 @@ module Lynr::Controller
     def get(req)
       dealership = session_user(req)
       # Remove the `Ebay::Session` from the cache
-      clear_session(req)
+      clear_ebay_session(req)
       redirect "/admin/#{dealership.slug}/account?eBay_connect=failure"
     end
 

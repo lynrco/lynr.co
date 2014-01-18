@@ -29,7 +29,7 @@ module Lynr::Controller
       # ## `Ebay::Helpers#clear_session(req)`
       #
       # Clear the `Ebay::Session` tied to `req` out of the cache.
-      def clear_session(req)
+      def clear_ebay_session(req)
         Lynr::Cache.mongo.del("#{req.session['dealer_id']}_ebay_session")
       end
 
@@ -37,7 +37,7 @@ module Lynr::Controller
       #
       # Get the `Ebay::Session` tied to `req` from the cache.
       #
-      def get_session(req)
+      def get_ebay_session(req)
         session_data = Lynr::Cache.mongo.get("#{req.session['dealer_id']}_ebay_session")
         YAML.load(session_data)
       end

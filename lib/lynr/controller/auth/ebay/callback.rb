@@ -13,7 +13,7 @@ module Lynr::Controller
   #
   class Ebay::Callback < Lynr::Controller::Admin
 
-    include Ebay::Helpers
+    include Lynr::Controller::Ebay::Helpers
 
     get  '/auth/ebay/callback', :get
 
@@ -26,7 +26,7 @@ module Lynr::Controller
     def get(req)
       # TODO: Make sure a session exists and is a dealership id
       dealership = session_user(req)
-      session = get_session(req)
+      session = get_ebay_session(req)
       # TODO: Check session exists and is valid
       token = ::Ebay::Api.token(session)
       # TODO: Check `token` is valid
