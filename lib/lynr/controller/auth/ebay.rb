@@ -52,7 +52,7 @@ module Lynr::Controller
         case req.params[PARAM]
         when 'success' then "Successfully connected to eBay"
         when 'failure' then "eBay connection declined. We can't list on your behalf without it."
-        when 'token_invalide' then "Unable to establish connection to eBay. Please try again."
+        when 'token_invalid' then "Unable to establish connection to eBay. Please try again."
         end
       end
 

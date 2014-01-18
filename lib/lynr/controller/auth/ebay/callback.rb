@@ -27,15 +27,31 @@ module Lynr::Controller
       dealership = session_user(req)
       # Make sure a session exists and is valid dealership
       return unauthorized if dealership.nil?
+      result = "success"
       session = get_ebay_session(req)
       # TODO: Check session exists and is valid
       token = ::Ebay::Api.token(session)
-      # TODO: Check `token` is valid
-      @account = Lynr::Model::EbayAccount.new(
+      if token.valid?
+        save_account(dealership, session, token)
+      else
+        result = "token_invalid"
+      end
+      redirect "/admin/#{dealership.slug}/account?#{Ebay::Helpers::PARAM}=#{result}"
+    end
+
+    protected
+
+    # ## `Ebay::Callback#save_account(dealership, session, token)`
+    #
+    # Creates a `Lynr::Model::EbayAccount` from `session` and `token` and saves the
+    # `EbayAccount` to `dealership`.
+    #
+    def save_account(dealership, session, token)
+      account = Lynr::Model::EbayAccount.new(
         'expires' => token.expires, 'token' => token.id, 'session' => session.id,
       )
-      dealer_dao.save(dealership.set({ 'accounts' => Lynr::Model::Accounts.new([@account]) }))
-      redirect "/admin/#{dealership.slug}/account?#{Ebay::Helpers::PARAM}=success"
+      # TODO: push token onto existing Accounts
+      dealer_dao.save(dealership.set({ 'accounts' => Lynr::Model::Accounts.new([account]) }))
     end
 
   end
