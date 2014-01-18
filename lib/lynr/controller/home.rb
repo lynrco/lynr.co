@@ -7,6 +7,10 @@ require './lib/lynr/validator/helpers'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::Home`
+  #
+  # Controller to handle requests for the root resource.
+  #
   class Home < Lynr::Controller::Base
 
     # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
@@ -24,15 +28,29 @@ module Lynr; module Controller;
       @title = 'Lynr.co'
     end
 
+    # ## `Home#before_POST(req)`
+    #
+    # Make sure `@posted` gets set.
+    #
     def before_POST(req)
       @posted = req.POST.dup
     end
 
+    # ## `Home#index(req)`
+    #
+    # Process a GET request for the root resource.
+    #
     def index(req)
       log.info('type=measure.render template=index.erb')
       render 'index.erb', layout: 'marketing/default.erb'
     end
 
+    # ## `Home#launch_signup(req)`
+    #
+    # Process a POST request for the root resource by validating the data in the
+    # request body and adding the email address provided to the launch notification
+    # mailing list.
+    #
     def launch_signup(req)
       log.info('type=measure.render template=index.erb')
       email = posted.fetch('email', '')
@@ -54,6 +72,11 @@ module Lynr; module Controller;
 
     private
 
+    # ## `Home#add_list_member(posted)`
+    #
+    # Take the data in `posted` and handle actually committing an email address
+    # to the mailing list. Returns a `Hash` containing errors if any occurred.
+    #
     def add_list_member(posted)
       errors = {}
       config = Lynr.config('app').mailgun
@@ -74,6 +97,11 @@ module Lynr; module Controller;
       { e.http_code.to_s => response['message'] }
     end
 
+    # ## `Home#validate(posted)`
+    #
+    # Check the `posted` data to make sure required fields are satisfied and the
+    # values are valid. Returns a `Hash` of errors if validation parameters aren't met.
+    #
     def validate(posted)
       errors = validate_required(posted, ['email'])
       email = posted.fetch('email', '')
@@ -81,6 +109,11 @@ module Lynr; module Controller;
       errors
     end
 
+    # ## `Home#mail_list_url(key, url, domain)`
+    #
+    # Construct the URL to which data is POSTed in order to subscribe an email
+    # address to the mailing list.
+    #
     def mail_list_url(key, url, domain)
       "https://api:#{key}@#{url}/lists/launch-notify@#{domain}/members"
     end
