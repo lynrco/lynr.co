@@ -24,8 +24,9 @@ module Lynr::Controller
     # redirect the customer to the account details page.
     #
     def get(req)
-      # TODO: Make sure a session exists and is a dealership id
       dealership = session_user(req)
+      # Make sure a session exists and is valid dealership
+      return unauthorized if dealership.nil?
       session = get_ebay_session(req)
       # TODO: Check session exists and is valid
       token = ::Ebay::Api.token(session)
