@@ -25,6 +25,10 @@ module Lynr::Controller
       redirect ::Ebay::Api.sign_in_url(session)
     end
 
+    # # `Lynr::Controller::Ebay::Helpers`
+    #
+    # Helper methods for eBay authentication related conrollers.
+    #
     module Helpers
 
       PARAM = 'eBay_connect'
