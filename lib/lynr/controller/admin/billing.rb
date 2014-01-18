@@ -2,29 +2,47 @@ require './lib/lynr/controller/admin'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::AdminBilling`
+  #
+  # Handles requests for the billing information page.
+  #
   class AdminBilling < Lynr::Controller::Admin
 
     get  '/admin/:slug/billing', :get_billing
     post '/admin/:slug/billing', :post_billing
 
+    # ## `AdminBilling.new`
+    #
+    # Create a new instance of this controller and set up instance properties
+    # needed for all request handlers.
+    #
     def initialize
       super
       @title = "Billing Information"
       @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
     end
 
+    # ## `AdminBilling#get_account(req)`
+    #
+    # Handle GET request for the billing information page.
+    #
     def get_billing(req)
       return unauthorized unless authorized?(req)
       @subsection = 'billing'
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @msg = req.session.delete('billing_flash_msg')
-      # TODO: This card information should be stored locally. It is innocuous enough.
+      # TODO: This card information could be stored locally. It is innocuous enough.
       # Or perhaps in memcache or something
       customer = Stripe::Customer.retrieve(@dealership.customer_id)
       @card = customer.active_card
       render 'admin/billing.erb'
     end
 
+    # ## `AdminBilling#post_account(req)`
+    #
+    # Handle POST request for the billing information page by inflating objects and
+    # updating data.
+    #
     def post_billing(req)
       return unauthorized unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
@@ -69,6 +87,12 @@ module Lynr; module Controller;
       render 'admin/billing.erb'
     end
 
+    # ## `AdminBilling#validate_billing_info`
+    #
+    # *Protected* Check `posted` data in the request is valid. Returns a `Hash`
+    # with error information. `Hash` is empty if no errors, otherwise key value
+    # pairs are of the form `field name => error message`.
+    #
     def validate_billing_info
       errors = {}
 
