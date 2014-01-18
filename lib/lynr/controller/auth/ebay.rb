@@ -49,10 +49,10 @@ module Lynr::Controller
       # Get the messages associated with the eBay connection code in `req#params`
       #
       def self.connect_message(req)
-        if req.params[PARAM] == 'success'
-          "Successfully connected to eBay"
-        elsif req.params[PARAM] == 'failure'
-          "eBay connection declined. We can't list on your behalf without it."
+        case req.params[PARAM]
+        when 'success' then "Successfully connected to eBay"
+        when 'failure' then "eBay connection declined. We can't list on your behalf without it."
+        when 'token_invalide' then "Unable to establish connection to eBay. Please try again."
         end
       end
 
