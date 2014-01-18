@@ -59,6 +59,10 @@ describe Lynr::Config do
         expect(config['bool_val']).to equal(true)
       end
 
+      it "reads a false value from YAML data and returns it" do
+        expect(config['false_val']).to equal(false)
+      end
+
       it "reads an string value from YAML data and returns it" do
         expect(config['string_val']).to eq('hithere')
       end

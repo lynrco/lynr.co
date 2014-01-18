@@ -48,7 +48,7 @@ module Lynr
     # `default`.
     #
     def fetch(key, default = nil)
-      val = @config[key.to_s] || @config[key.to_sym]
+      val = @config.fetch(key.to_s, @config.fetch(key.to_sym, default))
       if (val.is_a?(String) && val.start_with?('env:'))
         val = ENV[val.sub(%r(^env:), '')]
       elsif (val.is_a?(Hash))
