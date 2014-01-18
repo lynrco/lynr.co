@@ -6,6 +6,11 @@ require './lib/lynr/queue/email_job'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::Api`
+  #
+  # Controller for an API endpoint for the Lynr application. Processes a subset
+  # of Stripe events.
+  #
   class Api < Lynr::Controller::Base
 
     API_ROOT = '/api'
@@ -14,6 +19,11 @@ module Lynr; module Controller;
 
     post "#{API_BASE}/stripe.webhook", :stripe_hook
 
+    # ## `Api#stripe_hook(req)`
+    #
+    # Handle POST requests to stripe.webook by delegating to `#process_stripe_event`
+    # if the live modes match.
+    #
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
       if json['livemode'] == Lynr::Web.config['stripe']['live']
@@ -25,6 +35,12 @@ module Lynr; module Controller;
 
     protected
 
+    # ## `Api#process_stripe_event(json)`
+    #
+    # *Protected* Delegates to specific stripe handler methods based on
+    # `json['type']`. If `json['type']` does not have a specific handler method
+    # associated then an empty 200 response is returned.
+    #
     def process_stripe_event(json)
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
@@ -34,6 +50,10 @@ module Lynr; module Controller;
       Rack::Response.new
     end
 
+    # ## `Api#stripe_customer_deleted(event)`
+    #
+    # Process the customer deleted event from Stripe by deleting the associated dealership.
+    #
     def stripe_customer_deleted(event)
       customer = event['data']['object']
       id = customer['id']
@@ -48,6 +68,11 @@ module Lynr; module Controller;
       dao.delete(dealership.id)
     end
 
+    # ## `Api#stripe_customer_trial_ending(event)`
+    #
+    # Process the customer trial ending event from Stripe by submitting a background
+    # job which will email the customer.
+    #
     def stripe_customer_trial_ending(event)
       obj = event['data']['object']
       id = obj['customer']
