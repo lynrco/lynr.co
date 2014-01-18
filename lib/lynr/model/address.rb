@@ -6,13 +6,24 @@ require './lib/lynr/model/base'
 
 module Lynr; module Model;
 
+  # # `Lynr::Model::Address`
+  #
+  # Represent a street address with data from a `Hash`. Expected fields are:
+  #
+  # * `line_one` of the street address
+  # * `line_two` of the street address
+  # * `city` where the address is located
+  # * `state` where the address is located
+  # * `zip` where the address is located
+  # * `geo` data representing a GeoJSON Point for this address
+  #
   class Address
 
     include Base
 
     attr_reader :line_one, :line_two, :city, :state, :zip, :geo
 
-    alias postcode :zip
+    alias :postcode :zip
 
     def initialize(data={})
       @line_one = data.fetch('line_one', default=nil)
