@@ -7,10 +7,21 @@ require './lib/lynr/model/vin'
 
 module Lynr; module Converter;
 
+  # # `Lynr::Converter::DataOne`
+  #
+  # Module to convert XML from DataOne (VIN search) into `Lynr::Model`
+  # instances.
+  #
   module DataOne
 
     include Lynr::Converter::LibXmlHelper
 
+    # ## `#xml_to_vehicle(query_response)`
+    #
+    # Take a `<query_response />` `LibXML::XML::Node` and create a
+    # `Lynr::Model::Vehicle` instance containing the data from `query_response`.
+    # Returns an empty vehicle if no `query_response` is provided.
+    #
     def xml_to_vehicle(query_response)
       return Lynr::Model::Vehicle.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
@@ -21,6 +32,12 @@ module Lynr; module Converter;
       })
     end
 
+    # ## `#xml_to_mpg(query_response)`
+    #
+    # Take a `<query_response />` `LibXML::XML::Node` and create a
+    # `Lynr::Model::Mpg` instance containing its data. Returns an empty `Mpg`
+    # instance if `query_response` is `nil`.
+    #
     def xml_to_mpg(query_response)
       return Lynr::Model::Mpg.new if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
@@ -30,6 +47,12 @@ module Lynr; module Converter;
       })
     end
 
+    # ## `#xml_to_vin(query_response)`
+    #
+    # Take a `<query_response />` `LibXML::XML::Node` and create a
+    # `Lynr::Model::Vin` instance containing its data. Returns an empty `Vin`
+    # instance if `query_response` is `nil`.
+    #
     def xml_to_vin(query_response)
       return Lynr::Model::Vin.inflate(nil) if query_response.nil?
       us_data = query_response.find('.//us_market_data/common_us_data').first
