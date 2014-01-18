@@ -19,6 +19,7 @@ module Lynr::Controller
     # Send the customer to the eBay authentication endpoint.
     #
     def get(req)
+      # TODO: check that we aren't already connected
       session = ::Ebay::Api.session
       Lynr::Cache.mongo.set("#{req.session['dealer_id']}_ebay_session", YAML.dump(session))
       redirect ::Ebay::Api.sign_in_url(session)

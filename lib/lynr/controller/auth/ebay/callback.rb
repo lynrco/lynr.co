@@ -29,7 +29,7 @@ module Lynr::Controller
       return unauthorized if dealership.nil?
       result = "success"
       session = get_ebay_session(req)
-      # TODO: Check session exists and is valid
+      # If `session` doesn't exist or is invalid then we get an invalid `token`
       token = ::Ebay::Api.token(session)
       if token.valid?
         save_account(dealership, session, token)
