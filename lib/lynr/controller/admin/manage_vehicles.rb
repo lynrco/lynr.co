@@ -3,10 +3,18 @@ require './lib/lynr/model/vehicle'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::AdminManageVehicles`
+  #
+  # Controller to handle requests for the manage vehicles resource.
+  #
   class AdminManageVehicles < Lynr::Controller::Admin
 
     get  '/admin/:slug/vehicle/manage', :get
 
+    # ## `AdminManageVehicles#get(req)`
+    #
+    # Process GET requests for the manage vehicles resource.
+    #
     def get(req)
       return unauthorized unless authorized?(req)
       @subsection = "vehicle-list"
