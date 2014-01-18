@@ -5,6 +5,20 @@ require './lib/lynr/logging'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::Base`
+  #
+  # Defines the basic behavior for `Lynr::Controller` classes including helper
+  # methods and simple implementations meant to be overriden. Most notably
+  # `Controller::Base` overrides `Sly::Node.create_route` in order to augment
+  # the default `Sly::Route` creation with some before handling. The
+  # `#before_each(req)` method gets called before every request processed by
+  # a `Sly::Route` created from `Controller::Base`. This allows things like
+  # checking for an authenticated user to be separated out from each request
+  # handler.
+  #
+  # `Controller::Base` also defines a baseline set of HTTP headers to be included
+  # in every response.
+  #
   class Base < Sly::Node
 
     include Lynr::Logging
