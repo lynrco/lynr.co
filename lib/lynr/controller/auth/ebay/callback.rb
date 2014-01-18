@@ -34,7 +34,7 @@ module Lynr::Controller
         'expires' => token.expires, 'token' => token.id, 'session' => session.id,
       )
       dealer_dao.save(dealership.set({ 'accounts' => Lynr::Model::Accounts.new([@account]) }))
-      redirect "/admin/#{dealership.slug}/account?eBay_connect=success"
+      redirect "/admin/#{dealership.slug}/account?#{Ebay::Helpers::PARAM}=success"
     end
 
   end

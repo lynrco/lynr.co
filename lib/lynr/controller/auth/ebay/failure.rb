@@ -23,7 +23,7 @@ module Lynr::Controller
       dealership = session_user(req)
       # Remove the `Ebay::Session` from the cache
       clear_ebay_session(req)
-      redirect "/admin/#{dealership.slug}/account?eBay_connect=failure"
+      redirect "/admin/#{dealership.slug}/account?#{Ebay::Helpers::PARAM}=failure"
     end
 
   end

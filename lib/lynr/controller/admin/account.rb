@@ -47,10 +47,8 @@ module Lynr; module Controller;
     # ## Logic Helpers
 
     def connect_message(req)
-      if req.params['eBay_connect'] == 'success'
-        "Successfully connected to eBay"
-      elsif req.params['eBay_connect'] == 'failure'
-        "eBay connection declined. We can't list on your behalf without it."
+      if !req.params[Lynr::Controller::Ebay::Helpers::PARAM].nil?
+        Lynr::Controller::Ebay::Helpers.connect_message(req)
       end
     end
 

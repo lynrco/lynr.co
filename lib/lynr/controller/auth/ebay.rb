@@ -26,6 +26,8 @@ module Lynr::Controller
 
     module Helpers
 
+      PARAM = 'eBay_connect'
+
       # ## `Ebay::Helpers#clear_session(req)`
       #
       # Clear the `Ebay::Session` tied to `req` out of the cache.
@@ -40,6 +42,18 @@ module Lynr::Controller
       def get_ebay_session(req)
         session_data = Lynr::Cache.mongo.get("#{req.session['dealer_id']}_ebay_session")
         YAML.load(session_data)
+      end
+
+      # ## `Ebay::Helpers.connect_message(req)`
+      #
+      # Get the messages associated with the eBay connection code in `req#params`
+      #
+      def self.connect_message(req)
+        if req.params[PARAM] == 'success'
+          "Successfully connected to eBay"
+        elsif req.params[PARAM] == 'failure'
+          "eBay connection declined. We can't list on your behalf without it."
+        end
       end
 
     end
