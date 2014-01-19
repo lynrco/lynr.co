@@ -18,8 +18,8 @@ module Lynr; module Controller;
 #    get  '/admin/:slug/:vehicle',        :get_vehicle
 #    get  '/admin/:slug/vehicle/add',     :get_add
 #    post '/admin/:slug/vehicle/add',     :post_add
-    get  '/admin/:slug/:vehicle/edit',   :get_edit_vehicle
-    post '/admin/:slug/:vehicle/edit',   :post_edit_vehicle
+#    get  '/admin/:slug/:vehicle/edit',   :get_edit_vehicle
+#    post '/admin/:slug/:vehicle/edit',   :post_edit_vehicle
 #    get  '/admin/:slug/:vehicle/menu',   :get_vehicle_menu
 #    get  '/admin/:slug/:vehicle/photos', :get_edit_vehicle_photos
 #    post '/admin/:slug/:vehicle/photos', :post_edit_vehicle_photos
