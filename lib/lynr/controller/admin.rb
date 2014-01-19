@@ -81,7 +81,7 @@ module Lynr; module Controller;
     # Overrides `Lynr::Controller::Base#menu_primary` to return a menu for the dealership.
     #
     def menu_primary
-      Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin)
+      Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
     # ## `Lynr::Controller::Admin#authorized?`
