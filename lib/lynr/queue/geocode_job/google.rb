@@ -24,7 +24,6 @@ module Lynr; class Queue;
       end
 
       def perform
-        desc = "Geocode for #{@dealership.id} -- #{@address.line_one}, #{@address.postcode} --"
         if (!geocodable?)
           return failure("#{desc} line_one and zip not specified", :no_requeue)
         end
@@ -32,16 +31,7 @@ module Lynr; class Queue;
         if (results.length == 0)
           return failure("#{desc} returned no results", :no_requeue)
         end
-        addresses = results.map do |result|
-          lnglat = result.coordinates.reverse
-          Lynr::Model::Address.new(
-            'line_one' => result.street_address,
-            'city' => result.city,
-            'state' => result.state_code,
-            'zip' => result.postal_code,
-            'geo' => GeoRuby::SimpleFeatures::Point.from_lon_lat(*lnglat)
-          )
-        end
+        addresses = results.map(method(:address_for_result))
         # TODO: If multiple addresses, create support ticket or way to resolve
 
         # Do nothing if addresses are the same
@@ -57,6 +47,21 @@ module Lynr; class Queue;
       end
 
       protected
+
+      def address_for_result(result)
+        lnglat = result.coordinates.reverse
+        Lynr::Model::Address.new(
+          'line_one' => result.street_address,
+          'city' => result.city,
+          'state' => result.state_code,
+          'zip' => result.postal_code,
+          'geo' => GeoRuby::SimpleFeatures::Point.from_lon_lat(*lnglat)
+        )
+      end
+
+      def desc
+        "Geocode for #{@dealership.id} -- #{@address.line_one}, #{@address.postcode} --"
+      end
 
       def geocodable?
         line_one = @address.line_one
