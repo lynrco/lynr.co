@@ -5,6 +5,14 @@ require './lib/lynr/view/menu'
 
 module Lynr; module Controller;
 
+  # # `Lynr::Controller::AdminVehicle`
+  #
+  # Controller responsible for handling requests to for any individual vehicle
+  # resource including: viewing a vehicle, adding a vehicle, editing a vehicle,
+  # managing vehicle photos, deleting a vehicle.
+  #
+  # TODO: This controller should be split up into individual resources.
+  #
   class AdminVehicle < Lynr::Controller::Admin
 
     get  '/admin/:slug/:vehicle',        :get_vehicle
