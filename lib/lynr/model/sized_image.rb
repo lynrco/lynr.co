@@ -17,9 +17,9 @@ module Lynr; module Model;
     attr_reader :original, :full, :thumb
 
     def initialize(data={})
-      @original = data['original'] || Image::Empty
-      @full = data['full'] || Image::Empty
-      @thumb = data['thumb'] || Image::Empty
+      @original = data.fetch('original', default=Image::Empty)
+      @full = data.fetch('full', default=Image::Empty)
+      @thumb = data.fetch('thumb', default=Image::Empty)
       @primary = [@original, @full, @thumb].find { |img| !img.empty? } || Image::Empty
     end
 
