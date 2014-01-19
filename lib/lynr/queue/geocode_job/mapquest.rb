@@ -8,6 +8,13 @@ module Lynr; class Queue;
 
   module GeocodeJob
 
+    # # `Lynr::Queue::GeocodeJob::MapQuest`
+    #
+    # `Queue::Job` which when `#perform`ed hits the MapQuest API to translate
+    # a `Lynr::Model::Address` into a geocoded point.
+    #
+    # TODO: This implementation is incomplete.
+    #
     class MapQuest < Job
 
       URL = 'http://open.mapquestapi.com/geocoding/v1/address?key='
