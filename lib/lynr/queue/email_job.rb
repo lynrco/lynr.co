@@ -7,8 +7,25 @@ require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
 
+  # # `Lynr::Queue::EmailJob`
+  #
+  # Background task to send an email. Emails are constructed from a template name
+  # combined with txt and html extensions. Templates are located in the views folder
+  # and are expected to be ERB files. These ERB files are rendered with data passed
+  # to `EmailJob`.
+  #
   class EmailJob < Job
 
+    # ## `EmailJob.new(template, data)`
+    #
+    # Constructs a background task to send an email based on files in the
+    # `views/email` folder with the name `template`. `template` can be a path
+    # and not simply a template name. The ERB files found based on `template`
+    # are rendered in the context of `data`. `data` must include `:to` and
+    # `:subject` or errors will be raised. `data` may include `:from`, if it does
+    # `:from` will be used as the email address of the sender otherwise the sender
+    # address is retrieved from app configuration.
+    #
     def initialize(template, data = {})
       raise ArgumentError.new("`:to` data is required") if !data.include? :to
       raise ArgumentError.new("`:subject` data is required") if !data.include? :subject
@@ -20,6 +37,12 @@ module Lynr; class Queue;
       @mail_data[:from] = @config.from if !data.include? :from
     end
 
+    # ## `EmailJob#perform`
+    #
+    # Execute the task of sending the email by POSTing a request to Mailgun
+    # using credentials found in app configuration. Returns `Success` if no errors
+    # are raised in sending, otherwise a failure result is returned.
+    #
     def perform
       data = {
         text: @text_template.result,
@@ -33,12 +56,22 @@ module Lynr; class Queue;
       failure("Post to #{url} failed. #{rce.to_s}")
     end
 
+    # ## `EmailJob#to_s`
+    #
+    # String representation including who the mail is being sent to as well as
+    # the name of the template to be used.
+    #
     def to_s
       "#<#{self.class.name}:#{object_id} to=#{@mail_data[:to]}, template=#{@template}>"
     end
 
     private
 
+    # ## `EmailJob#tmpl(template, type)`
+    #
+    # *Private* Helper method to render `template` with the given `type`. `type`
+    # is expected to be html or txt.
+    #
     def tmpl(template, type)
       path = ::File.join(Lynr.root, 'views/email', "#{template}.#{type.to_s}")
       Sly::View::Erb.new(path, data: @mail_data)
