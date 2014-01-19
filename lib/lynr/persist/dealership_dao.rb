@@ -3,8 +3,18 @@ require './lib/lynr/model/dealership'
 
 module Lynr; module Persist;
 
+  # # `Lynr::Persist::DealershipDao`
+  #
+  # Data Access Object specialized to interact with `Lynr::Model::Dealership`
+  # instances.
+  #
   class DealershipDao
 
+    # ## `DealershipDao.new`
+    #
+    # Establish a connection to backing database and create indices if they
+    # don't exist.
+    #
     def initialize
       @collection = 'dealers'
       @dao = MongoDao.new('collection' => @collection)
@@ -12,14 +22,26 @@ module Lynr; module Persist;
       ensure_indices if @dao.active?
     end
 
+    # ## `DealershipDao#account_exists?(email)`
+    #
+    # Check to see if `email` is used by an existing account.
+    #
     def account_exists?(email)
       @dao.collection.count(query: { 'identity.email' => email }, read: :secondary, limit: 1) > 0
     end
 
+    # ## `DealershipDao#delete(id)`
+    #
+    # Delete (or archive) the record identified by `id`.
+    #
     def delete(id)
       # TODO: Implement this for Stripe webhooks
     end
 
+    # ## `DealershipDao#get(id)`
+    #
+    # Retrieve the `Dealership` identified by `id`.
+    #
     def get(id)
       record =
         if (id.is_a?(BSON::DBRef) && id.namespace == @collection)
@@ -31,16 +53,28 @@ module Lynr; module Persist;
       translate(record)
     end
 
+    # ## `DealershipDao#get_by_customer_id(customer_id)`
+    #
+    # Retrieve the `Dealership` identified by `customer_id`.
+    #
     def get_by_customer_id(customer_id)
       record = @dao.search({ 'customer_id' => customer_id }, { limit: 1 })
       translate(record)
     end
 
+    # ## `DealershipDao#get_by_email(email)`
+    #
+    # Retrieve the `Dealership` identified by `email`.
+    #
     def get_by_email(email)
       record = @dao.search({ 'identity.email' => email }, { limit: 1 })
       translate(record)
     end
 
+    # ## `DealershipDao#save(dealer)`
+    #
+    # Create a new record for `dealer` or update the record associated with it.
+    #
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
       translate(record)
@@ -48,12 +82,21 @@ module Lynr; module Persist;
 
     private
 
+    # ## `DealershipDao#ensure_indices`
+    #
+    # Create appropriate indexes on the database structure backing this 'table'.
+    #
     def ensure_indices
       @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
       @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
       @indexed = true
     end
 
+    # ## `DealershipDao#translate(record)`
+    #
+    # Take a record `Hash` provided by the database and turn it into a `Dealership`
+    # instance.
+    #
     def translate(record)
       record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Dealership.inflate(record)
