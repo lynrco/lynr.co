@@ -24,6 +24,7 @@ module Lynr; module Controller;
     # isn't the dealership being requested.
     #
     def before_each(req)
+      super
       return unauthorized unless authorized?(req)
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
     end
