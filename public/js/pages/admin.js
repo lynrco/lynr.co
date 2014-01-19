@@ -1,18 +1,12 @@
 define(function(require) {
 
   var api = {
-    _init: initAdmin,
+    _init: init,
     billing: initBilling
   };
 
-  function initAdmin() {
+  function init() {
     initImageForms(document.querySelectorAll('.f-image'));
-  }
-
-  function initImageForms(forms) {
-    if (forms.length > 0) {
-      require(['modules/transloadit-form'], function(tlit) { tlit(forms); });
-    }
   }
 
   function initBilling() {
@@ -32,6 +26,12 @@ define(function(require) {
         }
       }
     );
+  }
+
+  function initImageForms(forms) {
+    if (forms.length > 0) {
+      require(['modules/transloadit-form'], function(tlit) { tlit(forms); });
+    }
   }
 
   return api;
