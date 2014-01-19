@@ -6,9 +6,12 @@ define(function(require) {
   };
 
   function initAdmin() {
-    var imageForms = document.querySelectorAll('.f-image');
-    if (imageForms.length > 0) {
-      require(['modules/transloadit-form'], function(tlit) { tlit(imageForms); })
+    initImageForms(document.querySelectorAll('.f-image'));
+  }
+
+  function initImageForms(forms) {
+    if (forms.length > 0) {
+      require(['modules/transloadit-form'], function(tlit) { tlit(forms); });
     }
   }
 
