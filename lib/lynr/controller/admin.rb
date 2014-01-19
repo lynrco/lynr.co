@@ -25,6 +25,9 @@ module Lynr; module Controller;
 
     attr_reader :dealer_dao, :vehicle_dao
 
+    get  '/admin/:slug', :index
+    get  '/menu/:slug',  :menu
+
     def initialize
       super
       @section = "admin"
@@ -32,8 +35,6 @@ module Lynr; module Controller;
       @vehicle_dao = Lynr::Persist::VehicleDao.new
     end
 
-    get  '/admin/:slug', :index
-    get  '/menu/:slug',  :menu
 
     # ## `Lynr::Controller::Admin#index`
     #
@@ -50,6 +51,10 @@ module Lynr; module Controller;
       render 'admin/index.erb'
     end
 
+    # ## `Admin#menu(req)`
+    #
+    # Primarmy menu shown over the admin homepage.
+    #
     def menu(req)
       @menu_vis = 'menu-visible-primary'
       index(req)
