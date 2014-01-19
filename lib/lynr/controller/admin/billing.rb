@@ -20,6 +20,31 @@ module Lynr; module Controller;
       super
       @title = "Billing Information"
       @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
+      @subsection = 'billing'
+    end
+
+    # ## `AdminBilling#before_each(req)`
+    #
+    # Make sure user is a customer authorized to view the billing information
+    # before displaying it on any request. Retrieve the associated `Model::Dealership`
+    # if they are authorized.
+    #
+    def before_each(req)
+      super
+      return unauthorized unless authorized?(req)
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+    end
+
+    # ## `AdminBilling#before_POST(req)`
+    #
+    # Do data validation before processing a POST request. It doesn't need to be
+    # in the POST handler.
+    #
+    def before_POST(req)
+      super
+      @posted = req.POST.dup
+      @errors = validate_billing_info
+      render 'admin/billing.erb' if has_errors?
     end
 
     # ## `AdminBilling#get_account(req)`
@@ -27,9 +52,6 @@ module Lynr; module Controller;
     # Handle GET request for the billing information page.
     #
     def get_billing(req)
-      return unauthorized unless authorized?(req)
-      @subsection = 'billing'
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @msg = req.session.delete('billing_flash_msg')
       # TODO: This card information could be stored locally. It is innocuous enough.
       # Or perhaps in memcache or something
@@ -44,11 +66,6 @@ module Lynr; module Controller;
     # updating data.
     #
     def post_billing(req)
-      return unauthorized unless authorized?(req)
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      @posted = req.POST
-      @errors = validate_billing_info
-      return render 'admin/billing.erb' if has_errors?
       customer = Stripe::Customer.retrieve(@dealership.customer_id)
       customer.card = posted['stripeToken']
       customer.save
