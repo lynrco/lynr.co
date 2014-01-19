@@ -66,13 +66,13 @@ module Lynr; module Converter;
       Lynr::Model::Vin.new(
         'year' => content(basic_data, './year'),
         'make' => content(basic_data, './make'),
-        'model' => (model unless model.nil? || model.empty?),
+        'model' => model,
         'transmission' => value(us_data, './/transmission/@name'),
         'fuel' => content(us_data, './/fuel_type'),
         'doors' => content(us_data, './/doors'),
         'drivetrain' => content(us_data, './/drive_type'),
-        'ext_color' => (ext_colors.length >= 1 && ext_colors.join(', ')) || ext_colors.first,
-        'int_color' => (int_colors.length >= 1 && int_colors.join(', ')) || int_colors.first,
+        'ext_color' => ext_colors.join(', '),
+        'int_color' => int_colors.join(', '),
         'number' => query_response['identifier'],
         'raw' => query_response.to_s
       )
