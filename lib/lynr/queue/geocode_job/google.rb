@@ -11,6 +11,11 @@ module Lynr; class Queue;
 
   module GeocodeJob
 
+    # # `Lynr::Queue::GeocodeJob::Google`
+    #
+    # Use the Google geocoding API to get geo data for a `Lynr::Model::Dealership`'s
+    # `Lynr::Model::Address`.
+    #
     class Google < Job
 
       def initialize(dealership)
