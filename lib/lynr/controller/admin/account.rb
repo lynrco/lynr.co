@@ -18,16 +18,6 @@ module Lynr; module Controller;
     get  '/admin/:slug/account', :get_account
     post '/admin/:slug/account', :post_account
 
-    # ## `AdminAccount#before_each(req)`
-    #
-    # Return an unauthorized error message if the dealership in `req.session` doesn't
-    # isn't the dealership being requested.
-    #
-    def before_each(req)
-      super
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-    end
-
     # ## `AdminAccount#get_account(req)`
     #
     # Handle GET request for the account information page.

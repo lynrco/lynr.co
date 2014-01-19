@@ -23,17 +23,6 @@ module Lynr; module Controller;
       @subsection = 'billing'
     end
 
-    # ## `AdminBilling#before_each(req)`
-    #
-    # Make sure user is a customer authorized to view the billing information
-    # before displaying it on any request. Retrieve the associated `Model::Dealership`
-    # if they are authorized.
-    #
-    def before_each(req)
-      super
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-    end
-
     # ## `AdminBilling#before_POST(req)`
     #
     # Do data validation before processing a POST request. It doesn't need to be

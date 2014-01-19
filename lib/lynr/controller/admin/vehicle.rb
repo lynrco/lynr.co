@@ -17,7 +17,6 @@ module Lynr::Controller
     #
     def initialize
       super
-      @dealership = false
       @vehicle = false
     end
 
@@ -28,8 +27,7 @@ module Lynr::Controller
     #
     def before_each(req)
       super
-      return not_found unless dealership(req) and vehicle(req)
-      @dealership = dealership(req)
+      return not_found unless vehicle(req)
       @vehicle = vehicle(req)
     end
 
@@ -75,15 +73,6 @@ module Lynr::Controller
     end
 
     protected
-
-    # ## `Admin::Vehicle#dealership(req)`
-    #
-    # *Protected* Get dealership object out of `req`.
-    #
-    def dealership(req)
-      return @dealership unless @dealership == false
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-    end
 
     # ## `Admin::Vehicle#vehicle(req)`
     #

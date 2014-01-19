@@ -33,11 +33,14 @@ module Lynr; module Controller;
       @section = "admin"
       @dealer_dao = Lynr::Persist::DealershipDao.new
       @vehicle_dao = Lynr::Persist::VehicleDao.new
+      @dealership = false
     end
 
     def before_each(req)
       super
       return unauthorized unless authorized?(req)
+      return not_found unless dealership(req)
+      @dealership = dealership(req)
     end
 
     # ## `Lynr::Controller::Admin#index`
@@ -46,9 +49,6 @@ module Lynr; module Controller;
     #
     def index(req)
       @subsection = 'vehicle-list'
-      id = BSON::ObjectId.from_string(req['slug'])
-      @dealership = dealer_dao.get(id)
-      return not_found if @dealership.nil?
       @vehicles = vehicle_dao.list(@dealership)
       @title = "Welcome back #{@dealership.name}"
       @owner = @dealership.name
@@ -126,6 +126,17 @@ module Lynr; module Controller;
       return nil if auth_secret.nil?
       digest = OpenSSL::Digest::Digest.new('sha1')
       OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
+    end
+
+    protected
+
+    # ## `Admin::Vehicle#dealership(req)`
+    #
+    # *Protected* Get dealership object out of `req`.
+    #
+    def dealership(req)
+      return @dealership unless @dealership == false
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
     end
 
   end

@@ -13,16 +13,6 @@ module Lynr::Controller
     get  '/admin/:slug/vehicle/add', :get_html
     post '/admin/:slug/vehicle/add', :post_html
 
-    # ## `Vehicle::Add#before_each(req)`
-    #
-    # Check the user is allowed to add vehicles and setup the `@dealership`
-    # property.
-    #
-    def before_each(req)
-      super
-      @dealership = session_user(req)
-    end
-
     # ## `Vehicle::Add#before_POST(req)`
     #
     # Set `@posted` to be a copy of the data posted in the request. Set 'dealership'

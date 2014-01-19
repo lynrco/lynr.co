@@ -18,7 +18,6 @@ module Lynr; module Controller;
     def get(req)
       @subsection = "vehicle-list"
       @title = "Manage Vehicles"
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @vehicles = vehicle_dao.list(@dealership)
       render 'admin/vehicle/manage.erb'
     end

@@ -25,7 +25,6 @@ module Lynr; module Controller;
     # the customer.
     #
     def search(req)
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
       @posted = req.POST.dup
       posted['dealership'] = @dealership
       query_response = fetch(posted['vin'])
