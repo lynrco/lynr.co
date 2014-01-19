@@ -5,9 +5,7 @@
             <label for="photo" class="f-image-label">
               <%- if !@dealership.image.empty? -%>
               <img class="f-image-preview"
-                   src="<%= @dealership.image.url %>"
-                   width="<%= @dealership.image.width %>"
-                   height="<%= @dealership.image.height %>"
+                   src="<%= @dealership.image.full.url %>"
                    alt="" />
               <%- else -%>
               <img class="f-image-preview f-image-preview-empty icon-add-photo"
