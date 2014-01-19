@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  var requirejs = require('requirejs');
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     // /usr/local/share/npm/lib/node_modules/less/bin/lessc --source-map --source-map-url=/css/main.css.map --source-map-rootpath=https://lynr.co.local:9393/less public/less/main.less public/css/main.css
@@ -50,5 +52,39 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less', 'watch']);
+
+  grunt.registerTask(
+    'build',
+    'Run the r.js build script',
+    function() {
+      var done = this.async();
+      var buildjs = {
+        "appDir": "public",
+        "baseUrl": "js",
+        "mainConfigFile": "public/js/main.js",
+        "dir": "dist",
+        "paths": {
+          "stripe": "empty"
+        },
+        "modules": [
+          { "name": "main" },
+          { "name": "pages/admin" },
+          { "name": "pages/auth" },
+          { "name": "pages/home" }
+        ],
+        "findNestedDependencies": true
+      };
+      requirejs.optimize(buildjs,
+        function(output) {
+          grunt.log.writeln(output);
+          grunt.log.ok('Main build complete.');
+          done();
+        },
+        function(err) {
+          fatal('Main build failure: ' + err);
+        }
+      );
+    }
+  );
 
 };
