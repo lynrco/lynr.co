@@ -28,7 +28,6 @@ module Lynr::Controller
     #
     def before_each(req)
       super
-      return unauthorized unless authorized?(req)
       return not_found unless dealership(req) and vehicle(req)
       @dealership = dealership(req)
       @vehicle = vehicle(req)

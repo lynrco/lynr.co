@@ -20,7 +20,6 @@ module Lynr::Controller
     #
     def before_each(req)
       super
-      return unauthorized unless authorized?(req)
       @dealership = session_user(req)
     end
 

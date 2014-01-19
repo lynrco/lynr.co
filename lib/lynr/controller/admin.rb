@@ -35,6 +35,10 @@ module Lynr; module Controller;
       @vehicle_dao = Lynr::Persist::VehicleDao.new
     end
 
+    def before_each(req)
+      super
+      return unauthorized unless authorized?(req)
+    end
 
     # ## `Lynr::Controller::Admin#index`
     #

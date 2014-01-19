@@ -16,7 +16,6 @@ module Lynr; module Controller;
     # Process GET requests for the manage vehicles resource.
     #
     def get(req)
-      return unauthorized unless authorized?(req)
       @subsection = "vehicle-list"
       @title = "Manage Vehicles"
       @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
