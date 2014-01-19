@@ -8,7 +8,9 @@ module Lynr::Model
   #
   # Class to represent the critical data which can be gleaned from a VIN decoding.
   # The VIN encodes a surprising amount of information about a vehicle and this
-  # class is meant to provide a high signal subset of the data in a VIN.
+  # class is meant to provide a high signal subset of the data in a VIN. The properties
+  # accessible from `Lynr::Model::Vin` are listed in `Vin::ATTRS` and each property
+  # has a default value of `nil`.
   #
   class Vin
 
