@@ -2,6 +2,13 @@ require './lib/lynr/model/base'
 
 module Lynr; module Model;
 
+  # # `Lynr::Model::SubscriptionPlan`
+  #
+  # Intended to represent a String subscription plan. This way plans could be
+  # specified in code or configuration and synced periodically to Stripe. This
+  # idea has yet to be realized but `SubscriptionPlan` is an artifact of early
+  # brain wanderings in that direction.
+  #
   class SubscriptionPlan
 
     include Base
