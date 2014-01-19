@@ -1,6 +1,6 @@
 require 'json'
 
-require './lib/lynr/controller/admin/vehicle_base'
+require './lib/lynr/controller/admin/vehicle'
 require './lib/lynr/model/sized_image'
 
 module Lynr::Controller

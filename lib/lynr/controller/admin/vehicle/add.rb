@@ -1,5 +1,5 @@
 require './lib/lynr/controller/admin'
-require './lib/lynr/controller/admin/vehicle_base'
+require './lib/lynr/controller/admin/vehicle'
 require './lib/lynr/model/vehicle'
 
 module Lynr::Controller
