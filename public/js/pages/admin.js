@@ -2,11 +2,27 @@ define(function(require) {
 
   var api = {
     _init: init,
+    account: initAccount,
     billing: initBilling
   };
 
   function init() {
     initImageForms(document.querySelectorAll('.f-image'));
+  }
+
+  function initAccount() {
+    require(
+      ['modules/dom-events'],
+      function(evt) {
+        evt.on(document.querySelector('.f-image-preview'), 'error', function(e) {
+          var img = e.target;
+          img.src = '/img/blank.gif';
+          img.width = '160';
+          img.height = '160';
+          img.className = 'f-image-preview f-image-preview-empty icon-add-photo';
+        });
+      }
+    );
   }
 
   function initBilling() {
