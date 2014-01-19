@@ -3,6 +3,13 @@ require './lib/lynr/model/image'
 
 module Lynr; module Model;
 
+  # # `Lynr::Model::SizedImage`
+  #
+  # Representation of an `Image` with multiple sizes. `SizedImage` is composed
+  # of three separate `Image` instances. One `Image` instance is designated as the
+  # primary `Image` and its values are used as the `url`, `height` and `width` of
+  # `SizedImage`.
+  #
   class SizedImage
 
     include Base
@@ -16,6 +23,11 @@ module Lynr; module Model;
       @primary = [@original, @full, @thumb].find { |img| !img.empty? } || Image::Empty
     end
 
+    # ## `SizedImage#empty?`
+    #
+    # A `SizedImage` is empty if all three of its backing `Image` instances are
+    # empty.
+    #
     def empty?
       @original.empty? && @full.empty? && @thumb.empty?
     end
@@ -47,8 +59,12 @@ module Lynr; module Model;
 
     private
 
-    # if given an Image record set the Image as original
-    # otherwise make sure the values are Image instances
+    # ## `SizedImage.normalize_record(record)`
+    #
+    # If `record` can be inflated into an `Image` instance, do so and set the new
+    # instance as `@original` otherwise make sure the values for the sizes of images
+    # are `Image` instances.
+    #
     def self.normalize_record(record)
       record = {} if record.nil?
       if Lynr::Model::Image.inflatable?(record)
