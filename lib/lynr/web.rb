@@ -68,8 +68,6 @@ module Lynr
     # Helper method to set up application wide variables.
     #
     def self.setup
-      Sly::App.setup root: Lynr.root, cascade: false, layouts: 'layout'
-
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
     end

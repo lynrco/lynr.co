@@ -10,6 +10,15 @@ module Sly
   DynaMap = Sly::URLMap.new
   Director = Sly::Router.new
 
+  def self.add(route)
+    Sly::DynaMap.map(route.path, route)
+    Sly::Director.add(route)
+  end
+
+  def self.core
+    Sly::Director
+  end
+
   # # `Sly::App`
   #
   # Entry point for running a `Sly` application as middleware. `Sly::App#call`
@@ -36,13 +45,8 @@ module Sly
       Sly::Director.add(route)
     end
 
-    def self.setup(opts={})
-      options.merge! opts
-    end
-
     def initialize(app, opts={})
       @app = app
-      Sly::App.setup opts
     end
 
     def call(env)
