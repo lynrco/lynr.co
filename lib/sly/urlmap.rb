@@ -1,5 +1,4 @@
 require 'rack'
-require 'innate'
 
 module Sly
 
@@ -10,9 +9,30 @@ module Sly
   # the `Rack::Cascade` instances is provided for the location.
   #
   # See https://github.com/Ramaze/innate/blob/master/lib/innate/dynamap.rb
-  # which extends http://rack.rubyforge.org/doc/Rack/URLMap.html for more information.
+  # which extends http://rack.rubyforge.org/doc/Rack/URLMap.html for more information
+  # because almost everything in this class is taken from it, save for the `URLMap#map`
+  # method.
   #
-  class URLMap < Innate::URLMap
+  class URLMap < Rack::URLMap
+
+    def initialize(map = {})
+      @originals = map
+      super
+    end
+
+    def at(location)
+      @originals[location]
+    end
+
+    def call(env)
+      raise "Nothing mapped yet" if @originals.empty?
+      super
+    end
+
+    def delete(location)
+      @originals.delete(location)
+      remap(@originals)
+    end
 
     # ## `Sly::URLMap#map(location, object)`
     #
@@ -30,10 +50,26 @@ module Sly
         app = Rack::Cascade.new([app]) unless app.is_a? Rack::Cascade
         # Add the one we should be adding
         app.add(object)
-        super(location, app)
+        remap(@originals.merge(location.to_s => app))
       else
-        super(location, object)
+        remap(@originals.merge(location.to_s => object))
       end
+    end
+
+    # super may raise when given invalid locations, so we only replace the
+    # `@originals` if we are sure the new map is valid
+    def remap(map)
+      value = super
+      @originals = map
+      value
+    end
+
+    def to(object)
+      @originals.invert[object]
+    end
+
+    def to_hash
+      @originals.dup
     end
 
   end
