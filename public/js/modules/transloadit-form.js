@@ -86,7 +86,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     var input = $('input[name=image]');
     var image = imageFromResults(results);
     input.val(JSON.stringify(image));
-    $('img.f-image-preview').attr(image).removeClass('f-image-preview-empty icon-add-photo');
+    $('img.f-image-preview').attr(image.full).removeClass('f-image-preview-empty icon-add-photo');
   }
 
   function uploadPhotosSuccess(assembly) {
