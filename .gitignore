@@ -3,16 +3,12 @@
 .env
 .vagrant*
 !.giturd
-/tmp/
 /config/*.yaml
 !/config/*.example.yaml
 !/config/*.heroku.yaml
 !/config/*.wercker.yaml
 !/config/*.spec.yaml
-/coverage/
+/dist/
 /node_modules/
 /public/css/*.css
 /public/svg/*.svg
-
-/.dotcloud/
-/dotcloud.yml
