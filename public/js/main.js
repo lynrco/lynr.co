@@ -7,7 +7,7 @@
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
         'mixpanel': 'modules/mixpanel',
-        'modernizr': 'libs/modernizr.custom.24126',
+        'modernizr': 'libs/modernizr.custom.45012',
         'spinner': 'libs/spin-1.3.2',
         'stripe': 'https://js.stripe.com/v1/',
         'underscore': 'libs/underscore-1.3.3'
@@ -20,6 +20,9 @@
       'libs/jquery.transloadit2-v2.1.0': {
         deps: ['jquery'],
         exports: 'jQuery.fn.transloadit'
+      },
+      'libs/modernizr.custom.45012': {
+        exports: 'Modernizr'
       },
       'libs/spin-1.3.2': {
         exports: 'Spinner'
