@@ -62,7 +62,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less:development', 'watch']);
-  grunt.registerTask('heroku', ['svgmin', 'less:production']);
+  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build']);
 
   grunt.registerTask(
     'build',
