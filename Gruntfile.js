@@ -69,6 +69,7 @@ module.exports = function(grunt) {
     'Run the r.js build script',
     function() {
       var done = this.async();
+
       var buildjs = {
         "appDir": "public",
         "baseUrl": "js",
@@ -85,6 +86,7 @@ module.exports = function(grunt) {
         ],
         "findNestedDependencies": true
       };
+
       requirejs.optimize(buildjs,
         function(output) {
           grunt.log.writeln(output);
