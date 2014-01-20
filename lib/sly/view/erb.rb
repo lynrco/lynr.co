@@ -11,7 +11,7 @@ module Sly; module View;
 
     # ## `Sly::View::Erb.new(path, options)`
     #
-    # `Erb` instances are created by an absolute path to the .erb template file
+    # `Erb` instances are created by an absolute `path` to the .erb template file
     # (.erb at the end of the filename is optional) and a `Hash` of options.
     #
     # ### Options
