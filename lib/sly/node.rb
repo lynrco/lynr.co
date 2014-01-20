@@ -22,7 +22,7 @@ module Sly
     # ## `Sly::Node.map`
     #
     # Creates a `Sly::Route` for the given path and registers the `Route` with
-    # `Sly::App` which is the Middleware used with a Sly application.
+    # `Sly` which is the Middleware used with a Sly application.
     #
     # Mapped methods must return an object that will respond to `:finish`
     # message/method with the form
@@ -41,7 +41,7 @@ module Sly
     #
     # ### Returns
     #
-    # The result of `Sly::App.add` which is, thus far, indeterminate
+    # The result of `Sly.add` which is, thus far, indeterminate
     #
     def self.map(path, method_name, verb='GET')
       route = nil
@@ -51,7 +51,7 @@ module Sly
         method = method_name.to_sym
         route = create_route(path, method_name, verb)
       end
-      Sly::App.add(route)
+      Sly.add(route)
     end
 
     ##
