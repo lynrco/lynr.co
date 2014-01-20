@@ -1,5 +1,4 @@
 require 'rack'
-require 'innate'
 
 require './lib/sly/node'
 require './lib/sly/route'
@@ -31,27 +30,6 @@ module Sly
   # * `partials`, path -- from root -- to the location of partials. Defaults to 'partials'.
   #
   class App
-
-    include Innate::Optioned
-
-    options.dsl do
-
-      o "Whether or not to Cascade to downstream apps",
-        :cascade, false
-
-      o "The directory this application resides in",
-        :root, File.dirname($0)
-
-      o "Directory containing the view templates",
-        :views, 'views'
-
-      o "Directory containing the layout templates",
-        :layouts, 'layouts'
-
-      o "The directory containing partial views",
-        :partials, 'partials'
-
-    end
 
     def self.add(route)
       Sly::DynaMap.map(route.path, route)
