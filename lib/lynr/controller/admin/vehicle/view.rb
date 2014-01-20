@@ -29,7 +29,7 @@ module Lynr::Controller
     #
     def get_html_menu(req)
       @menu_vis = 'menu-visible-secondary'
-      get_vehicle(req)
+      get_html(req)
     end
 
   end
