@@ -19,7 +19,13 @@ module.exports = function(grunt) {
           sourceMap: true
         },
         files: lessFiles
-      }
+      },
+      production: {
+        options: {
+          paths: ['public/less']
+        },
+        files: lessFiles
+      },
     },
     svgmin: {
       options: {
@@ -55,7 +61,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-svgmin');
 
-  grunt.registerTask('default', ['less', 'watch']);
+  grunt.registerTask('default', ['less:development', 'watch']);
+  grunt.registerTask('heroku', ['svgmin', 'less:production']);
 
   grunt.registerTask(
     'build',
