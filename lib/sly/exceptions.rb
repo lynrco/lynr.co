@@ -8,4 +8,6 @@ module Sly
 
   class InternalServerError < HttpError; end
 
+  class NotFoundError < HttpError; end
+
 end
