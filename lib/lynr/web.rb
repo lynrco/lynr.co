@@ -73,7 +73,7 @@ module Lynr
     end
 
     def call(env)
-      Sly::App.core.call(env)
+      Sly.core.call(env)
     rescue Sly::InternalServerError => ise
       Rack::Response.new(ise.backtrace, 500, {"Content-Type" => "text/plain"})
     end

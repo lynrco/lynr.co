@@ -59,10 +59,6 @@ module Sly
       end
     end
 
-    def self.core
-      Sly::Director
-    end
-
   end
 
 end
