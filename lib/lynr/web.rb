@@ -22,6 +22,7 @@ require './lib/lynr/controller/auth/ebay'
 require './lib/lynr/controller/auth/ebay/callback'
 require './lib/lynr/controller/auth/ebay/failure'
 require './lib/lynr/logging'
+require './lib/lynr/view/renderer'
 
 module Lynr
 
@@ -30,7 +31,7 @@ module Lynr
   # Collection of helper methods to access configuration and logging for Lynr
   # application.
   #
-  class Web < Lynr::Controller::Base
+  class Web
 
     include Lynr::Logging
 
@@ -63,7 +64,16 @@ module Lynr
       @app
     end
 
-    # ## `Lynr::Web.set`
+    # ## `Lynr::Web.render(template, options)`
+    #
+    # Create a `Rack::Response` from `template` and `options`
+    #
+    def self.render(template, options={})
+      opts = { headers: Lynr.config('app').headers.to_hash, }.merge(options)
+      Lynr::View::Renderer.new(template, opts).render
+    end
+
+    # ## `Lynr::Web.setup`
     #
     # Helper method to set up application wide variables.
     #
@@ -72,14 +82,18 @@ module Lynr
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
     end
 
+    # ## `Lynr::Web#call(env)`
+    #
+    # Process Rack `env` to get a `Rack::Response`
+    #
     def call(env)
       Sly.core.call(env)
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
     rescue Sly::NotFoundError
-      render 'fourohfour.erb', status: 404
+      Web.render 'fourohfour.erb', status: 404, title: 'Not Found'
     rescue Sly::HttpError => err
-      Rack::Response.new(err.backtrace, err.status, { "Content-Type" => "text/plain" })
+      Web.render 'fivehundy.erb', status: err.status, title: err.status
     end
 
   end
