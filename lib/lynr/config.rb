@@ -81,6 +81,14 @@ module Lynr
       end
     end
 
+    # ## `Lynr::Config#to_hash`
+    #
+    # Allow access to the backing data
+    #
+    def to_hash
+      @config.dup
+    end
+
     # ## `Lynr::Config#to_json`
     #
     # Method to transform backing data into a JSON structure.
