@@ -90,10 +90,36 @@ module Lynr
       Sly.core.call(env)
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
-    rescue Sly::NotFoundError
-      Web.render 'fourohfour.erb', status: 404, title: 'Not Found'
     rescue Sly::HttpError => err
-      Web.render 'fivehundy.erb', status: err.status, title: err.status
+      Web.render 'fivehundy.erb', {
+        status: err.status,
+        title: title_for_code(err.status),
+        message: message_for_code(err.status)
+      }
+    end
+
+    # ## `Lynr::Web#title_for_code(status)`
+    #
+    # Get the page title to use with HTTP `status` code.
+    #
+    def title_for_code(status)
+      case status
+      when 403 then "Unauthorized"
+      when 404 then "Not Found"
+      else "Wrecked"
+      end
+    end
+
+    # ## `Lynr::Web#message_for_code(status)`
+    #
+    # Get the message display on page with HTTP `status` code.
+    #
+    def message_for_code(status)
+      case status
+      when 403 then "You don't have permission to view this."
+      when 404 then "Why don't you try that again."
+      else "We aren't sure what happend but have been notified and will look into it."
+      end
     end
 
   end
