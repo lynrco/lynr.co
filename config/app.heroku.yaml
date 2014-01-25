@@ -12,6 +12,13 @@ ebay:
   appid: 'env:EBAY_APPID'
   certid: 'env:EBAY_CERTID'
   runame: 'env:EBAY_RUNAME'
+# Used to define application level headers
+headers:
+  "Content-Type": "text/html; charset=utf-8"
+  "X-Frame-Options": "SAMEORIGIN"
+  "X-Xss-Protection": "1"
+  "X-Content-Type-Options": "nosniff"
+  "Server": "Lynr.co Application Server"
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'

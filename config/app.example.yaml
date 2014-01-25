@@ -12,6 +12,9 @@ ebay:
   certid: 'CertID from https://developer.ebay.com/DevZone/account/Default.aspx'
   devid: 'DEVID from https://developer.ebay.com/DevZone/account/Default.aspx'
   runame: 'RuName to use from https://developer.ebay.com/DevZone/account/Default.aspx'
+# Used to define application level headers
+headers:
+  "Content-Type": "text/html; charset=utf-8"
 # Used for sending emails
 mailgun:
   domain: 'Domain name from https://mailgun.com/cp'

@@ -6,6 +6,9 @@ ebay:
   appid: 'env:EBAY_APPID'
   certid: 'env:EBAY_CERTID'
   runame: 'env:EBAY_RUNAME'
+# Used to define application level headers
+headers:
+  "Content-Type": "text/html; charset=utf-8"
 # Used to handle file uploads
 transloadit:
   auth_key: '465844d0682711e39bcac1b6747869bc'
