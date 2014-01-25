@@ -14,9 +14,9 @@ module Sly
   #
   class Router
 
-    # Default response if multiple routes match and have the same number of captures
+    # Generic response if multiple routes match and have the same number of captures
     TooMany = [501, {"Content-Type" => "text/plain"}, ["Too many matching routes."]]
-    # Default response if no routes match
+    # Generic response if no routes match
     None    = [404, {"Content-Type" => "text/plain", "X-Cascade" => "pass"}, ["No matching routes."]]
 
     attr_reader :routes
@@ -51,7 +51,7 @@ module Sly
         when 1
           routes.first.call(env)
         when 0
-          None
+          raise Sly::NotFoundError.new("No matching routes.")
         else
           # sort by how many captures are in the regex and take the lowest
           # if there are two routes with the lowest number of captures then
@@ -64,8 +64,6 @@ module Sly
           }
           routes.first.call(env)
       end
-    rescue Sly::TooManyRoutesError => tmre
-      TooMany
     end
 
     # ## `Sly::Router#add(route)`

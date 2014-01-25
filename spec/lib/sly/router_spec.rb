@@ -22,8 +22,9 @@ describe Sly::Router do
     context "No routes" do
 
       it "returns 404 response for any path" do
-        res = router.call(Rack::MockRequest.env_for('/admin'))
-        expect(res[0]).to eq(404)
+        expect {
+          router.call(Rack::MockRequest.env_for('/admin'))
+        }.to raise_error(Sly::NotFoundError, "No matching routes.")
       end
 
     end
@@ -97,9 +98,9 @@ describe Sly::Router do
       }
 
       it "gives 501 error for /admin" do
-        res = router.call(Rack::MockRequest.env_for('/admin'))
-        expect(res[0]).to eq(501)
-        expect(res[2]).to start_with(['Too many matching routes.'])
+        expect {
+          router.call(Rack::MockRequest.env_for('/admin'))
+        }.to raise_error(Sly::TooManyRoutesError)
       end
 
     end
