@@ -53,13 +53,7 @@ module Lynr; module Controller;
 
     def initialize
       super
-      @headers = {
-        "Content-Type" => "text/html; charset=utf-8",
-        "X-Frame-Options" => "SAMEORIGIN",
-        "X-Xss-Protection" => "1",
-        "X-Content-Type-Options" => "nosniff",
-        "Server" => "Lynr.co Application Server"
-      }
+      @headers = Lynr.config('app').headers.to_hash
     end
 
     # BEFORE HANDLING
