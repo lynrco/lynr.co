@@ -38,13 +38,15 @@ module Sly; module View;
     # with the given options.
     #
     def result
-      if (@layout)
+      if (@context && @layout)
         # In order for `yield` to work in the layout template there needs to be a
         # block in scope of the binding. In this case the return value of the block is
         # the output of processing `@template` in the same context.
         @layout.result(@context.ctx { @template.result(@context.ctx) })
       elsif (@context)
         @template.result(@context.ctx)
+      elsif (@layout)
+        @layout.result(binding { @template.result(binding) })
       else
         @template.result(binding)
       end
