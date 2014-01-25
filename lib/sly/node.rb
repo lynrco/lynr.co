@@ -131,35 +131,29 @@ module Sly
     ##
     # ## `Sly::Node#error`
     #
-    # Creates an error Response object. This is included to help define the API
+    # Raises a `Sly::HttpError` instance. This is included to help define the API
     # of a controller and is intended to be overwritten by the extending
-    # application in a parent controller.
+    # application in a parent controller or for the invoking application to
+    # rescue the `HttpError`.
     #
     # ### Params
     #
-    # * `code` response status code. *Default*: 302
-    #
-    # ### Returns
-    #
-    # A `Rack::Response` instance
+    # * `code` response status code. *Default*: 500
     #
     def error(code = 500)
-      Rack::Response.new(status = code)
+      raise Sly::HttpError.new(code)
     end
 
     ##
     # ## `Sly::Node#not_found`
     #
-    # Creates a 404 response object. This is included to help define the API
+    # Raises a `Sly::NotFoundError`. This is included to help define the API
     # of a controller and is intended to be overwritten by the extending
-    # application in a parent controller.
-    #
-    # ### Returns
-    #
-    # A `Rack::Response` instance
+    # application in a parent controller or for the invoking application to
+    # rescue the `HttpError`
     #
     def not_found
-      error(404)
+      raise Sly::NotFoundError.new
     end
 
     ##
