@@ -44,4 +44,17 @@ module Sly
 
   class TooManyRoutesError < StandardError; end
 
+  # # `Sly::UnauthorizedError`
+  #
+  # Raise to indicate a request can not be processed because the current user is
+  # not authorized to access the resource.
+  #
+  class UnauthorizedError < HttpError
+
+    def initialize(msg=nil)
+      super(403, msg)
+    end
+
+  end
+
 end
