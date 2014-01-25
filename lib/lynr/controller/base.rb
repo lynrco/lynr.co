@@ -51,11 +51,6 @@ module Lynr; module Controller;
       })
     end
 
-    def initialize
-      super
-      @headers = Lynr.config('app').headers.to_hash
-    end
-
     # BEFORE HANDLING
 
     # ## `Lynr::Controller::Base#before_each`
@@ -107,6 +102,10 @@ module Lynr; module Controller;
     # nil
     #
     def before_POST(req)
+    end
+
+    def headers
+      Lynr.config('app').headers.to_hash
     end
 
     def render_options

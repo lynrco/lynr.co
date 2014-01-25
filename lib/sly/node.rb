@@ -16,8 +16,6 @@ module Sly
   #
   class Node
 
-    attr_reader :headers
-
     ##
     # ## `Sly::Node.map`
     #
@@ -104,17 +102,6 @@ module Sly
     end
 
     ##
-    # ## `Sly::Node.new`
-    #
-    # Create a new Node instance making sure `@headers` is initialized. Can
-    # be overridden to perform additional setup or to set application/controller
-    # specific attribute values.
-    #
-    def initialize
-      @headers = {} if @headers.nil?
-    end
-
-    ##
     # ## `Sly::Node#ctx`
     #
     # This might be dangerous but it doesn't seem like it ought to be. This is
@@ -142,6 +129,16 @@ module Sly
     #
     def error(code = 500)
       raise Sly::HttpError.new(code)
+    end
+
+    ##
+    # ## `Sly::Node#headers`
+    #
+    # Provide access to the set of headers to be used in responses from this
+    # node.
+    #
+    def headers
+      {}
     end
 
     ##
