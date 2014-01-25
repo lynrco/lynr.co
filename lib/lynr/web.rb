@@ -30,7 +30,7 @@ module Lynr
   # Collection of helper methods to access configuration and logging for Lynr
   # application.
   #
-  class Web
+  class Web < Lynr::Controller::Base
 
     include Lynr::Logging
 
@@ -74,8 +74,12 @@ module Lynr
 
     def call(env)
       Sly.core.call(env)
-    rescue Sly::InternalServerError => ise
-      Rack::Response.new(ise.backtrace, 500, {"Content-Type" => "text/plain"})
+    rescue Sly::TooManyRoutesError
+      Sly::Router::TooMany
+    rescue Sly::NotFoundError
+      render 'fourohfour.erb', status: 404
+    rescue Sly::HttpError => err
+      Rack::Response.new(err.backtrace, err.status, { "Content-Type" => "text/plain" })
     end
 
   end
