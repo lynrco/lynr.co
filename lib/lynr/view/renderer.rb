@@ -26,12 +26,14 @@ module Lynr::View
     # * `:section` [String] set as `@section` for use in layout
     # * `:subsection` [String] set as `@subsection` for use in layout
     #
+    # All of `data` is passed through to `Sly::View::ErbHelpers#render`.
+    #
     def initialize(template, data={})
       @data = data
       @headers = data.fetch(:headers, {})
       @title = data.fetch(:title, '')
-      @section = data.fetch(:section '')
-      @subsection = data.fetch(:subsection '')
+      @section = data.fetch(:section, '')
+      @subsection = data.fetch(:subsection, '')
       @template = template
     end
 
