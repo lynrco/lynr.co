@@ -138,22 +138,6 @@ module Lynr; module Controller;
       nil
     end
 
-    # ERROR RESPONSES
-
-    def error(status=500)
-      @status = status
-      case status
-      when 404
-        render 'fourohfour.erb', status: 404
-      else
-        render 'fivehundy.erb', status: status
-      end
-    end
-
-    def not_found
-      error(404)
-    end
-
     def unauthorized
       error(403)
     end
