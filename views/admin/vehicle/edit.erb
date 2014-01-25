@@ -18,7 +18,7 @@
           <%- else -%>
           <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="vehicle-photos-inner vehicle-photos-single">
             <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
-                 src="<%= @vehicle.image.url %>" width="675"
+                 src="<%= @vehicle.image.thumb.url %>"
                  alt="Manage vehicle photos" />
           </a>
           <%- end -%>

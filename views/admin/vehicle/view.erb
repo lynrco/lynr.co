@@ -18,7 +18,7 @@
             <%- else -%>
             <span class="vehicle-photos-inner vehicle-photos-single">
               <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
-                   src="<%= @vehicle.image.url %>"
+                   src="<%= @vehicle.image.thumb.url %>"
                    alt="Manage vehicle photos" />
             </span>
             <%- end -%>
