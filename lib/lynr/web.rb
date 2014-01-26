@@ -78,6 +78,18 @@ module Lynr
       @app
     end
 
+    # ## `Lynr::Web.message_for_code(status)`
+    #
+    # Get the message display on page with HTTP `status` code.
+    #
+    def self.message_for_code(status)
+      case status
+      when 403 then "You don't have permission to view this."
+      when 404 then "Why don't you try that again."
+      else "We aren't sure what happend but have been notified and will look into it."
+      end
+    end
+
     # ## `Lynr::Web.render(template, options)`
     #
     # Create a `Rack::Response` from `template` and `options`
@@ -118,18 +130,6 @@ module Lynr
       when 403 then "Unauthorized"
       when 404 then "Not Found"
       else "Wrecked"
-      end
-    end
-
-    # ## `Lynr::Web.message_for_code(status)`
-    #
-    # Get the message display on page with HTTP `status` code.
-    #
-    def self.message_for_code(status)
-      case status
-      when 403 then "You don't have permission to view this."
-      when 404 then "Why don't you try that again."
-      else "We aren't sure what happend but have been notified and will look into it."
       end
     end
 
