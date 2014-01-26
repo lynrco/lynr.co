@@ -1,0 +1,8 @@
+<h1><%= err.class %> occurred on <%= req['HTTP_HOST'] %><%= req['PATH_INFO'] %></h1>
+<h2>Backtrace</h2>
+<%- err.backtrace.each do |line| -%>
+<p><%= line %></p>
+<%- end -%>
+<p>You've been notified.</p>
+<p><em>Signed.</em></p>
+<p><strong>Lynr Robot</strong></p>

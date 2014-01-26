@@ -1,0 +1,12 @@
+# `<%= err.class %>` occurred on `<%= req['HTTP_HOST'] %><%= req['PATH_INFO'] %>` #
+
+## Backtrace ##
+
+<%- err.backtrace.each do |line| -%>
+<%= line %>
+<%- end -%>
+
+You've been notified.
+
+Signed
+Lynr Robot

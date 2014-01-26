@@ -58,6 +58,12 @@ module Lynr
     rescue Sly::HttpError => err
       Web.render_error(err.status)
     rescue StandardError => se
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('error/internal', {
+        to: 'tech@lynr.co',
+        subject: "[#{env['HTTP_HOST']}] #{se.class} on #{env['PATH_INFO']}",
+        err: se,
+        req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
+      }))
       Web.render_error
     end
 
