@@ -91,7 +91,7 @@ module Lynr
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
     rescue Sly::HttpError => err
-      Web.render 'fivehundy.erb', {
+      Web.render 'httperror.erb', {
         status: err.status,
         title: title_for_code(err.status),
         message: message_for_code(err.status)
