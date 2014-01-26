@@ -73,6 +73,19 @@ module Lynr
       Lynr::View::Renderer.new(template, opts).render
     end
 
+    # ## `Lynr::Web.render_error(status)`
+    #
+    # Renders an HTTP error page for the given `status`. `status` is optional and
+    # defaults to 500.
+    #
+    def self.render_error(status=500)
+      Web.render 'httperror.erb', {
+        status: status,
+        title: title_for_code(status),
+        message: message_for_code(status)
+      }
+    end
+
     # ## `Lynr::Web.setup`
     #
     # Helper method to set up application wide variables.
@@ -98,11 +111,11 @@ module Lynr
       }
     end
 
-    # ## `Lynr::Web#title_for_code(status)`
+    # ## `Lynr::Web.title_for_code(status)`
     #
     # Get the page title to use with HTTP `status` code.
     #
-    def title_for_code(status)
+    def self.title_for_code(status)
       case status
       when 403 then "Unauthorized"
       when 404 then "Not Found"
@@ -110,11 +123,11 @@ module Lynr
       end
     end
 
-    # ## `Lynr::Web#message_for_code(status)`
+    # ## `Lynr::Web.message_for_code(status)`
     #
     # Get the message display on page with HTTP `status` code.
     #
-    def message_for_code(status)
+    def self.message_for_code(status)
       case status
       when 403 then "You don't have permission to view this."
       when 404 then "Why don't you try that again."
