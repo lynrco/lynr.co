@@ -47,6 +47,20 @@ module Lynr
       @config = Lynr.config('app')
     end
 
+    # ## `Lynr::Web#call(env)`
+    #
+    # Process Rack `env` to get a `Rack::Response`
+    #
+    def call(env)
+      Sly.core.call(env)
+    rescue Sly::TooManyRoutesError
+      Sly::Router::TooMany
+    rescue Sly::HttpError => err
+      Web.render_error(err.status)
+    rescue StandardError => se
+      Web.render_error
+    end
+
     # ## `Lynr::Web.config`
     #
     # Helper method to get to app config
@@ -93,22 +107,6 @@ module Lynr
     def self.setup
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
-    end
-
-    # ## `Lynr::Web#call(env)`
-    #
-    # Process Rack `env` to get a `Rack::Response`
-    #
-    def call(env)
-      Sly.core.call(env)
-    rescue Sly::TooManyRoutesError
-      Sly::Router::TooMany
-    rescue Sly::HttpError => err
-      Web.render 'httperror.erb', {
-        status: err.status,
-        title: title_for_code(err.status),
-        message: message_for_code(err.status)
-      }
     end
 
     # ## `Lynr::Web.title_for_code(status)`
