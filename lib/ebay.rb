@@ -2,8 +2,8 @@ module Ebay
 
   NS = "urn:ebay:apis:eBLBaseComponents"
 
-end
+  autoload :Api, './lib/ebay/api'
+  autoload :Session, './lib/ebay/session'
+  autoload :Token, './lib/ebay/token'
 
-require './lib/ebay/api'
-require './lib/ebay/session'
-require './lib/ebay/token'
+end
