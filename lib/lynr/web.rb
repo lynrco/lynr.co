@@ -56,15 +56,15 @@ module Lynr
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
     rescue Sly::HttpError => err
-      Web.render_error(err.status)
+      Web.render_error(err, err.status)
     rescue StandardError => se
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('error/internal', {
         to: 'tech@lynr.co',
         subject: "[#{env['HTTP_HOST']}] #{se.class} on #{env['PATH_INFO']}",
         err: se,
         req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
-      }))
-      Web.render_error
+      })) unless Lynr.env == 'development'
+      Web.render_error(se)
     end
 
     # ## `Lynr::Web.config`
@@ -105,13 +105,14 @@ module Lynr
       Lynr::View::Renderer.new(template, opts).render
     end
 
-    # ## `Lynr::Web.render_error(status)`
+    # ## `Lynr::Web.render_error(error, status)`
     #
     # Renders an HTTP error page for the given `status`. `status` is optional and
     # defaults to 500.
     #
-    def self.render_error(status=500)
+    def self.render_error(error, status=500)
       Web.render 'httperror.erb', {
+        error: (Lynr.env == 'development' && error),
         status: status,
         title: title_for_code(status),
         message: message_for_code(status)
