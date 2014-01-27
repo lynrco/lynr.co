@@ -1,2 +1,10 @@
         <p class="e-code"><%= status %></p>
         <p class="e-message"><%= message %></p>
+        <%- if error -%>
+        <p class="e-message e-title"><strong><%= CGI.escape_html(error.message) %></strong></p>
+        <pre><code>
+        <%- error.backtrace.each do |line| -%>
+        <%= line %>
+        <%- end -%>
+        </code></pre>
+        <%- end -%>
