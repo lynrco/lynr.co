@@ -15,10 +15,10 @@ ebay:
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
-  "Content-Security-Policy": "script-src 'self'"
+  "Content-Security-Policy": "script-src 'self' https://js.stripe.com"
   "Server": "Lynr.co Application Server"
   "Strict-Transport-Security": "max-age=31536000"
-  "X-Content-Security-Policy": "script-src 'self'"
+  "X-Content-Security-Policy": "script-src 'self' https://js.stripe.com"
   "X-Content-Type-Options": "nosniff"
   "X-Frame-Options": "DENY"
   "X-Xss-Protection": "1"
