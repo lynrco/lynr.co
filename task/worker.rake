@@ -1,6 +1,6 @@
 # Defines tasks to start Queue consumer Workers
 
-namespace :worker do
+namespace :lynr do
 
   queues = ['email', 'stripe']
 
@@ -8,7 +8,7 @@ namespace :worker do
   require './lib/lynr/logging'
   require './lib/lynr/worker'
 
-  task :all do
+  task :workers do
 
     include Lynr::Logging
 
@@ -30,14 +30,6 @@ namespace :worker do
 
     Process.wait
 
-  end
-
-  desc 'Starts a Worker console using Pry'
-  task :pry do
-    require 'pry'
-
-    ARGV.clear
-    Pry.start
   end
 
 end
