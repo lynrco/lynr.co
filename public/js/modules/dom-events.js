@@ -8,6 +8,7 @@ define(function() {
 
   // Functions taken from http://www.quirksmode.org/blog/archives/2005/10/_and_the_winner_1.html
   function addEvent(obj, type, fn) {
+    if (!obj) { return; }
     if (obj.addEventListener) {
       obj.addEventListener(type, fn, false);
     } else if (obj.attachEvent) {
@@ -18,6 +19,7 @@ define(function() {
   }
 
   function removeEvent(obj, type, fn) {
+    if (!obj) { return; }
     if (obj.removeEventListener) {
       obj.removeEventListener(type, fn, false);
     } else if (obj.detachEvent) {
@@ -35,7 +37,7 @@ define(function() {
   }
 
   function stopEvent(e) {
-    if (e.stopPropagation) { e.stopPropagation(); }
+    if (e && e.stopPropagation) { e.stopPropagation(); }
   }
 
   return {
