@@ -47,7 +47,7 @@ In order to develop with the [eBay](https://developer.ebay.com/) API you will ne
 1. `openssl rsa -in certs/privkey.pem -out certs/server.cert.key`
 1. `openssl x509 -in certs/server.cert.csr -out certs/server.cert.crt -req -signkey certs/server.cert.key -days 365`
 
-These steps will put the certificats in the certs directory with the names that are used in [bin/shotgun](bin/shotgun) which runs the local server.
+These steps will put the certificats in the certs directory with the names that are used in the rake task, `bundle exec rake lynr:local` which runs the local web server.
 
 ### Self-Signed Certificate Generation
 
