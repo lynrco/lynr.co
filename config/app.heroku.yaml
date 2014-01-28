@@ -15,10 +15,13 @@ ebay:
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
-  "X-Frame-Options": "SAMEORIGIN"
-  "X-Xss-Protection": "1"
-  "X-Content-Type-Options": "nosniff"
+  "Content-Security-Policy": "script-src 'self'"
   "Server": "Lynr.co Application Server"
+  "Strict-Transport-Security": "max-age=31536000"
+  "X-Content-Security-Policy": "script-src 'self'"
+  "X-Content-Type-Options": "nosniff"
+  "X-Frame-Options": "DENY"
+  "X-Xss-Protection": "1"
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'
