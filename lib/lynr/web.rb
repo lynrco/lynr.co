@@ -19,8 +19,6 @@ require './lib/lynr/controller/admin/vin'
 require './lib/lynr/controller/api'
 require './lib/lynr/controller/auth'
 require './lib/lynr/controller/auth/ebay'
-require './lib/lynr/controller/auth/ebay/callback'
-require './lib/lynr/controller/auth/ebay/failure'
 require './lib/lynr/logging'
 require './lib/lynr/view/renderer'
 

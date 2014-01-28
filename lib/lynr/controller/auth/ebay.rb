@@ -66,3 +66,6 @@ module Lynr::Controller
   end
 
 end
+
+require './lib/lynr/controller/auth/ebay/callback'
+require './lib/lynr/controller/auth/ebay/failure'
