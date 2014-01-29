@@ -20,7 +20,6 @@ module Lynr::Controller
     #
     def before_POST(req)
       super
-      @posted = req.POST.dup
       posted['dealership'] = session_user(req)
     end
 

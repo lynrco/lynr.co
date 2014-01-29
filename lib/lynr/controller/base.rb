@@ -91,7 +91,8 @@ module Lynr; module Controller;
 
     # ## `Lynr::Controller::Base#before_POST`
     #
-    # Empty placeholder method for pre-processing of POST requests
+    # Placeholder method for pre-processing of POST requests that makes sure
+    # `@posted` gets set.
     #
     # ### Params
     #
@@ -102,6 +103,7 @@ module Lynr; module Controller;
     # nil
     #
     def before_POST(req)
+      @posted = req.POST.dup
     end
 
     def headers

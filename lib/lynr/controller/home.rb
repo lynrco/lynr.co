@@ -28,14 +28,6 @@ module Lynr; module Controller;
       @title = 'Lynr.co'
     end
 
-    # ## `Home#before_POST(req)`
-    #
-    # Make sure `@posted` gets set.
-    #
-    def before_POST(req)
-      @posted = req.POST.dup
-    end
-
     # ## `Home#index(req)`
     #
     # Process a GET request for the root resource.

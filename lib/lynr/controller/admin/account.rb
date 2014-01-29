@@ -39,7 +39,6 @@ module Lynr; module Controller;
     # gateway if necessary.
     #
     def post_account(req)
-      @posted = req.POST
       @errors = validate_account_info
       if email_changed?
         notify_by_email

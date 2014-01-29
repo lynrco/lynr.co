@@ -30,7 +30,6 @@ module Lynr; module Controller;
     #
     def before_POST(req)
       super
-      @posted = req.POST.dup
       @errors = validate_billing_info
       render 'admin/billing.erb' if has_errors?
     end

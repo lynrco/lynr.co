@@ -48,7 +48,6 @@ module Lynr::Controller
     #
     def before_POST(req)
       super
-      @posted = req.POST.dup
       posted['dealership'] = dealership(req)
     end
 

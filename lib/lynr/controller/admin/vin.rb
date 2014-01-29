@@ -25,7 +25,6 @@ module Lynr; module Controller;
     # the customer.
     #
     def search(req)
-      @posted = req.POST.dup
       posted['dealership'] = @dealership
       query_response = fetch(posted['vin'])
       if query_response.nil?

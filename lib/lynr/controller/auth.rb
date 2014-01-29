@@ -54,7 +54,6 @@ module Lynr; module Controller;
     def post_signup(req)
       @subsection = "signup submitted"
       @title = "Sign Up for Lynr"
-      @posted = req.POST
       @errors = validate_signup(@posted)
       @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
       return render 'auth/signup.erb' if has_errors?
@@ -118,7 +117,6 @@ module Lynr; module Controller;
     def post_signin(req)
       @subsection = "signup submitted"
       @title = "Sign In to Lynr"
-      @posted = req.POST
       @errors = validate_signin(@posted)
       return render 'auth/signin.erb' if has_errors?
       dealership = dao.get_by_email(@posted['email'])
