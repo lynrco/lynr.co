@@ -1,7 +1,7 @@
 require './lib/lynr/controller/base'
 require './lib/lynr/controller/form_helpers'
 require './lib/lynr/persist/dealership_dao'
-require './lib/lynr/validator/helpers'
+require './lib/lynr/validator'
 
 module Lynr; module Controller;
 
@@ -14,6 +14,7 @@ module Lynr; module Controller;
 
     # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
     include Lynr::Validator::Helpers
+    include Lynr::Validator::Password
     # Provides `error_class`, `error_message`, `has_error?`, `has_errors?`,
     # `posted`, `card_data`
     include Lynr::Controller::FormHelpers
@@ -152,13 +153,7 @@ module Lynr; module Controller;
         end
       end
 
-      if (!has_error?('password'))
-        if (!is_valid_password?(password))
-          errors['password'] = "Your password is too short."
-        elsif (password != posted['password_confirm'])
-          errors['password'] = "Your passwords don't match."
-        end
-      end
+      errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
 
       if (posted['agree_terms'].nil?)
         errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
@@ -168,7 +163,7 @@ module Lynr; module Controller;
         errors['stripeToken'] = "Your card wasn't accepted."
       end
 
-      errors
+      errors.delete_if { |k,v| v.nil? }
     end
 
     def validate_signin(posted)
