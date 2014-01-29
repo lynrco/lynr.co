@@ -2,8 +2,20 @@ require 'resolv'
 
 module Lynr::Validator
 
+  # # `Lynr::Validator::Email`
+  #
+  # Collect together the logic used to validate email addresses. Requires including
+  # class to have a `#dao` method which returns an instance capable which responds to
+  # the `:account_exists?` message. This message receiver should determine if there
+  # is already an account identified by the provided email address.
+  #
   module Email
 
+    # ## `Lynr::Validator::Email#error_for_email(email)`
+    #
+    # Given `email` return an error if it isn't valid or is already taken.
+    # Otherwise return `nil`.
+    #
     def error_for_email(email)
       if (!is_valid_email?(email))
         "Check your email address."
@@ -14,7 +26,7 @@ module Lynr::Validator
       end
     end
 
-    # ## `Lynr::Validator::Helpers#is_valid_email?(email)
+    # ## `Lynr::Validator::Email#is_valid_email?(email)
     #
     # Check if provided `email` is valid.
     #
@@ -34,7 +46,7 @@ module Lynr::Validator
       valid && is_valid_email_domain?(domain)
     end
 
-    # ## `Lynr::Validator::Helpers#is_valid_email_domain?(domain)`
+    # ## `Lynr::Validator::Email#is_valid_email_domain?(domain)`
     #
     # Check if domain is valid by checking it has MX or A records defined.
     #
