@@ -63,6 +63,8 @@ module Lynr; module Controller;
     def connect_message(req)
       if !req.params[Lynr::Controller::Ebay::Helpers::PARAM].nil?
         Lynr::Controller::Ebay::Helpers.connect_message(req)
+      elsif !req.params[Lynr::Controller::AdminAccountPassword::Helpers::PARAM].nil?
+        Lynr::Controller::AdminAccountPassword::Helpers.connect_message(req)
       end
     end
 
