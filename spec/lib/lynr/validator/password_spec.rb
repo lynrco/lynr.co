@@ -12,7 +12,8 @@ describe Lynr::Validator::Password do
   describe "#error_for_passwords" do
 
     it "gives an error if password too short" do
-      expect(helpers.error_for_passwords("hi", "hi")).to eq("Your password must be at least 3 characters.")
+      expect(helpers.error_for_passwords("hi", "hi")).to\
+          eq("Your password must be at least 3 characters.")
     end
 
     it "gives an error if password and confirm do not match" do
