@@ -12,9 +12,10 @@ module Lynr; module Controller;
   #
   class Auth < Lynr::Controller::Base
 
-    # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
+    include Lynr::Validator::Email
     include Lynr::Validator::Helpers
     include Lynr::Validator::Password
+
     # Provides `error_class`, `error_message`, `has_error?`, `has_errors?`,
     # `posted`, `card_data`
     include Lynr::Controller::FormHelpers
@@ -145,14 +146,7 @@ module Lynr; module Controller;
       email = posted['email']
       password = posted['password']
 
-      if (!has_error?('email'))
-        if (!is_valid_email?(email))
-          errors['email'] = "Check your email address."
-        elsif (dao.account_exists?(email))
-          errors['email'] = "#{email} is already taken."
-        end
-      end
-
+      errors['email'] ||= error_for_email(email)
       errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
 
       if (posted['agree_terms'].nil?)
