@@ -1,5 +1,5 @@
 require 'rspec/autorun'
-require './lib/lynr/validator/helpers'
+require './lib/lynr/validator'
 
 describe Lynr::Validator::Helpers do
 
@@ -70,18 +70,6 @@ thisismylon.com"
 #    it "fails with invalid domain" do
 #      expect(helpers.is_valid_email?("hi.there@idonthinkthisdomainwillhavedns.com")).to be_false
 #    end
-
-  end
-
-  describe "#is_valid_password?" do
-
-    it "passes a sufficient password" do
-      expect(helpers.is_valid_password?("hi there")).to be_true
-    end
-
-    it "fails a short password" do
-      expect(helpers.is_valid_password?("hi")).to be_false
-    end
 
   end
 

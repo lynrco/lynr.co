@@ -42,15 +42,6 @@ module Lynr; module Validator;
       mx_records.size > 0 || a_records.size > 0
     end
 
-    # ## `Lynr::Validator::Helpers#is_valid_password?(password)`
-    #
-    # Check `password` against validation rules, presently only that the password
-    # is at least four (4) characters.
-    #
-    def is_valid_password?(password)
-      password.length > 3
-    end
-
     # ## `Lynr::Validator::Helpers#validate_required(posted, fields)`
     #
     # Check that `posted` contains a non-nil, non-empty value for each key in `fields`.
