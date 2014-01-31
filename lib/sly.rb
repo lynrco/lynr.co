@@ -5,16 +5,42 @@ require './lib/sly/route'
 require './lib/sly/router'
 require './lib/sly/urlmap'
 
+# # `Sly`
+#
+# Top level for the Sly framework. It provides direct access to the `Sly::Router`
+# instance to which `Sly::Route` instances are added. Additionally it exposes the
+# `Director` via the `Sly.core` method which allows it to be run directly as a
+# Rack application.
+#
 module Sly
 
+  # ## `Sly::DynaMap`
+  #
+  # Alternative mapping of `Sly::Route` instances to URI patterns.
+  #
   DynaMap = Sly::URLMap.new
+
+  # ## `Sly::Director`
+  #
+  # Responsible for doing the initial handling of a request and then handing the
+  # request off to an appropriate `Sly::Route` for processing.
+  #
   Director = Sly::Router.new
 
+  # ## `Sly.add(route)`
+  #
+  # Adds a `Sly::Route` instance to `Director` and `DynaMap`.
+  #
   def self.add(route)
     Sly::DynaMap.map(route.path, route)
     Sly::Director.add(route)
   end
 
+  # ## `Sly.core`
+  #
+  # Expose `Sly::Director` to the world for running it as a standalone Rack
+  # application.
+  #
   def self.core
     Sly::Director
   end
