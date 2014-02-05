@@ -37,6 +37,15 @@ module Lynr::Persist
       translate(record)
     end
 
+    # ## `Dao#delete(id)`
+    #
+    # Remove an instance record with `id` from the database.
+    #
+    def delete(id)
+      return false unless include?(id)
+      @dao.delete(id)
+    end
+
     # ## `Dao#include?(id)`
     #
     # Check if a record exists in the database with the given `id`.
@@ -53,15 +62,6 @@ module Lynr::Persist
     def read(id)
       record = @dao.read(id)
       translate(record)
-    end
-
-    # ## `Dao#delete(id)`
-    #
-    # Remove an instance record with `id` from the database.
-    #
-    def delete(id)
-      return false unless include?(id)
-      @dao.delete(id)
     end
 
     private
