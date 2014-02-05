@@ -3,6 +3,7 @@ require './spec/spec_helper'
 
 require 'bson'
 
+require './lib/lynr/model/dealership'
 require './lib/lynr/model/token'
 
 describe Lynr::Model::Token do
@@ -14,6 +15,12 @@ describe Lynr::Model::Token do
 
     it "raises argument error if no dealership" do
       expect { Lynr::Model::Token.new }.to raise_error(ArgumentError)
+    end
+
+    it "sets `@dealership` from `@dealership.id`" do
+      dealer = Lynr::Model::Dealership.new({}, dealership)
+      token = Lynr::Model::Token.new('dealership' => dealer)
+      expect(token.dealership).to eq(dealership)
     end
 
   end

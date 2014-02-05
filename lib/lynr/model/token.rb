@@ -26,6 +26,7 @@ module Lynr::Model
     def initialize(data={})
       @id = data.fetch('id', nil)
       @dealership = data.fetch('dealership')
+      @dealership = @dealership.id if @dealership.respond_to?(:id)
       # Defaults to 24 hours from now
       @expires = data.fetch('expires', Time.now + 86400)
     rescue KeyError
@@ -50,7 +51,7 @@ module Lynr::Model
       {
         'id' => @id,
         'class' => self.class.name,
-        'dealership' => @dealership.id,
+        'dealership' => @dealership,
         'expires' => @expires,
       }
     end
