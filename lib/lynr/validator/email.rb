@@ -11,12 +11,14 @@ module Lynr::Validator
   #
   module Email
 
-    # ## `Lynr::Validator::Email#error_for_email(email)`
+    # ## `Lynr::Validator::Email#error_for_email(dao, email)`
     #
-    # Given `email` return an error if it isn't valid or is already taken.
-    # Otherwise return `nil`.
+    # Given `email` return an error if it isn't valid or is already taken, `nil`
+    # otherwise. `dao` must be a class with an `#account_exists?(email)` method
+    # which returns true if `email` is already assigned to an account, false
+    # otherwise.
     #
-    def error_for_email(email)
+    def error_for_email(dao, email)
       if (!is_valid_email?(email))
         "Check your email address."
       elsif (dao.account_exists?(email))

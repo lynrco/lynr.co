@@ -1,4 +1,5 @@
 require 'rspec/autorun'
+require './spec/spec_helper'
 
 require './lib/lynr/model/dealership'
 require './lib/lynr/persist/dealership_dao'
@@ -8,14 +9,10 @@ describe Lynr::Validator::Email do
 
   class Dummy
     include Lynr::Validator::Email
-
-    def dao
-      Lynr::Persist::DealershipDao.new
-    end
-
   end
 
   let(:dealer) { Lynr::Model::Dealership.new({ 'identity' => identity }) }
+  let(:dao) { Lynr::Persist::DealershipDao.new }
   let(:helpers) { Dummy.new }
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
 
@@ -28,16 +25,16 @@ describe Lynr::Validator::Email do
     describe "#error_for_email" do
 
       it "gives an error if email is invalid" do
-        expect(helpers.error_for_email("@gmail.com")).to eq("Check your email address.")
+        expect(helpers.error_for_email(dao, "@gmail.com")).to eq("Check your email address.")
       end
 
       it "gives an error if email is taken" do
-        helpers.dao.save(dealer)
-        expect(helpers.error_for_email("bryan@lynr.co")).to eq("bryan@lynr.co is already taken.")
+        dao.save(dealer)
+        expect(helpers.error_for_email(dao, "bryan@lynr.co")).to eq("bryan@lynr.co is already taken.")
       end
 
       it "gives nil if email valid and not taken" do
-        expect(helpers.error_for_email("bryan+test@lynr.co")).to be_nil
+        expect(helpers.error_for_email(dao, "bryan+test@lynr.co")).to be_nil
       end
 
     end
