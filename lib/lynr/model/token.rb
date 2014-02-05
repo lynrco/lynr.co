@@ -32,6 +32,15 @@ module Lynr::Model
       raise ArgumentError.new('Token requires a dealership id')
     end
 
+    # ## `Token#expired?`
+    #
+    # Check if current time is after the 'expires' time provided when constructing
+    # this instance.
+    #
+    def expired?
+      Time.now > @expires
+    end
+
     # ## `Token#view`
     #
     # Provides a `Hash` representation of the data for this authentication
