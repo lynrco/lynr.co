@@ -20,7 +20,7 @@ module Lynr; module Controller;
     # `posted`, `card_data`
     include Lynr::Controller::FormHelpers
 
-    attr_reader :dao
+    attr_reader :dealer_dao
 
     # ## `Lynr::Controller::Auth.new`
     #
@@ -30,7 +30,7 @@ module Lynr; module Controller;
     def initialize
       super
       @section = "auth"
-      @dao = Lynr::Persist::DealershipDao.new
+      @dealer_dao = Lynr::Persist::DealershipDao.new
     end
 
     get  '/signup',  :get_signup
@@ -66,7 +66,7 @@ module Lynr; module Controller;
         email: identity.email
       )
       # Create and Save dealership
-      dealer = dao.save(Lynr::Model::Dealership.new({
+      dealer = dealer_dao.save(Lynr::Model::Dealership.new({
         'identity' => identity,
         'customer_id' => customer.id
       }))
@@ -119,7 +119,7 @@ module Lynr; module Controller;
       @title = "Sign In to Lynr"
       @errors = validate_signin(@posted)
       return render 'auth/signin.erb' if has_errors?
-      dealership = dao.get_by_email(@posted['email'])
+      dealership = dealer_dao.get_by_email(@posted['email'])
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
       redirect "/admin/#{dealership.id.to_s}"
@@ -162,7 +162,7 @@ module Lynr; module Controller;
       errors = validate_required(posted, ['email', 'password'])
       email = posted['email']
       password = posted['password']
-      dealership = dao.get_by_email(email)
+      dealership = dealer_dao.get_by_email(email)
 
       if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, password)))
         errors['account'] = "Invalid email or password."
