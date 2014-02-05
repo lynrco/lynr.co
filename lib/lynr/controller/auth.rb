@@ -1,5 +1,7 @@
 require './lib/lynr/controller/base'
 require './lib/lynr/controller/form_helpers'
+require './lib/lynr/model/token'
+require './lib/lynr/persist/dao'
 require './lib/lynr/persist/dealership_dao'
 require './lib/lynr/validator'
 
@@ -33,11 +35,12 @@ module Lynr; module Controller;
       @dealer_dao = Lynr::Persist::DealershipDao.new
     end
 
-    get  '/signup',  :get_signup
-    post '/signup',  :post_signup
-    get  '/signin',  :get_signin
-    post '/signin',  :post_signin
-    get  '/signout', :get_signout
+    get  '/signup',         :get_signup
+    post '/signup',         :post_signup
+    get  '/signin',         :get_signin
+    post '/signin',         :post_signin
+    get  '/signin/:token',  :get_token_signin
+    get  '/signout',        :get_signout
 
     def before_GET(req)
        send_to_admin(req) if ['/signin', '/signup'].include?(req.path) && req.session['dealer_id']
@@ -123,6 +126,16 @@ module Lynr; module Controller;
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
       redirect "/admin/#{dealership.id.to_s}"
+    end
+
+    def get_token_signin(req)
+      id = BSON::ObjectId.from_string(req['token'])
+      dao = Lynr::Persist::Dao.new
+      token = dao.read(id)
+      return unauthorized if token.nil? or token.expired?
+      dao.delete(id)
+      req.session['dealer_id'] = token.dealership
+      redirect "/admin/#{token.dealership.to_s}/account/password"
     end
 
     # ## Sign Out Handler
