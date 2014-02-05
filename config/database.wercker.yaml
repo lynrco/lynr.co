@@ -1,8 +1,0 @@
-mongo:
-  host: 'env:WERCKER_MONGODB_HOST'
-  port: 'env:WERCKER_MONGODB_PORT'
-  database: 'lynrco_spec'
-int_val: 1234
-bool_val: true
-string_val: 'hithere'
-env_val: 'env:whereami'
