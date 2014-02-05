@@ -144,7 +144,7 @@ module Lynr; module Controller;
       email = posted['email']
       password = posted['password']
 
-      errors['email'] ||= error_for_email(email)
+      errors['email'] ||= error_for_email(dealer_dao, email)
       errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
 
       if (posted['agree_terms'].nil?)
