@@ -23,7 +23,7 @@ namespace :lynr do
     [:TERM, :INT].each do |sig|
       Signal.trap(sig) do
         pids.each { |pid| Process.kill(:QUIT, pid) }
-        log.info("`rake worker:all` told Workers to QUIT from #{sig}")
+        log.info("`rake lynr:workers` told Workers to QUIT from #{sig}")
         Process.exit(0)
       end
     end
