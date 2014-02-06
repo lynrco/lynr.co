@@ -33,6 +33,9 @@
             <label for="email">Email Address</label>
             <input class="fs-full" type="email" name="email"
                    id="email" value="<%= @dealership.identity.email %>" placeholder="Your email address" />
+            <p class="account-link">
+              <a href="/admin/<%= @dealership.id.to_s %>/account/password">Change Password</a>
+            </p>
             <label for="phone">Phone Number</label>
             <input class="fs-full" type="text" name="phone"
                    id="phone" value="<%= @dealership.phone %>" placeholder="Phone number" />
