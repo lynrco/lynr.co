@@ -7,10 +7,10 @@
                    id="email" value="<%= posted['email'] %>" placeholder="Your email address" />
             <label for="password">Password</label>
             <input class="fs-bottom fs-full <%= error_class('password') %>" type="password"
-                   name="password" id="password" value="" placeholder="Your PIN number" />
+                   name="password" id="password" value="" placeholder="Your PIN" />
           </fieldset>
           <button class="btn btn-full btn-positive" type="submit">Sign In</button>
         </form>
-        <!--
-        <a href="/signin/forgot">I forgot my PIN</a>
-        -->
+        <p class="signin-link">
+          <a href="/signin/forgot">I forgot my PIN</a>
+        </p>
