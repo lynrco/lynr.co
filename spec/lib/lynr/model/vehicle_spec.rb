@@ -100,12 +100,12 @@ describe Lynr::Model::Vehicle do
     end
 
     it "is Image::Empty when there are no images" do
-      expect(vehicle.image).to eq(Lynr::Model::Image::Empty)
+      expect(vehicle.image).to eq(Lynr::Model::SizedImage::Empty)
     end
 
     it "is Image::Empty when all images are empty" do
-      v = vehicle.set({ 'images' => [Lynr::Model::Image::Empty, Lynr::Model::Image::Empty] })
-      expect(v.image).to eq(Lynr::Model::Image::Empty)
+      v = vehicle.set({ 'images' => [Lynr::Model::SizedImage::Empty, Lynr::Model::SizedImage::Empty] })
+      expect(v.image).to eq(Lynr::Model::SizedImage::Empty)
     end
 
   end

@@ -57,6 +57,12 @@ module Lynr; module Model;
       Lynr::Model::SizedImage.new(record)
     end
 
+    # ## `SizedImage::Empty`
+    #
+    # "Singleton" representation of an empty image.
+    #
+    Empty = Lynr::Model::SizedImage.new
+
     private
 
     # ## `SizedImage.normalize_record(record)`

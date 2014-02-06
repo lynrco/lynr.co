@@ -60,7 +60,7 @@ module Lynr; module Model;
     end
 
     def image
-      images.first || Image::Empty
+      images.first || SizedImage::Empty
     end
 
     def images
