@@ -1,0 +1,10 @@
+<%= render_partial 'form_messages.erb' -%>
+        <form class="signin" action="/signin/forgot" method="POST">
+          <fieldset class="fs">
+            <h2 class="fs-title">Forgot Password</h2>
+            <label for="email">Email Address</label>
+            <input class="fs-top fs-full <%= error_class('email') %>" type="email" name="email"
+                   id="email" value="<%= posted['email'] %>" placeholder="Your email address" />
+          </fieldset>
+          <button class="btn btn-full btn-positive" type="submit">Send Help</button>
+        </form>

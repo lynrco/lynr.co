@@ -187,3 +187,5 @@ module Lynr; module Controller;
   end
 
 end; end;
+
+require './lib/lynr/controller/auth/forgot'
