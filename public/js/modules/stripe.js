@@ -38,7 +38,7 @@ define(function(require) {
       emptyElement(messages);
       clazz.add(messages, 'empty');
       button.setAttribute('disabled', true);
-      require('stripe').createToken(form, handleStripeResponse);
+      stripe.createToken(form, handleStripeResponse);
       return false;
     }
 
