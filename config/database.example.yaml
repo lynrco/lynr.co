@@ -1,13 +1,13 @@
 mongo:
   # Host is either the hostname for the server or the IP address
   # In development this will likely be '127.0.0.1'
-  host: 'db.host.name'
+  host: '127.0.0.1'
   # Port used when connecting to mongo, 27017 is the default port mongo runs on
   port: 27017
   # This can be anything, but it is the database the application will connect
   # to in the mongo instance
-  database: 'lynrco_environment'
+  database: 'lynrco_development'
   # The user and pass fields can be omitted if the mongo instance does not
   # require authentication for access
-  user: 'db username'
-  pass: 'db password'
+  #user: 'db username'
+  #pass: 'db password'
