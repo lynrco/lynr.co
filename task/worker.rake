@@ -8,6 +8,7 @@ namespace :lynr do
   require './lib/lynr/logging'
   require './lib/lynr/worker'
 
+  desc 'Starts the Lynr queue processors'
   task :workers do
 
     include Lynr::Logging
