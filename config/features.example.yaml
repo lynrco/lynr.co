@@ -1,0 +1,2 @@
+# Whether or not VINs are decoded via dataone
+dataone_decode: (true|false)
