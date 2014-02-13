@@ -72,11 +72,9 @@ module Lynr; module Controller;
       RestClient.post url, data
     end
 
-    protected
-
     # ## `AdminVin#dataone_xml_query(vin)`
     #
-    # *Protected* Helper method to render query template with the appropriate `vin` data.
+    # Helper method to render query template with the appropriate `vin` data.
     #
     def dataone_xml_query(vin)
       path = ::File.join(Lynr.root, 'views/admin/vehicle/dataone_request')
