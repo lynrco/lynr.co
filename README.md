@@ -9,6 +9,67 @@ Web project setup for lynr.co.
 [Download EditorConfig](http://editorconfig.org/#download), install it and love
 it. It will make me ❤ you.
 
+## Development Cycle
+
+Development can be done with a web server and other tasks running locally or
+running on the vagrant machine. In both cases `bundle install` must be executed
+on the local machine in order to install the Ruby dependencies. Because of the
+way the Lynr application is architected right now it will likely be faster to
+get up and running using your local machine for development and relying on
+SaaS providers for dependencies.
+
+### Setting up the Development Environment
+
+The steps to do the baseline setup for local development are below. They
+make some assumptions about your local setup. The primary assumption is
+you are developing on a Mac with a recent version of OS X and that
+[Homebrew](http://brew.sh) is installed. It also assumes you are running
+or can run a build of Ruby 1.9.3. This can be accomplished with
+[rbenv](https://github.com/sstephenson/rbenv) or [rvm](https://rvm.io).
+[Node.js](http://nodejs.org) and [Grunt](http://gruntjs.com) are used to
+build static files like CSS and JS. A [MongoDB](http://www.mongodb.org)
+instance needs to be running for the Lynr web application to work (beyond
+the landing page). This can be accomplished by installing it with Homebrew
+or by running it in a virtual machine (see [Up and Running with
+Vagrant](#up-and-running-with-vagrant)).
+
+1. Editthe  `/etc/hosts` file (this may require super user priveleges) and
+  append `127.0.0.1       lynr.co.local`
+1. `gem install bundler`
+1. `brew install node`
+1. `npm install`
+1. `bundle install`
+1. `npm install -g grunt-cli`
+1. `bundle exec rake lynr:bootstrap`
+
+For the curious, more information about what `rake lynr:bootstrap` does
+see [Configuration Files](#configuration-files) and [Self-Signed
+Certificates](#self-signed-certificates).
+
+### Local Development
+
+Local machine development can be done without the need for a Vagrant virtual
+machine by using a hosted MongoDB instance like [MongoHQ][mongohq]. The web
+server and message queue processors run on the local development machine but
+little else does. With this strategy in you will want to run a Ruby web server
+via shotgun and run guard to compile LESS into CSS. If you are doing job
+processing development you will also need to run the queue workers. The specific
+commands are:
+
+1. `bundle exec rake lynr:local` for the web server
+1. `bundle exec guard -g assets` or `grunt watch` for asset compilation.
+  `grunt watch` will generate source maps to show which .less file the
+  styles came from.
+1. `bundle exec guard -g rspec` for spec running
+1. `bundle exec rake lynr:workers` for queue workers
+
+If you did the above and set up the external dependencies correctly
+you should now have a server up and running. Point a browser to
+[https://lynr.co.local:9393](http://lynr.co.local:9393) and see. The browse will
+likely tell you about a certificate problem, this is because the certificate is
+self-signed. Feel free to look at the certificate details to verify they are the
+ones typed in when creating the certificate.
+
 ## Configuration Files
 
 The application relies on the presence of two configuration files. Both of these
@@ -78,44 +139,6 @@ A challenge password []:
 An optional company name []:
 ```
 
-## Development Cycle
-
-Development can be done with a web server and other tasks running locally or
-running on the vagrant machine. In both cases `bundle install` must be executed
-on the local machine in order to install the Ruby dependencies. Because of the
-way the Lynr application is architected right now it will likely be faster to
-get up and running using your local machine for development and relying on
-SaaS providers for dependencies.
-
-### Setting up the Development Environment
-
-1. `gem install bundler`
-1. `brew install node`
-1. `npm install`
-
-### Local Development
-
-Local machine development can be done without the need for a Vagrant virtual
-machine by using a hosted MongoDB instance like [MongoHQ][mongohq]. The web
-server and message queue processors run on the local development machine but
-little else does. With this strategy in you will want to run a Ruby web server
-via shotgun and run guard to compile LESS into CSS. If you are doing job
-processing development you will also need to run the queue workers. The specific
-commands are:
-
-1. `bundle exec rake lynr:local` for the web server
-1. `bundle exec guard -g assets` or `grunt watch` for asset compilation. `grunt watch`
-   will generate source maps to show which .less file the styles came from.
-1. `bundle exec guard -g rspec` for spec running
-1. `bundle exec rake lynr:workers` for queue workers
-
-If you did the above and set up the external dependencies correctly
-you should now have a server up and running. Point a browser to
-[https://lynr.co.local:9393](http://lynr.co.local:9393) and see. The browse will
-likely tell you about a certificate problem, this is because the certificate is
-self-signed. Feel free to look at the certificate details to verify they are the
-ones typed in when creating the certificate.
-
 ## Up and Running with Vagrant
 
 Get up and running with these files locally using vagrant. A Vagrant box can
@@ -128,8 +151,6 @@ steps are included largely for future planning.
 1. Install [Vagrant][vagrant]
 1. Open Terminal or iTerm or whatever command line program tickles your fancy
 1. Navigate to your working directory (wherever the source is cloned to)
-1. Edit `/etc/hosts` file and append `127.0.0.1       lynr.co.local`
-  * This may require super user priveleges
 1. Execute `vagrant up`
 
 This gets a basic Ubuntu box up and running and exposes [MongoDB][mongodb] running
