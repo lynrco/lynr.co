@@ -103,11 +103,11 @@ via shotgun and run guard to compile LESS into CSS. If you are doing job
 processing development you will also need to run the queue workers. The specific
 commands are:
 
-1. `bundle exec ./bin/shotgun` for the web server
+1. `bundle exec rake lynr:local` for the web server
 1. `bundle exec guard -g assets` or `grunt watch` for asset compilation. `grunt watch`
    will generate source maps to show which .less file the styles came from.
 1. `bundle exec guard -g rspec` for spec running
-1. `bundle exec rake worker:all` for queue workers
+1. `bundle exec rake lynr:workers` for queue workers
 
 If you did the above and set up the external dependencies correctly
 you should now have a server up and running. Point a browser to
