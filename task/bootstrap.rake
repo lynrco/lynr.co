@@ -18,7 +18,7 @@ namespace :lynr do
   task :'bootstrap:config' => [ "config/app.#{env}.yaml",
                                 "config/database.#{env}.yaml",
                                 "config/features.#{env}.yaml", ] do
-    log.info 'Finished `:config`'
+    log.info 'Finished lynr:bootstrap:config'
   end
 
   file "config/app.#{env}.yaml" do
@@ -37,7 +37,7 @@ namespace :lynr do
   desc 'Generate self-signed certificates and put them in certs'
   task :'bootstrap:certs' => [ "certs/server.cert.key",
                                "certs/server.cert.crt", ] do
-    log.info 'Finished :certs'
+    log.info 'Finished lynr:bootstrap:certs'
   end
 
   file "certs/privkey.pem" do
