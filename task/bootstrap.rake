@@ -15,19 +15,23 @@ namespace :lynr do
   task :bootstrap => [:'bootstrap:config', :'bootstrap:certs']
 
   desc 'Copy example configuration files based on environment'
-  task :'bootstrap:config' do
-    log.info 'Starting `:config`'
-    if File.exists?("config/database.#{env}.yaml") and File.exists?("config/app.#{env}.yaml")
-      log.info 'Aborting :config; files already exist'
-      next
-    end
-    commands = [
-      "cp config/database.{example,#{env}}.yaml",
-      "cp config/app.{example,#{env}}.yaml",
-    ]
-    execute_commands(commands)
-    log.warn "** You need to edit `config/app.#{env}.yaml` for a fully functioning application. **"
+  task :'bootstrap:config' => [ "config/app.#{env}.yaml",
+                                "config/database.#{env}.yaml",
+                                "config/features.#{env}.yaml", ] do
     log.info 'Finished `:config`'
+  end
+
+  file "config/app.#{env}.yaml" do
+    execute_commands(["cp config/app.{example,#{env}}.yaml"])
+    log.warn "** You need to edit `config/app.#{env}.yaml` for a fully functioning application. **"
+  end
+
+  file "config/database.#{env}.yaml" do
+    execute_commands(["cp config/database.{example,#{env}}.yaml"])
+  end
+
+  file "config/features.#{env}.yaml" do
+    execute_commands(["cp config/features.{example,#{env}}.yaml"])
   end
 
   desc 'Generate self-signed certificates and put them in certs'
