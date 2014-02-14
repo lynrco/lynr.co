@@ -67,7 +67,7 @@ module Lynr; module Controller;
       data = {
         authorization_code: config.auth_code,
         client_id:          config.client_id,
-        decoder_query:      dataone_xml_query(vin),
+        decoder_query:      dataone_xml_query(vin), # TODO: does the query have to be encoded?
       }
       RestClient.post url, data
     end
