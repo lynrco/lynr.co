@@ -35,23 +35,31 @@ namespace :lynr do
   end
 
   desc 'Generate self-signed certificates and put them in certs'
-  task :'bootstrap:certs' do
-    log.info 'Starting :certs'
-    if File.exists?('certs/server.cert.key') and File.exists?('certs/server.cert.crt')
-      log.info 'Aborting :certs; necessary files exist'
-      next
-    end
-    commands = [
+  task :'bootstrap:certs' => [ "certs/server.cert.key",
+                               "certs/server.cert.crt", ] do
+    log.info 'Finished :certs'
+  end
+
+  file "certs/privkey.pem" do
+    execute_commands([
       "openssl req -new -passin pass:hithere -passout pass:hithere\
         -subj '/CN=lynr.co.local/O=Lynr, LLC/C=US/ST=CA/L=Los Angeles'\
         -keyout certs/privkey.pem -out certs/server.cert.csr",
+    ])
+  end
+
+  file "certs/server.cert.key" => ["certs/privkey.pem"] do
+    execute_commands([
       "openssl rsa -passin pass:hithere -in certs/privkey.pem -out certs/server.cert.key",
+    ])
+  end
+
+  file "certs/server.cert.crt" => ["certs/server.cert.key"] do
+    execute_commands([
       "openssl x509 -req -days 365 -in certs/server.cert.csr\
         -out certs/server.cert.crt\
         -signkey certs/server.cert.key",
-    ]
-    execute_commands(commands)
-    log.info 'Finished :certs'
+    ])
   end
 
   def execute_commands(commands)
