@@ -4,6 +4,8 @@ namespace :lynr do
 
   desc 'Starts the Lynr application for development'
   task :local do
+    ENV['SSL_CERT_FILE'] = "#{File.dirname(__FILE__).chomp('/task')}/certs/server.cert.crt"
+
     require 'bundler/setup'
     require 'openssl'
     require 'rack'
