@@ -56,6 +56,8 @@ module Lynr
       elsif val.nil?
         val = default
       end
+
+      val = bool(val) if (default.class == TrueClass || default.class == FalseClass)
       val
     end
 
@@ -129,6 +131,21 @@ module Lynr
           configval
         end
       end
+    end
+
+    # ## `Lynr::Config#bool(val)`
+    #
+    # Convert a String value into a boolean (`TrueClass` or `FalseClass`)
+    # if it is a value that makes sense as a boolean.
+    #
+    # * True: (true|t|yes|y|1)
+    # * False: (false|f|no|n|0) or `nil`
+    #
+    def bool(val)
+      val = val.to_s
+      return true if val == true || val =~ (/(true|t|yes|y|1)$/i)
+      return false if val == false || val.nil? || val =~ (/(false|f|no|n|0)$/i)
+      raise ArgumentError.new("invalid value for Boolean: \"#{val}\"")
     end
 
   end
