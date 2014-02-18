@@ -85,6 +85,24 @@ describe Lynr::Model::Dealership do
 
   end
 
+  describe "#slug" do
+
+    let(:dealer) {
+      Lynr::Model::Dealership.new({
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'address' => address,
+        'image' => image,
+        'identity' => identity
+      })
+    }
+
+    it "is all lowercase letters and hyphens" do
+      expect(dealer.slug).to eq('carmax-san-diego')
+    end
+
+  end
+
   describe ".inflate" do
 
     let(:record) {

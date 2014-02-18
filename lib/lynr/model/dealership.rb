@@ -5,6 +5,7 @@ require './lib/lynr/model/address'
 require './lib/lynr/model/base'
 require './lib/lynr/model/identity'
 require './lib/lynr/model/sized_image'
+require './lib/lynr/model/slug'
 
 module Lynr; module Model;
 
@@ -44,11 +45,7 @@ module Lynr; module Model;
     end
 
     def slug
-      if @name.blank?
-        id.to_s
-      else
-        @name.strip.downcase.gsub /\W+/, '-'
-      end
+      Slug.new(@name, @id)
     end
 
     def view
