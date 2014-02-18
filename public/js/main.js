@@ -4,6 +4,7 @@
     map: {
       '*': {
         'domReady': 'libs/domReady-2.0.0',
+        'heap': 'modules/heapanalytics',
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
         'mixpanel': 'modules/mixpanel',
@@ -60,5 +61,7 @@
   if (menuLinks.length > 0) {
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
+
+  require(['heap'], function() { });
 
 })();
