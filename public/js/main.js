@@ -77,7 +77,7 @@
     } else if (location.host.match(/herokuapp\.com$/)) {
       heap_id = '3039819491';
     }
-    heap.load(site_id);
+    heap.load(heap_id);
   });
 
 })();
