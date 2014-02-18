@@ -21,6 +21,10 @@ describe Lynr::Model::Slug do
       expect(Lynr::Model::Slug.new("hi there", id)).to eq('hi-there')
     end
 
+    it "is empty if name and id are both nil" do
+      expect(Lynr::Model::Slug.new(nil, nil)).to eq('')
+    end
+
   end
 
   describe "#slugify" do
