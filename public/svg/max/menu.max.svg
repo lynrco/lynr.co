@@ -4,10 +4,10 @@
     <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
     <defs></defs>
     <g id="General" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="menu---dw" sketch:type="MSLayerGroup" transform="translate(0.000000, 1.000000)" fill="#FFFFFF">
-            <rect id="Rectangle-6" sketch:type="MSShapeGroup" x="0" y="0" width="66" height="10.8461538"></rect>
-            <rect id="Rectangle-6-copy" sketch:type="MSShapeGroup" x="0" y="18.0769231" width="66" height="10.8461538"></rect>
-            <rect id="Rectangle-6-copy-2" sketch:type="MSShapeGroup" x="0" y="36.1538462" width="66" height="10.8461538"></rect>
+        <g id="menu---dw" sketch:type="MSLayerGroup" transform="translate(0.000000, 2.000000)" fill="#FFFFFF">
+            <rect id="Rectangle-6" sketch:type="MSShapeGroup" x="0" y="0" width="66" height="10.6153846"></rect>
+            <rect id="Rectangle-6-copy" sketch:type="MSShapeGroup" x="0" y="17.6923077" width="66" height="10.6153846"></rect>
+            <rect id="Rectangle-6-copy-2" sketch:type="MSShapeGroup" x="0" y="35.3846154" width="66" height="10.6153846"></rect>
         </g>
     </g>
 </svg>
