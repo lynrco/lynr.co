@@ -62,12 +62,22 @@
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
 
-  require(['heap', 'mixpanel'], function(h, mp) {
+  require(['heap', 'mixpanel'], function(heap, mp) {
+    var heap_id = false;
+
     mp.track('pageview', {
       title: document.title,
       url: window.location.pathname,
       domain: window.location.host || window.location.hostname
     });
+
+    if (!window.location.host) { return; }
+    if (location.host.match(/lynr\.co$/)) {
+      heap_id = '3641699606';
+    } else if (location.host.match(/herokuapp\.com$/)) {
+      heap_id = '3039819491';
+    }
+    heap.load(site_id);
   });
 
 })();

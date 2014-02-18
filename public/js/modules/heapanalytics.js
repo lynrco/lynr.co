@@ -1,5 +1,4 @@
 define(function(require) {
-
   if (typeof window.heap !== 'undefined') { return window.heap; }
 
   function no_op() {}
@@ -15,17 +14,9 @@ define(function(require) {
   var heap = heap || [];
   var site_id = false;
 
-  if (!(window.location.host && location.host.match(/lynr\.co$/))) {
-    site_id = '3641699606';
-  } else if (!(window.location.host && location.host.match(/herokuapp\.com$/))) {
-    site_id = '3039819491';
-  } else {
-    return stub;
-  }
+  if (window.location.host && !location.host.match(/(lynr|herokuapp)\.com?$/)) { return stub; }
 
   heap.load=function(a){window._heapid=a;var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap.js";var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d=function(a){return function(){heap.push([a].concat(Array.prototype.slice.call(arguments,0)))}},e=["identify","track"];for(var f=0;f<e.length;f++)heap[e[f]]=d(e[f])};
-  heap.load(site_id);
 
   return heap;
-
 });
