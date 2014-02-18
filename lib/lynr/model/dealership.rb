@@ -44,7 +44,11 @@ module Lynr; module Model;
     end
 
     def slug
-      id.to_s
+      if @name.blank?
+        id.to_s
+      else
+        @name.strip.downcase.gsub /\W+/, '-'
+      end
     end
 
     def view
