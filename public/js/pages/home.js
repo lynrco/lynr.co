@@ -14,12 +14,6 @@ define(function(require) {
   function setupHome() {
     var form = document.querySelector('form.signup');
     evt.on(form, 'submit', trackFormSubmit);
-
-    mixpanel.track('pageview', {
-      title: document.title,
-      url: window.location.pathname,
-      domain: window.location.host || window.location.hostname
-    });
   }
 
   return setupHome;

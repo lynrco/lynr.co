@@ -62,6 +62,12 @@
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
 
-  require(['heap'], function() { });
+  require(['heap', 'mixpanel'], function(h, mp) {
+    mp.track('pageview', {
+      title: document.title,
+      url: window.location.pathname,
+      domain: window.location.host || window.location.hostname
+    });
+  });
 
 })();
