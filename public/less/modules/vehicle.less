@@ -43,9 +43,11 @@
 .vehicles .vehicle-price:after {
   content: '›'; display: block; position: absolute; bottom: -0.05rem; right: 0; font-size: 1.5rem;
 }
-.vehicle-delete {
-  .vehicle-title; background: @brand_color_dark; text-transform: none;
-  text-align: center;
 
-  a { font-size: 0.875rem; color: @accent_color; }
+.vehicle-delete-link {
+  display: block; padding: 0.5rem;
+  font-size: 0.875rem; color: @accent_color; text-align: center;
+  background: @brand_color_dark;
+
+  &:hover { color: @accent_color; text-decoration: underline; }
 }
