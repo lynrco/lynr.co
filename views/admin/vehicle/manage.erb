@@ -10,10 +10,15 @@
             <%- end -%>
             <h2 class="vehicle-title">
               <!-- TODO: remove link if image exists -->
+              <%- if vehicle.image.empty? -%>
               <a href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>/edit">
                 <span class="vehicle-name"><%= vehicle.name %></span>
                 <span class="vehicle-price"><%= vehicle.price %></span>
               </a>
+              <%- else -%>
+              <span class="vehicle-name"><%= vehicle.name %></span>
+              <span class="vehicle-price"><%= vehicle.price %></span>
+              <%- end -%>
             </h2>
             <h2>
               <a class="vehicle-delete-link" href="/admin/<%= @dealership.slug %>/<%= vehicle.slug %>/delete">
