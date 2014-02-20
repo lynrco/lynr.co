@@ -41,7 +41,6 @@ module Lynr; module Controller;
       return unauthorized unless authorized?(req)
       return not_found unless dealership(req)
       @dealership = dealership(req)
-      req.session.delete('back_uri')
     end
 
     # ## `Lynr::Controller::Admin#index`
@@ -53,6 +52,7 @@ module Lynr; module Controller;
       @vehicles = vehicle_dao.list(@dealership)
       @title = "Welcome back #{@dealership.name}"
       @owner = @dealership.name
+      req.session.delete('back_uri')
       render 'admin/index.erb'
     end
 
