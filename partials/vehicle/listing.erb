@@ -7,7 +7,6 @@
             </a>
             <%- end -%>
             <h2 class="vehicle-title">
-              <!-- TODO: remove link if image exists -->
               <%- if inventory or vehicle.image.empty? -%>
               <a href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/edit">
                 <span class="vehicle-name"><%= vehicle.name %></span>
@@ -26,4 +25,3 @@
             </h2>
             <%- end -%>
           </article>
-
