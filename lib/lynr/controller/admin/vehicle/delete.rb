@@ -24,7 +24,8 @@ module Lynr::Controller
     def post_delete_vehicle(req)
       posted['deleted_at'] = Time.now
       vehicle_dao.save(@vehicle.set(posted))
-      redirect "/admin/#{@dealership.slug}"
+      # `@back_uri` is set in `Lynr::Controller::Admin::Vehicle`
+      redirect @back_uri
     end
 
   end
