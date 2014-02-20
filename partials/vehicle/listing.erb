@@ -1,0 +1,29 @@
+          <article class="vehicle">
+            <%- if !vehicle.image.empty? -%>
+            <a href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/edit">
+              <img class="vehicle-image"
+                   src="<%= vehicle.image.thumb.url %>"
+                   alt="" />
+            </a>
+            <%- end -%>
+            <h2 class="vehicle-title">
+              <!-- TODO: remove link if image exists -->
+              <%- if inventory or vehicle.image.empty? -%>
+              <a href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/edit">
+                <span class="vehicle-name"><%= vehicle.name %></span>
+                <span class="vehicle-price"><%= vehicle.price %></span>
+              </a>
+              <%- else -%>
+              <span class="vehicle-name"><%= vehicle.name %></span>
+              <span class="vehicle-price"><%= vehicle.price %></span>
+              <%- end -%>
+            </h2>
+            <%- if !inventory -%>
+            <h2>
+              <a class="vehicle-delete-link" href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/delete">
+                Delete This Vehicle
+              </a>
+            </h2>
+            <%- end -%>
+          </article>
+
