@@ -8,8 +8,6 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     wait: true
   };
 
-  var spinners = {};
-
   function init(els) {
     var forms = $(els);
     forms.each(function() {
