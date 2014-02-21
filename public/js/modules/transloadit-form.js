@@ -5,7 +5,6 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     fields: 'input[name=idx], input[name=dealership_id]',
     modal: false,
     triggerUploadOnFileSelection: true,
-    onStart: uploadStart,
     wait: true
   };
 
@@ -16,6 +15,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     forms.each(function() {
       var form = $(this);
       var opts = transloaditOpts(form.data('image-type'));
+      opts.onStart = function(assembly) { startSpinner(form); };
       form.transloadit(opts);
     });
   }
@@ -61,6 +61,11 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     return image;
   }
 
+  function startSpinner(form) {
+    var spin = spinner(form.find('.fs-image')[0]);
+    form.data('spinner', spin);
+  }
+
   function transloaditOpts(page) {
     var specific;
     switch (page) {
@@ -102,19 +107,11 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     form.find('img.f-image-preview').attr(image.full).removeClass('f-image-preview-empty icon-add-photo');
   }
 
-  function uploadStart(assembly) {
-    var fields = assembly.fields;
-    var form = $('#photo-' + fields.idx);
-    var spin = form.data('spinner') || spinner(form.find('.fs-image')[0]);
-    form.data('spinner', spin);
-    spinners[fields.idx] = spin;
-  }
-
   function uploadSuccessStopSpinner(assembly) {
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
     var spinner = form.data('spinner');
-    if (spinner && typeof spinner.stop === 'function') { form.data('spinner').stop(); }
+    if (spinner && typeof spinner.stop === 'function') { spinner.stop(); }
   }
 
   return init;
