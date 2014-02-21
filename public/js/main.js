@@ -6,7 +6,7 @@
         'domReady': 'libs/domReady-2.0.0',
         'heap': 'modules/heapanalytics',
         'jquery': 'libs/jquery-1.10.2.min',
-        'jquery.transloadit': 'libs/jquery.transloadit2-v2.1.0',
+        'jquery.transloadit': 'libs/jquery.transloadit2-v2.3.4',
         'mixpanel': 'modules/mixpanel',
         'modernizr': 'libs/modernizr.custom.45012',
         'spinner': 'libs/spin-1.3.2',
@@ -18,7 +18,7 @@
       'libs/jquery-1.10.2.min': {
         exports: 'jQuery'
       },
-      'libs/jquery.transloadit2-v2.1.0': {
+      'libs/jquery.transloadit2-v2.3.4': {
         deps: ['jquery'],
         exports: 'jQuery.fn.transloadit'
       },
