@@ -19,6 +19,7 @@ module Lynr; module Controller;
       @subsection = "vehicle-list"
       @title = "Manage Vehicles"
       @vehicles = vehicle_dao.list(@dealership)
+      req.session['back_uri'] = "/admin/#{@dealership.slug}/vehicle/manage"
       render 'admin/vehicle/manage.erb'
     end
 

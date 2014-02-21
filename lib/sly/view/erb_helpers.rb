@@ -100,13 +100,15 @@ module Sly; module View;
     # ### Params
     #
     # * `path` defines the path within `:partials` for the .erb file
+    # * `data` are values to pass along when rendering the partial
     #
     # ### Returns
     #
     # The `String` result of processing the .erb file
     #
-    def render_partial(path)
-      render_inline(path, :partials)
+    def render_partial(path, data={})
+      opts = { data: data } unless data.empty?
+      render_inline(path, :partials, opts)
     end
 
     # ## `ErbHelpers#render_view`
@@ -118,13 +120,15 @@ module Sly; module View;
     # ### Params
     #
     # * `path` defines the path within `:partials` for the .erb file
+    # * `data` are values to pass along when rendering the view
     #
     # ### Returns
     #
     # The `String` result of processing the .erb file
     #
-    def render_view(path)
-      render_inline(path, :views)
+    def render_view(path, data={})
+      opts = { data: data } unless data.empty?
+      render_inline(path, :views, opts)
     end
 
     private

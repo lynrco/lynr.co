@@ -1,1 +1,10 @@
-<%= render_view 'admin/index.erb' %>
+        <div class="vehicles">
+          <%- @vehicles.each do |vehicle| -%>
+<%= render_partial('vehicle/listing.erb', {
+      inventory: false,
+      dealership: @dealership,
+      vehicle: vehicle
+    })
+-%>
+          <%- end -%>
+        </div>

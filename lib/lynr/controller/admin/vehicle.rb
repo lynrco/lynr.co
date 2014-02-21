@@ -29,6 +29,7 @@ module Lynr::Controller
       super
       return not_found unless vehicle(req)
       @vehicle = vehicle(req)
+      @back_uri = req.session['back_uri'] || "/admin/#{dealership(req).slug}"
     end
 
     # ## `Admin::Vehicle#before_GET(req)`
@@ -56,7 +57,7 @@ module Lynr::Controller
     # Set up the primary menu view for Vehicle pages.
     #
     def menu_primary
-      Lynr::View::Menu.new('Menu', "/admin/#{@dealership.slug}", nil, 'icon-back')
+      Lynr::View::Menu.new('Menu', @back_uri, nil, 'icon-back')
     end
 
     # ## `Admin::Vehicle#menu_secondary`
