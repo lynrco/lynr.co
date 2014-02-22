@@ -54,7 +54,7 @@ module Lynr; module Model;
       data['address'] = @address.view if @address
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
-      data['slug'] = slug if !slug.empty?
+      data['slug'] = slug unless slug.empty?
       data
     end
 
