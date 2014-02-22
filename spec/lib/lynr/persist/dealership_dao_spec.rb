@@ -5,6 +5,7 @@ require './lib/lynr/persist/dealership_dao'
 
 require './lib/lynr/model/address'
 require './lib/lynr/model/identity'
+require './lib/lynr/model/slug'
 require './lib/lynr/model/sized_image'
 
 describe Lynr::Persist::DealershipDao do
@@ -99,6 +100,7 @@ describe Lynr::Persist::DealershipDao do
     let(:dealership) {
       Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
     }
+    let(:slug) { Lynr::Model::Slug.new(dealer_data['name'], nil) }
 
     before(:each) do
       MongoHelpers.empty! if MongoHelpers.connected?
@@ -157,6 +159,24 @@ describe Lynr::Persist::DealershipDao do
       it "returns dealership if customer_id exists" do
         saved = dao.save(dealership)
         expect(dao.get_by_customer_id(customer_id).id).to eq(saved.id)
+      end
+
+    end
+
+    describe "#get_by_slug" do
+
+      it "returns nil if slug doesn't exist" do
+        expect(dao.get_by_slug(slug)).to be_nil
+      end
+
+      it "returns dealership if slug exists" do
+        saved = dao.save(dealership.set(dealer_data))
+        expect(dao.get_by_slug(slug)).to be_an_instance_of(Lynr::Model::Dealership)
+      end
+
+      it "returns saved dealership if slug exists" do
+        saved = dao.save(dealership.set(dealer_data))
+        expect(dao.get_by_slug(slug)).to eq(saved)
       end
 
     end

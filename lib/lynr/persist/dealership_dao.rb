@@ -71,6 +71,15 @@ module Lynr; module Persist;
       translate(record)
     end
 
+    # ## `DealershipDao#get_by_slug(slug)`
+    #
+    # Retrieve the `Dealership` identified by `slug`
+    #
+    def get_by_slug(slug)
+      record = @dao.search({ 'slug' => slug }, { limit: 1 })
+      translate(record)
+    end
+
     # ## `DealershipDao#save(dealer)`
     #
     # Create a new record for `dealer` or update the record associated with it.
