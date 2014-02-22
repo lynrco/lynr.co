@@ -67,6 +67,15 @@ module Lynr; module Controller;
 
     # ## Helpers
 
+    # ## `Admin::Vehicle#dealership(req)`
+    #
+    # Get dealership object out of `req`.
+    #
+    def dealership(req)
+      return @dealership unless @dealership == false
+      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+    end
+
     # ## `Lynr::Controller::Admin#session_user`
     #
     # Gets the current user out of the session and returns it
@@ -127,17 +136,6 @@ module Lynr; module Controller;
       return nil if auth_secret.nil?
       digest = OpenSSL::Digest::Digest.new('sha1')
       OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
-    end
-
-    protected
-
-    # ## `Admin::Vehicle#dealership(req)`
-    #
-    # *Protected* Get dealership object out of `req`.
-    #
-    def dealership(req)
-      return @dealership unless @dealership == false
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
     end
 
   end
