@@ -37,8 +37,8 @@ describe Lynr::Model::Slug do
       expect(Lynr::Model::Slug.slugify("hi there%chumperton")).to eq("hi-there-chumperton")
     end
 
-    it "turns apostrophes into hyphens" do
-      expect(Lynr::Model::Slug.slugify("hi there'chumperton")).to eq("hi-there-chumperton")
+    it "removes apostrophes" do
+      expect(Lynr::Model::Slug.slugify("hi there'chumperton")).to eq("hi-therechumperton")
     end
 
   end

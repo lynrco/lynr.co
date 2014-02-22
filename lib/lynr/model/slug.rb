@@ -26,7 +26,7 @@ module Lynr; module Model;
     # Perform the act of turning an existing String into a URI safe string.
     #
     def self.slugify(str)
-      str.strip.downcase.gsub /\W+/, '-'
+      str.strip.downcase.gsub(/[']+/, '').gsub(/\W+/, '-')
     end
 
   end
