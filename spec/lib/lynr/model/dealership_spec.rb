@@ -103,6 +103,30 @@ describe Lynr::Model::Dealership do
 
   end
 
+  describe "#view" do
+
+    let(:dealer) {
+      Lynr::Model::Dealership.new({
+        'name' => 'CarMax San Diego',
+        'phone' => '+1 123-123-1234',
+        'address' => address,
+        'image' => image,
+        'identity' => identity
+      })
+    }
+    let(:view) { dealer.view }
+
+    it "has a 'slug' property when name exists" do
+      expect(view['slug']).to eq('carmax-san-diego')
+    end
+
+    it "doesn't have a 'slug' property when name is blank" do
+      dealership = dealer.set({ 'name' => '' })
+      expect(dealership.view['slug']).to be_nil
+    end
+
+  end
+
   describe ".inflate" do
 
     let(:record) {

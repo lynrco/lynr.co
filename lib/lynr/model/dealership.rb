@@ -54,6 +54,7 @@ module Lynr; module Model;
       data['address'] = @address.view if @address
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
+      data['slug'] = slug if !slug.empty?
       data
     end
 
@@ -81,7 +82,7 @@ module Lynr; module Model;
         'image' => @image,
         'customer_id' => @customer_id,
         'created_at' => @created_at,
-        'updated_at' => @updated_at
+        'updated_at' => @updated_at,
       }
     end
 
