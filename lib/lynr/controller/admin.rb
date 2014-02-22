@@ -121,7 +121,7 @@ module Lynr; module Controller;
     # false otherwise
     #
     def authorized?(req)
-      req.session['dealer_id'] == BSON::ObjectId.from_string(req['slug'])
+      req.session['dealer_id'] == dealership(req).id
     end
 
     # TODO: Write documentation for `#transloadit_params`
