@@ -41,6 +41,10 @@ describe Lynr::Model::Slug do
       expect(Lynr::Model::Slug.slugify("hi there'chumperton")).to eq("hi-therechumperton")
     end
 
+    it "removes quotes" do
+      expect(Lynr::Model::Slug.slugify("hi there\"chumperton")).to eq("hi-therechumperton")
+    end
+
   end
 
 end
