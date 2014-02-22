@@ -73,7 +73,11 @@ module Lynr; module Controller;
     #
     def dealership(req)
       return @dealership unless @dealership == false
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      if BSON::ObjectId.legal?(req['slug'])
+        @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      else
+        @dealership = dealer_dao.get_by_slug(req['slug'])
+      end
     end
 
     # ## `Lynr::Controller::Admin#session_user`
