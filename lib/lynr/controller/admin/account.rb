@@ -4,6 +4,7 @@ require './lib/lynr'
 require './lib/lynr/controller/admin'
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
+require './lib/lynr/validator'
 
 module Lynr; module Controller;
 
@@ -14,6 +15,7 @@ module Lynr; module Controller;
   class AdminAccount < Lynr::Controller::Admin
 
     include Lynr::Model
+    include Lynr::Validator::Email
 
     get  '/admin/:slug/account', :get_account
     post '/admin/:slug/account', :post_account
