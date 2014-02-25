@@ -1,3 +1,4 @@
+require './lib/lynr/persist/exceptions'
 require './lib/lynr/persist/mongo_dao'
 require './lib/lynr/model/dealership'
 
@@ -87,6 +88,8 @@ module Lynr; module Persist;
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
       translate(record)
+    rescue Mongo::MongoDBError => dberror
+      raise Lynr::Persist::MongoUniqueError.new(dberror)
     end
 
     private

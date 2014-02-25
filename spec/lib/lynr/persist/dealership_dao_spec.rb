@@ -135,6 +135,73 @@ describe Lynr::Persist::DealershipDao do
         expect(dao.save(saved).id).to eq(id)
       end
 
+      context "customer_id not unique" do
+
+        let(:dealership) {
+          Lynr::Model::Dealership.new(dealer_data.merge({ 'customer_id' => customer_id}))
+        }
+        let(:to_save) {
+          dealership.set({
+            'identity' => Lynr::Model::Identity.new('bryan+t@lynr.co', identity.password)
+          })
+        }
+
+        before(:each) do
+          dao.save(dealership)
+        end
+
+        it "raises DataError" do
+          expect { dao.save(to_save) }.to raise_error(Lynr::DataError)
+        end
+
+        it "raises error with field == customer_id" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.field).to eq('customer_id')
+          }
+        end
+
+        it "raises error with value == cus_1bFL8vciXXchnm" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.value).to eq('cus_1bFL8vciXXchnm')
+          }
+        end
+
+      end
+
+      context "slug not unique" do
+
+        let(:dealership) {
+          Lynr::Model::Dealership.new(dealer_data.merge({ 'customer_id' => customer_id}))
+        }
+        let(:to_save) {
+          dealership.set({
+            'identity' => Lynr::Model::Identity.new('bryan+t@lynr.co', identity.password),
+            'customer_id' => customer_id + '2'
+          })
+        }
+
+        before(:each) do
+          dao.save(dealership)
+        end
+
+        it "raises DataError" do
+          expect { dao.save(to_save) }.to raise_error(Lynr::DataError)
+        end
+
+        it "raises error with field == slug" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.field).to eq('slug')
+          }
+        end
+
+        it "raises error with value == carmax-san-diego" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.value).to eq('carmax-san-diego')
+          }
+        end
+
+      end
+
     end
 
     describe "#get_by_email" do
