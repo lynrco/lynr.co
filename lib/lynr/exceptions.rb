@@ -2,16 +2,25 @@ require './lib/sly/exceptions'
 
 module Lynr
 
-  # # `Lynr::HttpError`
+  # # `Lynr::DataError`
   #
   # Raise to indicate there was a problem with data processing.
   #
   class DataError < StandardError
 
-    attr_reader :field
+    attr_reader :cause, :field, :value
 
-    def initialize(field, msg=nil)
+    # ## `DataError.new(field, value, msg, cause)`
+    #
+    # Creates an error specific to a set of data. The piece of data is labeled
+    # by `field` and contained `value`. `msg` is the human readable message
+    # for the purposes of logging. `cause` is meant to be the `Error` instance
+    # which was converted into this error if one exists.
+    #
+    def initialize(field, value, msg=nil, cause=nil)
+      @cause = cause
       @field = field
+      @value = value
       super(msg)
     end
 
