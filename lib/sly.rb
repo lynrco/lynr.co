@@ -1,5 +1,6 @@
 require 'rack'
 
+require './lib/sly/exceptions'
 require './lib/sly/node'
 require './lib/sly/route'
 require './lib/sly/router'
