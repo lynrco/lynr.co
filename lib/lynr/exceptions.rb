@@ -36,3 +36,5 @@ module Lynr
   end
 
 end
+
+require './lib/lynr/persist/exceptions'
