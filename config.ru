@@ -1,5 +1,6 @@
 require 'rack'
 require 'rack/ssl'
+require 'librato-rack'
 
 require './lib/lynr/web'
 require './lib/rack/middleware/logger'
@@ -11,6 +12,7 @@ statics = 'public'
 statics = 'dist' if Lynr.env == 'heroku'
 
 use Rack::SSL
+use Librato::Rack
 use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => statics
 if Lynr.env == 'development' then use Rack::Static, :urls => ["/less"], :root => statics end
 use Rack::Middleware::Timer, Lynr::Web.instance.log
