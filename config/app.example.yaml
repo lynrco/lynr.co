@@ -15,6 +15,10 @@ ebay:
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
+# Used for metrics
+librato:
+  user: 'user email address for https://librato.com'
+  token: 'user token from https://metrics.librato.com/account'
 # Used for sending emails
 mailgun:
   domain: 'Domain name from https://mailgun.com/cp'

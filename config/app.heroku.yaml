@@ -22,6 +22,10 @@ headers:
   "X-Content-Security-Policy": "script-src 'self' https://*"
   "X-Frame-Options": "DENY"
   "X-Xss-Protection": "1"
+# Used for metrics
+librato:
+  user: 'env:LIBRATO_USER'
+  token: 'env:LIBRATO_TOKEN'
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'
