@@ -124,12 +124,14 @@ module Lynr
     # Helper method to set up application wide variables.
     #
     def self.setup
-      Stripe.api_key = instance.config['stripe']['key']
-      Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
+      conf = instance.config
 
-      ENV['LIBRATO_USER'] ||= instance.config.librato.user
-      ENV['LIBRATO_TOKEN'] ||= instance.config.librato.token
-      Librato::Metrics.authenticate instance.config.librato.user, instance.config.librato.token
+      Stripe.api_key = conf['stripe']['key']
+      Stripe.api_version = conf['stripe']['version'] || '2013-02-13'
+
+      ENV['LIBRATO_USER'] ||= conf.librato.user
+      ENV['LIBRATO_TOKEN'] ||= conf.librato.token
+      Librato::Metrics.authenticate conf.librato.user, conf.librato.token
     end
 
     # ## `Lynr::Web.title_for_code(status)`
