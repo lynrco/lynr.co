@@ -25,11 +25,12 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :accounts, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :slug, :accounts, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data={}, id=nil)
       @id = id
       @name = data.fetch('name', default="")
+      @slug = data.fetch('slug', default=Slug.new(@name, @id))
       @phone = data.fetch('phone', default="")
       @identity = data.fetch('identity', default=nil)
       @address = extract_address(data)
@@ -42,10 +43,6 @@ module Lynr; module Model;
 
     def set(data={})
       Lynr::Model::Dealership.new(self.to_hash.merge(data), @id)
-    end
-
-    def slug
-      Slug.new(@name, @id)
     end
 
     def view
