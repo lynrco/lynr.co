@@ -92,6 +92,10 @@ module Lynr; module Persist;
       raise Lynr::Persist::MongoUniqueError.new(dberror)
     end
 
+    def slug_exists?(slug)
+      @dao.collection.count(query: { 'slug' => slug }, read: :secondary, limit: 1) > 0
+    end
+
     private
 
     # ## `DealershipDao#ensure_indices`

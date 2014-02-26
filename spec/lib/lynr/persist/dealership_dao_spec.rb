@@ -248,6 +248,19 @@ describe Lynr::Persist::DealershipDao do
 
     end
 
+    describe "slug_exists?" do
+
+      it "returns false if slug doesn't exist" do
+        expect(dao.slug_exists?(slug)).to be_false
+      end
+
+      it "returns true if slug exists" do
+        saved = dao.save(dealer)
+        expect(dao.slug_exists?(slug)).to be_true
+      end
+
+    end
+
   end
 
 end
