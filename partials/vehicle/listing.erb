@@ -1,6 +1,11 @@
+          <%-
+            vehicle_href = if inventory then "/admin/#{dealership.slug}/#{vehicle.slug}"
+                           else              "/admin/#{dealership.slug}/#{vehicle.slug}/edit"
+                           end
+          -%>
           <article class="vehicle">
             <%- if !vehicle.image.empty? -%>
-            <a href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/edit">
+            <a href="<%= vehicle_href %>">
               <img class="vehicle-image"
                    src="<%= vehicle.image.thumb.url %>"
                    alt="" />
@@ -8,7 +13,7 @@
             <%- end -%>
             <h2 class="vehicle-title">
               <%- if inventory or vehicle.image.empty? -%>
-              <a href="/admin/<%= dealership.slug %>/<%= vehicle.slug %>/edit">
+              <a href="<%= vehicle_href %>">
                 <span class="vehicle-name"><%= vehicle.name %></span>
                 <span class="vehicle-price"><%= vehicle.price %></span>
               </a>
