@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'librato/metrics'
 require 'stripe'
 
 require './lib/sly'
@@ -125,6 +126,10 @@ module Lynr
     def self.setup
       Stripe.api_key = instance.config['stripe']['key']
       Stripe.api_version = instance.config['stripe']['version'] || '2013-02-13'
+
+      ENV['LIBRATO_USER'] ||= instance.config.librato.user
+      ENV['LIBRATO_TOKEN'] ||= instance.config.librato.token
+      Librato::Metrics.authenticate instance.config.librato.user, instance.config.librato.token
     end
 
     # ## `Lynr::Web.title_for_code(status)`
