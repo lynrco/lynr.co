@@ -13,7 +13,7 @@ module Lynr; module Model;
     # provided it is not nil or emtpty. If `name` is nil or empty use
     # `default` instead.
     #
-    def initialize(name, default)
+    def initialize(name, default=nil)
       if name.nil? or name.empty?
         super(default.to_s)
       else
