@@ -36,11 +36,20 @@ module Lynr; module Controller;
       @dealership = false
     end
 
+    # ## `Admin#before_each(req)`
+    #
+    # Make sure dealership is authorized to view the admin page and the
+    # dealership associated with `:slug` exists.
+    #
+    # NOTE: `super` is called at the end of this method in order to ensure
+    # `Rack::Response` instances returned by child implementations of
+    # `before_METHOD` methods are returned to user agent.
+    #
     def before_each(req)
-      super
       return unauthorized unless authorized?(req)
       return not_found unless dealership(req)
       @dealership = dealership(req)
+      super
     end
 
     # ## `Lynr::Controller::Admin#index`
