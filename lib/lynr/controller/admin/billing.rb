@@ -57,7 +57,7 @@ module Lynr; module Controller;
       customer.card = posted['stripeToken']
       customer.save
       req.session['billing_flash_msg'] = "Card updated successfully."
-      redirect "/admin/#{@dealership.id.to_s}/billing"
+      redirect "/admin/#{@dealership.slug}/billing"
     rescue Stripe::CardError => sce
       handle_stripe_error!(sce, sce.message)
     rescue Stripe::InvalidRequestError => sire

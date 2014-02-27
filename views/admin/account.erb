@@ -30,7 +30,7 @@
           <% end %>
           <button class="btn btn-full btn-positive" type="submit">Update Account Image</button>
         </form>
-        <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
+        <form class="account" action="/admin/<%= @dealership.slug %>/account" method="POST">
           <fieldset class="fs">
             <label for="name">Dealership Name</label>
             <input class="fs-full" type="text" name="name"
@@ -44,7 +44,7 @@
             <input class="fs-full <%= error_class('email') %>" type="email" name="email"
                    id="email" value="<%= dealer_email %>" placeholder="Your email address" />
             <p class="account-link">
-              <a href="/admin/<%= @dealership.id.to_s %>/account/password">Change Password</a>
+              <a href="/admin/<%= @dealership.slug %>/account/password">Change Password</a>
             </p>
             <label for="phone">Phone Number</label>
             <input class="fs-full" type="text" name="phone"
