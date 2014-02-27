@@ -2,6 +2,7 @@ require 'json'
 
 require './lib/lynr'
 require './lib/lynr/controller/admin'
+require './lib/lynr/model/slug'
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
 require './lib/lynr/validator'
@@ -53,6 +54,7 @@ module Lynr; module Controller;
       @errors = validate_account_info
       @posted['identity'] = Identity.new(posted['email'], dealership(req).identity.password)
       @posted['image'] = translate_image
+      @posted['slug'] = slugify(posted['name']) if has_error?('slug') && posted['slug'].nil?
       render 'admin/account.erb' if has_errors?
     end
 
@@ -76,6 +78,14 @@ module Lynr; module Controller;
       dealership = dealer_dao.save(dealership(req).set(posted))
       update_stripe(dealership) if email_changed? || name_changed?
       redirect "/admin/#{dealership(req).id.to_s}/account"
+    end
+
+    # ## `AdminAccount#slugify(str)`
+    #
+    # Create a slug from `str`
+    #
+    def slugify(str)
+      Slug.new(str)
     end
 
     protected
@@ -161,6 +171,7 @@ module Lynr; module Controller;
     def validate_account_info
       errors = validate_required(posted, ['email'])
       email = posted['email']
+      slug = posted.fetch('slug', slugify(posted['name']))
 
       if (errors['email'].nil?)
         if (!is_valid_email?(email))
@@ -168,6 +179,10 @@ module Lynr; module Controller;
         elsif (email != @dealership.identity.email && dealer_dao.account_exists?(email))
           errors['email'] = "#{email} is already taken."
         end
+      end
+
+      if (slug != @dealership.slug && dealer_dao.slug_exists?(slug))
+        errors['slug'] = "Dealership handle, <em>#{slug}</em>, is in use by someone else."
       end
 
       errors

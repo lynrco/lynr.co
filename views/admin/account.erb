@@ -35,6 +35,11 @@
             <label for="name">Dealership Name</label>
             <input class="fs-full" type="text" name="name"
                    id="name" value="<%= posted['name'] %>" placeholder="Dealership name" />
+            <%- if has_error?('slug') or posted['slug'] != slugify(posted['name']) -%>
+            <label for="name">Dealership Slug</label>
+            <input class="fs-full <%= error_class('slug') %>" type="text" name="slug"
+                   id="slug" value="<%= posted['slug'] %>" placeholder="Dealership handle" />
+            <%- end -%>
             <label for="email">Email Address</label>
             <input class="fs-full <%= error_class('email') %>" type="email" name="email"
                    id="email" value="<%= dealer_email %>" placeholder="Your email address" />
