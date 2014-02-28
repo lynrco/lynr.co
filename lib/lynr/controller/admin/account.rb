@@ -174,7 +174,7 @@ module Lynr; module Controller;
       slug = posted.fetch('slug', slugify(posted['name']))
 
       errors['email'] ||= error_for_email(dealer_dao, email) if email_changed?
-      errors['slug']  ||= error_for_slug(dealer_dao, slug) if slug != @dealership.slug
+      errors['slug']  ||= error_for_slug(dealer_dao, slug) if slug != @dealership.slug && !slug.empty?
 
       errors.delete_if { |k,v| v.nil? }
     end
