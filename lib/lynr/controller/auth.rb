@@ -75,7 +75,7 @@ module Lynr; module Controller;
       }))
       req.session['dealer_id'] = dealer.id
       # Send to admin pages?
-      redirect "/admin/#{dealer.id.to_s}"
+      send_to_admin(req, dealer)
     rescue Stripe::CardError => sce
       handle_stripe_error!(sce, sce.message)
     rescue Stripe::InvalidRequestError => sire
@@ -125,7 +125,7 @@ module Lynr; module Controller;
       dealership = dealer_dao.get_by_email(@posted['email'])
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
-      redirect "/admin/#{dealership.id.to_s}"
+      send_to_admin(req, dealership)
     end
 
     def get_token_signin(req)
@@ -146,8 +146,9 @@ module Lynr; module Controller;
 
     # ## Redirect Helpers
 
-    def send_to_admin(req)
-      redirect "/admin/#{req.session['dealer_id']}"
+    def send_to_admin(req, dealership=nil)
+      dealership = dealer_dao.get(req.session['dealer_id']) if dealership.nil?
+      redirect "/admin/#{dealership.slug}"
     end
 
     # ## Validation Helpers
