@@ -173,17 +173,8 @@ module Lynr; module Controller;
       email = posted['email']
       slug = posted.fetch('slug', slugify(posted['name']))
 
-      if (errors['email'].nil?)
-        if (!is_valid_email?(email))
-          errors['email'] = "Check your email address."
-        elsif (email != @dealership.identity.email && dealer_dao.account_exists?(email))
-          errors['email'] = "#{email} is already taken."
-        end
-      end
-
-      if (slug != @dealership.slug && dealer_dao.slug_exists?(slug))
-        errors['slug'] = "Dealership handle, <em>#{slug}</em>, is in use by someone else."
-      end
+      errors['email'] ||= error_for_email(dealer_dao, email) if email_changed?
+      errors['slug']  ||= error_for_slug(dealer_dao, slug) if slug != @dealership.slug
 
       errors
     end
