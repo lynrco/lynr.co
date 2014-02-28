@@ -82,6 +82,30 @@ describe Lynr::Config do
 
     end
 
+    describe "#fetch" do
+
+      it "reads 'false' as `false` when default is bool" do
+        expect(config.fetch('str_bool_false', true)).to eq(false)
+      end
+
+      it "reads 'true' as `true` when default is bool" do
+        expect(config.fetch('str_bool_true', false)).to eq(true)
+      end
+
+      it "reads 0 as 'false' when default is bool" do
+        expect(config.fetch('int_bool_0', true)).to eq(false)
+      end
+
+      it "reads 1 as 'true' when default is bool" do
+        expect(config.fetch('int_bool_1', false)).to eq(true)
+      end
+
+      it "raises ArgumentError when default is bool but string can't be converted" do
+        expect { config.fetch('string_val', false) }.to raise_error(ArgumentError)
+      end
+
+    end
+
   end
 
   context "with defaults" do

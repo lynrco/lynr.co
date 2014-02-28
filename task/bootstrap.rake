@@ -15,39 +15,51 @@ namespace :lynr do
   task :bootstrap => [:'bootstrap:config', :'bootstrap:certs']
 
   desc 'Copy example configuration files based on environment'
-  task :'bootstrap:config' do
-    log.info 'Starting `:config`'
-    if File.exists?("config/database.#{env}.yaml") and File.exists?("config/app.#{env}.yaml")
-      log.info 'Aborting :config; files already exist'
-      next
-    end
-    commands = [
-      "cp config/database.{example,#{env}}.yaml",
-      "cp config/app.{example,#{env}}.yaml",
-    ]
-    execute_commands(commands)
+  task :'bootstrap:config' => [ "config/app.#{env}.yaml",
+                                "config/database.#{env}.yaml",
+                                "config/features.#{env}.yaml", ] do
+    log.info 'Finished lynr:bootstrap:config'
+  end
+
+  file "config/app.#{env}.yaml" do
+    execute_commands(["cp config/app.{example,#{env}}.yaml"])
     log.warn "** You need to edit `config/app.#{env}.yaml` for a fully functioning application. **"
-    log.info 'Finished `:config`'
+  end
+
+  file "config/database.#{env}.yaml" do
+    execute_commands(["cp config/database.{example,#{env}}.yaml"])
+  end
+
+  file "config/features.#{env}.yaml" do
+    execute_commands(["cp config/features.{example,#{env}}.yaml"])
   end
 
   desc 'Generate self-signed certificates and put them in certs'
-  task :'bootstrap:certs' do
-    log.info 'Starting :certs'
-    if File.exists?('certs/server.cert.key') and File.exists?('certs/server.cert.crt')
-      log.info 'Aborting :certs; necessary files exist'
-      next
-    end
-    commands = [
+  task :'bootstrap:certs' => [ "certs/server.cert.key",
+                               "certs/server.cert.crt", ] do
+    log.info 'Finished lynr:bootstrap:certs'
+  end
+
+  file "certs/privkey.pem" do
+    execute_commands([
       "openssl req -new -passin pass:hithere -passout pass:hithere\
         -subj '/CN=lynr.co.local/O=Lynr, LLC/C=US/ST=CA/L=Los Angeles'\
         -keyout certs/privkey.pem -out certs/server.cert.csr",
+    ])
+  end
+
+  file "certs/server.cert.key" => ["certs/privkey.pem"] do
+    execute_commands([
       "openssl rsa -passin pass:hithere -in certs/privkey.pem -out certs/server.cert.key",
+    ])
+  end
+
+  file "certs/server.cert.crt" => ["certs/server.cert.key"] do
+    execute_commands([
       "openssl x509 -req -days 365 -in certs/server.cert.csr\
         -out certs/server.cert.crt\
         -signkey certs/server.cert.key",
-    ]
-    execute_commands(commands)
-    log.info 'Finished :certs'
+    ])
   end
 
   def execute_commands(commands)
