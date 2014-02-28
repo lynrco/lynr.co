@@ -105,7 +105,7 @@ module Lynr; module Persist;
     def ensure_indices
       @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
       @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
-      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], { unique: true })
+      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], { })
       @indexed = true
     end
 
