@@ -182,7 +182,7 @@ module Lynr; module Controller;
         errors['account'] = "Invalid email or password."
       end
 
-      errors
+      errors.delete_if { |k,v| v.nil? }
     end
 
   end
