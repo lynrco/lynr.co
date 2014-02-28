@@ -1,4 +1,5 @@
 require './lib/lynr/config'
+require './lib/lynr/exceptions'
 require './lib/lynr/queue/job_queue'
 
 # # `Lynr`

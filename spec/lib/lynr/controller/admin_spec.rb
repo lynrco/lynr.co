@@ -8,6 +8,54 @@ describe Lynr::Controller::Admin do
 
   let(:controller) { Lynr::Controller::Admin.new }
 
+  context "with active connection", :if => (MongoHelpers.connected?) do
+
+    before(:each) do
+      MongoHelpers.empty! if MongoHelpers.connected?
+    end
+
+    let(:path) { '/admin/:slug' }
+
+    # Test dealership retrieval based on slug
+    describe "#dealership" do
+
+      let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
+      let(:dealership) {
+        controller.dealer_dao.save(Lynr::Model::Dealership.new({
+          'identity' => identity,
+          'name' => 'CarMax San Diego',
+        }))
+      }
+
+      it "retrieves an existing dealership when slug is id" do
+        req = request("/admin/#{dealership.id}")
+        expect(controller.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
+      end
+
+      it "returns nil when id doesn't exist" do
+        req = request("/admin/#{BSON::ObjectId.from_time(Time.now)}")
+        expect(controller.dealership(req)).to be_nil
+      end
+
+      it "retrieves an existing dealership when slug is slug and exists" do
+        req = request("/admin/#{Lynr::Model::Slug.new(dealership.name, nil)}")
+        expect(controller.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
+      end
+
+      it "returns nil when slug is slug and doesn't exist" do
+        req = request("/admin/#{Lynr::Model::Slug.new("I'm a fake name", nil)}")
+        expect(controller.dealership(req)).to be_nil
+      end
+
+    end
+
+    def request(uri)
+      rack_env = Rack::MockRequest.env_for(uri)
+      Sly::Request.new(rack_env, Sly::Route.make_r(path))
+    end
+
+  end
+
   # Test signature encryption against transloadit fixtures
   describe "#transloadit_params_signature" do
 

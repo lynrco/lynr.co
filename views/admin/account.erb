@@ -1,11 +1,16 @@
 <%= render_partial 'form_messages.erb' -%>
+<%-
+  dealer_image = posted['image']
+  dealer_email = posted.fetch('email', default=@dealership.identity.email)
+  dealer_addr  = posted.fetch('address', {})
+-%>
         <form id="photo-0" class="f-image f-image-account" data-image-type="account"
               action="http://api2.transloadit.com/assemblies" method="POST" enctype="multipart/form-data">
           <fieldset class="fs fs-image">
             <label for="photo" class="f-image-label">
-              <%- if !@dealership.image.empty? -%>
+              <%- if !dealer_image.empty? -%>
               <img class="f-image-preview"
-                   src="<%= @dealership.image.full.url %>"
+                   src="<%= dealer_image.full.url %>"
                    alt="" />
               <%- else -%>
               <img class="f-image-preview f-image-preview-empty icon-add-photo"
@@ -25,25 +30,30 @@
           <% end %>
           <button class="btn btn-full btn-positive" type="submit">Update Account Image</button>
         </form>
-        <form class="account" action="/admin/<%= @dealership.id.to_s %>/account" method="POST">
+        <form class="account" action="/admin/<%= @dealership.slug %>/account" method="POST">
           <fieldset class="fs">
             <label for="name">Dealership Name</label>
             <input class="fs-full" type="text" name="name"
-                   id="name" value="<%= @dealership.name %>" placeholder="Dealership name" />
+                   id="name" value="<%= posted['name'] %>" placeholder="Dealership name" />
+            <%- if has_error?('slug') or (posted['slug'] != slugify(posted['name']) and !posted['name'].empty?) -%>
+            <label for="name">Dealership Slug</label>
+            <input class="fs-full <%= error_class('slug') %>" type="text" name="slug"
+                   id="slug" value="<%= posted['slug'] %>" placeholder="Dealership handle" />
+            <%- end -%>
             <label for="email">Email Address</label>
-            <input class="fs-full" type="email" name="email"
-                   id="email" value="<%= @dealership.identity.email %>" placeholder="Your email address" />
+            <input class="fs-full <%= error_class('email') %>" type="email" name="email"
+                   id="email" value="<%= dealer_email %>" placeholder="Your email address" />
             <p class="account-link">
-              <a href="/admin/<%= @dealership.id.to_s %>/account/password">Change Password</a>
+              <a href="/admin/<%= @dealership.slug %>/account/password">Change Password</a>
             </p>
             <label for="phone">Phone Number</label>
             <input class="fs-full" type="text" name="phone"
                    id="phone" value="<%= @dealership.phone %>" placeholder="Phone number" />
             <input class="fs-half" type="text" name="address[line_one]"
-                   id="address" value="<%= @dealership.address.line_one %>" placeholder="Street address" />
+                   id="address" value="<%= dealer_addr['line_one'] %>" placeholder="Street address" />
             <input class="fs-half" type="text" name="address[zip]"
-                   id="postcode" value="<%= @dealership.address.zip %>" placeholder="Zip code" />
-            <input type="hidden" name="image" value="<%= CGI.escape_html(@dealership.image.to_json) %>" />
+                   id="postcode" value="<%= dealer_addr['zip'] %>" placeholder="Zip code" />
+            <input type="hidden" name="image" value="<%= CGI.escape_html(dealer_image.to_json) %>" />
           </fieldset>
           <button class="btn btn-full btn-positive" type="submit">Update Account Information</button>
         </form>

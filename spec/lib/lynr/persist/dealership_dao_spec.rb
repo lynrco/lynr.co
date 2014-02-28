@@ -5,6 +5,7 @@ require './lib/lynr/persist/dealership_dao'
 
 require './lib/lynr/model/address'
 require './lib/lynr/model/identity'
+require './lib/lynr/model/slug'
 require './lib/lynr/model/sized_image'
 
 describe Lynr::Persist::DealershipDao do
@@ -99,6 +100,7 @@ describe Lynr::Persist::DealershipDao do
     let(:dealership) {
       Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
     }
+    let(:slug) { Lynr::Model::Slug.new(dealer_data['name'], nil) }
 
     before(:each) do
       MongoHelpers.empty! if MongoHelpers.connected?
@@ -133,6 +135,73 @@ describe Lynr::Persist::DealershipDao do
         expect(dao.save(saved).id).to eq(id)
       end
 
+      context "customer_id not unique" do
+
+        let(:dealership) {
+          Lynr::Model::Dealership.new(dealer_data.merge({ 'customer_id' => customer_id}))
+        }
+        let(:to_save) {
+          dealership.set({
+            'identity' => Lynr::Model::Identity.new('bryan+t@lynr.co', identity.password)
+          })
+        }
+
+        before(:each) do
+          dao.save(dealership)
+        end
+
+        it "raises DataError" do
+          expect { dao.save(to_save) }.to raise_error(Lynr::DataError)
+        end
+
+        it "raises error with field == customer_id" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.field).to eq('customer_id')
+          }
+        end
+
+        it "raises error with value == cus_1bFL8vciXXchnm" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.value).to eq('cus_1bFL8vciXXchnm')
+          }
+        end
+
+      end
+
+      context "slug not unique" do
+
+        let(:dealership) {
+          Lynr::Model::Dealership.new(dealer_data.merge({ 'customer_id' => customer_id}))
+        }
+        let(:to_save) {
+          dealership.set({
+            'identity' => Lynr::Model::Identity.new('bryan+t@lynr.co', identity.password),
+            'customer_id' => customer_id + '2'
+          })
+        }
+
+        before(:each) do
+          dao.save(dealership)
+        end
+
+        it "raises DataError" do
+          expect { dao.save(to_save) }.to raise_error(Lynr::DataError)
+        end
+
+        it "raises error with field == slug" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.field).to eq('slug')
+          }
+        end
+
+        it "raises error with value == carmax-san-diego" do
+          expect { dao.save(to_save) }.to raise_error { |err|
+            expect(err.value).to eq('carmax-san-diego')
+          }
+        end
+
+      end
+
     end
 
     describe "#get_by_email" do
@@ -157,6 +226,37 @@ describe Lynr::Persist::DealershipDao do
       it "returns dealership if customer_id exists" do
         saved = dao.save(dealership)
         expect(dao.get_by_customer_id(customer_id).id).to eq(saved.id)
+      end
+
+    end
+
+    describe "#get_by_slug" do
+
+      it "returns nil if slug doesn't exist" do
+        expect(dao.get_by_slug(slug)).to be_nil
+      end
+
+      it "returns dealership if slug exists" do
+        saved = dao.save(dealership.set(dealer_data))
+        expect(dao.get_by_slug(slug)).to be_an_instance_of(Lynr::Model::Dealership)
+      end
+
+      it "returns saved dealership if slug exists" do
+        saved = dao.save(dealership.set(dealer_data))
+        expect(dao.get_by_slug(slug)).to eq(saved)
+      end
+
+    end
+
+    describe "slug_exists?" do
+
+      it "returns false if slug doesn't exist" do
+        expect(dao.slug_exists?(slug)).to be_false
+      end
+
+      it "returns true if slug exists" do
+        saved = dao.save(dealer)
+        expect(dao.slug_exists?(slug)).to be_true
       end
 
     end

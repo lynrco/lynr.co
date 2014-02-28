@@ -5,6 +5,7 @@ require './lib/lynr/model/address'
 require './lib/lynr/model/base'
 require './lib/lynr/model/identity'
 require './lib/lynr/model/sized_image'
+require './lib/lynr/model/slug'
 
 module Lynr; module Model;
 
@@ -24,11 +25,12 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :accounts, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :slug, :accounts, :phone, :identity, :address, :image, :customer_id
 
     def initialize(data={}, id=nil)
       @id = id
       @name = data.fetch('name', default="")
+      @slug = data.fetch('slug', default=Slug.new(@name, @id))
       @phone = data.fetch('phone', default="")
       @identity = data.fetch('identity', default=nil)
       @address = extract_address(data)
@@ -43,16 +45,13 @@ module Lynr; module Model;
       Lynr::Model::Dealership.new(self.to_hash.merge(data), @id)
     end
 
-    def slug
-      id.to_s
-    end
-
     def view
       data = self.to_hash
       data['accounts'] = @accounts.view
       data['address'] = @address.view if @address
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
+      data['slug'] = slug unless slug.empty?
       data
     end
 
@@ -80,7 +79,7 @@ module Lynr; module Model;
         'image' => @image,
         'customer_id' => @customer_id,
         'created_at' => @created_at,
-        'updated_at' => @updated_at
+        'updated_at' => @updated_at,
       }
     end
 

@@ -2,6 +2,7 @@ require 'json'
 
 require './lib/lynr'
 require './lib/lynr/controller/admin'
+require './lib/lynr/model/slug'
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
 require './lib/lynr/validator'
@@ -20,17 +21,49 @@ module Lynr; module Controller;
     get  '/admin/:slug/account', :get_account
     post '/admin/:slug/account', :post_account
 
+    # ## `AdminAccount.new`
+    #
+    # Create a new instance of this controller and set up instance properties
+    # needed for all request handlers.
+    #
+    def initialize
+      super
+      @subsection = 'account'
+      @title = "Account Information"
+      params = transloadit_params('account_template_id')
+      @transloadit_params = params.to_json
+      @transloadit_params_signature = transloadit_params_signature(params)
+    end
+
+    # ## `AdminAccount#before_GET(req)`
+    #
+    # Translate data from class @attributes into model instances.
+    #
+    def before_GET(req)
+      super
+      @posted = dealership(req).view.merge({ 'image' => dealership(req).image })
+    end
+
+    # ## `AdminAccount#before_POST(req)`
+    #
+    # Do data validation before processing a POST request. It doesn't need to be
+    # in the POST handler.
+    #
+    def before_POST(req)
+      super
+      @errors = validate_account_info
+      @posted['identity'] = Identity.new(posted['email'], dealership(req).identity.password)
+      @posted['image'] = translate_image
+      @posted['slug'] = slugify(posted['name']) if has_error?('slug') && posted['slug'].nil?
+      render 'admin/account.erb' if has_errors?
+    end
+
     # ## `AdminAccount#get_account(req)`
     #
     # Handle GET request for the account information page.
     #
     def get_account(req)
-      @subsection = 'account'
-      @title = "Account Information"
       @msg = connect_message(req)
-      params = transloadit_params('account_template_id')
-      @transloadit_params = params.to_json
-      @transloadit_params_signature = transloadit_params_signature(params)
       render 'admin/account.erb'
     end
 
@@ -41,15 +74,18 @@ module Lynr; module Controller;
     # gateway if necessary.
     #
     def post_account(req)
-      @errors = validate_account_info
-      if email_changed?
-        notify_by_email
-        @posted['identity'] = Identity.new(posted['email'], @dealership.identity.password)
-      end
-      @posted['image'] = translate_image
-      dealership = dealer_dao.save(@dealership.set(posted))
+      notify_by_email if email_changed?
+      dealership = dealer_dao.save(dealership(req).set(posted))
       update_stripe(dealership) if email_changed? || name_changed?
-      redirect "/admin/#{@dealership.id.to_s}/account"
+      redirect "/admin/#{dealership.slug}/account"
+    end
+
+    # ## `AdminAccount#slugify(str)`
+    #
+    # Create a slug from `str`
+    #
+    def slugify(str)
+      Slug.new(str)
     end
 
     protected
@@ -135,16 +171,12 @@ module Lynr; module Controller;
     def validate_account_info
       errors = validate_required(posted, ['email'])
       email = posted['email']
+      slug = posted.fetch('slug', slugify(posted['name']))
 
-      if (errors['email'].nil?)
-        if (!is_valid_email?(email))
-          errors['email'] = "Check your email address."
-        elsif (email != @dealership.identity.email && dealer_dao.account_exists?(email))
-          errors['email'] = "#{email} is already taken."
-        end
-      end
+      errors['email'] ||= error_for_email(dealer_dao, email) if email_changed?
+      errors['slug']  ||= error_for_slug(dealer_dao, slug) if slug != @dealership.slug && !slug.empty?
 
-      errors
+      errors.delete_if { |k,v| v.nil? }
     end
 
   end

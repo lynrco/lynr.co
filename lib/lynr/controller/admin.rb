@@ -36,11 +36,20 @@ module Lynr; module Controller;
       @dealership = false
     end
 
+    # ## `Admin#before_each(req)`
+    #
+    # Make sure dealership is authorized to view the admin page and the
+    # dealership associated with `:slug` exists.
+    #
+    # NOTE: `super` is called at the end of this method in order to ensure
+    # `Rack::Response` instances returned by child implementations of
+    # `before_METHOD` methods are returned to user agent.
+    #
     def before_each(req)
-      super
       return unauthorized unless authorized?(req)
       return not_found unless dealership(req)
       @dealership = dealership(req)
+      super
     end
 
     # ## `Lynr::Controller::Admin#index`
@@ -66,6 +75,19 @@ module Lynr; module Controller;
     end
 
     # ## Helpers
+
+    # ## `Admin::Vehicle#dealership(req)`
+    #
+    # Get dealership object out of `req`.
+    #
+    def dealership(req)
+      return @dealership unless @dealership == false
+      if BSON::ObjectId.legal?(req['slug'])
+        @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+      else
+        @dealership = dealer_dao.get_by_slug(req['slug'])
+      end
+    end
 
     # ## `Lynr::Controller::Admin#session_user`
     #
@@ -108,7 +130,7 @@ module Lynr; module Controller;
     # false otherwise
     #
     def authorized?(req)
-      req.session['dealer_id'] == BSON::ObjectId.from_string(req['slug'])
+      req.session['dealer_id'] == dealership(req).id
     end
 
     # TODO: Write documentation for `#transloadit_params`
@@ -127,17 +149,6 @@ module Lynr; module Controller;
       return nil if auth_secret.nil?
       digest = OpenSSL::Digest::Digest.new('sha1')
       OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
-    end
-
-    protected
-
-    # ## `Admin::Vehicle#dealership(req)`
-    #
-    # *Protected* Get dealership object out of `req`.
-    #
-    def dealership(req)
-      return @dealership unless @dealership == false
-      @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
     end
 
   end

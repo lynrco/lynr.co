@@ -1,3 +1,4 @@
+require './lib/lynr/persist/exceptions'
 require './lib/lynr/persist/mongo_dao'
 require './lib/lynr/model/dealership'
 
@@ -71,6 +72,15 @@ module Lynr; module Persist;
       translate(record)
     end
 
+    # ## `DealershipDao#get_by_slug(slug)`
+    #
+    # Retrieve the `Dealership` identified by `slug`
+    #
+    def get_by_slug(slug)
+      record = @dao.search({ 'slug' => slug }, { limit: 1 })
+      translate(record)
+    end
+
     # ## `DealershipDao#save(dealer)`
     #
     # Create a new record for `dealer` or update the record associated with it.
@@ -78,6 +88,12 @@ module Lynr; module Persist;
     def save(dealer)
       record = @dao.save(dealer.view, dealer.id)
       translate(record)
+    rescue Mongo::MongoDBError => dberror
+      raise Lynr::Persist::MongoUniqueError.new(dberror)
+    end
+
+    def slug_exists?(slug)
+      @dao.collection.count(query: { 'slug' => slug }, read: :secondary, limit: 1) > 0
     end
 
     private
@@ -89,6 +105,7 @@ module Lynr; module Persist;
     def ensure_indices
       @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
       @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
+      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], { })
       @indexed = true
     end
 
