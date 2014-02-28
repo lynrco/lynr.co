@@ -1,3 +1,5 @@
+require 'bson'
+
 module Lynr; module Validator;
 
   # # `Lynr::Validator::Helpers`
@@ -19,6 +21,15 @@ module Lynr; module Validator;
       end
 
       errors
+    end
+
+    # ## `Helpers#is_valid_slug?(slug)`
+    #
+    # Check to see if `slug` should be permitted. Slugs must contain only
+    # lowercase letters and hyphens.
+    #
+    def is_valid_slug?(slug)
+      BSON::ObjectId.legal?(slug) || !(%r(^[a-z-]+$) =~ slug).nil?
     end
 
   end

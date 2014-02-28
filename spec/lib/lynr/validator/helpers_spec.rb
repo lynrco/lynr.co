@@ -44,4 +44,36 @@ describe Lynr::Validator::Helpers do
 
   end
 
+  describe "#is_valid_slug?" do
+
+    it "returns false if empty" do
+      expect(helpers.is_valid_slug?("")).to be_false
+    end
+
+    it "returns false if nil" do
+      expect(helpers.is_valid_slug?(nil)).to be_false
+    end
+
+    it "returns true if all lowercase letters" do
+      expect(helpers.is_valid_slug?('alllettershere')).to be_true
+    end
+
+    it "returns true if all hyphens" do
+      expect(helpers.is_valid_slug?('---')).to be_true
+    end
+
+    it "returns true if all lowercase or hyphens" do
+      expect(helpers.is_valid_slug?('say-hi')).to be_true
+    end
+
+    it "returns true if valid object id" do
+      expect(helpers.is_valid_slug?(BSON::ObjectId.from_time(Time.now).to_s)).to be_true
+    end
+
+    it "returns false if contains uppercase letters" do
+      expect(helpers.is_valid_slug?('Say-hi')).to be_false
+    end
+
+  end
+
 end
