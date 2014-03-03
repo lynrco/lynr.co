@@ -60,6 +60,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
   }
 
   function startSpinner(form) {
+    form.addClass('f-image-uploading');
     var spin = spinner(form.find('.fs-image')[0]);
     form.data('spinner', spin);
   }
@@ -68,6 +69,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
     var spinner = form.data('spinner');
+    form.removeClass('f-image-uploading');
     if (spinner && typeof spinner.stop === 'function') { spinner.stop(); }
   }
 
