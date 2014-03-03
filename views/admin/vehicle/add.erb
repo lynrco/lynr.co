@@ -26,7 +26,7 @@
                    name="vin[model]" id="model" placeholder="Model"
                    value="<%= posted.fetch('vin', default={})['model'] %>" />
             <label for="mileage">Mileage</label>
-            <input class="fs-full <%= error_class('mileage') %>" type="text"
+            <input class="fs-full <%= error_class('mileage') %>" type="text" pattern="\d*"
                    name="mileage" id="mileage" placeholder="Mileage"
                    value="<%= posted['mileage'] %>" />
             <label for="condition">Condition</label>
