@@ -64,6 +64,13 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     form.data('spinner', spin);
   }
 
+  function stopSpinner(assembly) {
+    var fields = assembly.fields;
+    var form = $('#photo-' + fields.idx);
+    var spinner = form.data('spinner');
+    if (spinner && typeof spinner.stop === 'function') { spinner.stop(); }
+  }
+
   function transloaditOpts(page) {
     var specific;
     switch (page) {
@@ -84,7 +91,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
   }
 
   function uploadAccountSuccess(assembly) {
-    uploadSuccessStopSpinner(assembly);
+    stopSpinner(assembly);
     var results = assembly.results;
     var input = $('input[name=image]');
     var image = imageFromResults(results);
@@ -93,7 +100,7 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
   }
 
   function uploadPhotosSuccess(assembly) {
-    uploadSuccessStopSpinner(assembly);
+    stopSpinner(assembly);
     var results = assembly.results;
     var fields = assembly.fields;
     var form = $('#photo-' + fields.idx);
@@ -103,13 +110,6 @@ define(['jquery', 'jquery.transloadit', 'modules/spinner'], function($, jtl, spi
     images[fields.idx] = image;
     input.val(JSON.stringify(images));
     form.find('img.f-image-preview').attr(image.full).removeClass('f-image-preview-empty icon-add-photo');
-  }
-
-  function uploadSuccessStopSpinner(assembly) {
-    var fields = assembly.fields;
-    var form = $('#photo-' + fields.idx);
-    var spinner = form.data('spinner');
-    if (spinner && typeof spinner.stop === 'function') { spinner.stop(); }
   }
 
   return init;
