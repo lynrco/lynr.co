@@ -9,7 +9,19 @@
 .btn-full, .btn-half { width: 100%; }
 .btn-inline { position: absolute; top: 0; right: 0; padding-left: 2%; padding-right: 2%; }
 /** Button Colors **/
-.btn-positive { background: @brand_color; color: @accent_color; }
-.btn-negative { background: @brand_color_muted; color: lighten(@brand_color_muted, 35%); }
-.btn-delete { background: @brand_color_dark; color: lighten(@brand_color_dark, 35%); }
-.btn-plain { background: @accent_color; color: @font_color; }
+.btn-positive {
+  background: @brand_color; color: @accent_color;
+  &:hover { color: @accent_color; }
+}
+.btn-negative {
+  background: @brand_color_muted; color: lighten(@brand_color_muted, 35%);
+  &:hover { color: lighten(@brand_color_muted, 35%); }
+}
+.btn-delete {
+  background: @brand_color_dark; color: lighten(@brand_color_dark, 35%);
+  &:hover { color: lighten(@brand_color_dark, 35%); }
+}
+.btn-plain {
+  background: @accent_color; color: @font_color;
+  &:hover { color: @font_color; }
+}
