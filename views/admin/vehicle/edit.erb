@@ -26,10 +26,11 @@
         <form class="vehicle-edit" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit" method="POST">
           <fieldset class="fs">
             <label for="price">Price</label>
-            <input class="fs-full <%= error_class('price') %>" type="text" name="price"
-                   id="price" value="<%= posted['price'] %>" placeholder="Price" />
+            <input class="fs-full <%= error_class('price') %>" type="text" pattern="\d*"
+                   name="price" id="price" placeholder="Price"
+                   value="<%= posted['price'] %>" />
             <label for="year">Year</label>
-            <input class="fs-full <%= error_class('year') %>" type="text"
+            <input class="fs-full <%= error_class('year') %>" type="text" pattern="\d*"
                    name="vin[year]" id="year" placeholder="Year"
                    value="<%= posted.fetch('vin', default={})['year'] %>" />
             <label for="make">Make</label>
@@ -41,17 +42,19 @@
                    name="vin[model]" id="model" placeholder="Model"
                    value="<%= posted.fetch('vin', default={})['model'] %>" />
             <label for="mileage">Mileage</label>
-            <input class="fs-full <%= error_class('mileage') %>" type="text" name="mileage"
-                   id="mileage" value="<%= posted['mileage'] %>" placeholder="Mileage" />
+            <input class="fs-full <%= error_class('mileage') %>" type="text"
+                   name="mileage" id="mileage" placeholder="Mileage"
+                   value="<%= posted['mileage'] %>" />
             <label for="condition">Condition</label>
-            <input class="fs-full <%= error_class('condition') %>" type="text" name="condition"
-                   id="condition" value="<%= posted['condition'] %>" placeholder="Condition" />
+            <input class="fs-full <%= error_class('condition') %>" type="text"
+                   name="condition" id="condition" placeholder="Condition"
+                   value="<%= posted['condition'] %>" />
             <label for="mpg-city">MPG City</label>
-            <input class="fs-full <%= error_class('mpg') %>" type="text"
+            <input class="fs-full <%= error_class('mpg') %>" type="text" pattern="\d*"
                    name="mpg[city]" id="mpg-city" placeholder="MPG City"
                    value="<%= posted.fetch('mpg', default={})['city'] %>" />
             <label for="mpg-highway">MPG Highway</label>
-            <input class="fs-full <%= error_class('mpg') %>" type="text"
+            <input class="fs-full <%= error_class('mpg') %>" type="text" pattern="\d*"
                    name="mpg[highway]" id="mpg-highway" placeholder="MPG Hwy"
                    value="<%= posted.fetch('mpg', default={})['highway'] %>" />
             <label for="vin-transmission">Transmission</label>
@@ -78,6 +81,8 @@
             <input class="fs-full <%= error_class('int_color') %>" type="text"
                    name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
                    value="<%= posted.fetch('vin', default={})['int_color'] %>" />
+          </fieldset>
+          <fieldset class="fs">
             <label for="notes">Notes</label>
             <textarea class="fs-full <%= error_class('notes') %>"
                       name="notes" id="notes" placeholder="Notes"><%= posted['notes'] %></textarea>
