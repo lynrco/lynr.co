@@ -5,6 +5,7 @@ namespace :lynr do
   desc 'Starts the Lynr application for development'
   task :local do
     ENV['SSL_CERT_FILE'] = "#{File.dirname(__FILE__).chomp('/task')}/certs/server.cert.crt"
+    ENV['SSL_CERT_DIR'] = "#{File.dirname(__FILE__).chomp('/task')}/certs"
 
     require 'bundler/setup'
     require 'openssl'
@@ -60,6 +61,7 @@ namespace :lynr do
       SSLEnable: true,
       SSLCertificate: cert,
       SSLPrivateKey: pkey,
+#     SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE,
     })
 
     server.run app, options
