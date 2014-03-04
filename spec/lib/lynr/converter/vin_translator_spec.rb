@@ -51,4 +51,22 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
+  describe "#transmission_type" do
+
+    translations = {
+      "A"   => "Automatic",
+      "CVT" => "Continuously Variable",
+      "M"   => "Manual",
+    }
+
+    translations.each do |code, name|
+
+      it "gets '#{name}' for '#{code}'" do
+        expect(translator.transmission_type(code)).to eq(name)
+      end
+
+    end
+
+  end
+
 end

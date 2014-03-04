@@ -20,12 +20,22 @@ module Lynr; module Converter;
       "Y" => "Gas/Electric Hybrid",
     }
 
+    TransmissionTranslations = {
+      "A"   => "Automatic",
+      "CVT" => "Continuously Variable",
+      "M"   => "Manual",
+    }
+
     def drivetrain(drive_type)
       DrivetrainTranslations.fetch(drive_type, default=drive_type)
     end
 
     def fuel(fuel_type)
       FuelTranslations.fetch(fuel_type, default=fuel_type)
+    end
+
+    def transmission_type(transmission_type)
+      TransmissionTranslations.fetch(transmission_type, default=transmission_type)
     end
 
   end
