@@ -6,7 +6,8 @@ define(function(require) {
   var defaults = {
     className: 'sselect',
     copyClasses: true,
-    displayClassName: 'sselect-display'
+    displayClassName: 'sselect-display',
+    focusClassName: 'sselect-focus'
   };
 
   function initSelect(el, opts) {
@@ -25,7 +26,9 @@ define(function(require) {
     }
     updateDisplay(clone, display, false);
     // Bind the event
-    evt.on(clone, 'change', function(e) { updateDisplay(clone, display, e); })
+    evt.on(clone, 'change', function(e) { updateDisplay(clone, display, e); });
+    evt.on(clone, 'focus', function(e) { clazz.add(wrapper, fetch(opts, 'focusClassName')); });
+    evt.on(clone, 'blur', function(e) { clazz.remove(wrapper, fetch(opts, 'focusClassName')); });
     // Put it in the DOM
     elder.replaceChild(wrapper, el);
   }
