@@ -23,6 +23,7 @@ define(function(require) {
     if (fetch(opts, 'copyClasses')) {
       wrapper.className = clone.className + wrapper.className;
     }
+    updateDisplay(clone, display, false);
     // Bind the event
     evt.on(clone, 'change', function(e) { updateDisplay(clone, display, e); })
     // Put it in the DOM
