@@ -69,4 +69,24 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
+  describe "#doors" do
+
+    translations = {
+      "2"   => "2 Doors",
+      "3"   => "3 Doors",
+      "4"   => "4 Doors",
+      "5"   => "5 Doors",
+      "two" => "N/A",
+    }
+
+    translations.each do |code, name|
+
+      it "gets '#{name}' for '#{code}'" do
+        expect(translator.doors(code)).to eq(name)
+      end
+
+    end
+
+  end
+
 end

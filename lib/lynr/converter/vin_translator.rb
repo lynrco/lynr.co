@@ -46,6 +46,18 @@ module Lynr; module Converter;
       "M"   => "Manual",
     }
 
+    # ## `VinTranslations#doors(num_doors)`
+    #
+    # Takes `num_doors` and converts it into a presentation ready string.
+    #
+    def doors(num_doors)
+      if (num_doors.is_a?(String) && num_doors.match(/\d+/))
+        "#{num_doors} Doors"
+      else
+        "N/A"
+      end
+    end
+
     # ## `VinTranslations#drivetrain(drive_type)`
     #
     # Look up `drive_type` and return the name.
