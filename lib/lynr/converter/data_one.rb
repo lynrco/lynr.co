@@ -67,7 +67,7 @@ module Lynr; module Converter;
         'year' => content(basic_data, './year'),
         'make' => content(basic_data, './make'),
         'model' => model,
-        'transmission' => value(us_data, './/transmission/@name'),
+        'transmission' => content(us_data, './/transmission/type'),
         'fuel' => content(us_data, './/fuel_type'),
         'doors' => content(us_data, './/doors'),
         'drivetrain' => content(us_data, './/drive_type'),
