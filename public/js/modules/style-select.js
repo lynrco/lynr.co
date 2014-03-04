@@ -31,7 +31,7 @@ define(function(require) {
 
   function createElement(type, classname) {
     var el = document.createElement(type);
-    clazz.add(el, className);
+    clazz.add(el, classname);
     return el;
   }
 
