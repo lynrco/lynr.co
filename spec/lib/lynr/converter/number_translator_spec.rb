@@ -15,6 +15,7 @@ describe Lynr::Converter::NumberTranslator do
       "bud4ee" => "4",
       "500000" => "500,000",
       "hi there" => "0",
+      "$12,995" => "12,995",
     }
 
     translations.each do |raw, formatted|
