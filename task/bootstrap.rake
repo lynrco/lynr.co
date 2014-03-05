@@ -1,4 +1,6 @@
 require 'log4r'
+require 'openssl'
+
 require './lib/lynr'
 require './lib/lynr/logging'
 
@@ -36,7 +38,8 @@ namespace :lynr do
 
   desc 'Generate self-signed certificates and put them in certs'
   task :'bootstrap:certs' => [ "certs/server.cert.key",
-                               "certs/server.cert.crt", ] do
+                               "certs/server.cert.crt",
+                               :'bootstrap:hash_certs', ] do
     log.info 'Finished lynr:bootstrap:certs'
   end
 
@@ -60,6 +63,54 @@ namespace :lynr do
         -out certs/server.cert.crt\
         -signkey certs/server.cert.key",
     ])
+  end
+
+  file "#{OpenSSL::X509::DEFAULT_CERT_DIR}/lynr.co.local.pem" => [ "certs/server.cert.crt" ] do
+      log.info <<EOF
+
+***********************************************************************
+
+Asking for root access in order to move the self-signed certificate to
+#{OpenSSL::X509::DEFAULT_CERT_DIR}. This is done as part of the process
+to avoid intermittent SSL errors like:
+
+    ERROR OpenSSL::SSL::SSLError: SSL_read:: sslv3 alert bad record mac
+
+when serving files locally. This task should only need to be performed
+once per machine but you are seeing this message because
+'#{OpenSSL::X509::DEFAULT_CERT_DIR}/lynr.co.local.pem' could not be
+found.
+
+***********************************************************************
+EOF
+    execute_commands([
+      "sudo cp certs/server.cert.crt #{OpenSSL::X509::DEFAULT_CERT_DIR}/lynr.co.local.pem",
+    ])
+  end
+
+  task :'bootstrap:hash_certs' => [ "#{OpenSSL::X509::DEFAULT_CERT_DIR}/lynr.co.local.pem" ] do
+    hashed = Dir.new(OpenSSL::X509::DEFAULT_CERT_DIR).any? do |filename|
+      path = "#{OpenSSL::X509::DEFAULT_CERT_DIR}/#{filename}"
+      File.symlink?(path) && File.readlink(path) == "lynr.co.local.pem"
+    end
+    if !hashed
+      log.info <<EOF
+
+***********************************************************************
+
+Asking for root access in order to hash the self-signed certificate.
+This must be done in order to avoid intermittent SSL errors like:
+
+    ERROR OpenSSL::SSL::SSLError: SSL_read:: sslv3 alert bad record mac
+
+when serving files locally. This task should only need to be performed
+once per machine but you are seeing this message because a hashed file
+pointing to the generated certificat could not be found.
+
+***********************************************************************
+EOF
+      execute_commands([ "sudo c_rehash #{OpenSSL::X509::DEFAULT_CERT_DIR}", ])
+    end
   end
 
   def execute_commands(commands)
