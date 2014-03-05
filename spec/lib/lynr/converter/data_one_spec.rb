@@ -28,7 +28,7 @@ describe Lynr::Converter::DataOne do
       let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
 
       it "creates a Vin with transmission from XML" do
-        expect(vin.transmission).to eq(query_response.find("#{path}//transmission/@name").first.value)
+        expect(vin.transmission).to eq(query_response.find("#{path}//transmission/type").first.content)
       end
 
       it "creates a Vin with fuel type from XML" do

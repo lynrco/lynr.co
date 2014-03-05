@@ -1,29 +1,3 @@
-<%= render_partial 'form_messages.erb' -%>
-        <div class="vehicle-photos">
-          <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="vehicle-photos-inner">
-            <%-
-            images = @vehicle.images
-            images.each do |image|
-              if !image.empty?
-            -%>
-            <img class="vehicle-image"
-                 src="<%= image.thumb.url %>"
-                 alt="" />
-            <%-
-              end
-            end
-            -%>
-          </a>
-          <%- else -%>
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="vehicle-photos-inner vehicle-photos-single">
-            <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
-                 src="<%= @vehicle.image.thumb.url %>"
-                 alt="Manage vehicle photos" />
-          </a>
-          <%- end -%>
-        </div>
-        <form class="vehicle-edit" action="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit" method="POST">
           <fieldset class="fs">
             <label for="price">Price</label>
             <input class="fs-full <%= error_class('price') %>" type="text" pattern="\d*"
@@ -120,10 +94,3 @@
                    name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
                    value="<%= posted.fetch('vin', default={})['int_color'] %>" />
           </fieldset>
-          <fieldset class="fs">
-            <label for="notes">Notes</label>
-            <textarea class="fs-full <%= error_class('notes') %>"
-                      name="notes" id="notes" placeholder="Notes"><%= posted['notes'] %></textarea>
-          </fieldset>
-          <button class="btn btn-full btn-positive" type="submit">Finished</button>
-        </form>

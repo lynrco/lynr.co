@@ -1,6 +1,8 @@
 require 'bson'
 
 require './lib/lynr/controller/admin'
+require './lib/lynr/converter/vehicle_translator'
+require './lib/lynr/converter/vin_translator'
 require './lib/lynr/view/menu'
 
 module Lynr::Controller
