@@ -21,7 +21,9 @@
               </a>
               <%- else -%>
               <span class="vehicle-name"><%= vehicle.name %></span>
-              <span class="vehicle-price"><%= vehicle.price %></span>
+              <span class="vehicle-price">
+                <%= "$#{Lynr::Converter::NumberTranslator.delimit(vehicle.price)}" %>
+              </span>
               <%- end -%>
             </h2>
             <%- if !inventory -%>
