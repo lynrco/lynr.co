@@ -46,9 +46,16 @@
                    name="mileage" id="mileage" placeholder="Mileage"
                    value="<%= posted['mileage'] %>" />
             <label for="condition">Condition</label>
-            <input class="fs-full <%= error_class('condition') %>" type="text"
-                   name="condition" id="condition" placeholder="Condition"
-                   value="<%= posted['condition'] %>" />
+            <select class="fs-full fs-select <%= error_class('condition') %>"
+                    name="condition" id="condition">
+              <option value="0">Condition</option>
+              <%-
+                condition = posted['condition']
+                Lynr::Converter::VehicleTranslator::ConditionTranslations.each do |value, name|
+              -%>
+              <option value="<%= value %>" <%= if condition == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="mpg-city">MPG City</label>
             <input class="fs-full <%= error_class('mpg') %>" type="text" pattern="\d*"
                    name="mpg[city]" id="mpg-city" placeholder="MPG City"
@@ -58,21 +65,52 @@
                    name="mpg[highway]" id="mpg-highway" placeholder="MPG Hwy"
                    value="<%= posted.fetch('mpg', default={})['highway'] %>" />
             <label for="vin-transmission">Transmission</label>
-            <input class="fs-full <%= error_class('transmission') %>" type="text"
-                   name="vin[transmission]" id="vin-transmission" placeholder="Transmission"
-                   value="<%= posted.fetch('vin', default={})['transmission'] %>" />
+            <select class="fs-full fs-select <%= error_class('transmission') %>"
+                    name="vin[transmission]" id="vin-transmission">
+              <option value="">Transmission</option>
+              <%-
+                transmission = posted.fetch('vin', default={})['transmission']
+                Lynr::Converter::VinTranslator::TransmissionTranslations.each do |value, name|
+              -%>
+              <option value="<%= value %>" <%= if transmission == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="vin-fuel">Fuel</label>
-            <input class="fs-full <%= error_class('fuel') %>" type="text"
-                   name="vin[fuel]" id="vin-fuel" placeholder="Fuel"
-                   value="<%= posted.fetch('vin', default={})['fuel'] %>" />
+            <select class="fs-full fs-select <%= error_class('fuel') %>"
+                    name="vin[fuel]" id="vin-fuel">
+              <option value="">Fuel</option>
+              <%-
+                fuel = posted.fetch('vin', default={})['fuel']
+                Lynr::Converter::VinTranslator::FuelTranslations.each do |value, name|
+              -%>
+              <option value="<%= value %>" <%= if fuel == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="vin-doors">Doors</label>
-            <input class="fs-full <%= error_class('doors') %>" type="text"
-                   name="vin[doors]" id="vin-doors" placeholder="Doors"
-                   value="<%= posted.fetch('vin', default={})['doors'] %>" />
+            <select class="fs-full fs-select <%= error_class('doors') %>"
+                    name="vin[doors]" id="vin-doors">
+              <option value="">Doors</option>
+              <%-
+                doors = posted.fetch('vin', default={})['doors']
+                (2..5).each do |num|
+                  value = num.to_s
+                  name = Lynr::Converter::VinTranslator.doors(value)
+              -%>
+              <option value="<%= value %>" <%= if doors == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="vin-drivetrain">Drivetrain</label>
-            <input class="fs-full <%= error_class('drivetrain') %>" type="text"
-                   name="vin[drivetrain]" id="vin-drivetrain" placeholder="Drivetrain"
-                   value="<%= posted.fetch('vin', default={})['drivetrain'] %>" />
+            <select class="fs-full fs-select <%= error_class('drivetrain') %>"
+                    name="vin[drivetrain]" id="vin-drivetrain">
+              <option value="">Drivetrain</option>
+              <%-
+                drivetrain = posted.fetch('vin', default={})['drivetrain']
+                ['FWD', 'RWD', 'AWD', '4x4', '4x2'].each do |value|
+                  name = Lynr::Converter::VinTranslator.drivetrain(value)
+              -%>
+              <option value="<%= value %>" <%= if drivetrain == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="vin-ext_color">Exterior Color</label>
             <input class="fs-full <%= error_class('ext_color') %>" type="text"
                    name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color"
