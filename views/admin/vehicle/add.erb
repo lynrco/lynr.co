@@ -40,12 +40,23 @@
               <option value="<%= value %>" <%= if condition == value then "selected" end %>><%= name %></option>
               <%- end -%>
             </select>
+            <label for="vin-fuel">Fuel</label>
+            <select class="fs-full fs-select <%= error_class('fuel') %>"
+                    name="vin[fuel]" id="vin-fuel">
+              <option value="">Fuel</option>
+              <%-
+                fuel = posted.fetch('vin', default={})['fuel']
+                Lynr::Converter::VinTranslator::FuelTranslations.each do |value, name|
+              -%>
+              <option value="<%= value %>" <%= if fuel == value then "selected" end %>><%= name %></option>
+              <%- end -%>
+            </select>
             <label for="mpg-city">MPG City</label>
-            <input class="fs-full <%= error_class('mpg') %>" type="text" pattern="\d*"
+            <input class="fs-half <%= error_class('mpg') %>" type="text" pattern="\d*"
                    name="mpg[city]" id="mpg-city" placeholder="MPG City"
                    value="<%= posted.fetch('mpg', default={})['city'] %>" />
             <label for="mpg-highway">MPG Highway</label>
-            <input class="fs-full <%= error_class('mpg') %>" type="text" pattern="\d*"
+            <input class="fs-half <%= error_class('mpg') %>" type="text" pattern="\d*"
                    name="mpg[highway]" id="mpg-highway" placeholder="MPG Hwy"
                    value="<%= posted.fetch('mpg', default={})['highway'] %>" />
             <label for="vin-transmission">Transmission</label>
@@ -59,19 +70,8 @@
               <option value="<%= value %>" <%= if transmission == value then "selected" end %>><%= name %></option>
               <%- end -%>
             </select>
-            <label for="vin-fuel">Fuel</label>
-            <select class="fs-full fs-select <%= error_class('fuel') %>"
-                    name="vin[fuel]" id="vin-fuel">
-              <option value="">Fuel</option>
-              <%-
-                fuel = posted.fetch('vin', default={})['fuel']
-                Lynr::Converter::VinTranslator::FuelTranslations.each do |value, name|
-              -%>
-              <option value="<%= value %>" <%= if fuel == value then "selected" end %>><%= name %></option>
-              <%- end -%>
-            </select>
             <label for="vin-doors">Doors</label>
-            <select class="fs-full fs-select <%= error_class('doors') %>"
+            <select class="fs-half fs-select <%= error_class('doors') %>"
                     name="vin[doors]" id="vin-doors">
               <option value="">Doors</option>
               <%-
@@ -84,7 +84,7 @@
               <%- end -%>
             </select>
             <label for="vin-drivetrain">Drivetrain</label>
-            <select class="fs-full fs-select <%= error_class('drivetrain') %>"
+            <select class="fs-half fs-select <%= error_class('drivetrain') %>"
                     name="vin[drivetrain]" id="vin-drivetrain">
               <option value="">Drivetrain</option>
               <%-
@@ -95,12 +95,13 @@
               <option value="<%= value %>" <%= if drivetrain == value then "selected" end %>><%= name %></option>
               <%- end -%>
             </select>
+            <hr class="fs-break" />
             <label for="vin-ext_color">Exterior Color</label>
-            <input class="fs-full <%= error_class('ext_color') %>" type="text"
+            <input class="fs-half <%= error_class('ext_color') %>" type="text"
                    name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color"
                    value="<%= posted.fetch('vin', default={})['ext_color'] %>" />
             <label for="vin-int_color">Interior Color</label>
-            <input class="fs-full <%= error_class('int_color') %>" type="text"
+            <input class="fs-half <%= error_class('int_color') %>" type="text"
                    name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
                    value="<%= posted.fetch('vin', default={})['int_color'] %>" />
           </fieldset>

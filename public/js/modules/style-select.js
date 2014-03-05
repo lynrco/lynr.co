@@ -6,6 +6,7 @@ define(function(require) {
   var defaults = {
     className: 'sselect',
     copyClasses: true,
+    defaultClassName: 'sselect-default',
     displayClassName: 'sselect-display',
     focusClassName: 'sselect-focus'
   };
@@ -26,7 +27,7 @@ define(function(require) {
     }
     updateDisplay(clone, display, false);
     // Bind the event
-    evt.on(clone, 'change', function(e) { updateDisplay(clone, display, e); });
+    evt.on(clone, 'change', function(e) { updateDisplay(clone, display, opts, e); });
     evt.on(clone, 'focus', function(e) { clazz.add(wrapper, fetch(opts, 'focusClassName')); });
     evt.on(clone, 'blur', function(e) { clazz.remove(wrapper, fetch(opts, 'focusClassName')); });
     // Put it in the DOM
@@ -43,10 +44,13 @@ define(function(require) {
     return opts[property] || defaults[property];
   }
 
-  function updateDisplay(select, display, e) {
+  function updateDisplay(select, display, opts, e) {
     var idx = select.selectedIndex;
     var option = select.options[idx];
+    var defaultClassName = fetch(opts, 'defaultClassName');
     display.innerHTML = option.innerHTML;
+    if (idx === 0) { clazz.add(display, defaultClassName); }
+    else { clazz.remove(display, defaultClassName); }
   }
 
   return initSelect;
