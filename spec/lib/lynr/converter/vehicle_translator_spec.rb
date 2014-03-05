@@ -5,9 +5,13 @@ require './lib/lynr/converter/vehicle_translator'
 
 describe Lynr::Converter::VehicleTranslator do
 
+  class Translator
+    include Lynr::Converter::VehicleTranslator
+  end
+
   let(:translator) { Lynr::Converter::VehicleTranslator }
 
-  describe ".condition" do
+  shared_examples "VehicleTranslator.condition" do
 
     translations = {
       "4" => "Excellent Condition",
@@ -25,6 +29,18 @@ describe Lynr::Converter::VehicleTranslator do
 
     end
 
+  end
+
+  describe ".condition" do
+    it_behaves_like "VehicleTranslator.condition" do
+      let(:translator) { subject }
+    end
+  end
+
+  describe "#condition" do
+    it_behaves_like "VehicleTranslator.condition" do
+      let(:translator) { Translator.new }
+    end
   end
 
 end

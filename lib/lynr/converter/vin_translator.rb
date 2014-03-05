@@ -58,12 +58,28 @@ module Lynr; module Converter;
       end
     end
 
+    # ## `VinTranslations#doors(num_doors)`
+    #
+    # Delegates to module method of the same name.
+    #
+    def doors(num_doors)
+      VinTranslator.doors(num_doors)
+    end
+
     # ## `VinTranslations#drivetrain(drive_type)`
     #
     # Look up `drive_type` and return the name.
     #
     def self.drivetrain(drive_type)
       DrivetrainTranslations.fetch(drive_type, default=drive_type)
+    end
+
+    # ## `VinTranslations#drivetrain(drive_type)`
+    #
+    # Delegates to module method of the same name.
+    #
+    def drivetrain(drive_type)
+      VinTranslator.drivetrain(drive_type)
     end
 
     # ## `VinTranslations#fuel(fuel_type)`
@@ -74,12 +90,28 @@ module Lynr; module Converter;
       FuelTranslations.fetch(fuel_type, default=fuel_type)
     end
 
+    # ## `VinTranslations#fuel(fuel_type)`
+    #
+    # Delegates to module method of the same name.
+    #
+    def fuel(fuel_type)
+      VinTranslator.fuel(fuel_type)
+    end
+
     # ## `VinTranslations#transmission_type(transmission_type)`
     #
     # Look up `transmission_type` and return the name.
     #
     def self.transmission_type(transmission_type)
       TransmissionTranslations.fetch(transmission_type, default=transmission_type)
+    end
+
+    # ## `VinTranslations#transmission_type(transmission_type)`
+    #
+    # Delegates to module method of the same name.
+    #
+    def transmission_type(transmission_type)
+      VinTranslator.transmission_type(transmission_type)
     end
 
   end
