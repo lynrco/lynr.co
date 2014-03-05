@@ -26,6 +26,14 @@ module Lynr; module Converter;
       ConditionTranslations.fetch(condition_code, default="Condition")
     end
 
+    # ## `VehicleTranslations#condition(condition_code)`
+    #
+    # Delegates to module method of the same name.
+    #
+    def condition(condition_code)
+      VehicleTranslator.condition(condition_code)
+    end
+
   end
 
 end; end;

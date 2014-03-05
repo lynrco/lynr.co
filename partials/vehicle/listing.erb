@@ -15,7 +15,9 @@
               <%- if inventory or vehicle.image.empty? -%>
               <a href="<%= vehicle_href %>">
                 <span class="vehicle-name"><%= vehicle.name %></span>
-                <span class="vehicle-price"><%= vehicle.price %></span>
+                <span class="vehicle-price">
+                  <%= "$#{Lynr::Converter::NumberTranslator.delimit(vehicle.price)}" %>
+                </span>
               </a>
               <%- else -%>
               <span class="vehicle-name"><%= vehicle.name %></span>

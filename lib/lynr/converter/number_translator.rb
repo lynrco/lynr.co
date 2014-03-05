@@ -19,6 +19,15 @@ module Lynr; module Converter;
       cleansed.gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1#{delimiter}")
     end
 
+    # ## `NumberTranslator#delimit(number, delimiter)`
+    #
+    # Invoke the Class method of the same name. This method is included as
+    # a convenience.
+    #
+    def delimit(number, delimiter=",")
+      NumberTranslator.delimit(number, delimiter)
+    end
+
   end
 
 end; end;

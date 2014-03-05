@@ -5,9 +5,11 @@ require './lib/lynr/converter/vin_translator'
 
 describe Lynr::Converter::VinTranslator do
 
-  let(:translator) { Lynr::Converter::VinTranslator }
+  class Translator
+    include Lynr::Converter::VinTranslator
+  end
 
-  describe ".drivetrain" do
+  shared_examples "VinTranslator.drivetrain" do
 
     translations = {
       "AWD" => "All Wheel Drive",
@@ -27,7 +29,19 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe ".fuel" do
+  describe ".drivetrain" do
+    it_behaves_like "VinTranslator.drivetrain" do
+      let(:translator) { subject }
+    end
+  end
+
+  describe "#drivetrain" do
+    it_behaves_like "VinTranslator.drivetrain" do
+      let(:translator) { Translator.new }
+    end
+  end
+
+  shared_examples "VinTranslator.fuel" do
 
     translations = {
       "B" => "BioDiesel",
@@ -51,7 +65,19 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe ".transmission_type" do
+  describe ".fuel" do
+    it_behaves_like "VinTranslator.fuel" do
+      let(:translator) { subject }
+    end
+  end
+
+  describe "#fuel" do
+    it_behaves_like "VinTranslator.fuel" do
+      let(:translator) { Translator.new }
+    end
+  end
+
+  shared_examples "VinTranslator.transmission_type" do
 
     translations = {
       "A"   => "Automatic",
@@ -69,7 +95,19 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe ".doors" do
+  describe ".transmission_type" do
+    it_behaves_like "VinTranslator.transmission_type" do
+      let(:translator) { subject }
+    end
+  end
+
+  describe "#transmission_type" do
+    it_behaves_like "VinTranslator.transmission_type" do
+      let(:translator) { Translator.new }
+    end
+  end
+
+  shared_examples "VinTranslator.doors" do
 
     translations = {
       "2"   => "2 Doors",
@@ -87,6 +125,18 @@ describe Lynr::Converter::VinTranslator do
 
     end
 
+  end
+
+  describe ".doors" do
+    it_behaves_like "VinTranslator.doors" do
+      let(:translator) { subject }
+    end
+  end
+
+  describe "#doors" do
+    it_behaves_like "VinTranslator.doors" do
+      let(:translator) { Translator.new }
+    end
   end
 
 end
