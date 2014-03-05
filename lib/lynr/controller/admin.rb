@@ -3,6 +3,7 @@ require 'openssl'
 
 require './lib/lynr/controller/base'
 require './lib/lynr/controller/form_helpers'
+require './lib/lynr/converter/number_translator'
 require './lib/lynr/persist/dealership_dao'
 require './lib/lynr/persist/vehicle_dao'
 require './lib/lynr/validator/helpers'
