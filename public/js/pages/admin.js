@@ -3,7 +3,9 @@ define(function(require) {
   var api = {
     _init: init,
     account: initAccount,
-    billing: initBilling
+    billing: initBilling,
+    'vehicle-add': initVehicleForm,
+    'vehicle-edit': initVehicleForm
   };
 
   function init() {
@@ -48,6 +50,17 @@ define(function(require) {
     if (forms.length > 0) {
       require(['modules/transloadit-form'], function(tlit) { tlit(forms); });
     }
+  }
+
+  function initVehicleForm() {
+    require(
+      ['modules/style-select'],
+      function(styleSelect) {
+        var selects = document.querySelectorAll('.fs select');
+        var i = selects.length;
+        do { styleSelect(selects[--i]); } while (i)
+      }
+    );
   }
 
   return api;
