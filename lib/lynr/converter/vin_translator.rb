@@ -5,7 +5,7 @@ module Lynr; module Converter;
   # Provides an interface for converting data codes from DataOne into
   # human readable strings for use in the presentation layer.
   #
-  class VinTranslator
+  module VinTranslator
 
     # ## `Lynr::Converter::VinTranslations::DrivetrainTranslations`
     #
@@ -50,7 +50,7 @@ module Lynr; module Converter;
     #
     # Takes `num_doors` and converts it into a presentation ready string.
     #
-    def doors(num_doors)
+    def self.doors(num_doors)
       if (num_doors.is_a?(String) && num_doors.match(/\d+/))
         "#{num_doors} Doors"
       else
@@ -62,7 +62,7 @@ module Lynr; module Converter;
     #
     # Look up `drive_type` and return the name.
     #
-    def drivetrain(drive_type)
+    def self.drivetrain(drive_type)
       DrivetrainTranslations.fetch(drive_type, default=drive_type)
     end
 
@@ -70,7 +70,7 @@ module Lynr; module Converter;
     #
     # Look up `fuel_type` and return the name.
     #
-    def fuel(fuel_type)
+    def self.fuel(fuel_type)
       FuelTranslations.fetch(fuel_type, default=fuel_type)
     end
 
@@ -78,7 +78,7 @@ module Lynr; module Converter;
     #
     # Look up `transmission_type` and return the name.
     #
-    def transmission_type(transmission_type)
+    def self.transmission_type(transmission_type)
       TransmissionTranslations.fetch(transmission_type, default=transmission_type)
     end
 

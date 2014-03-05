@@ -5,9 +5,9 @@ require './lib/lynr/converter/number_translator'
 
 describe Lynr::Converter::NumberTranslator do
 
-  let(:translator) { Lynr::Converter::NumberTranslator.new }
+  let(:translator) { Lynr::Converter::NumberTranslator }
 
-  describe "#delimit" do
+  describe ".delimit" do
 
     translations = {
       "100" => "100",

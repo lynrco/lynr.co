@@ -5,9 +5,9 @@ require './lib/lynr/converter/vehicle_translator'
 
 describe Lynr::Converter::VehicleTranslator do
 
-  let(:translator) { Lynr::Converter::VehicleTranslator.new }
+  let(:translator) { Lynr::Converter::VehicleTranslator }
 
-  describe "#condition" do
+  describe ".condition" do
 
     translations = {
       "4" => "Excellent Condition",

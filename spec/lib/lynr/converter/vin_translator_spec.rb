@@ -5,9 +5,9 @@ require './lib/lynr/converter/vin_translator'
 
 describe Lynr::Converter::VinTranslator do
 
-  let(:translator) { Lynr::Converter::VinTranslator.new }
+  let(:translator) { Lynr::Converter::VinTranslator }
 
-  describe "#drivetrain" do
+  describe ".drivetrain" do
 
     translations = {
       "AWD" => "All Wheel Drive",
@@ -27,7 +27,7 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe "#fuel" do
+  describe ".fuel" do
 
     translations = {
       "B" => "BioDiesel",
@@ -51,7 +51,7 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe "#transmission_type" do
+  describe ".transmission_type" do
 
     translations = {
       "A"   => "Automatic",
@@ -69,7 +69,7 @@ describe Lynr::Converter::VinTranslator do
 
   end
 
-  describe "#doors" do
+  describe ".doors" do
 
     translations = {
       "2"   => "2 Doors",
