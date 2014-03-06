@@ -6,25 +6,26 @@ require './lib/lynr/persist/mongo_dao'
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
-    root = RSpec.configuration.root
-    whereami = RSpec.configuration.whereami
-    @config = YAML.load_file("#{root}/config/database.#{whereami}.yaml")
+    @environment = ENV['whereami']
+    ENV['whereami'] = 'neverland'
+  end
+
+  after(:each) do
+    ENV['whereami'] = @environment
   end
 
   let(:client) { dao.client }
-  let(:config) { Lynr.config('database').mongo }
-  let(:dao) { Lynr::Persist::MongoDao.new({ 'collection' => 'dummy' }) }
+  let(:config) {
+    {
+      'host' => '127.0.0.1',
+      'port' => '27017',
+      'database' => 'lynr_spec',
+      'collection' => 'dummy',
+    }
+  }
+  let(:dao) { Lynr::Persist::MongoDao.new(config) }
 
   context "unconfigured environment" do
-
-    before(:each) do
-      @environment = ENV['whereami']
-      ENV['whereami'] = 'neverland'
-    end
-
-    after(:each) do
-      ENV['whereami'] = @environment
-    end
 
     let(:dao) { Lynr::Persist::MongoDao.new }
 
@@ -71,11 +72,11 @@ describe Lynr::Persist::MongoDao do
     describe "#client" do
 
       it "has host that matches config" do
-        expect(client.host).to eq(config.host)
+        expect(client.host).to eq(config['host'])
       end
 
       it "has port that matches config" do
-        expect(client.port).to eq(config.port)
+        expect(client.port).to eq(config['port'])
       end
 
     end
@@ -83,7 +84,7 @@ describe Lynr::Persist::MongoDao do
     describe "#uri" do
 
       it "is based on config properties" do
-        expect(dao.uri).to eq("mongodb://#{config.host}:#{config.port}/#{config.database}")
+        expect(dao.uri).to eq("mongodb://#{config['host']}:#{config['port']}/#{config['database']}")
       end
 
       it "comes from config if config has uri" do
@@ -114,7 +115,15 @@ describe Lynr::Persist::MongoDao do
 
   end # config
 
+  # NOTE: These specs use the configuration in `config/database.spec.yaml`
   context "with active connection", :if => (MongoHelpers.connected?) do
+
+    # Reset whereami environment variable
+    before(:each) do
+      ENV['whereami'] = @environment
+    end
+
+    let(:dao) { MongoHelpers.dao }
 
     after(:each) do
       dao.collection.remove() if MongoHelpers.dao.active?
