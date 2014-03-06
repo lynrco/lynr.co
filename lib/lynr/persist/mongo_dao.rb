@@ -20,6 +20,11 @@ module Lynr; module Persist;
 
     attr_reader :config
 
+    # ## `Lynr::Persist::MongoDao::MongoDefaults`
+    #
+    # Hash containing the default connection properties to use when no
+    # configration is provided to the constructor.
+    #
     MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
 
     # ## `Lynr::Persist::MongoDao.new`
