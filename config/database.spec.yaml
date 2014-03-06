@@ -1,4 +1,6 @@
 mongo:
+  # NOTE: Adding uri to this will break specs because they need to test both
+  # when it exists and when it doesn't
   host: '127.0.0.1'
   port: '27017'
   database: 'lynr_spec'
