@@ -25,9 +25,7 @@ describe Lynr::Persist::MongoDao do
   }
   let(:dao) { Lynr::Persist::MongoDao.new(config) }
 
-  context "unconfigured environment" do
-
-    let(:dao) { Lynr::Persist::MongoDao.new }
+  describe "#initialize" do
 
     it "creates a dao successfully" do
       expect { Lynr::Persist::MongoDao.new }.to be
@@ -37,62 +35,40 @@ describe Lynr::Persist::MongoDao do
       expect(dao.client).to be
     end
 
-    describe "#client" do
+  end
 
-      it "has a host of localhost" do
-        expect(dao.client.host).to eq('localhost')
-      end
+  describe "#client" do
 
-      it "has a port of 27017" do
-        expect(dao.client.port).to eq('27017')
-      end
-
+    it "has a host of localhost" do
+      expect(dao.client.host).to eq('127.0.0.1')
     end
 
-    describe "#uri" do
-
-      it "is mongodb://localhost:27017/lynrco" do
-        expect(dao.uri).to eq("mongodb://localhost:27017/lynrco")
-      end
-
+    it "has a port of 27017" do
+      expect(dao.client.port).to eq('27017')
     end
 
   end
 
-  context "configured environment" do
+  describe "#uri" do
 
-    it "has a config property" do
-      expect(dao.config).not_to eq(nil)
+    it "is mongodb://127.0.0.1:27017/lynr_spec" do
+      expect(dao.uri).to eq("mongodb://127.0.0.1:27017/lynr_spec")
     end
 
-    it "creates a dao with client" do
-      expect(dao.client).to be
+    it "is based on config properties" do
+      expect(dao.uri).to eq("mongodb://#{config['host']}:#{config['port']}/#{config['database']}")
     end
 
-    describe "#client" do
+    context "with only uri in config" do
 
-      it "has host that matches config" do
-        expect(client.host).to eq(config['host'])
-      end
-
-      it "has port that matches config" do
-        expect(client.port).to eq(config['port'])
-      end
-
-    end
-
-    describe "#uri" do
-
-      it "is based on config properties" do
-        expect(dao.uri).to eq("mongodb://#{config['host']}:#{config['port']}/#{config['database']}")
-      end
+      let(:config) { { 'uri' => 'mongodb://foo:bar@lynr.co:18000/lynrco' } }
 
       it "comes from config if config has uri" do
-        dao = Lynr::Persist::MongoDao.new({
-          'uri' => 'mongodb://foo:bar@lynr.co:18000/lynrco',
-          'collection' => 'dummy'
-        })
         expect(dao.uri).to eq('mongodb://foo:bar@lynr.co:18000/lynrco')
+      end
+
+      it "only has uri" do
+        expect(config.keys).to eq(['uri'])
       end
 
     end
@@ -102,18 +78,40 @@ describe Lynr::Persist::MongoDao do
   describe "#config" do
 
     it "has a host" do
-      expect(dao.config['host']).to be
+      expect(dao.config.host).to be
     end
 
     it "has a port" do
-      expect(dao.config['port']).to be
+      expect(dao.config.port).to be
     end
 
     it "has a database" do
-      expect(dao.config['database']).to be
+      expect(dao.config.database).to be
     end
 
   end # config
+
+  context "no config" do
+
+    let(:dao) { Lynr::Persist::MongoDao.new }
+
+    describe "#config" do
+
+      it "has host from MongoDefaults" do
+        expect(dao.config.host).to eq(Lynr::Persist::MongoDao::MongoDefaults['host'])
+      end
+
+      it "has port from MongoDefaults" do
+        expect(dao.config.port).to eq(Lynr::Persist::MongoDao::MongoDefaults['port'])
+      end
+
+      it "has database from MongoDefaults" do
+        expect(dao.config.database).to eq(Lynr::Persist::MongoDao::MongoDefaults['database'])
+      end
+
+    end
+
+  end
 
   # NOTE: These specs use the configuration in `config/database.spec.yaml`
   context "with active connection", :if => (MongoHelpers.connected?) do
@@ -127,6 +125,30 @@ describe Lynr::Persist::MongoDao do
 
     after(:each) do
       dao.collection.remove() if MongoHelpers.dao.active?
+    end
+
+    context "configured environment" do
+
+      it "has a config property" do
+        expect(dao.config).not_to eq(nil)
+      end
+
+      it "creates a dao with client" do
+        expect(dao.client).to be
+      end
+
+      describe "#client" do
+
+        it "has host that matches config" do
+          expect(client.host).to eq(dao.config.host)
+        end
+
+        it "has port that matches config" do
+          expect(client.port).to eq(dao.config.port)
+        end
+
+      end
+
     end
 
     describe "#save" do
