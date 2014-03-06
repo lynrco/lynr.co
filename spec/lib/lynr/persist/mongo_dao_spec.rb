@@ -11,31 +11,63 @@ describe Lynr::Persist::MongoDao do
     @config = YAML.load_file("#{root}/config/database.#{whereami}.yaml")
   end
 
-  let!(:dao) { MongoHelpers.dao }
+  let(:client) { dao.client }
+  let(:config) { Lynr.config('database').mongo }
+  let(:dao) { Lynr::Persist::MongoDao.new({ 'collection' => 'dummy' }) }
 
-  describe "#initialize" do
+  context "unconfigured environment" do
 
-    context "unconfigured environment" do
+    before(:each) do
+      @environment = ENV['whereami']
+      ENV['whereami'] = 'neverland'
+    end
 
-      before(:each) do
-        @environment = ENV['whereami']
+    after(:each) do
+      ENV['whereami'] = @environment
+    end
+
+    let(:dao) { Lynr::Persist::MongoDao.new }
+
+    it "creates a dao successfully" do
+      expect { Lynr::Persist::MongoDao.new }.to be
+    end
+
+    it "creates dao with client" do
+      expect(dao.client).to be
+    end
+
+    describe "#client" do
+
+      it "has a host of localhost" do
+        expect(dao.client.host).to eq('localhost')
       end
 
-      after(:each) do
-        ENV['whereami'] = @environment
-      end
-
-      it "uses defaults" do
-        ENV['whereami'] = 'neverland'
-        expect { Lynr::Persist::MongoDao.new }.to be
+      it "has a port of 27017" do
+        expect(dao.client.port).to eq(27017)
       end
 
     end
 
-    context "configured environment" do
+  end
 
-      it "has a config property" do
-        expect(dao.config).not_to eq(nil)
+  context "configured environment" do
+
+    it "has a config property" do
+      expect(dao.config).not_to eq(nil)
+    end
+
+    it "creates a dao with client" do
+      expect(dao.client).to be
+    end
+
+    describe "#client" do
+
+      it "has host that matches config" do
+        expect(client.host).to eq(config.host)
+      end
+
+      it "has port that matches config" do
+        expect(client.port).to eq(config.port)
       end
 
     end
@@ -56,7 +88,7 @@ describe Lynr::Persist::MongoDao do
       expect(dao.config['database']).to be
     end
 
-  end
+  end # config
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
@@ -148,8 +180,8 @@ describe Lynr::Persist::MongoDao do
         expect(read).to be_nil
       end
 
-    end
+    end # CRUD
 
-  end
+  end # with active connection
 
 end
