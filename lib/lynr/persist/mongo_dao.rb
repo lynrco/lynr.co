@@ -20,6 +20,8 @@ module Lynr; module Persist;
 
     attr_reader :config
 
+    MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
+
     # ## `Lynr::Persist::MongoDao.new`
     #
     # Create a new instance that is connected to the specified collection. Sets
@@ -36,8 +38,8 @@ module Lynr; module Persist;
     # * 'database' to which MongoDao will connect
     # * 'collection' name to interact with to on the MongoDB instance
     #
-    def initialize(config={})
-      defaults = config || {}
+    def initialize(config=nil)
+      defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
       @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
       @authed = !@needs_auth
@@ -123,6 +125,25 @@ module Lynr; module Persist;
         collection.find_one(query)
       else
         collection.find(query, options)
+      end
+    end
+
+    # ## `MongoDao#uri`
+    #
+    # Construct a mongodb connection string based on the configuratino. First
+    # tries to fetch the URI from the configuration created during initialize
+    # if there is no URI available in the config then construct a URI from the
+    # user, pass, host, port values in config.
+    #
+    # ### Returns
+    #
+    # A URI string of the form 'mongodb://<user>:<pass>@host:port[,host:port[,host:port]...]/database'
+    #
+    def uri
+      if @config.include?('uri')
+        @config['uri']
+      else
+        "mongodb://#{@config['host']}:#{@config['port']}/#{@config['database']}"
       end
     end
 

@@ -43,7 +43,15 @@ describe Lynr::Persist::MongoDao do
       end
 
       it "has a port of 27017" do
-        expect(dao.client.port).to eq(27017)
+        expect(dao.client.port).to eq('27017')
+      end
+
+    end
+
+    describe "#uri" do
+
+      it "is mongodb://localhost:27017/lynrco" do
+        expect(dao.uri).to eq("mongodb://localhost:27017/lynrco")
       end
 
     end
@@ -68,6 +76,22 @@ describe Lynr::Persist::MongoDao do
 
       it "has port that matches config" do
         expect(client.port).to eq(config.port)
+      end
+
+    end
+
+    describe "#uri" do
+
+      it "is based on config properties" do
+        expect(dao.uri).to eq("mongodb://#{config.host}:#{config.port}/#{config.database}")
+      end
+
+      it "comes from config if config has uri" do
+        dao = Lynr::Persist::MongoDao.new({
+          'uri' => 'mongodb://foo:bar@lynr.co:18000/lynrco',
+          'collection' => 'dummy'
+        })
+        expect(dao.uri).to eq('mongodb://foo:bar@lynr.co:18000/lynrco')
       end
 
     end
