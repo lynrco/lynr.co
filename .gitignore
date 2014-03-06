@@ -1,6 +1,6 @@
 .cane
 .ctrlp
-.env
+.env*
 .vagrant*
 !.giturd
 /config/*.yaml
