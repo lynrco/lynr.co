@@ -91,6 +91,30 @@ describe Lynr::Persist::MongoDao do
 
   end # config
 
+  describe "#credentials" do
+
+    it "is user:pass when user and pass are in config" do
+      config['user'] = 'foo'
+      config['pass'] = 'bar'
+      expect(dao.credentials).to eq("#{config['user']}:#{config['pass']}")
+    end
+
+    it "is nil when user in config without pass" do
+      config['user'] = 'foo'
+      expect(dao.credentials).to be_nil
+    end
+
+    it "is nil when pass in config without user" do
+      config['pass'] = 'bar'
+      expect(dao.credentials).to be_nil
+    end
+
+    it "is nil when neither user nor pass are in config" do
+      expect(dao.credentials).to be_nil
+    end
+
+  end
+
   describe "#credentials?" do
 
     it "is true when user and pass are in config" do

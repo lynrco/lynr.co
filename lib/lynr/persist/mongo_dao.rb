@@ -78,6 +78,10 @@ module Lynr; module Persist;
       @collection
     end
 
+    def credentials
+      "#{@config['user']}:#{@config['pass']}" if credentials?
+    end
+
     def credentials?
       !@config['user'].nil? && !@config['pass'].nil?
     end
