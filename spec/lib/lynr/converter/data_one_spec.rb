@@ -12,6 +12,8 @@ describe Lynr::Converter::DataOne do
     include Lynr::Converter::DataOne
   end
 
+  include Lynr::Converter::LibXmlHelper
+
   let(:converter) { DataOneConverter.new }
   let(:empty_mpg) { Lynr::Model::Mpg.new }
   let(:empty_vehicle) { Lynr::Model::Vehicle.new }
@@ -21,46 +23,64 @@ describe Lynr::Converter::DataOne do
 
     let(:vin) { converter.xml_to_vin(query_response) }
 
-    context "valid XML" do
+    ['1HGEJ6229XL063838', 'WMWMF7C52ATZ73068', 'WMWZC3C55CWL83987', 'sample-out'].each do |fn|
 
-      let(:path) { './/us_market_data/common_us_data' }
-      let(:doc) { LibXML::XML::Document.file('spec/data/1HGEJ6229XL063838.xml') }
-      let(:query_response) { doc.find('//query_response[@identifier="1HGEJ6229XL063838"]').first }
+      context "valid response for #{fn}" do
 
-      it "creates a Vin with transmission from XML" do
-        expect(vin.transmission).to eq(query_response.find("#{path}//transmission/type").first.content)
-      end
+        let(:path) { './/us_market_data/common_us_data' }
+        let(:doc) { LibXML::XML::Document.file("spec/data/#{fn}.xml") }
+        let(:query_response) { doc.find("//query_response[@identifier=\"#{fn}\"]").first }
 
-      it "creates a Vin with fuel type from XML" do
-        expect(vin.fuel).to eq(query_response.find("#{path}//fuel_type").first.content)
-      end
+        it "creates a Vin with transmission from XML" do
+          expect(vin.transmission).to eq(query_response.find("#{path}//transmission/type").first.content)
+        end
 
-      it "creates a Vin with num doors from XML" do
-        expect(vin.doors).to eq(query_response.find("#{path}//doors").first.content)
-      end
+        it "creates a Vin with fuel type from XML" do
+          expect(vin.fuel).to eq(query_response.find("#{path}//fuel_type").first.content)
+        end
 
-      it "creates a Vin with drivetrain from XML" do
-        expect(vin.drivetrain).to eq(query_response.find("#{path}//drive_type").first.content)
-      end
+        it "creates a Vin with num doors from XML" do
+          expect(vin.doors).to eq(query_response.find("#{path}//doors").first.content)
+        end
 
-      it "creates a Vin with ext_colors from XML" do
-        ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el|
-          el.content
-        }
-        expect(vin.ext_color).to eq(ext_colors.join(', '))
-      end
+        it "creates a Vin with drivetrain from XML" do
+          expect(vin.drivetrain).to eq(query_response.find("#{path}//drive_type").first.content)
+        end
 
-      it "creates a Vin with int_colors from XML" do
-        expect(vin.int_color).to eq(query_response.find("#{path}//interior_colors//generic_color_name")\
-                                    .first.content)
-      end
+        it "creates a Vin with ext_colors from XML" do
+          ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el|
+            el.content
+          }
+          # NOTE: This is necessary because of a quirk in VIN creation. In order
+          # to create 'empty' VINs nil/empty properties are deleted.
+          if (ext_colors.length > 0)
+            expect(vin.ext_color).to eq(ext_colors.join(', '))
+          else
+            expect(vin.ext_color).to be_nil
+          end
+        end
 
-      it "creates a Vin with a number from XML" do
-        expect(vin.number).to eq('1HGEJ6229XL063838')
-      end
+        it "creates a Vin with int_colors from XML" do
+          int_colors = query_response.find("#{path}//interior_colors//generic_color_name").map { |el|
+            el.content
+          }
+          # NOTE: This is necessary because of a quirk in VIN creation. In order
+          # to create 'empty' VINs nil/empty properties are deleted.
+          if (int_colors.length > 0)
+            expect(vin.int_color).to eq(int_colors.join(', '))
+          else
+            expect(vin.int_color).to be_nil
+          end
+        end
 
-      it "creates a Vin with raw data equal to XML" do
-        expect(vin.raw).to eq(query_response.to_s)
+        it "creates a Vin with a number from XML" do
+          expect(vin.number).to eq(fn)
+        end
+
+        it "creates a Vin with raw data equal to XML" do
+          expect(vin.raw).to eq(query_response.to_s)
+        end
+
       end
 
     end
