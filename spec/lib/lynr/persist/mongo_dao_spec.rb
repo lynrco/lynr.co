@@ -67,8 +67,28 @@ describe Lynr::Persist::MongoDao do
         expect(dao.uri).to eq('mongodb://foo:bar@lynr.co:18000/lynrco')
       end
 
-      it "only has uri" do
+      it "only has uri key" do
         expect(config.keys).to eq(['uri'])
+      end
+
+    end
+
+    context "with credentials" do
+
+      let(:config) {
+        {
+          'host' => '127.0.0.1',
+          'port' => '27017',
+          'database' => 'lynr_spec',
+          'user' => 'foo',
+          'pass' => 'bar',
+          'collection' => 'dummy',
+        }
+      }
+
+      it "includes user and pass in uri" do
+        expect(dao.uri).to eq("mongodb://#{config['user']}:#{config['pass']}@\
+#{config['host']}:#{config['port']}/#{config['database']}")
       end
 
     end

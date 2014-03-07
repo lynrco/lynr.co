@@ -155,6 +155,8 @@ module Lynr; module Persist;
     def uri
       if @config.include?('uri')
         @config['uri']
+      elsif credentials?
+        "mongodb://#{credentials}@#{@config['host']}:#{@config['port']}/#{@config['database']}"
       else
         "mongodb://#{@config['host']}:#{@config['port']}/#{@config['database']}"
       end
