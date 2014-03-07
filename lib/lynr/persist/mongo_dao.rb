@@ -20,6 +20,13 @@ module Lynr; module Persist;
 
     attr_reader :config
 
+    # ## `Lynr::Persist::MongoDao::MongoDefaults`
+    #
+    # Hash containing the default connection properties to use when no
+    # configration is provided to the constructor.
+    #
+    MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
+
     # ## `Lynr::Persist::MongoDao.new`
     #
     # Create a new instance that is connected to the specified collection. Sets
@@ -36,11 +43,9 @@ module Lynr; module Persist;
     # * 'database' to which MongoDao will connect
     # * 'collection' name to interact with to on the MongoDB instance
     #
-    def initialize(config={})
-      defaults = config || {}
+    def initialize(config=nil)
+      defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
-      @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
-      @authed = !@needs_auth
       @collection_name = @config['collection']
     end
 
@@ -54,29 +59,30 @@ module Lynr; module Persist;
       rescue
         active = false
       end
-      self.authed? && active && self.client.connected? && self.client.active?
-    end
-
-    def authed?
-      if @needs_auth then @authed else true end
+      active && self.client.connected? && self.client.active?
     end
 
     def client
-      @client = Mongo::MongoClient.new(@config['host'], @config['port']) if @client == nil
-      @client
+      return @client unless @client.nil?
+      @client = Mongo::MongoClient.from_uri(uri)
     end
 
     def collection
-      @collection = db.collection(@collection_name) if @coll == nil
-      @collection
+      return @collection unless @collection.nil?
+      @collection = db.collection(@collection_name)
+    end
+
+    def credentials
+      "#{@config['user']}:#{@config['pass']}" if credentials?
+    end
+
+    def credentials?
+      !@config['user'].nil? && !@config['pass'].nil?
     end
 
     def db
-      if (@db.nil?)
-        @db = client.db(@config['database'])
-        self.authenticate if @needs_auth
-      end
-      @db
+      return @db unless @db.nil?
+      @db = client.db(@config['database'])
     end
 
     # ## Operate on the collection
@@ -126,6 +132,27 @@ module Lynr; module Persist;
       end
     end
 
+    # ## `MongoDao#uri`
+    #
+    # Construct a mongodb connection string based on the configuratino. First
+    # tries to fetch the URI from the configuration created during initialize
+    # if there is no URI available in the config then construct a URI from the
+    # user, pass, host, port values in config.
+    #
+    # ### Returns
+    #
+    # A URI string of the form 'mongodb://<user>:<pass>@host:port[,host:port[,host:port]...]/database'
+    #
+    def uri
+      if @config.include?('uri')
+        @config['uri']
+      elsif credentials?
+        "mongodb://#{credentials}@#{@config['host']}:#{@config['port']}/#{@config['database']}"
+      else
+        "mongodb://#{@config['host']}:#{@config['port']}/#{@config['database']}"
+      end
+    end
+
     # ## CRUD
     #
     # Returns the `_id` value for the new record
@@ -151,23 +178,6 @@ module Lynr; module Persist;
     # Returns `true` or the last error
     def delete(id)
       collection.remove({ _id: id }, { j: true })
-    end
-
-    protected
-
-    def authenticate
-      if (@needs_auth)
-        begin
-          self.db.authenticate(@config['user'], @config['pass'])
-          @authed = true
-        rescue Mongo::AuthenticationError => mae
-          @authed = false
-        rescue Mongo::ConnectionFailure => mcf
-          @authed = false
-        end
-      else
-        @authed = true
-      end
     end
 
   end

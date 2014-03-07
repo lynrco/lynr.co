@@ -1,4 +1,5 @@
 mongo:
+  uri: 'env:mongo_uri'
   host: 'env:mongo_host'
   port: 'env:mongo_port'
   database: 'env:mongo_database'

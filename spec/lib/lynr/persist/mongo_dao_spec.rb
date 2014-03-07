@@ -6,30 +6,193 @@ require './lib/lynr/persist/mongo_dao'
 describe Lynr::Persist::MongoDao do
 
   before(:each) do
-    root = RSpec.configuration.root
-    whereami = RSpec.configuration.whereami
-    @config = YAML.load_file("#{root}/config/database.#{whereami}.yaml")
+    @environment = ENV['whereami']
+    ENV['whereami'] = 'neverland'
   end
 
-  let!(:dao) { MongoHelpers.dao }
+  after(:each) do
+    ENV['whereami'] = @environment
+  end
+
+  let(:client) { dao.client }
+  let(:config) {
+    {
+      'host' => '127.0.0.1',
+      'port' => '27017',
+      'database' => 'lynr_spec',
+      'collection' => 'dummy',
+    }
+  }
+  let(:dao) { Lynr::Persist::MongoDao.new(config) }
 
   describe "#initialize" do
 
-    context "unconfigured environment" do
+    it "creates a dao successfully" do
+      expect { Lynr::Persist::MongoDao.new }.to be
+    end
 
-      before(:each) do
-        @environment = ENV['whereami']
+    it "creates dao with client" do
+      expect(dao.client).to be
+    end
+
+  end # initialize
+
+  describe "#client" do
+
+    it "has a host of localhost" do
+      expect(dao.client.host).to eq('127.0.0.1')
+    end
+
+    it "has a port of 27017" do
+      expect(dao.client.port).to eq(27017)
+    end
+
+  end # client
+
+  describe "#uri" do
+
+    it "is mongodb://127.0.0.1:27017/lynr_spec" do
+      expect(dao.uri).to eq("mongodb://127.0.0.1:27017/lynr_spec")
+    end
+
+    it "is based on config properties" do
+      expect(dao.uri).to eq("mongodb://#{config['host']}:#{config['port']}/#{config['database']}")
+    end
+
+    context "with only uri in config" do
+
+      let(:config) { { 'uri' => 'mongodb://foo:bar@lynr.co:18000/lynrco' } }
+
+      it "comes from config if config has uri" do
+        expect(dao.uri).to eq('mongodb://foo:bar@lynr.co:18000/lynrco')
       end
 
-      after(:each) do
-        ENV['whereami'] = @environment
+      it "only has uri key" do
+        expect(config.keys).to eq(['uri'])
       end
 
-      it "uses defaults" do
-        ENV['whereami'] = 'neverland'
-        expect { Lynr::Persist::MongoDao.new }.to be
+    end
+
+    context "with credentials" do
+
+      let(:config) {
+        {
+          'host' => '127.0.0.1',
+          'port' => '27017',
+          'database' => 'lynr_spec',
+          'user' => 'foo',
+          'pass' => 'bar',
+          'collection' => 'dummy',
+        }
+      }
+
+      it "includes user and pass in uri" do
+        expect(dao.uri).to eq("mongodb://#{config['user']}:#{config['pass']}@\
+#{config['host']}:#{config['port']}/#{config['database']}")
       end
 
+    end
+
+  end # uri
+
+  describe "#config" do
+
+    it "has a host" do
+      expect(dao.config.host).to be
+    end
+
+    it "has a port" do
+      expect(dao.config.port).to be
+    end
+
+    it "has a database" do
+      expect(dao.config.database).to be
+    end
+
+  end # config
+
+  describe "#credentials" do
+
+    it "is user:pass when user and pass are in config" do
+      config['user'] = 'foo'
+      config['pass'] = 'bar'
+      expect(dao.credentials).to eq("#{config['user']}:#{config['pass']}")
+    end
+
+    it "is nil when user in config without pass" do
+      config['user'] = 'foo'
+      expect(dao.credentials).to be_nil
+    end
+
+    it "is nil when pass in config without user" do
+      config['pass'] = 'bar'
+      expect(dao.credentials).to be_nil
+    end
+
+    it "is nil when neither user nor pass are in config" do
+      expect(dao.credentials).to be_nil
+    end
+
+  end
+
+  describe "#credentials?" do
+
+    it "is true when user and pass are in config" do
+      config['user'] = 'foo'
+      config['pass'] = 'bar'
+      expect(dao.credentials?).to be_true
+    end
+
+    it "is false when user in config without pass" do
+      config['user'] = 'foo'
+      expect(dao.credentials?).to be_false
+    end
+
+    it "is false when pass in config without user" do
+      config['pass'] = 'bar'
+      expect(dao.credentials?).to be_false
+    end
+
+    it "is false when neither user nor pass are in config" do
+      expect(dao.credentials?).to be_false
+    end
+
+  end
+
+  context "no config provided" do
+
+    let(:dao) { Lynr::Persist::MongoDao.new }
+
+    describe "#config" do
+
+      it "has host from MongoDefaults" do
+        expect(dao.config.host).to eq(Lynr::Persist::MongoDao::MongoDefaults['host'])
+      end
+
+      it "has port from MongoDefaults" do
+        expect(dao.config.port).to eq(Lynr::Persist::MongoDao::MongoDefaults['port'])
+      end
+
+      it "has database from MongoDefaults" do
+        expect(dao.config.database).to eq(Lynr::Persist::MongoDao::MongoDefaults['database'])
+      end
+
+    end
+
+  end
+
+  # NOTE: These specs use the configuration in `config/database.spec.yaml`
+  context "with active connection", :if => (MongoHelpers.connected?) do
+
+    # Reset whereami environment variable
+    before(:each) do
+      ENV['whereami'] = @environment
+    end
+
+    let(:dao) { MongoHelpers.dao }
+
+    after(:each) do
+      dao.collection.remove() if MongoHelpers.dao.active?
     end
 
     context "configured environment" do
@@ -38,30 +201,22 @@ describe Lynr::Persist::MongoDao do
         expect(dao.config).not_to eq(nil)
       end
 
-    end
+      it "creates a dao with client" do
+        expect(dao.client).to be
+      end
 
-  end
+      describe "#client" do
 
-  describe "#config" do
+        it "has host that matches config" do
+          expect(client.host).to eq(dao.config.host)
+        end
 
-    it "has a host" do
-      expect(dao.config['host']).to be
-    end
+        it "has port that matches config" do
+          expect(client.port.to_s).to eq(dao.config.port)
+        end
 
-    it "has a port" do
-      expect(dao.config['port']).to be
-    end
+      end
 
-    it "has a database" do
-      expect(dao.config['database']).to be
-    end
-
-  end
-
-  context "with active connection", :if => (MongoHelpers.connected?) do
-
-    after(:each) do
-      dao.collection.remove() if MongoHelpers.dao.active?
     end
 
     describe "#save" do
@@ -148,8 +303,8 @@ describe Lynr::Persist::MongoDao do
         expect(read).to be_nil
       end
 
-    end
+    end # CRUD
 
-  end
+  end # with active connection
 
 end
