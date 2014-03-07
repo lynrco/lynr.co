@@ -35,7 +35,7 @@ describe Lynr::Persist::MongoDao do
       expect(dao.client).to be
     end
 
-  end
+  end # initialize
 
   describe "#client" do
 
@@ -47,7 +47,7 @@ describe Lynr::Persist::MongoDao do
       expect(dao.client.port).to eq('27017')
     end
 
-  end
+  end # client
 
   describe "#uri" do
 
@@ -73,7 +73,7 @@ describe Lynr::Persist::MongoDao do
 
     end
 
-  end
+  end # uri
 
   describe "#config" do
 
@@ -91,7 +91,31 @@ describe Lynr::Persist::MongoDao do
 
   end # config
 
-  context "no config" do
+  describe "#credentials?" do
+
+    it "is true when user and pass are in config" do
+      config['user'] = 'foo'
+      config['pass'] = 'bar'
+      expect(dao.credentials?).to be_true
+    end
+
+    it "is false when user in config without pass" do
+      config['user'] = 'foo'
+      expect(dao.credentials?).to be_false
+    end
+
+    it "is false when pass in config without user" do
+      config['pass'] = 'bar'
+      expect(dao.credentials?).to be_false
+    end
+
+    it "is false when neither user nor pass are in config" do
+      expect(dao.credentials?).to be_false
+    end
+
+  end
+
+  context "no config provided" do
 
     let(:dao) { Lynr::Persist::MongoDao.new }
 

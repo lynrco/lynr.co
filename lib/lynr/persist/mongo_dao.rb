@@ -46,7 +46,7 @@ module Lynr; module Persist;
     def initialize(config=nil)
       defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
-      @needs_auth = !@config['user'].nil? && !@config['pass'].nil?
+      @needs_auth = credentials?
       @authed = !@needs_auth
       @collection_name = @config['collection']
     end
@@ -76,6 +76,10 @@ module Lynr; module Persist;
     def collection
       @collection = db.collection(@collection_name) if @coll == nil
       @collection
+    end
+
+    def credentials?
+      !@config['user'].nil? && !@config['pass'].nil?
     end
 
     def db
