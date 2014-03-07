@@ -13,6 +13,7 @@ config = Lynr.config('app')
 statics = 'public'
 statics = 'dist' if Lynr.env == 'heroku'
 
+use Rack::Deflater
 use Rack::SSL
 use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => statics
 use Librato::Rack if Lynr.env == 'heroku'
