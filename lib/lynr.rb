@@ -1,3 +1,4 @@
+require './lib/lynr/cache'
 require './lib/lynr/config'
 require './lib/lynr/exceptions'
 require './lib/lynr/queue/job_queue'
@@ -11,6 +12,14 @@ module Lynr
 
   # `Lynr::VERSION` is the current version string for the Lynr application.
   VERSION = '0.0.1'
+
+  # ## `Lynr.cache`
+  #
+  # Return an instance conforming to Lynr::Cache shared specs.
+  #
+  def self.cache
+    Lynr::Cache.mongo
+  end
 
   # ## `Lynr.config(type, defaults)`
   #
