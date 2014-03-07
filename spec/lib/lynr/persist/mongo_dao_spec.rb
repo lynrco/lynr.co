@@ -93,6 +93,26 @@ describe Lynr::Persist::MongoDao do
 
     end
 
+    context "with uri and all connection properties in config" do
+
+      let(:config) {
+        {
+          'uri'  => 'mongodb://foo:bar@lynr.co:18000/lynrco',
+          'host' => '127.0.0.1',
+          'port' => '27017',
+          'database' => 'lynr_spec',
+          'user' => 'foo',
+          'pass' => 'bar',
+          'collection' => 'dummy',
+        }
+      }
+
+      it "uses uri value from config" do
+        expect(dao.uri).to eq(config['uri'])
+      end
+
+    end
+
   end # uri
 
   describe "#config" do
