@@ -69,8 +69,8 @@ module Lynr; module Persist;
     end
 
     def client
-      @client = Mongo::MongoClient.new(@config['host'], @config['port']) if @client == nil
-      @client
+      return @client unless @client.nil?
+      @client = Mongo::MongoClient.from_uri(uri)
     end
 
     def collection

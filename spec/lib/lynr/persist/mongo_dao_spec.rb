@@ -44,7 +44,7 @@ describe Lynr::Persist::MongoDao do
     end
 
     it "has a port of 27017" do
-      expect(dao.client.port).to eq('27017')
+      expect(dao.client.port).to eq(27017)
     end
 
   end # client
@@ -212,7 +212,7 @@ describe Lynr::Persist::MongoDao do
         end
 
         it "has port that matches config" do
-          expect(client.port).to eq(dao.config.port)
+          expect(client.port.to_s).to eq(dao.config.port)
         end
 
       end
