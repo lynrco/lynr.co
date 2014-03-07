@@ -68,8 +68,8 @@ module Lynr; module Persist;
     end
 
     def collection
-      @collection = db.collection(@collection_name) if @coll == nil
-      @collection
+      return @collection unless @collection.nil?
+      @collection = db.collection(@collection_name)
     end
 
     def credentials
@@ -81,10 +81,8 @@ module Lynr; module Persist;
     end
 
     def db
-      if (@db.nil?)
-        @db = client.db(@config['database'])
-      end
-      @db
+      return @db unless @db.nil?
+      @db = client.db(@config['database'])
     end
 
     # ## Operate on the collection
