@@ -27,7 +27,7 @@ module Lynr; module Controller;
     #
     def search(req)
       posted['dealership'] = @dealership
-      query_response = fetch(posted['vin'])
+      query_response = fetch(posted['vin'].upcase)
       if query_response.nil?
         @base_menu = Lynr::View::Menu.new('Vehicle Menu', "", :menu_vehicle)
         @subsection = 'vehicle-add'
