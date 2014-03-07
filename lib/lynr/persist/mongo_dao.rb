@@ -46,8 +46,6 @@ module Lynr; module Persist;
     def initialize(config=nil)
       defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
-      @needs_auth = credentials?
-      @authed = !@needs_auth
       @collection_name = @config['collection']
     end
 
@@ -61,11 +59,7 @@ module Lynr; module Persist;
       rescue
         active = false
       end
-      self.authed? && active && self.client.connected? && self.client.active?
-    end
-
-    def authed?
-      if @needs_auth then @authed else true end
+      active && self.client.connected? && self.client.active?
     end
 
     def client
@@ -89,7 +83,6 @@ module Lynr; module Persist;
     def db
       if (@db.nil?)
         @db = client.db(@config['database'])
-        self.authenticate if @needs_auth
       end
       @db
     end
@@ -187,23 +180,6 @@ module Lynr; module Persist;
     # Returns `true` or the last error
     def delete(id)
       collection.remove({ _id: id }, { j: true })
-    end
-
-    protected
-
-    def authenticate
-      if (@needs_auth)
-        begin
-          self.db.authenticate(@config['user'], @config['pass'])
-          @authed = true
-        rescue Mongo::AuthenticationError => mae
-          @authed = false
-        rescue Mongo::ConnectionFailure => mcf
-          @authed = false
-        end
-      else
-        @authed = true
-      end
     end
 
   end
