@@ -82,7 +82,7 @@ module Lynr; module Persist;
 
     def db
       return @db unless @db.nil?
-      @db = client.db(@config['database'])
+      @db = client.db
     end
 
     # ## Operate on the collection
