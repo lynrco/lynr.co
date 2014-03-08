@@ -58,6 +58,7 @@ define(function(require) {
       function(styleSelect) {
         var selects = document.querySelectorAll('.fs select');
         var i = selects.length;
+        if (i < 1) { return; }
         do { styleSelect(selects[--i]); } while (i)
       }
     );
