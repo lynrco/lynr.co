@@ -1,9 +1,15 @@
 <%= render_partial 'form_messages.erb' -%>
         <div class="vehicle-photos">
-          <%- if @vehicle.images? && @vehicle.images.length > 1 -%>
-          <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="vehicle-photos-inner">
-            <%-
+          <%-
+          if @vehicle.images? && @vehicle.images.length > 1
             images = @vehicle.images
+            # TODO: I dislike having this style calculation here but the other
+            # option is to do it in JS which isn't much better.
+            width = 100 + ((93.75 + 1.6) * (images.length - 1))
+          -%>
+          <a class="vehicle-photos-inner" style="width: <%= width %>vw"
+              href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos">
+            <%-
             images.each do |image|
               if !image.empty?
             -%>
