@@ -44,6 +44,8 @@ namespace :lynr do
 #     SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE,
   })
 
+  task :local => :shotgun
+
   desc 'Starts the Lynr application using Shotgun'
   task :shotgun do
     app =
