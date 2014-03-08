@@ -1,6 +1,7 @@
 require './lib/lynr/config'
 require './lib/lynr/exceptions'
 require './lib/lynr/queue/job_queue'
+require './lib/lynr/metrics'
 
 # # `Lynr`
 #
@@ -27,6 +28,15 @@ module Lynr
   #
   def self.env(default = 'development')
     ENV['whereami'] || default
+  end
+
+  # ## `Lynr.metrics`
+  #
+  # Add a memoized universal accessor for a `Lynr::Metrics` instance.
+  #
+  def self.metrics
+    return @metrics unless @metrics.nil?
+    @metrics = Lynr::Metrics.new
   end
 
   # ## `Lynr.producer(name)`
