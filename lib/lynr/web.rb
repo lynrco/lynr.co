@@ -129,8 +129,18 @@ module Lynr
       Stripe.api_key = conf['stripe']['key']
       Stripe.api_version = conf['stripe']['version'] || '2013-02-13'
 
+      setup_librato if Lynr.metrics.configured?(conf.librato)
+    end
+
+    # ## `Lynr::Web.setup_librato`
+    #
+    # Set LIBRATO_* environment variables if they aren't set as actual
+    # environment variables.
+    #
+    def self.setup_librato
       ENV['LIBRATO_USER'] ||= conf.librato.user
       ENV['LIBRATO_TOKEN'] ||= conf.librato.token
+      ENV['LIBRATO_SOURCE'] ||= conf.librato.source
       Librato::Metrics.authenticate conf.librato.user, conf.librato.token
     end
 
