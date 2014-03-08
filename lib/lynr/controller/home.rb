@@ -35,7 +35,9 @@ module Lynr; module Controller;
     #
     def index(req)
       log.info('type=measure.render template=index.erb')
-      render 'index.erb', layout: 'marketing/default.erb'
+      Lynr.metrics.time('time.render:home.index') do
+        render 'index.erb', layout: 'marketing/default.erb'
+      end
     end
 
     # ## `Home#launch_signup(req)`
