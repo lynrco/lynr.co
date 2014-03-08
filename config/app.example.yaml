@@ -19,6 +19,7 @@ headers:
 librato:
   user: 'user email address for https://librato.com'
   token: 'user token from https://metrics.librato.com/account'
+  source: 'source for the metrics'
 # Used for sending emails
 mailgun:
   domain: 'Domain name from https://mailgun.com/cp'

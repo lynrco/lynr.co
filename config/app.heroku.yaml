@@ -26,6 +26,7 @@ headers:
 librato:
   user: 'env:LIBRATO_USER'
   token: 'env:LIBRATO_TOKEN'
+  source: 'env:LIBRATO_SOURCE'
 # Used for sending emails
 mailgun:
   domain: 'mg.lynr.co'
