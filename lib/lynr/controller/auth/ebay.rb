@@ -1,6 +1,7 @@
 require 'yaml'
 
 require './lib/ebay'
+require './lib/lynr'
 require './lib/lynr/cache'
 
 module Lynr::Controller
@@ -21,7 +22,7 @@ module Lynr::Controller
     def get(req)
       # TODO: check that we aren't already connected
       session = ::Ebay::Api.session
-      Lynr::Cache.mongo.set("#{req.session['dealer_id']}_ebay_session", YAML.dump(session))
+      Lynr.cache.set("#{req.session['dealer_id']}_ebay_session", YAML.dump(session))
       redirect ::Ebay::Api.sign_in_url(session)
     end
 
@@ -37,7 +38,7 @@ module Lynr::Controller
       #
       # Clear the `Ebay::Session` tied to `req` out of the cache.
       def clear_ebay_session(req)
-        Lynr::Cache.mongo.del("#{req.session['dealer_id']}_ebay_session")
+        Lynr.cache.del("#{req.session['dealer_id']}_ebay_session")
       end
 
       # ## `Ebay::Helpers#get_session(req)`
@@ -45,7 +46,7 @@ module Lynr::Controller
       # Get the `Ebay::Session` tied to `req` from the cache.
       #
       def get_ebay_session(req)
-        session_data = Lynr::Cache.mongo.get("#{req.session['dealer_id']}_ebay_session")
+        session_data = Lynr.cache.get("#{req.session['dealer_id']}_ebay_session")
         YAML.load(session_data)
       end
 

@@ -26,6 +26,10 @@ describe Lynr::Converter::NumberTranslator do
 
     end
 
+    it "is empty string for nil" do
+      expect(translator.delimit(nil)). to eq('')
+    end
+
   end
 
   describe ".delimit" do

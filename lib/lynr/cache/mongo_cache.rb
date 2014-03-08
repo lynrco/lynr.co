@@ -44,7 +44,7 @@ module Lynr::Cache
     # Checks if `key` been set.
     #
     def include?(key)
-      @dao.collection.count({ query: selector(key) }) > 0
+      @dao.collection.count({ query: selector(key), read: :secondary }) > 0
     end
 
     # ## `MongoCache#read(key, default)`
@@ -55,7 +55,7 @@ module Lynr::Cache
     # exists (i.e. `#include(key)` is false) return `default` if given, `nil` otherwise.
     #
     def read(key, default=nil)
-      document = @dao.collection.find_one(selector(key))
+      document = @dao.collection.find_one(selector(key), :read => :secondary)
       if !document.nil?
         document['v']
       else

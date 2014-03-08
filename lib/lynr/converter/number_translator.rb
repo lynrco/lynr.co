@@ -14,6 +14,7 @@ module Lynr; module Converter;
     # down to only digits before being processed.
     #
     def self.delimit(number, delimiter=",")
+      return "" if number.nil?
       cleansed = number.gsub(/\D+/, '')
       return "0" if cleansed.length == 0
       cleansed.gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1#{delimiter}")

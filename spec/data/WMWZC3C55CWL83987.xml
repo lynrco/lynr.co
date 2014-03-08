@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<decoded_data>
+	<decoder_messages>
+		<service_provider>DataOne Software, Inc.</service_provider>
+		<decoder_version>7.0.1</decoder_version>
+		<decoder_errors/>
+	</decoder_messages>
+	<query_responses>
+		<query_response identifier="WMWZC3C55CWL83987" transaction_id="3C8E3A239DDD14E0574EBEBF685513A6EDCFC17A">
+			<query_error>
+				<error_code/>
+				<error_message/>
+			</query_error>
+			<us_market_data>
+				<common_us_data>
+					<basic_data>
+						<market>US Light-Duty</market>
+						<year>2012</year>
+						<make>MINI</make>
+						<model>Cooper Countryman</model>
+						<trim>S</trim>
+						<vehicle_type>Car</vehicle_type>
+						<body_type>Wagon</body_type>
+						<body_subtype>Crossover</body_subtype>
+						<oem_body_style>Crossover</oem_body_style>
+						<doors>4</doors>
+						<oem_doors>4</oem_doors>
+						<model_number>12MK</model_number>
+						<package_code/>
+						<drive_type>FWD</drive_type>
+						<brake_system>Hydraulic</brake_system>
+						<restraint_type>
+Driver and passenger front and side impact airbags with occupant sensing deactivation, front passenger knee airbag, and front and rear side curtain airbags.
+</restraint_type>
+						<country_of_manufacture>Australia</country_of_manufacture>
+						<plant>Graz, Austria</plant>
+					</basic_data>
+					<pricing>
+						<msrp>25350</msrp>
+						<invoice_price>22815</invoice_price>
+						<destination_charge>700</destination_charge>
+						<gas_guzzler_tax>0</gas_guzzler_tax>
+					</pricing>
+					<engines>
+						<engine name="1.6L Turbo I4 181hp 177ft. lbs." brand="" marketing_name="" engine_id="300000445">
+							<availability>Installed</availability>
+							<aspiration>T</aspiration>
+							<block_type>I</block_type>
+							<bore>3.03</bore>
+							<cam_type>DOHC</cam_type>
+							<compression>10.5</compression>
+							<cylinders>4</cylinders>
+							<displacement>1.6</displacement>
+							<fuel_induction>DI</fuel_induction>
+							<fuel_quality>93</fuel_quality>
+							<fuel_type>G</fuel_type>
+							<msrp>0</msrp>
+							<invoice_price>0</invoice_price>
+							<marketing_name/>
+							<max_hp>181</max_hp>
+							<max_hp_at>5500</max_hp_at>
+							<max_payload/>
+							<max_torque>177</max_torque>
+							<max_torque_at>1600</max_torque_at>
+							<oil_capacity>4.2</oil_capacity>
+							<order_code>N14</order_code>
+							<redline/>
+							<stroke>3.38</stroke>
+							<valve_timing>VVT</valve_timing>
+							<valves>16</valves>
+						</engine>
+					</engines>
+					<transmissions>
+						<transmission name="6-Speed Manual" brand="" marketing_name="" transmission_id="229163">
+							<availability>Default</availability>
+							<type>M</type>
+							<detail_type/>
+							<gears>6</gears>
+							<order_code/>
+							<msrp>0</msrp>
+							<invoice_price>0</invoice_price>
+						</transmission>
+						<transmission name="6-Speed Shiftable Automatic" brand="" marketing_name="" transmission_id="230943">
+							<availability>Optional</availability>
+							<type>A</type>
+							<detail_type>Shiftable Automatic</detail_type>
+							<gears>6</gears>
+							<order_code>205</order_code>
+							<msrp>1250</msrp>
+							<invoice_price>1125</invoice_price>
+						</transmission>
+					</transmissions>
+					<specifications>
+						<category name="Drive Type">
+							<specification name="Drive Type">FWD</specification>
+						</category>
+						<category name="Fuel Tanks">
+							<specification name="Fuel Tank 1 Capacity (Gallons)">12.4</specification>
+						</category>
+						<category name="Interior Dimensions">
+							<specification name="Cargo Volume">16.5</specification>
+							<specification name="Cargo Volume All Rear Seats Down">41.3</specification>
+							<specification name="Interior Volume">103.5</specification>
+							<specification name="Passenger Volume">87</specification>
+						</category>
+						<category name="Measurements of Size and Shape">
+							<specification name="Front Track Width">60</specification>
+							<specification name="Height">61.5</specification>
+							<specification name="Length">161.8</specification>
+							<specification name="Rear Track Width">61.1</specification>
+							<specification name="Wheelbase">102.2</specification>
+							<specification name="Width">78.5</specification>
+							<specification name="Width without Mirrors">70.4</specification>
+						</category>
+						<category name="Measurements of Weight">
+							<specification name="Curb Weight">3053</specification>
+							<specification name="Gross Vehicle Weight Range">3001-4000</specification>
+							<specification name="Gross Vehicle Weight Rating">3990</specification>
+						</category>
+						<category name="Performance Specifications">
+							<specification name="Acceleration (0-60MPH)">7</specification>
+							<specification name="Aerodynamic Drag">0.36</specification>
+							<specification name="Turning Circle">38.1</specification>
+						</category>
+						<category name="Seating">
+							<specification name="Head Room 1st Row">39.9</specification>
+							<specification name="Head Room 2nd Row/Rear">37.5</specification>
+							<specification name="Leg Room 1st Row">40.4</specification>
+							<specification name="Leg Room 2nd Row/Rear">33.8</specification>
+							<specification name="Max Seating">5</specification>
+							<specification name="Seating Rows">2</specification>
+							<specification name="Shoulder Room 1st Row">52.8</specification>
+							<specification name="Shoulder Room 2nd Row/Rear">52.1</specification>
+							<specification name="Standard Seating">4</specification>
+						</category>
+						<category name="Truck Specifications">
+							<specification name="Max Payload">860</specification>
+						</category>
+						<category name="Wheels and Tires">
+							<specification name="Front Tire Type">205/55R17 91V</specification>
+							<specification name="Front Wheel Diameter">17.0 x 7.0</specification>
+						</category>
+					</specifications>
+				</common_us_data>
+				<us_styles count="1">
+					<style name="S 4dr Crossover" vehicle_id="400877319" complete="Y" market="US Light-Duty" fleet="N">
+						<basic_data>
+							<market>US Light-Duty</market>
+							<year>2012</year>
+							<make>MINI</make>
+							<model>Cooper Countryman</model>
+							<trim>S</trim>
+							<vehicle_type>Car</vehicle_type>
+							<body_type>Wagon</body_type>
+							<body_subtype>Crossover</body_subtype>
+							<oem_body_style>Crossover</oem_body_style>
+							<doors>4</doors>
+							<oem_doors>4</oem_doors>
+							<model_number>12MK</model_number>
+							<package_code/>
+							<drive_type>FWD</drive_type>
+							<brake_system>Hydraulic</brake_system>
+							<restraint_type>
+Driver and passenger front and side impact airbags with occupant sensing deactivation, front passenger knee airbag, and front and rear side curtain airbags.
+</restraint_type>
+							<country_of_manufacture>Australia</country_of_manufacture>
+							<plant>Graz, Austria</plant>
+						</basic_data>
+						<pricing>
+							<msrp>25350</msrp>
+							<invoice_price>22815</invoice_price>
+							<destination_charge>700</destination_charge>
+							<gas_guzzler_tax>0</gas_guzzler_tax>
+						</pricing>
+						<engines>
+							<engine name="1.6L Turbo I4 181hp 177ft. lbs." brand="" marketing_name="" engine_id="300000445">
+								<availability>Installed</availability>
+								<aspiration>T</aspiration>
+								<block_type>I</block_type>
+								<bore>3.03</bore>
+								<cam_type>DOHC</cam_type>
+								<compression>10.5</compression>
+								<cylinders>4</cylinders>
+								<displacement>1.6</displacement>
+								<fuel_induction>DI</fuel_induction>
+								<fuel_quality>93</fuel_quality>
+								<fuel_type>G</fuel_type>
+								<msrp>0</msrp>
+								<invoice_price>0</invoice_price>
+								<marketing_name/>
+								<max_hp>181</max_hp>
+								<max_hp_at>5500</max_hp_at>
+								<max_payload/>
+								<max_torque>177</max_torque>
+								<max_torque_at>1600</max_torque_at>
+								<oil_capacity>4.2</oil_capacity>
+								<order_code>N14</order_code>
+								<redline/>
+								<stroke>3.38</stroke>
+								<valve_timing>VVT</valve_timing>
+								<valves>16</valves>
+							</engine>
+						</engines>
+						<transmissions>
+							<transmission name="6-Speed Manual" brand="" marketing_name="" transmission_id="229163">
+								<availability>Default</availability>
+								<type>M</type>
+								<detail_type/>
+								<gears>6</gears>
+								<order_code/>
+								<msrp>0</msrp>
+								<invoice_price>0</invoice_price>
+							</transmission>
+							<transmission name="6-Speed Shiftable Automatic" brand="" marketing_name="" transmission_id="230943">
+								<availability>Optional</availability>
+								<type>A</type>
+								<detail_type>Shiftable Automatic</detail_type>
+								<gears>6</gears>
+								<order_code>205</order_code>
+								<msrp>1250</msrp>
+								<invoice_price>1125</invoice_price>
+							</transmission>
+						</transmissions>
+						<specifications>
+							<category name="Drive Type">
+								<specification name="Drive Type">FWD</specification>
+							</category>
+							<category name="Fuel Tanks">
+								<specification name="Fuel Tank 1 Capacity (Gallons)">12.4</specification>
+							</category>
+							<category name="Interior Dimensions">
+								<specification name="Cargo Volume">16.5</specification>
+								<specification name="Cargo Volume All Rear Seats Down">41.3</specification>
+								<specification name="Interior Volume">103.5</specification>
+								<specification name="Passenger Volume">87</specification>
+							</category>
+							<category name="Measurements of Size and Shape">
+								<specification name="Front Track Width">60</specification>
+								<specification name="Height">61.5</specification>
+								<specification name="Length">161.8</specification>
+								<specification name="Rear Track Width">61.1</specification>
+								<specification name="Wheelbase">102.2</specification>
+								<specification name="Width">78.5</specification>
+								<specification name="Width without Mirrors">70.4</specification>
+							</category>
+							<category name="Measurements of Weight">
+								<specification name="Curb Weight">3053</specification>
+								<specification name="Gross Vehicle Weight Range">3001-4000</specification>
+								<specification name="Gross Vehicle Weight Rating">3990</specification>
+							</category>
+							<category name="Performance Specifications">
+								<specification name="Acceleration (0-60MPH)">7</specification>
+								<specification name="Aerodynamic Drag">0.36</specification>
+								<specification name="Turning Circle">38.1</specification>
+							</category>
+							<category name="Seating">
+								<specification name="Head Room 1st Row">39.9</specification>
+								<specification name="Head Room 2nd Row/Rear">37.5</specification>
+								<specification name="Leg Room 1st Row">40.4</specification>
+								<specification name="Leg Room 2nd Row/Rear">33.8</specification>
+								<specification name="Max Seating">5</specification>
+								<specification name="Seating Rows">2</specification>
+								<specification name="Shoulder Room 1st Row">52.8</specification>
+								<specification name="Shoulder Room 2nd Row/Rear">52.1</specification>
+								<specification name="Standard Seating">4</specification>
+							</category>
+							<category name="Truck Specifications">
+								<specification name="Max Payload">860</specification>
+							</category>
+							<category name="Wheels and Tires">
+								<specification name="Front Tire Type">205/55R17 91V</specification>
+								<specification name="Front Wheel Diameter">17.0 x 7.0</specification>
+							</category>
+						</specifications>
+					</style>
+				</us_styles>
+			</us_market_data>
+			<supplemental_data/>
+		</query_response>
+	</query_responses>
+</decoded_data>
