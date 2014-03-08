@@ -62,14 +62,16 @@ module Lynr; module Controller;
     end
 
     def fetch_dataone(vin)
-      config = Lynr.config('app').vin.dataone
-      url = config.url
-      data = {
-        authorization_code: config.auth_code,
-        client_id:          config.client_id,
-        decoder_query:      dataone_xml_query(vin), # TODO: does the query have to be encoded?
-      }
-      RestClient.post url, data
+      Lynr.metrics.time('time.service.dataone.fetch') do
+        config = Lynr.config('app').vin.dataone
+        url = config.url
+        data = {
+          authorization_code: config.auth_code,
+          client_id:          config.client_id,
+          decoder_query:      dataone_xml_query(vin),
+        }
+        RestClient.post url, data
+      end
     end
 
     # ## `AdminVin#dataone_xml_query(vin)`
