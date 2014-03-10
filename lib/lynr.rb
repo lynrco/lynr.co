@@ -39,6 +39,14 @@ module Lynr
     ENV['whereami'] || default
   end
 
+  # ## `Lynr.features`
+  #
+  # Shortcut to feature configuration.
+  #
+  def self.features
+    Lynr.config('features')
+  end
+
   # ## `Lynr.metrics`
   #
   # Add a memoized universal accessor for a `Lynr::Metrics` instance.
