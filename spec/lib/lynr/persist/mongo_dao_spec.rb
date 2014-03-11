@@ -31,23 +31,15 @@ describe Lynr::Persist::MongoDao do
       expect { Lynr::Persist::MongoDao.new }.to be
     end
 
-    it "creates dao with client" do
-      expect(dao.client).to be
+    context "with active connection", :if => (MongoHelpers.connected?) do
+
+      it "creates dao with client" do
+        expect(dao.client).to be
+      end
+
     end
 
   end # initialize
-
-  describe "#client" do
-
-    it "has a host of localhost" do
-      expect(dao.client.host).to eq('127.0.0.1')
-    end
-
-    it "has a port of 27017" do
-      expect(dao.client.port).to eq(27017)
-    end
-
-  end # client
 
   describe "#uri" do
 
@@ -238,6 +230,18 @@ describe Lynr::Persist::MongoDao do
       end
 
     end
+
+    describe "#client" do
+
+      it "has a host of localhost" do
+        expect(dao.client.host).to eq('127.0.0.1')
+      end
+
+      it "has a port of 27017" do
+        expect(dao.client.port).to eq(27017)
+      end
+
+    end # client
 
     describe "#save" do
 
