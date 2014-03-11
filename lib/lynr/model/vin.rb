@@ -58,6 +58,15 @@ module Lynr::Model
       super || ATTRS.include?(sym)
     end
 
+    # ## `Vin#set(properties)`
+    #
+    # Merge existing `@data` with `properties` and create a new `Vin` instance
+    # with the resulting data.
+    #
+    def set(properties)
+      Vin.new(@data.merge(properties))
+    end
+
     # ## `Vin#view`
     #
     # Provide a view of properties in backing `@data` with non-existent values

@@ -24,7 +24,7 @@ module Lynr::Controller
     def post_edit_vehicle(req)
       # Need to inflate the Mpg and Vin views that come from posted data
       posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
-      posted['vin'] = Lynr::Model::Vin.inflate(posted['vin'])
+      posted['vin'] = @vehicle.vin.set(posted['vin'])
       vehicle_dao.save(@vehicle.set(posted))
       redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
     end

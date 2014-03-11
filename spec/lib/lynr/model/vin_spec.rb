@@ -18,6 +18,32 @@ describe Lynr::Model::Vin do
   }
   let(:empty_vin) { Lynr::Model::Vin.new({}) }
 
+  describe "#set" do
+
+    it "creates a new Vin instance" do
+      expect(vin.set({})).to_not equal(vin)
+    end
+
+    it "creates an equivalent Vin instance" do
+      expect(vin.set({})).to eq(vin)
+    end
+
+    it "updates a property" do
+      new_vin = vin.set({ 'transmission' => 'Automatic' })
+      expect(new_vin.transmission).to eq('Automatic')
+    end
+
+    it "leaves other properties unchanged" do
+      new_vin = vin.set({ 'transmission' => 'Automatic' })
+      expect(new_vin.fuel).to eq(vin.fuel)
+      expect(new_vin.doors).to eq(vin.doors)
+      expect(new_vin.drivetrain).to eq(vin.drivetrain)
+      expect(new_vin.ext_color).to eq(vin.ext_color)
+      expect(new_vin.int_color).to eq(vin.int_color)
+    end
+
+  end
+
   describe "#view" do
 
     it "has a :transmission property" do
