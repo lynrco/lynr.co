@@ -51,6 +51,8 @@ module Lynr; module Controller;
     def fetch(vin)
       if File.exists?("spec/data/#{vin}.xml")
         doc = LibXML::XML::Document.file("spec/data/#{vin}.xml")
+      elsif Lynr.cache.include?(vin)
+        doc = LibXML::XML::Document.string(Lynr.cache.read(vin))
       elsif Lynr.config('features').dataone_decode
         doc = LibXML::XML::Document.string(fetch_dataone(vin))
       else
