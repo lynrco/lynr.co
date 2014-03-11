@@ -1,7 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.require_version ">= 1.5.0"
+
+Vagrant.configure("2") do |config|
 
   BOX_NAME = "precise64"
   BOX_URL = "http://files.vagrantup.com/precise64.box"
@@ -14,18 +16,18 @@ Vagrant::Config.run do |config|
 
   config.vm.define :db do |db_config|
 
+      script = <<EOF
+export PUPPETMASTER="54.242.244.213"
+export FQDN="vm.lynr.co"
+export PUPPETENV="production"
+sh /vagrant/vm/vmsetup.sh
+EOF
     db_config.vm.box = BOX_NAME
     db_config.vm.box_url = BOX_URL
-    db_config.vm.forward_port  8080,  7887
-    db_config.vm.forward_port 27017, 27017
-    db_config.vm.provision :shell do |sh|
-      sh.inline = <<-EOF
-        export PUPPETMASTER="54.242.244.213"
-        export FQDN="vm.lynr.co"
-        export PUPPETENV="production"
-        sh /vagrant/vm/vmsetup.sh
-      EOF
-    end
+    db_config.vm.network "forwarded_port", guest:  8080, host:  7887
+    db_config.vm.network "forwarded_port", guest: 27017, host: 27017
+    db_config.vm.provision :shell, inline: script
+    db_config.vm.synced_folder ".", "/vagrant", type: "rsync"
 
   end
 

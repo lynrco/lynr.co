@@ -80,7 +80,7 @@ files use an environment variable, `whereami`, in the filename:
 
 There are example files committed to source control containing the fields necessary
 for operation. Many of the configuration values are API keys for third party services.
-The default environment is 'development' so copy `config/database.example.yaml` to 
+The default environment is 'development' so copy `config/database.example.yaml` to
 `config/database.development.yaml` and `config/app.example.yaml` to
 `config/app.development.yaml` and fill in the appropriate values.
 In order to have a completely functional application you will need an account on
@@ -97,9 +97,8 @@ the following services:
 In order to develop with the [eBay](https://developer.ebay.com/) API you will need a local SSL end point set up. In order to do this with the local `shotgun` server some files must be created containing certificate information. To generate the certificates execute the following steps from the root of your working directory:
 
 1. `openssl req -new > certs/server.cert.csr`. This will ask you a series
-	of questions about the certificate. Sample output of this command is
-	included below, see
-	[Self-Signed Certificate Generation](#self-signed-certificate-generation)
+  of questions about the certificate. Sample output of this command is
+  included below, see [Self-Signed Certificate Generation](#self-signed-certificate-generation)
 1. `mv privkey.pem certs/`
 1. `openssl rsa -in certs/privkey.pem -out certs/server.cert.key`
 1. `openssl x509 -in certs/server.cert.csr -out certs/server.cert.crt -req -signkey certs/server.cert.key -days 365`
@@ -148,7 +147,7 @@ which may speed up development but because of the other external dependencies
 steps are included largely for future planning.
 
 1. Install [VirtualBox][vb]
-1. Install [Vagrant][vagrant]
+1. Install [Vagrant][vagrant], must be newer than 1.5.0
 1. Open Terminal or iTerm or whatever command line program tickles your fancy
 1. Navigate to your working directory (wherever the source is cloned to)
 1. Execute `vagrant up`
