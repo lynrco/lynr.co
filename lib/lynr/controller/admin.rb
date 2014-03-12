@@ -90,23 +90,6 @@ module Lynr; module Controller;
       end
     end
 
-    # ## `Lynr::Controller::Admin#session_user`
-    #
-    # Gets the current user out of the session and returns it
-    #
-    # ### Params
-    #
-    # * `req` Request with access to session out of which to get the user
-    #
-    # ### Returns
-    #
-    # Currently logged in instance of `Lynr::Model::Dealership`
-    #
-    def session_user(req)
-      id = req.session['dealer_id']
-      dealer_dao.get(id)
-    end
-
     # ## Menus
 
     # ## `Admin#menu_primary`
