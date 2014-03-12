@@ -106,6 +106,11 @@ module Lynr; module Controller;
       @posted = req.POST.dup
     end
 
+    def dealer_dao
+      return @dealer_dao unless @dealer_dao.nil?
+      @dealer_dao = Lynr::Persist::DealershipDao.new
+    end
+
     def headers
       Lynr.config('app').headers.to_hash
     end
