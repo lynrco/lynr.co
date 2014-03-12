@@ -32,15 +32,19 @@ module Lynr; module Controller;
     end
 
     def error_message(field)
-      if has_error?(field) then @errors[field] else "" end
+      if has_error?(field) then errors[field] else "" end
+    end
+
+    def errors
+      @errors ||= {}
     end
 
     def has_error?(field)
-      has_errors? && @errors.include?(field)
+      has_errors? && errors.include?(field)
     end
 
     def has_errors?
-      !(@errors.nil? || @errors.empty?)
+      !(errors.nil? || errors.empty?)
     end
 
     # ## `Lynr::Controller::FormHelpers#posted`
