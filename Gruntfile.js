@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   var lessFiles = {
     "public/css/main.css": "public/less/main.less",
     "public/css/marketing.css": "public/less/marketing.less",
+    "public/css/email.css": "public/less/email.less",
     "public/css/icons.data.png.css": "public/less/icons.data.png.less",
     "public/css/icons.data.svg.css": "public/less/icons.data.svg.less"
   };
