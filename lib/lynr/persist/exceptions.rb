@@ -18,10 +18,10 @@ module Lynr::Persist
     #
     def initialize(mongo_error)
       message = mongo_error.message
-      data = message.match(/\$(?<field>\w+)_\d[^"]*"(?<value>.+)"/)
-      field = data['field']
-      value = data['value']
-      super(data['field'], data['value'], message, mongo_error)
+      data = message.match(/\$(?<field>\w+)_\d[^"]*("(?<value>.+)")?/)
+      field = data['field'] if data
+      value = data['value'] if data
+      super(field, value, message, mongo_error)
     end
 
   end
