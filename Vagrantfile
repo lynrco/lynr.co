@@ -3,31 +3,33 @@
 
 Vagrant.require_version ">= 1.5.0"
 
-Vagrant.configure("2") do |config|
+Vagrant.configure("2") do |c|
 
   BOX_NAME = "precise64"
   BOX_URL = "http://files.vagrantup.com/precise64.box"
 
-# config.vm.define :web do |web_config|
-#   web_config.vm.box = BOX_NAME
-#   web_config.vm.box_url = BOX_URL
-#   web_config.vm.forward_port    80,  7887
-# end
-
-  config.vm.define :db do |db_config|
-
-      script = <<EOF
+  script = <<EOF
 export PUPPETMASTER="54.242.244.213"
 export FQDN="vm.lynr.co"
 export PUPPETENV="production"
 sh /vagrant/vm/vmsetup.sh
 EOF
-    db_config.vm.box = BOX_NAME
-    db_config.vm.box_url = BOX_URL
-    db_config.vm.network "forwarded_port", guest:  8080, host:  7887
-    db_config.vm.network "forwarded_port", guest: 27017, host: 27017
-    db_config.vm.provision :shell, inline: script
-    db_config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  c.vm.define :db do |config|
+
+    config.vm.provider :virtualbox do |vbox, override|
+      vbox.customize ["modifyvm", :id, "--memory", 512]
+    end
+
+    config.vm.provider :vmware_fusion do |vbox, override|
+      vbox.customize ["modifyvm", :id, "--memory", 512]
+    end
+    config.vm.box = BOX_NAME
+    config.vm.box_url = BOX_URL
+    config.vm.network "forwarded_port", guest:  8080, host:  7887
+    config.vm.network "forwarded_port", guest: 27017, host: 27017
+    config.vm.provision :shell, inline: script
+    config.vm.synced_folder ".", "/vagrant", type: "rsync"
 
   end
 
