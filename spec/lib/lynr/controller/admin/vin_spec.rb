@@ -111,4 +111,80 @@ describe Lynr::Controller::AdminVin do
 
   end
 
+  describe "#fetch" do
+
+    DecodeEnabled = Lynr.features.fetch('dataone_decode', false)
+
+    let(:config) { Lynr.config('app').vin.dataone }
+    let(:dataone_response) { File.read("spec/data/1HGEJ6229XL063838.xml") }
+
+    before(:each) do
+      subject.stub(:fetch_dataone) do |vin|
+        File.read("spec/data/1HGEJ6229XL063838.xml").gsub('1HGEJ6229XL063838', vin)
+      end
+    end
+
+    after(:each) do
+      MongoHelpers.empty! if MongoHelpers.dao.active?
+    end
+
+    context "with active DB and primed cache", :if => (MongoHelpers.connected?) do
+
+      before(:each) do
+        Lynr.cache.write('1HG', dataone_response.gsub('1HGEJ6229XL063838', '1HG'))
+      end
+
+      it "can find '1HG' in cache" do
+        expect(Lynr.cache.include?('1HG')).to be_true
+      end
+
+      it "fetches dataone_response for 1HG" do
+        expect(subject.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
+      end
+
+    end
+
+    context "with active DB and decode", :if => (MongoHelpers.connected?) do
+
+      before(:each) do
+        Lynr.stub(:features) do |type, defaults|
+          Lynr::Config.new(nil, nil, { dataone_decode: true })
+        end
+      end
+
+      it "can't find '1HG' in cache" do
+        expect(Lynr.cache.include?('1HG')).to be_false
+      end
+
+      it "fetches dataone_response for 1HG" do
+        expect(subject.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
+      end
+
+      it "stores response in cache" do
+        node = subject.fetch('1HG')
+        expect(Lynr.cache.include?('1HG')).to be_true
+      end
+
+    end
+
+    context "with active DB and no decode", :if => (MongoHelpers.connected?) do
+
+      before(:each) do
+        Lynr.stub(:features) do |type, defaults|
+          Lynr::Config.new(nil, nil, { dataone_decode: false })
+        end
+      end
+
+      it "can't find '1HG' in cache" do
+        expect(Lynr.cache.include?('1HG')).to be_false
+      end
+
+      it "gets nil if not decoding" do
+        expect(subject.fetch('1HG')).to be_nil
+      end
+
+    end
+
+  end
+
 end

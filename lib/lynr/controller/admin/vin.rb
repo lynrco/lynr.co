@@ -54,7 +54,9 @@ module Lynr; module Controller;
       elsif Lynr.cache.include?(vin)
         doc = LibXML::XML::Document.string(Lynr.cache.read(vin))
       elsif Lynr.features.dataone_decode
-        doc = LibXML::XML::Document.string(fetch_dataone(vin))
+        doc = LibXML::XML::Document.string(fetch_dataone(vin).tap { |resp|
+          Lynr.cache.write(vin, resp)
+        })
       else
         doc = LibXML::XML::Document.new
         node = LibXML::XML::Node.new 'query_response'
