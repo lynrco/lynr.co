@@ -50,6 +50,7 @@ describe Lynr::Persist::DealershipDao do
 
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:read) do |id|
+        return nil if id.nil?
         record['_id'] = id
         record
       end
@@ -63,6 +64,10 @@ describe Lynr::Persist::DealershipDao do
     it "a dealer with given id" do
       dealer = dao.get("678928376")
       expect(dealer.id).to eq("678928376")
+    end
+
+    it "returns nil when given nil" do
+      expect(dao.get(nil)).to be_nil
     end
 
   end
