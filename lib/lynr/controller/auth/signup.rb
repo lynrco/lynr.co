@@ -1,10 +1,19 @@
 module Lynr::Controller
 
+  # # `Lynr::Controller::Auth::Signup`
+  #
+  # Class to encapsulate the logic of displaying the singup page as well as
+  # creating new accounts for Lynr.
+  #
   class Auth::Signup < Lynr::Controller::Auth
 
     get  '/signup',         :get_signup
     post '/signup',         :post_signup
 
+    # ## `Auth::Signup#before_each(req)`
+    #
+    # Set attributes used in all methods.
+    #
     def before_each(req)
       super
       @subsection = "signup"
@@ -12,17 +21,31 @@ module Lynr::Controller
       @stripe_pub_key = stripe_config.pub_key
     end
 
+    # ## `Auth::Signup#before_GET(req)`
+    #
+    # Redirect to the admin page if there is already a dealer_id in the
+    # session.
+    #
     def before_GET(req)
       super
       send_to_admin(req) if req.session['dealer_id']
     end
 
+    # ## `Auth::Signup#before_POST(req)`
+    #
+    # Validate data in `req` and render the page if there are errors.
+    #
     def before_POST(req)
       super
       @errors = validate_signup(@posted)
       render 'auth/signup.erb' if has_errors?
     end
 
+    # ## `Auth::Signup#create_dealership(identity, customer)`
+    #
+    # Use `identity` and `customer` to create a new `Lynr::Model::Dealership`
+    # instance and save it to the database.
+    #
     def create_dealership(identity, customer)
       dealership = Lynr::Model::Dealership.new({
         'identity' => identity,
@@ -31,11 +54,15 @@ module Lynr::Controller
       dealer_dao.save(dealership)
     end
 
+    # ## `Auth::Signup#get_signup(req)`
+    #
+    # Render signup page for `req`.
+    #
     def get_signup(req)
       render 'auth/signup.erb'
     end
 
-    # ## `Lynr::Controller::Auth#handle_stripe_error!`
+    # ## `Lynr::Controller::Auth::Signup#handle_stripe_error!(err, message)`
     #
     # This method takes an error and message and maps it to the credit card
     # fields and then provides an appropriate response object. The 'bang' at
@@ -60,6 +87,12 @@ module Lynr::Controller
       render 'auth/signup.erb'
     end
 
+    # ## `Auth::Signup#post_signup(req)`
+    #
+    # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
+    # to create and save a `Lynr::Model::Dealership` instance and then log
+    # the new customer in.
+    #
     def post_signup(req)
       # Create account
       identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
@@ -83,10 +116,20 @@ module Lynr::Controller
       handle_stripe_error!(sse, msg)
     end
 
+    # ## `Auth::Signup#stripe_config`
+    #
+    # Get the stripe configuration.
+    #
     def stripe_config
       Lynr.config('app').stripe
     end
 
+    # ## `Auth::Signup#validate_signup(posted)`
+    #
+    # Verify the validity of data in `posted` and return a `Hash` of
+    # field names to error strings if there are any. Otherwise return an
+    # empty `Hash`.
+    #
     def validate_signup(posted)
       errors = validate_required(posted, ['email', 'password'])
       email = posted['email']
