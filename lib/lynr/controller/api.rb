@@ -27,7 +27,7 @@ module Lynr; module Controller;
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
       if json['livemode'] == Lynr::Web.config['stripe']['live']
-        process_stripe_event(json)
+        process_stripe_event(req, json)
       else
         Rack::Response.new("Live modes do not match")
       end
@@ -41,11 +41,11 @@ module Lynr; module Controller;
     # `json['type']`. If `json['type']` does not have a specific handler method
     # associated then an empty 200 response is returned.
     #
-    def process_stripe_event(json)
+    def process_stripe_event(json, req)
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
-        when 'customer.deleted' then stripe_customer_deleted(json)
-        when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json)
+        when 'customer.deleted' then stripe_customer_deleted(json, req)
+        when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json, req)
       end
       Rack::Response.new
     end
@@ -54,7 +54,7 @@ module Lynr; module Controller;
     #
     # Process the customer deleted event from Stripe by deleting the associated dealership.
     #
-    def stripe_customer_deleted(event)
+    def stripe_customer_deleted(event, req)
       customer = event['data']['object']
       id = customer['id']
       log.debug({ type: 'method', data: "stripe_customer_deleted -- #{id}" })
@@ -73,7 +73,7 @@ module Lynr; module Controller;
     # Process the customer trial ending event from Stripe by submitting a background
     # job which will email the customer.
     #
-    def stripe_customer_trial_ending(event)
+    def stripe_customer_trial_ending(event, req)
       obj = event['data']['object']
       id = obj['customer']
       log.debug({ type: 'method', data: "stripe_customer_trial_ending -- #{id}" })
@@ -84,7 +84,9 @@ module Lynr; module Controller;
       # Schedule Email reminder to customer about trial ending
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('trial_end', {
         to: dealership.identity.email,
-        subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}"
+        subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}",
+        base_url: req.base_url,
+        end_date: trial_end_date,
       }))
     end
 
