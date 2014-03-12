@@ -16,7 +16,7 @@ gem 'log4r',            '1.1.10'
 gem 'mongo',            '1.9.2'
 gem 'rack-ssl',         '1.3.3'
 gem 'stripe',           '1.9.9'
-gem 'yajl-ruby',        '1.1.0'
+gem 'yajl-ruby',        '1.2.0'
 
 group :development do
   gem 'guard'

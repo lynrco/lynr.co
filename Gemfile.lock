@@ -118,7 +118,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    yajl-ruby (1.1.0)
+    yajl-ruby (1.2.0)
 
 PLATFORMS
   ruby
@@ -152,4 +152,4 @@ DEPENDENCIES
   stripe (= 1.9.9)
   therubyracer
   unicorn (= 4.7.0)
-  yajl-ruby (= 1.1.0)
+  yajl-ruby (= 1.2.0)
