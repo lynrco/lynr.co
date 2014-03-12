@@ -91,9 +91,8 @@ module Lynr::Controller
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('auth/account_created', {
         to: dealership.identity.email,
         subject: "Lynr.co Account Created",
-        domain: Lynr.config('app').domain,
+        base_url: req.base_url,
         support_email: 'support@lynr.co',
-        url: req.base_url,
       }))
     end
 
