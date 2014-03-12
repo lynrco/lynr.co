@@ -35,8 +35,6 @@ module Lynr; module Controller;
       @dealer_dao = Lynr::Persist::DealershipDao.new
     end
 
-    get  '/signup',         :get_signup
-    post '/signup',         :post_signup
     get  '/signin',         :get_signin
     post '/signin',         :post_signin
     get  '/signin/:token',  :get_token_signin
@@ -44,70 +42,6 @@ module Lynr; module Controller;
 
     def before_GET(req)
        send_to_admin(req) if ['/signin', '/signup'].include?(req.path) && req.session['dealer_id']
-    end
-
-    # ## Sign Up Handlers
-    def get_signup(req)
-      @subsection = "signup"
-      @title = "Sign Up for Lynr"
-      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
-      render 'auth/signup.erb'
-    end
-
-    def post_signup(req)
-      @subsection = "signup submitted"
-      @title = "Sign Up for Lynr"
-      @errors = validate_signup(@posted)
-      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
-      return render 'auth/signup.erb' if has_errors?
-      # Create account
-      identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
-      # Create Customer and subscribe them
-      customer = Stripe::Customer.create(
-        card: @posted['stripeToken'],
-        plan: Lynr::Web.config['stripe']['plan'],
-        email: identity.email
-      )
-      # Create and Save dealership
-      dealer = dealer_dao.save(Lynr::Model::Dealership.new({
-        'identity' => identity,
-        'customer_id' => customer.id
-      }))
-      req.session['dealer_id'] = dealer.id
-      # Send to admin pages?
-      send_to_admin(req, dealer)
-    rescue Stripe::CardError => sce
-      handle_stripe_error!(sce, sce.message)
-    rescue Stripe::InvalidRequestError => sire
-      handle_stripe_error!(sire, "You might have submitted the form more than once.")
-    rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
-      msg = "Couldn't communicate with our card processor. We've been notified of the error."
-      handle_stripe_error!(sse, msg)
-    end
-
-    # ## `Lynr::Controller::Auth#handle_stripe_error!`
-    #
-    # This method takes an error and message and maps it to the credit card
-    # fields and then provides an appropriate response object. The 'bang' at
-    # the end of the method name signifies it terminates a request.
-    #
-    # ### Params
-    #
-    # * `err` is a Exception or Error class, it could be any kind of object
-    #   but it is logged as a warning.
-    # * `message` is the error message displayed to the potential customer
-    #   informing them of the problem. This message is tied to the credit card
-    #   info.
-    #
-    # ### Returns
-    #
-    # A `Rack::Response` style object that responds to a `finish` message.
-    #
-    def handle_stripe_error!(err, message)
-      log.warn { err }
-      @errors['stripeToken'] = message
-      @posted.delete('stripeToken')
-      render 'auth/signup.erb'
     end
 
     # ## Sign In Handlers
@@ -153,25 +87,6 @@ module Lynr; module Controller;
 
     # ## Validation Helpers
 
-    def validate_signup(posted)
-      errors = validate_required(posted, ['email', 'password'])
-      email = posted['email']
-      password = posted['password']
-
-      errors['email'] ||= error_for_email(dealer_dao, email)
-      errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
-
-      if (posted['agree_terms'].nil?)
-        errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
-      end
-
-      if (posted['stripeToken'].nil? || posted['stripeToken'].empty?)
-        errors['stripeToken'] = "Your card wasn't accepted."
-      end
-
-      errors.delete_if { |k,v| v.nil? }
-    end
-
     def validate_signin(posted)
       errors = validate_required(posted, ['email', 'password'])
       email = posted['email']
@@ -190,3 +105,4 @@ module Lynr; module Controller;
 end; end;
 
 require './lib/lynr/controller/auth/forgot'
+require './lib/lynr/controller/auth/signup'
