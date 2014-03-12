@@ -1,3 +1,4 @@
+require 'premailer'
 require 'rest-client'
 
 require './lib/sly/view/erb'
@@ -45,8 +46,8 @@ module Lynr; class Queue;
     #
     def perform
       data = {
-        text: @text_template.result,
-        html: @html_template.result
+        text: text_result,
+        html: html_result
       }.merge(@mail_data)
       url = "https://api:#{@config['key']}@#{@config['url']}/#{@config['domain']}/messages"
       RestClient.post url, data
@@ -66,6 +67,17 @@ module Lynr; class Queue;
     end
 
     private
+
+    def html_result
+      Premailer.new(@html_template.result, {
+        with_html_string: true,
+        css_string: File.read("public/css/email.css")
+      }).to_inline_css
+    end
+
+    def text_result
+      @text_template.result
+    end
 
     # ## `EmailJob#tmpl(template, type)`
     #
