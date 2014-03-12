@@ -53,7 +53,7 @@ module Lynr; module Controller;
         doc = LibXML::XML::Document.file("spec/data/#{vin}.xml")
       elsif Lynr.cache.include?(vin)
         doc = LibXML::XML::Document.string(Lynr.cache.read(vin))
-      elsif Lynr.config('features').dataone_decode
+      elsif Lynr.features.dataone_decode
         doc = LibXML::XML::Document.string(fetch_dataone(vin))
       else
         doc = LibXML::XML::Document.new
