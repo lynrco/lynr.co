@@ -74,7 +74,7 @@ module Lynr; module Controller;
     # gateway if necessary.
     #
     def post_account(req)
-      notify_by_email if email_changed?
+      notify_by_email(req) if email_changed?
       dealership = dealer_dao.save(dealership(req).set(posted))
       update_stripe(dealership) if email_changed? || name_changed?
       redirect "/admin/#{dealership.slug}/account"
@@ -126,15 +126,17 @@ module Lynr; module Controller;
       @dealership.name != posted['name']
     end
 
-    # ## `AdminAccount#notify_by_email`
+    # ## `AdminAccount#notify_by_email(req)`
     #
     # *Protected* Add a background job to notify the old email address that the
     # email address has been changed.
     #
-    def notify_by_email
+    def notify_by_email(req)
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('email_updated', {
         to: @dealership.identity.email,
-        subject: "Lynr.co email changed"
+        subject: "Lynr.co Email Address Updated",
+        base_url: req.base_url,
+        support_email: 'support@lynr.co',
       }))
     end
 
