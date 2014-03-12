@@ -87,6 +87,16 @@ module Lynr::Controller
       render 'auth/signup.erb'
     end
 
+    def notify_by_email(dealership, req)
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('auth/account_created', {
+        to: dealership.identity.email,
+        subject: "Lynr.co Account Create",
+        domain: Lynr.config('app').domain,
+        support_email: 'support@lynr.co',
+        url: req.base_url,
+      }))
+    end
+
     # ## `Auth::Signup#post_signup(req)`
     #
     # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
@@ -103,6 +113,7 @@ module Lynr::Controller
         email: identity.email
       )
       dealer = create_dealership(identity, customer)
+      notify_by_email(dealer, req)
       # Create and Save dealership
       req.session['dealer_id'] = dealer.id
       # Send to admin pages?
