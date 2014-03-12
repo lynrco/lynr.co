@@ -44,7 +44,7 @@ group :development do
 end
 
 group :heroku do
-  gem 'less',           '2.4.0'
+  gem 'less',           '2.5.0'
   gem 'therubyracer'
   gem 'unicorn',        '4.7.0'
 end
