@@ -1,3 +1,4 @@
+require './lib/lynr/cache'
 require './lib/lynr/persist/mongo_dao'
 
 module Lynr::Cache
