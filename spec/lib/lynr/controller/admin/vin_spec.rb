@@ -77,20 +77,20 @@ describe Lynr::Controller::AdminVin do
           expect(controller.content(style_data_packs, './transmissions')).to eq('on')
         end
 
-        it "has <installed_equipment> on" do
-          expect(controller.content(style_data_packs, './installed_equipment')).to eq('on')
+        it "has <installed_equipment> off" do
+          expect(controller.content(style_data_packs, './installed_equipment')).to eq('off')
         end
 
-        it "has <safety_equipment> on" do
-          expect(controller.content(style_data_packs, './safety_equipment')).to eq('on')
+        it "has <safety_equipment> off" do
+          expect(controller.content(style_data_packs, './safety_equipment')).to eq('off')
         end
 
-        it "has <optional_equipment> on" do
-          expect(controller.content(style_data_packs, './optional_equipment')).to eq('on')
+        it "has <optional_equipment> off" do
+          expect(controller.content(style_data_packs, './optional_equipment')).to eq('off')
         end
 
-        it "has <generic_optional_equipment> on" do
-          expect(controller.content(style_data_packs, './generic_optional_equipment')).to eq('on')
+        it "has <generic_optional_equipment> off" do
+          expect(controller.content(style_data_packs, './generic_optional_equipment')).to eq('off')
         end
 
         it "has <colors> on" do
