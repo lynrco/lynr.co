@@ -53,6 +53,7 @@ module Lynr::Controller
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('auth/forgot', {
         to: dealership.identity.email,
         subject: "Lynr.co password reset",
+        base_url: req.base_url,
         url: "#{req.base_url}/signin/#{token.id}",
         token_expires: token.expires,
       }))
