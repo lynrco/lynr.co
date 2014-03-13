@@ -130,7 +130,7 @@ module Lynr; module Controller;
     # `Lynr::View::Menu` instance for primary menu if one exists, nil otherwise
     #
     def menu_primary
-      nil
+      Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
     # ## `Lynr::Controller::Base#menu_secondary`
