@@ -46,8 +46,34 @@ module Lynr; module Controller;
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json, req)
         when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json, req)
+        when 'charge.failed' then stripe_charge_failed(json, req)
       end
       Rack::Response.new
+    end
+
+    # ## `Api#stripe_charge_failed(event, req)`
+    #
+    # Process the charge.failed `event` and notify the customer of the
+    # problem via email.
+    #
+    def stripe_charge_failed(event, req)
+      charge = event['data']['object']
+      log.debug {
+        [
+          "type=stripe.charge.failed",
+          "msg=#{charge['failure_message']}",
+          "code=#{charge['failure_code']}",
+        ].join(' ')
+      }
+      card = charge['card']
+      dealership = dealer_dao.get_by_customer_id(card['customer'])
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
+        to: dealership.identity.email,
+        subject: "Lynr.co Charge Failed",
+        base_url: req.base_url,
+      }))
+      # TODO: Something else needs to happen here so the system knows
+      # this is no longer an account in good standing.
     end
 
     # ## `Api#stripe_customer_deleted(event, req)`
