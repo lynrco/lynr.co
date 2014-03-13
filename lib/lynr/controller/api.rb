@@ -50,7 +50,7 @@ module Lynr; module Controller;
       Rack::Response.new
     end
 
-    # ## `Api#stripe_customer_deleted(event)`
+    # ## `Api#stripe_customer_deleted(event, req)`
     #
     # Process the customer deleted event from Stripe by deleting the associated dealership.
     #
@@ -67,7 +67,7 @@ module Lynr; module Controller;
       dealer_dao.delete(dealership.id)
     end
 
-    # ## `Api#stripe_customer_trial_ending(event)`
+    # ## `Api#stripe_customer_trial_ending(event, req)`
     #
     # Process the customer trial ending event from Stripe by submitting a background
     # job which will email the customer.
