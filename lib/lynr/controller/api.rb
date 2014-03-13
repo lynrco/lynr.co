@@ -46,11 +46,37 @@ module Lynr; module Controller;
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json, req)
         when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json, req)
+        when 'charge.failed' then stripe_charge_failed(json, req)
       end
       Rack::Response.new
     end
 
-    # ## `Api#stripe_customer_deleted(event)`
+    # ## `Api#stripe_charge_failed(event, req)`
+    #
+    # Process the charge.failed `event` and notify the customer of the
+    # problem via email.
+    #
+    def stripe_charge_failed(event, req)
+      charge = event['data']['object']
+      log.debug {
+        [
+          "type=stripe.charge.failed",
+          "msg=#{charge['failure_message']}",
+          "code=#{charge['failure_code']}",
+        ].join(' ')
+      }
+      card = charge['card']
+      dealership = dealer_dao.get_by_customer_id(card['customer'])
+      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
+        to: dealership.identity.email,
+        subject: "Lynr.co Charge Failed",
+        base_url: req.base_url,
+      }))
+      # TODO: Something else needs to happen here so the system knows
+      # this is no longer an account in good standing.
+    end
+
+    # ## `Api#stripe_customer_deleted(event, req)`
     #
     # Process the customer deleted event from Stripe by deleting the associated dealership.
     #
@@ -58,17 +84,16 @@ module Lynr; module Controller;
       customer = event['data']['object']
       id = customer['id']
       log.debug({ type: 'method', data: "stripe_customer_deleted -- #{id}" })
-      dao = Lynr::Persist::DealershipDao.new
-      dealership = dao.get_by_email(customer['email'])
+      dealership = dealer_dao.get_by_email(customer['email'])
       return false unless dealership && dealership.customer_id == id
       log.debug({ type: 'notice', message: "Found dealership with #{customer['email']} and #{id}" })
       stripe_customer = Stripe::Customer.retrieve(id)
       return false unless stripe_customer.deleted
       log.debug({ type: 'notice', message: "Verified #{id} was deleted with Stripe" })
-      dao.delete(dealership.id)
+      dealer_dao.delete(dealership.id)
     end
 
-    # ## `Api#stripe_customer_trial_ending(event)`
+    # ## `Api#stripe_customer_trial_ending(event, req)`
     #
     # Process the customer trial ending event from Stripe by submitting a background
     # job which will email the customer.
@@ -77,9 +102,8 @@ module Lynr; module Controller;
       obj = event['data']['object']
       id = obj['customer']
       log.debug({ type: 'method', data: "stripe_customer_trial_ending -- #{id}" })
-      dao = Lynr::Persist::DealershipDao.new
       trial_end_date = Time.at(obj['trial_end'])
-      dealership = dao.get_by_customer_id(id)
+      dealership = dealer_dao.get_by_customer_id(id)
       return false unless dealership && dealership.customer_id == id
       # Schedule Email reminder to customer about trial ending
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('trial_end', {
