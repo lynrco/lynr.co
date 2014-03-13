@@ -6,22 +6,41 @@ require './lib/lynr/model/slug'
 
 module Lynr::Controller
 
+  # # `Lynr::Controller::Legal`
+  #
+  # Controller to serve up the content of legal pages based on a :type
+  # and :version path parameter.
+  #
   class Legal < Lynr::Controller::Base
 
     get  '/legal',                :get
     get  '/legal/:type',          :get
     get  '/legal/:version/:type', :get
 
+    # ## `Legal.new`
+    #
+    # Setup universal properties.
+    #
     def initialize
       @section = 'legal'
       @title = 'Lynr Legal'
     end
 
+    # ## `Legal#before_each(req)`
+    #
+    # Get the current user out `req` and set it as `@dealership` so the
+    # wordmark goes to the inventory screen.
+    #
     def before_each(req)
       super
       @dealership = session_user(req)
     end
 
+    # ## `Legal#get(req)`
+    #
+    # Process `req` and create a `Rack::Response` based on the type of
+    # document and the version provided by the request.
+    #
     def get(req)
       return not_found unless ::File.exists?(file_path(req))
       @title = header(req).options[:raw_text] unless header(req).nil?
@@ -30,20 +49,38 @@ module Lynr::Controller
       render 'legal.erb'
     end
 
+    # ## `Legal#config`
+    #
+    # Get configuration to be used within `Lynr::Controller::Legal`
+    #
     def config
       return @config unless @config.nil?
       @config = Lynr.config('app').legal
     end
 
+    # ## `Legal#document(req)`
+    #
+    # Get the `Kramdown::Document` to use for display based on the data
+    # in `req`.
+    #
     def document(req)
       return @document unless @document.nil?
       @document = Kramdown::Document.new(markdown(req))
     end
 
+    # ## `Legal#file_path(req)`
+    #
+    # The absolute filesystem path to the markdown file to use for display
+    # based on data extracted from `req`.
+    #
     def file_path(req)
       ::File.join(Lynr.root, 'public/legal', "#{version(req)}/#{type(req)}.md")
     end
 
+    # ## `Legal#header(req)`
+    #
+    # Get the first `<h1>` element from `#document(req)`
+    #
     def header(req)
       return @header unless @header.nil?
       @header = document(req).root.children.find do |el|
@@ -51,14 +88,26 @@ module Lynr::Controller
         end
     end
 
+    # ## `Legal#markdown(req)`
+    #
+    # Read the markdown formatted text from `#file_path(req)`
+    #
     def markdown(req)
       ::File.read(file_path(req))
     end
 
+    # ## `Legal#type(req)`
+    #
+    # Get the type of legal document to look for based on `req`.
+    #
     def type(req)
       req.params.fetch('type', default='terms')
     end
 
+    # ## `Legal#version(req)`
+    #
+    # Get the version of legal document to look for based on `req`.
+    #
     def version(req)
       req.params.fetch('version', default=config.current)
     end
