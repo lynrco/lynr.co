@@ -103,11 +103,12 @@ describe Lynr::Persist::DealershipDao do
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
-    let(:dealer) { Lynr::Model::Dealership.new(dealer_data) }
     let(:customer_id) { "cus_1bFL8vciXXchnm" }
+    let(:dealer) { Lynr::Model::Dealership.new(dealer_data) }
     let(:dealership) {
       Lynr::Model::Dealership.new({ 'identity' => identity, 'customer_id' => customer_id })
     }
+    let(:saved) { dao.save(dealership) }
     let(:slug) { Lynr::Model::Slug.new(dealer_data['name'], nil) }
 
     before(:each) do
@@ -174,6 +175,20 @@ describe Lynr::Persist::DealershipDao do
           }
         end
 
+      end
+
+    end
+
+    describe "#get" do
+
+      it "resolves DBRef to Dealership" do
+        ref = BSON::DBRef.new('dealers', saved.id)
+        expect(dao.get(ref)).to eq(saved)
+      end
+
+      it "is nil if DBRef is for different collection" do
+        ref = BSON::DBRef.new('vehicles', saved.id)
+        expect(dao.get(ref)).to be_nil
       end
 
     end
