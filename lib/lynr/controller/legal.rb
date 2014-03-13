@@ -8,7 +8,9 @@ module Lynr::Controller
 
   class Legal < Lynr::Controller::Base
 
-    get  '/legal/:type', :get
+    get  '/legal',                :get
+    get  '/legal/:type',          :get
+    get  '/legal/:version/:type', :get
 
     def initialize
       @section = 'legal'
@@ -21,6 +23,7 @@ module Lynr::Controller
     end
 
     def get(req)
+      return not_found unless ::File.exists?(file_path(req))
       @title = header(req).options[:raw_text] unless header(req).nil?
       @subsection = Lynr::Model::Slug.new(type(req))
       @legal_html = document(req).to_html
@@ -37,6 +40,10 @@ module Lynr::Controller
       @document = Kramdown::Document.new(markdown(req))
     end
 
+    def file_path(req)
+      ::File.join(Lynr.root, 'public/legal', "#{version(req)}/#{type(req)}.md")
+    end
+
     def header(req)
       return @header unless @header.nil?
       @header = document(req).root.children.find do |el|
@@ -45,8 +52,7 @@ module Lynr::Controller
     end
 
     def markdown(req)
-      path = ::File.join(Lynr.root, 'public/legal', "#{version(req)}/#{type(req)}.md")
-      ::File.read(path)
+      ::File.read(file_path(req))
     end
 
     def type(req)
