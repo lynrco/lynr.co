@@ -58,14 +58,13 @@ module Lynr; module Controller;
       customer = event['data']['object']
       id = customer['id']
       log.debug({ type: 'method', data: "stripe_customer_deleted -- #{id}" })
-      dao = Lynr::Persist::DealershipDao.new
-      dealership = dao.get_by_email(customer['email'])
+      dealership = dealer_dao.get_by_email(customer['email'])
       return false unless dealership && dealership.customer_id == id
       log.debug({ type: 'notice', message: "Found dealership with #{customer['email']} and #{id}" })
       stripe_customer = Stripe::Customer.retrieve(id)
       return false unless stripe_customer.deleted
       log.debug({ type: 'notice', message: "Verified #{id} was deleted with Stripe" })
-      dao.delete(dealership.id)
+      dealer_dao.delete(dealership.id)
     end
 
     # ## `Api#stripe_customer_trial_ending(event)`
@@ -77,9 +76,8 @@ module Lynr; module Controller;
       obj = event['data']['object']
       id = obj['customer']
       log.debug({ type: 'method', data: "stripe_customer_trial_ending -- #{id}" })
-      dao = Lynr::Persist::DealershipDao.new
       trial_end_date = Time.at(obj['trial_end'])
-      dealership = dao.get_by_customer_id(id)
+      dealership = dealer_dao.get_by_customer_id(id)
       return false unless dealership && dealership.customer_id == id
       # Schedule Email reminder to customer about trial ending
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('trial_end', {
