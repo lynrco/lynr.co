@@ -50,9 +50,12 @@ describe Lynr::Persist::DealershipDao do
 
     before(:each) do
       Lynr::Persist::MongoDao.any_instance.stub(:read) do |id|
-        return nil if id.nil?
-        record['_id'] = id
-        record
+        if id.nil?
+          nil
+        else
+          record['_id'] = id
+          record
+        end
       end
     end
 

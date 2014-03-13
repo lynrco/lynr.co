@@ -15,6 +15,9 @@ ebay:
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
+# Used by `Lynr::Controller::Legal` to determine current version
+legal:
+  current: 'current from https://github.com/lynrco/legal.lynr.co'
 # Used for metrics
 librato:
   user: 'user email address for https://librato.com'

@@ -84,7 +84,8 @@ module.exports = function(grunt) {
           { "name": "main" },
           { "name": "pages/admin" },
           { "name": "pages/auth" },
-          { "name": "pages/home" }
+          { "name": "pages/home" },
+          { "name": "pages/legal" }
         ],
         "findNestedDependencies": true
       };

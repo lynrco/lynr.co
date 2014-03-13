@@ -106,6 +106,11 @@ module Lynr; module Controller;
       @posted = req.POST.dup
     end
 
+    def dealer_dao
+      return @dealer_dao unless @dealer_dao.nil?
+      @dealer_dao = Lynr::Persist::DealershipDao.new
+    end
+
     def headers
       Lynr.config('app').headers.to_hash
     end
@@ -125,7 +130,7 @@ module Lynr; module Controller;
     # `Lynr::View::Menu` instance for primary menu if one exists, nil otherwise
     #
     def menu_primary
-      nil
+      Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
     # ## `Lynr::Controller::Base#menu_secondary`

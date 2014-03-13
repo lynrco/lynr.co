@@ -1,0 +1,3 @@
+[submodule "public/legal"]
+	path = public/legal
+	url = git@github.com:lynrco/legal.lynr.co.git

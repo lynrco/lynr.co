@@ -24,7 +24,7 @@ module Lynr; module Controller;
     # `posted`, `card_data`
     include Lynr::Controller::FormHelpers
 
-    attr_reader :dealer_dao, :vehicle_dao
+    attr_reader :vehicle_dao
 
     get  '/admin/:slug', :index
     get  '/menu/:slug',  :menu
@@ -32,7 +32,6 @@ module Lynr; module Controller;
     def initialize
       super
       @section = "admin"
-      @dealer_dao = Lynr::Persist::DealershipDao.new
       @vehicle_dao = Lynr::Persist::VehicleDao.new
       @dealership = false
     end
