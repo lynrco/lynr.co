@@ -36,21 +36,37 @@ module Lynr::Validator
       parts = email.partition('@')
       local = parts[0]
       domain = parts[2]
-      valid = !((email.index('@').nil?) || # no at sign
-                (local.length < 1 || local.length > 64) || # local part length exceeded
-                (domain.length < 1 || domain.length > 255) || # domain part length exceeded
-                local.start_with?(".") || # local part starts with '.'
-                local.end_with?(".") || # local part ends with '.'
-                (!local.index(%r(\.\.)).nil?) || # local part has two consecutive dots
-                (domain.index(%r(^[A-Za-z0-9\-\.]+$)) != 0) || # invalid character in domain part
-                (!domain.index(%r(\.\.)).nil?)) # domain part has two consecutive dots
+      !((email.index('@').nil?) || # no at sign
+        is_valid_local?(local) ||
+        is_valid_domain?(domain)) # domain part has two consecutive dots
     end
 
-    # ## `Lynr::Validator::Email#is_valid_email_domain?(domain)`
+    # ## `Lynr::Validator::Email#is_valid_domain?(domain)`
+    #
+    # Checks that the domain part of an email address follows the rules.
+    #
+    def is_valid_domain?(domain)
+      (domain.length < 1 || domain.length > 255) || # domain part length exceeded
+      (domain.index(%r(^[A-Za-z0-9\-\.]+$)) != 0) || # invalid character in domain part
+      (!domain.index(%r(\.\.)).nil?) # domain part has two consecutive dots
+    end
+
+    # ## `Lynr::Validator::Email#is_valid_local?(domain)`
+    #
+    # Checks that the local part of an email address follows the rules.
+    #
+    def is_valid_local?(local)
+      (local.length < 1 || local.length > 64) || # local part length exceeded
+      local.start_with?(".") || # local part starts with '.'
+      local.end_with?(".") || # local part ends with '.'
+      (!local.index(%r(\.\.)).nil?) # local part has two consecutive dots
+    end
+
+    # ## `Lynr::Validator::Email#is_valid_tld?(domain)`
     #
     # Check if domain is valid by checking it has MX or A records defined.
     #
-    def is_valid_email_domain?(domain)
+    def is_valid_tld?(domain)
       mx_records = []
       a_records = []
       Resolv::DNS.open do |dns|

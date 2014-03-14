@@ -92,7 +92,7 @@ thisismylon.com"
 
 #    Valid test but causes network traffic timeout which can be slow
     it "fails with invalid domain" do
-      expect(helpers.is_valid_email_domain?("idonthinkthisdomainwillhavedns.com")).to be_false
+      expect(helpers.is_valid_tld?("idonthinkthisdomainwillhavedns.com")).to be_false
     end
 
   end
