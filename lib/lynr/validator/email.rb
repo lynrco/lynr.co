@@ -44,8 +44,6 @@ module Lynr::Validator
                 (!local.index(%r(\.\.)).nil?) || # local part has two consecutive dots
                 (domain.index(%r(^[A-Za-z0-9\-\.]+$)) != 0) || # invalid character in domain part
                 (!domain.index(%r(\.\.)).nil?)) # domain part has two consecutive dots
-
-      valid && is_valid_email_domain?(domain)
     end
 
     # ## `Lynr::Validator::Email#is_valid_email_domain?(domain)`
