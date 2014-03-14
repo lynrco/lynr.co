@@ -18,6 +18,22 @@ describe Lynr::Model::Vin do
   }
   let(:empty_vin) { Lynr::Model::Vin.new({}) }
 
+  describe "#method_missing" do
+
+    it "raises error when property not in ATTRS" do
+      expect { vin.unknown_property }.to raise_error
+    end
+
+    it "raises error when known property but arguments" do
+      expect { vin.make('Honda') }.to raise_error
+    end
+
+    it "raises error when known propery but block given" do
+      expect { vin.make { 'Honda' } }.to raise_error
+    end
+
+  end
+
   describe "#set" do
 
     it "creates a new Vin instance" do

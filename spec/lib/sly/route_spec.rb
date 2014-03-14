@@ -205,6 +205,13 @@ describe Sly::Route do
       expect(response[2].body).to eq(['fry'])
     end
 
+    it "gets WrongRoute when filters don't match" do
+      route = Sly::Route.new('GET', '/admin/:slug/:account', lambda { |req| Rack::Response.new })
+      env = Rack::MockRequest.env_for('/admin/')
+      response = route.call(env)
+      expect(response).to eq(Sly::Route::WrongRoute)
+    end
+
   end
 
   describe ".make_r" do

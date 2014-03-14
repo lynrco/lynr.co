@@ -85,8 +85,12 @@ module Lynr; module Model;
       @name = (!name.strip.empty? && name) || "N/A"
     end
 
+    def notes
+      @notes ||= ''
+    end
+
     def notes_html
-      Kramdown::Document.new(@notes).to_html
+      Kramdown::Document.new(notes).to_html.strip
     end
 
     def set(data)

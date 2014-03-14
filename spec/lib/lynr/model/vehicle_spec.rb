@@ -177,6 +177,19 @@ describe Lynr::Model::Vehicle do
 
   end
 
+  describe "#notes_html" do
+
+    it "is empty when @notes empty" do
+      expect(vehicle.notes_html).to be_empty
+    end
+
+    it "is empty when @notes nil" do
+      v = vehicle.set('notes' => nil)
+      expect(v.notes_html).to be_empty
+    end
+
+  end
+
   describe "#set" do
 
     it "returns a new Vehicle instance" do
@@ -196,6 +209,20 @@ describe Lynr::Model::Vehicle do
       dummy_vehicle = vehicle.set({ 'images' => dummy_images })
       expect(dummy_vehicle.images).to eq(dummy_images)
       expect(dummy_vehicle.images).to_not eq(vehicle.images)
+    end
+
+  end
+
+  describe "#slug" do
+
+    it "is empty when id is nil" do
+      expect(vehicle.slug).to be_empty
+    end
+
+    it "is id string when id exists" do
+      id = BSON::ObjectId.from_time(Time.now)
+      v = Lynr::Model::Vehicle.new({}, id)
+      expect(v.slug).to eq(id.to_s)
     end
 
   end
