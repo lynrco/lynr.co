@@ -49,6 +49,24 @@ of range.</LongMessage>
 
   describe "#fetch" do
 
+    context "nil XML" do
+
+      let(:response) { Ebay::Api::Response.new(nil) }
+
+      it "is `nil` for nonsense element" do
+        expect(response.fetch('Foo')).to be_nil
+      end
+
+      it "is `nil` for known element" do
+        expect(response.fetch('Timestamp')).to be_nil
+      end
+
+      it "is default if provided" do
+        expect(response.fetch('Timestamp', '2014-01-06')).to eq('2014-01-06')
+      end
+
+    end
+
     context "well formed XML" do
 
       let(:response) { Ebay::Api::Response.new(valid_failure) }
@@ -101,6 +119,11 @@ of range.</LongMessage>
 
     it "is false when XML is mal-formed" do
       response = Ebay::Api::Response.new(invalid)
+      expect(response.success?).to be_false
+    end
+
+    it "is false when XML is nil" do
+      response = Ebay::Api::Response.new(nil)
       expect(response.success?).to be_false
     end
 
