@@ -44,9 +44,8 @@ module Lynr
     # ## `Lynr::Worker#call`
     #
     # Set up the signal traps and message subscription. When backing `JobQueue`
-    # receives a message invoke its `perform` method and examine the result. If
-    # `perform` returns a successful result send an `ack` message to the queue,
-    # otherwise send a nack with the option to requeue based on the result.
+    # receives a message and passes it along `Worker` invokes `#process` and
+    # sends the received `Job`.
     #
     def call
       [:QUIT, :TERM, :INT].each do |sig|
@@ -54,20 +53,29 @@ module Lynr
       end
 
       log.info("#{queue_info} state=started")
-      @consumer.subscribe({ block: true }) do |job|
-        result = job.perform
-        log.info("#{queue_info} #{job.info} job.result=#{result.info}")
-        if result.success?
-          @consumer.ack(job.delivery_info.delivery_tag)
-        else
-          @consumer.nack(job.delivery_info.delivery_tag, result.requeue?)
-        end
-      end
+      @consumer.subscribe({ block: true }) { |job| process(job) }
     rescue SystemExit => sysexit
       stop unless sysexit.success?
     rescue Exception => e
-      log.error("#{queue_info} state=error message=`#{e.message}` backtrace=#{e.backtrace}")
+      log.error("#{queue_info} state=error message=#{e.message} type=#{e.class.name}")
       stop
+    end
+
+    # ## `Lynr::Worker#process(job)`
+    #
+    # Perform the `job` provided by the `@consumer` while subscribed. This
+    # method is the one that makes the action happen. If `perform` returns
+    # a successful result send an `ack` message to the queue, otherwise
+    # send a nack with the option to requeue based on the result.
+    #
+    def process(job)
+      result = job.perform
+      log.info("#{queue_info} #{job.info} job.result=#{result.info}")
+      if result.success?
+        @consumer.ack(job.delivery_info.delivery_tag)
+      else
+        @consumer.nack(job.delivery_info.delivery_tag, result.requeue?)
+      end
     end
 
     # ## `Lynr::Worker#queue_info`
