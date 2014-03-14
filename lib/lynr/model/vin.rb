@@ -55,7 +55,7 @@ module Lynr::Model
     # it will have a response to based on `Vin::ATTRS`.
     #
     def respond_to_missing?(sym, include_private)
-      super || ATTRS.include?(sym)
+      ATTRS.include?(sym) || super
     end
 
     # ## `Vin#set(properties)`
