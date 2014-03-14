@@ -17,6 +17,21 @@ module Lynr
 
     attr_reader :environment, :type
 
+    Transforms = [
+      {
+        test: lambda { |v, d| v.is_a?(String) && v.start_with?('env:') },
+        rule: lambda { |v, d| ENV[v.sub(%r(^env:), '')] },
+      },
+      {
+        test: lambda { |v, d| v.is_a?(Hash) },
+        rule: lambda { |v, d| Config.new(type=nil, whereami=nil, config=v) },
+      },
+      {
+        test: lambda { |v, d| (d.class == TrueClass || d.class == FalseClass) },
+        rule: lambda { |v, d| Config.bool(v) },
+      },
+    ]
+
     # ## `Lynr::Config.new(type, whereami, defaults)`
     #
     # Create a new `Config` based on `type` and `whereami` with default values from
@@ -49,16 +64,7 @@ module Lynr
     #
     def fetch(key, default = nil)
       val = @config.fetch(key.to_s, @config.fetch(key.to_sym, default))
-      if (val.is_a?(String) && val.start_with?('env:'))
-        val = ENV[val.sub(%r(^env:), '')]
-      elsif (val.is_a?(Hash))
-        val = Config.new(type=nil, whereami=nil, config=val)
-      elsif val.nil?
-        val = default
-      end
-
-      val = bool(val) if (default.class == TrueClass || default.class == FalseClass)
-      val
+      apply_transformations(val, default)
     end
 
     # ## `Lynr::Config#include?(key)`
@@ -77,7 +83,7 @@ module Lynr
     #
     def method_missing(name, *args, &block)
       if args.size == 0 && block.nil? && (include?(name))
-        fetch(name.to_s) || fetch(name.to_sym)
+        fetch(name)
       else
         super
       end
@@ -100,6 +106,36 @@ module Lynr
     end
 
     private
+
+    # ## `Lynr::Config#apply_transformations(value, default)`
+    #
+    # Execute each of `Lynr::Config::Transforms` for `value` and `default`.
+    # Transforms are cumulative so the order in which they are defined matters.
+    # Each filter has a `:test` and a `:rule`, if `:test` returns true
+    # then `:rule` is applied otherwise `value` is passed along unmodified.
+    #
+    def apply_transformations(value, default)
+      Transforms.reduce(value) do |val, filter|
+        if filter[:test].call(val, default) then filter[:rule].call(val, default)
+        else val
+        end
+      end
+    end
+
+    # ## `Lynr::Config#bool(val)`
+    #
+    # Convert a String value into a boolean (`TrueClass` or `FalseClass`)
+    # if it is a value that makes sense as a boolean.
+    #
+    # * True: (true|t|yes|y|1)
+    # * False: (false|f|no|n|0) or `nil`
+    #
+    def self.bool(val)
+      val = val.to_s
+      return true if val == true || val =~ (/(true|t|yes|y|1)$/i)
+      return false if val == false || val.nil? || val =~ (/(false|f|no|n|0)$/i)
+      raise ArgumentError.new("invalid value for Boolean: \"#{val}\"")
+    end
 
     # ## `Lynr::Config#external_name`
     #
@@ -131,21 +167,6 @@ module Lynr
           configval
         end
       end
-    end
-
-    # ## `Lynr::Config#bool(val)`
-    #
-    # Convert a String value into a boolean (`TrueClass` or `FalseClass`)
-    # if it is a value that makes sense as a boolean.
-    #
-    # * True: (true|t|yes|y|1)
-    # * False: (false|f|no|n|0) or `nil`
-    #
-    def bool(val)
-      val = val.to_s
-      return true if val == true || val =~ (/(true|t|yes|y|1)$/i)
-      return false if val == false || val.nil? || val =~ (/(false|f|no|n|0)$/i)
-      raise ArgumentError.new("invalid value for Boolean: \"#{val}\"")
     end
 
   end

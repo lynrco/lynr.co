@@ -48,10 +48,11 @@ module Lynr; module Model;
     # with this instance.
     #
     def ==(ident)
-      if (ident.is_a?(Hash) && ident.keys.include?(:email) && ident.keys.include?(:password))
-        self.auth?(ident[:email], ident[:password])
-      elsif (ident.is_a?(Hash) && ident.keys.include?('email') && ident.keys.include?('password'))
-        self.auth?(ident['email'], ident['password'])
+      if (ident.is_a?(Hash))
+        self.auth?(
+          ident.fetch(:email, ident.fetch('email', nil)),
+          ident.fetch(:password, ident.fetch('password', nil))
+        )
       elsif (ident.is_a?(Identity))
         ident.email == email && ident.password.to_s == password.to_s
       else
