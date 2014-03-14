@@ -53,8 +53,6 @@ module Lynr
         val = ENV[val.sub(%r(^env:), '')]
       elsif (val.is_a?(Hash))
         val = Config.new(type=nil, whereami=nil, config=val)
-      elsif val.nil?
-        val = default
       end
 
       val = bool(val) if (default.class == TrueClass || default.class == FalseClass)
