@@ -13,7 +13,7 @@ describe Sly::Router do
   let(:account) {
     Sly::Route.new('GET', '/admin/account', lambda { |req| Rack::Response.new('/admin/account') })
   }
-  let(:wildcard) {
+  let(:admin_by_id) {
     Sly::Route.new('GET', '/admin/:id', lambda { |req| Rack::Response.new('/admin/:id') })
   }
 
@@ -67,7 +67,7 @@ describe Sly::Router do
       before(:each) {
         router.add(admin)
         router.add(account)
-        router.add(wildcard)
+        router.add(admin_by_id)
       }
 
       it "one matching route gives 200 for /admin" do
@@ -115,12 +115,32 @@ describe Sly::Router do
 
     it "is false when queried for `Route` hasn't been added" do
       router.add(admin)
-      expect(router.include?(wildcard.to_s)).to be_false
+      expect(router.include?(admin_by_id.to_s)).to be_false
     end
 
     it "is true when queried for `Route` has been added" do
       router.add(admin)
       expect(router.include?(admin.to_s)).to be_true
+    end
+
+  end
+
+  describe "#sort_by_path_params" do
+
+    it "returns empty array when given empty array" do
+      expect(router.sort_by_path_params([])).to eq([])
+    end
+
+    it "returns array with one route when given single element" do
+      expect(router.sort_by_path_params([admin])).to eq([admin])
+    end
+
+    it "sorts route with no path parameters first" do
+      expect(router.sort_by_path_params([admin_by_id, account])).to eq([account, admin_by_id])
+    end
+
+    it "raises error when both routes given have no path parameters" do
+      expect { router.sort_by_path_params([admin, account]) }.to raise_error(Sly::TooManyRoutesError)
     end
 
   end

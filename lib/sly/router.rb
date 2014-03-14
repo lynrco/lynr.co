@@ -61,6 +61,12 @@ module Sly
       end
     end
 
+    # ## `Sly::Router#sort_by_path_params(routes)`
+    #
+    # Order the routes by the number of path parameters they are expecting.
+    # Raise `Sly::TooManyRoutesError` if two of the routes expect the
+    # same num of path paramters.
+    #
     def sort_by_path_params(routes)
       routes.sort do |a, b|
         raise Sly::TooManyRoutesError if a.path_regex.names.length == b.path_regex.names.length
