@@ -56,13 +56,21 @@ module Sly
           # sort by how many captures are in the regex and take the lowest
           # if there are two routes with the lowest number of captures then
           # return the `TooMany` response
-          routes = routes.sort { |a, b|
-            if a.path_regex.names.length == b.path_regex.names.length
-              raise Sly::TooManyRoutesError
-            end
-            a.path_regex.names.length <=> b.path_regex.names.length
-          }
+          routes = sort_by_path_params(routes)
           routes.first.call(env)
+      end
+    end
+
+    # ## `Sly::Router#sort_by_path_params(routes)`
+    #
+    # Order the routes by the number of path parameters they are expecting.
+    # Raise `Sly::TooManyRoutesError` if two of the routes expect the
+    # same num of path paramters.
+    #
+    def sort_by_path_params(routes)
+      routes.sort do |a, b|
+        raise Sly::TooManyRoutesError if a.path_regex.names.length == b.path_regex.names.length
+        a.path_regex.names.length <=> b.path_regex.names.length
       end
     end
 
