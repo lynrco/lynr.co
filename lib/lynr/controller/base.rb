@@ -2,6 +2,7 @@ require './lib/sly'
 require './lib/sly/view/erb_helpers'
 
 require './lib/lynr/logging'
+require './lib/lynr/persist/dealership_dao'
 
 module Lynr; module Controller;
 
