@@ -1,11 +1,12 @@
         <h1>Support</h1>
+<%= render_partial 'form_messages.erb' -%>
         <form class="f-labeled" action="/admin/<%= @dealership.slug %>/support" method="POST">
           <fieldset class="fs">
             <label for="subject">Short Description or Subject</label>
             <input class="fs-full <%= error_class('subject') %>" type="text"
                    name="subject" id="subject" placeholder="e.g. My credit card info is wrong"
                    value="<%= posted['subject'] %>" />
-            <label for="body">Issue Description</label>
+            <label for="body">Issue Description or Body</label>
             <textarea class="fs-full <%= error_class('body') %>"
                       name="body" id="body"
                       placeholder="e.g. I've tried to edit it on the billing page but it still shows the wrong information."><%= posted['body'] %></textarea>
