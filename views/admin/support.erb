@@ -1,5 +1,5 @@
         <h1>Support</h1>
-        <form class="f-support" action="/admin/<%= @dealership.slug %>/support" method="POST">
+        <form class="f-labeled" action="/admin/<%= @dealership.slug %>/support" method="POST">
           <fieldset class="fs">
             <label for="subject">Short Description or Subject</label>
             <input class="fs-full <%= error_class('subject') %>" type="text"
