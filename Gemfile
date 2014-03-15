@@ -26,6 +26,7 @@ group :development do
   gem 'guard-rake'
 
   gem 'pry'
+  gem 'pry-debugger'
 
   gem 'rb-fchange', :require => false
   gem 'rb-fsevent', :require => false
