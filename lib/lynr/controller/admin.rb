@@ -18,10 +18,10 @@ module Lynr; module Controller;
   #
   class Admin < Lynr::Controller::Base
 
-    # Provides `is_valid_email?`, `is_valid_password?`, `validate_required`
+    # Provides `error_for_slug`, `is_valid_slug?`, `validate_required`
     include Lynr::Validator::Helpers
-    # Provides `error_class`, `error_message`, `has_error?`, `has_errors?`,
-    # `posted`, `card_data`
+    # Provides `error_class`, `error_message`, `errors`, `has_error?`,
+    # `has_errors?`, `posted`, `card_data`
     include Lynr::Controller::FormHelpers
 
     attr_reader :vehicle_dao
