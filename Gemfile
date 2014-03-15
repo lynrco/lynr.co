@@ -3,7 +3,7 @@ source 'https://code.stripe.com'
 
 ruby '1.9.3'
 
-gem 'bcrypt-ruby',      '<= 3.1.7'
+gem 'bcrypt',           '3.1.7'
 gem 'bson_ext',         '1.9.2'
 gem 'bunny',            '1.1.3'
 gem 'geocoder',         '1.1.9'
