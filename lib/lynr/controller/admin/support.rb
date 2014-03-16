@@ -60,8 +60,8 @@ module Lynr::Controller
         from: 'Lynr Support Page <robot@mg.lynr.co>',
         to: 'support@lynr.co',
         subject: "[Support] #{posted['subject']}",
-        'h:Reply-To': dealership(req).identity.email,
-        'v:dealership_id': dealership(req).id.to_s,
+        'h:Reply-To' => dealership(req).identity.email,
+        'v:dealership_id' => dealership(req).id.to_s,
         base_url: req.base_url,
         content: posted['body'],
       }))
