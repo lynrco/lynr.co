@@ -12,7 +12,7 @@ describe Lynr::Persist::Dao do
 
     def initialize(data={})
       @id = data.fetch('id', nil)
-      @expires = data.fetch('expires', Time.now + 86400)
+      @expires = data.fetch('expires', Date.parse(Time.now.strftime('%Y-%m-%d')).to_time + 86400)
     end
 
     def view
