@@ -10,6 +10,7 @@ require './lib/lynr/queue/job_queue'
 
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/geocode_job/google'
+require './lib/lynr/queue/markdown_email_job'
 require './lib/lynr/queue/post_craigslist_job'
 require './lib/lynr/queue/stripe_update_job'
 
