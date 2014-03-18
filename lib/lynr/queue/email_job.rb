@@ -68,7 +68,7 @@ module Lynr; class Queue;
       "#<#{self.class.name}:#{object_id} to=#{@mail_data[:to]}, template=#{@template}>"
     end
 
-    private
+    protected
 
     def html_result
       Premailer.new(tmpl(@template, :html).result, {
