@@ -7,6 +7,10 @@ module Lynr
 
   class Queue::MarkdownEmailJob < Queue::EmailJob
 
+    def initialize(data={})
+      super('none', data)
+    end
+
     protected
 
     def html_result
