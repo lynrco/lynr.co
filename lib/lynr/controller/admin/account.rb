@@ -136,7 +136,7 @@ module Lynr; module Controller;
         to: @dealership.identity.email,
         subject: "Lynr.co Email Address Updated",
         base_url: req.base_url,
-        support_email: 'support@lynr.co',
+        support_email: Lynr.config('app').support_email,
       }))
     end
 

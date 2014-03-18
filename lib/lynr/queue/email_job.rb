@@ -32,10 +32,11 @@ module Lynr; class Queue;
       raise ArgumentError.new("`:subject` data is required") if !data.include? :subject
       @template = template
       @mail_data = data
-      @text_template = tmpl(template, :txt)
-      @html_template = tmpl(template, :html)
+    end
+
+    def config
+      return @config unless @config.nil?
       @config = Lynr.config('app').mailgun
-      @mail_data[:from] = @config.from if !data.include? :from
     end
 
     # ## `EmailJob#perform`
@@ -46,10 +47,11 @@ module Lynr; class Queue;
     #
     def perform
       data = {
+        from: @mail_data.fetch(:from, config.from),
+        html: html_result,
         text: text_result,
-        html: html_result
       }.merge(@mail_data)
-      url = "https://api:#{@config['key']}@#{@config['url']}/#{@config['domain']}/messages"
+      url = "https://api:#{config['key']}@#{config['url']}/#{config['domain']}/messages"
       RestClient.post url, data
       Success
     rescue RestClient::Exception => rce
@@ -66,17 +68,17 @@ module Lynr; class Queue;
       "#<#{self.class.name}:#{object_id} to=#{@mail_data[:to]}, template=#{@template}>"
     end
 
-    private
+    protected
 
     def html_result
-      Premailer.new(@html_template.result, {
+      Premailer.new(tmpl(@template, :html).result, {
         with_html_string: true,
         css_string: File.read("public/css/email.css")
       }).to_inline_css
     end
 
     def text_result
-      @text_template.result
+      tmpl(@template, :txt).result
     end
 
     # ## `EmailJob#tmpl(template, type)`

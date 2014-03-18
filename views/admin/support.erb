@@ -1,0 +1,21 @@
+        <h1>Support</h1>
+<%= render_partial 'form_messages.erb' -%>
+        <form class="f-labeled" action="/admin/<%= @dealership.slug %>/support" method="POST">
+          <fieldset class="fs">
+            <label for="subject">Short Description or Subject</label>
+            <input class="fs-full <%= error_class('subject') %>" type="text"
+                   name="subject" id="subject" placeholder="e.g. My credit card info is wrong"
+                   value="<%= posted['subject'] %>" />
+            <label for="body">Issue Description or Body</label>
+            <textarea class="fs-full <%= error_class('body') %>"
+                      name="body" id="body"
+                      placeholder="e.g. I've tried to edit it on the billing page but it still shows the wrong information."><%= posted['body'] %></textarea>
+          </fieldset>
+          <button class="btn btn-full btn-positive" type="submit">Send</button>
+        </form>
+        <p>
+          If you need to send us files or images to illustrate the problem
+          please send an email to <a href="mailto:<%= Lynr.config('app').support_email %>">
+            <%= Lynr.config('app').support_email %>
+          </a>.
+        </p>
