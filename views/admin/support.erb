@@ -15,5 +15,7 @@
         </form>
         <p>
           If you need to send us files or images to illustrate the problem
-          please send an email to <a href="mailto:support@lynr.co">support@lynr.co</a>.
+          please send an email to <a href="mailto:<%= Lynr.config('app').support_email %>">
+            <%= Lynr.config('app').support_email %>
+          </a>.
         </p>

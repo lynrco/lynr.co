@@ -58,7 +58,7 @@ module Lynr::Controller
     def send_email(req)
       Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('none', {
         from: 'Lynr Support Page <robot@mg.lynr.co>',
-        to: 'support@lynr.co',
+        to: Lynr.config('app').support_email,
         subject: "[Support] #{posted['subject']}",
         'h:Reply-To' => dealership(req).identity.email,
         'v:dealership_id' => dealership(req).id.to_s,

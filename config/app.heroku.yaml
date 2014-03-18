@@ -1,5 +1,6 @@
 # Used to setting cookies/sessions
 domain: 'env:app_domain'
+support_email: 'general@support.lynr.co'
 # Used for passing messages between boxes/processes/workers
 amqp:
   producer: 'env:AMQP_PRODUCER_URL'
