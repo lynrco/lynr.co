@@ -1,7 +1,13 @@
       <nav class="menu menu-account menu-primary">
-        <span class="menu-search-wrapper">
-          <input class="menu-search" type="text" placeholder="Search" />
-        </span>
+        <header class="hat">
+          <form class="f-search icon-search">
+            <fieldset class="menu-search-wrapper">
+              <input class="fs-full <%= error_class('q') %>" type="text"
+                     name="q" id="q" placeholder="Search coming soon." disabled />
+            </fieldset>
+            <input type="hidden" name="dealership" value="<%= @dealership.id %>" />
+          </form>
+        </header>
         <ul class="menu-items">
           <li class="menu-item menu-item-dealership">
             <img class="dealership-icon" src="<%= @dealership.image.thumb.url %>" alt="" />
