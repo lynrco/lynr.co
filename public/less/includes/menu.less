@@ -17,7 +17,7 @@
 
 /*** Layout - Menu ***/
 .menu {
-  position: absolute; z-index: 3; width: 75%; height: 100%; .border_box();
+  position: absolute; z-index: 3; width: 75%; min-height: 100%; .border_box();
   background: @bg_color; overflow: hidden;
 }
 .menu-primary { left: -75%; }
@@ -29,7 +29,8 @@
   }
 }
 
-.menu-search-wrapper { display: block; margin: 0.5rem 2.803738318%; }
+.menu-search-wrapper { display: block; margin: 0 0 0 5.607476636%; padding-top: 0.0625rem; }
+.menu-search-wrapper input { margin-bottom: 0; padding-top: 0.875rem; padding-bottom: 0.875rem; }
 .menu-search {
   .border_radius_a(1rem); padding: 0 6.5420561%; width: 86.9158878%; height: 2em;
   font-size: 1rem; font-weight: normal;

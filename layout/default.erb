@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,target-densitydpi=device-dpi" />
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
-<%= render_partial :header -%>
     <div class="window">
       <%- if respond_to?(:menu_primary) && !menu_primary.nil? && !menu_primary.partial.nil? -%>
 <%= render_partial menu_primary.partial -%>
@@ -18,6 +17,7 @@
 <%= render_partial menu_secondary.partial -%>
       <%- end -%>
       <div class="main">
+<%= render_partial :header -%>
 <%= yield -%>
       </div>
     </div>
