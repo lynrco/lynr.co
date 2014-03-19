@@ -57,7 +57,7 @@
           </fieldset>
           <button class="btn btn-full btn-positive" type="submit">Update Account Information</button>
         </form>
-        <%- if Lynr.features.fetch('ebay_connect', false) -%>
+        <%- if Lynr.features.ebay_connect? -%>
         <section class="accounts">
           <%- if @dealership.accounts.ebay.empty? -%>
           <a class="btn btn-half btn-plain" href="/auth/ebay">Connect to eBay</a>
