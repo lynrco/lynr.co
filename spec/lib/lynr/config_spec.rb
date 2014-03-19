@@ -150,4 +150,63 @@ describe Lynr::Config do
 
   end
 
+  describe "#method_missing" do
+
+    it "read an int value from YAML data" do
+      expect(config.int_val).to eq(1234)
+    end
+
+    it "reads a boolean value from YAML data" do
+      expect(config.bool_val).to equal(true)
+    end
+
+    it "reads a string value from YAML data" do
+      expect(config.string_val).to eq('hithere')
+    end
+
+    it "reads an env val from YAML data and parses it" do
+      expect(config.env_val).to eq(ENV['whereami'])
+    end
+
+    it "creates a new Config when reading a Hash" do
+      expect(config.mongo).to be_instance_of(Lynr::Config)
+    end
+
+    it "does not return a Hash" do
+      expect(config.mongo).to_not be_instance_of(Hash)
+    end
+
+    it "reads 'false' as string when not a query" do
+      expect(config.str_bool_false).to eq('false')
+    end
+
+    it "reads 'false' as bool when a query" do
+      expect(config.str_bool_false?).to equal(false)
+    end
+
+    it "reads 'true' as string when not a query" do
+      expect(config.str_bool_true).to eq('true')
+    end
+
+    it "reads 'true' as bool when a query" do
+      expect(config.str_bool_true?).to equal(true)
+    end
+
+  end
+
+  describe "#respond_to_missing?" do
+
+    [
+      :mongo, :int_val, :bool_val, :false_val, :string_val, :env_val,
+      :str_bool_false, :str_bool_true, :int_bool_0, :int_bool_1,
+    ].each do |name|
+
+      it "responds to #{name} from config" do
+        expect(config.respond_to?(name.to_sym)).to be_true
+      end
+
+    end
+
+  end
+
 end
