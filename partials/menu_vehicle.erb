@@ -7,6 +7,22 @@
           <li class="menu-item">
             <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/edit">Edit Vehicle</a>
           </li>
+          <li class="menu-item">
+            <a href="http://post.craigslist.org" target="cl">Post to Craigslist</a>
+            <span class="menu-item-hint">
+              This will open craigslist in a new window.
+              Better integration is in the works.
+            </span>
+          </li>
+          <li class="menu-item">
+            <a href="http://cgi5.ebay.com/ws/eBayISAPI.dll?SellHub3&from=wn&aid=153" target="ebay">
+              Post to eBay Motors
+            </a>
+            <span class="menu-item-hint">
+              This will open eBay in a new window.
+              We are working on making this process better.
+            </span>
+          </li>
           <li class="menu-item menu-item-delete">
             <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/delete">Delete Vehicle</a>
           </li>
