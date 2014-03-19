@@ -1,3 +1,5 @@
 # Whether or not VINs are decoded via dataone
 dataone_decode: 'env:feature_dataone_decode' # (true|false)
 ebay_connect:   'env:feature_ebay_connect'   # (true|false)
+# TODO: Remove when there is no need for flip flopping
+live:           'env:feature_live_stripe'    # (true|false)
