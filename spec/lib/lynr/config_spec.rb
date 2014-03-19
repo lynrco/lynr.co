@@ -150,4 +150,19 @@ describe Lynr::Config do
 
   end
 
+  describe "#respond_to_missing?" do
+
+    [
+      :mongo, :int_val, :bool_val, :false_val, :string_val, :env_val,
+      :str_bool_false, :str_bool_true, :int_bool_0, :int_bool_1,
+    ].each do |name|
+
+      it "responds to #{name} from config" do
+        expect(config.respond_to?(name.to_sym)).to be_true
+      end
+
+    end
+
+  end
+
 end

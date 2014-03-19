@@ -19,6 +19,7 @@ module Lynr
 
     attr_reader :environment, :type
 
+    PropertyRegex = /(?<property>\w+)(?<query>\?)?/
     Transforms = [
       {
         test: lambda { |v, d| v.is_a?(String) && v.start_with?('env:') },
@@ -89,6 +90,16 @@ module Lynr
       else
         super
       end
+    end
+
+    # ## `Lynr::Config#respond_to_missing?(sym, include_private)`
+    #
+    # A `#respond_to?` extension allowing this class to tell others what it messages
+    # it will have a response to based on the date held in the `@config` `Hash`.
+    #
+    def respond_to_missing?(sym, include_private)
+      property = sym.to_s.match(PropertyRegex)[:property]
+      include?(property) || super
     end
 
     # ## `Lynr::Config#to_hash`
