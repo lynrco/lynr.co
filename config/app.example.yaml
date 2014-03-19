@@ -13,6 +13,11 @@ ebay:
   certid: 'CertID from https://developer.ebay.com/DevZone/account/Default.aspx'
   devid: 'DEVID from https://developer.ebay.com/DevZone/account/Default.aspx'
   runame: 'RuName to use from https://developer.ebay.com/DevZone/account/Default.aspx'
+# Used for searching vehicles
+elasticsearch:
+  url: 'from https://console.found.no'
+  username: 'from https://console.found.no'
+  password: 'from https://console.found.no'
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"

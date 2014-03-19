@@ -13,6 +13,11 @@ ebay:
   appid: 'env:EBAY_APPID'
   certid: 'env:EBAY_CERTID'
   runame: 'env:EBAY_RUNAME'
+# Used for searching vehicles
+elasticsearch:
+  url: 'env:elasticsearch_url'
+  username: 'env:elasticsearch_username'
+  password: 'env:elasticsearch_password'
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
