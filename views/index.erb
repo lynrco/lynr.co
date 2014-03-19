@@ -2,13 +2,12 @@
         <p>We set out to make something simple and efficient that would help you focus on what you do best, building great relationships and closing deals.</p>
         <p>Once we launch you can take a tour and your first 30 days will be free to ensure Lynr is right for you.</p>
 
-        <!--
+        <%- if Lynr.features.live %>
         <nav class="auth">
           <a class="btn btn-full btn-positive btn-signin" href="/signin" title="Sign In">Sign In</a>
           <a class="btn btn-full btn-positive btn-signup" href="/signup" title="Sign Up">Sign Up</a>
         </nav>
-        -->
-
+        <%- else -%>
 <%= render_partial 'form_messages.erb' -%>
         <form class="signup" action="/" method="POST">
           <fieldset class="fs">
@@ -28,3 +27,4 @@
           <input type="hidden" name="list" value="" />
           <button class="btn btn-full btn-positive">Sign Up</button>
         </form>
+        <%- end -%>
