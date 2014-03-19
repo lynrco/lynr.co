@@ -1,6 +1,8 @@
 require 'json'
 require 'yaml'
 
+require './lib/lynr'
+
 module Lynr
 
   # # `Lynr::Config`
@@ -17,6 +19,7 @@ module Lynr
 
     attr_reader :environment, :type
 
+    PropertyRegex = /(?<property>\w+)(?<query>\?)?/
     Transforms = [
       {
         test: lambda { |v, d| v.is_a?(String) && v.start_with?('env:') },
@@ -82,11 +85,24 @@ module Lynr
     # If backing data doesn't include a value for method name invoke `super`.
     #
     def method_missing(name, *args, &block)
-      if args.size == 0 && block.nil? && (include?(name))
-        fetch(name)
+      property, query = name.to_s.match(PropertyRegex).captures
+      if args.size == 0 && block.nil? && include?(property) && query.nil?
+        fetch(property)
+      elsif args.size == 0 && block.nil? && include?(property) && !query.nil?
+        fetch(property, false)
       else
         super
       end
+    end
+
+    # ## `Lynr::Config#respond_to_missing?(sym, include_private)`
+    #
+    # A `#respond_to?` extension allowing this class to tell others what it messages
+    # it will have a response to based on the date held in the `@config` `Hash`.
+    #
+    def respond_to_missing?(sym, include_private)
+      property = sym.to_s.match(PropertyRegex)[:property]
+      include?(property) || super
     end
 
     # ## `Lynr::Config#to_hash`
