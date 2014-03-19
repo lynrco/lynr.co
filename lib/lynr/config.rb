@@ -85,8 +85,11 @@ module Lynr
     # If backing data doesn't include a value for method name invoke `super`.
     #
     def method_missing(name, *args, &block)
-      if args.size == 0 && block.nil? && (include?(name))
-        fetch(name)
+      property, query = name.to_s.match(PropertyRegex).captures
+      if args.size == 0 && block.nil? && include?(property) && query.nil?
+        fetch(property)
+      elsif args.size == 0 && block.nil? && include?(property) && !query.nil?
+        fetch(property, false)
       else
         super
       end
