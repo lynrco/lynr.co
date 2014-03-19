@@ -1,6 +1,8 @@
 require 'json'
 require 'yaml'
 
+require './lib/lynr'
+
 module Lynr
 
   # # `Lynr::Config`
