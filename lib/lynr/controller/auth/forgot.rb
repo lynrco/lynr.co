@@ -50,7 +50,7 @@ module Lynr::Controller
     # that password assistance has been requested.
     #
     def notify_by_email(dealership, token, req)
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('auth/forgot', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('auth/forgot', {
         to: dealership.identity.email,
         subject: "Lynr.co password reset",
         base_url: req.base_url,

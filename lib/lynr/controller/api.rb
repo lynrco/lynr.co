@@ -67,7 +67,7 @@ module Lynr; module Controller;
       }
       card = charge['card']
       dealership = dealer_dao.get_by_customer_id(card['customer'])
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
         to: dealership.identity.email,
         subject: "Lynr.co Charge Failed",
         base_url: req.base_url,
@@ -106,7 +106,7 @@ module Lynr; module Controller;
       dealership = dealer_dao.get_by_customer_id(id)
       return false unless dealership && dealership.customer_id == id
       # Schedule Email reminder to customer about trial ending
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('trial_end', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('trial_end', {
         to: dealership.identity.email,
         subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}",
         base_url: req.base_url,

@@ -60,7 +60,7 @@ module Lynr
     rescue Sly::HttpError => err
       Web.render_error(err, err.status)
     rescue StandardError => se
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('error/internal', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('error/internal', {
         to: 'tech@lynr.co',
         subject: "[#{env['HTTP_HOST']}] #{se.class} on #{env['PATH_INFO']}",
         err: se,

@@ -57,7 +57,7 @@ module Lynr::Controller
     # the information provided by the customer in the POST `req`.
     #
     def send_email(req)
-      Lynr.producer('email').publish(Lynr::Queue::MarkdownEmailJob.new({
+      Lynr.producer('job').publish(Lynr::Queue::MarkdownEmailJob.new({
         from: 'Lynr Support Page <robot@support.lynr.co>',
         to: Lynr.config('app').support_email,
         subject: "[Support] #{posted['subject']}",
