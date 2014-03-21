@@ -60,7 +60,6 @@ module Lynr; module Controller;
       @subsection = 'vehicle-list'
       @vehicles = vehicle_dao.list(@dealership)
       @title = "Welcome back #{@dealership.name}"
-      @owner = @dealership.name
       req.session.delete('back_uri')
       render 'admin/index.erb'
     end
