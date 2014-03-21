@@ -135,6 +135,7 @@ module Lynr
         @channel = self.channel
       end
       @channel.prefetch(3)
+      @channel.on_uncaught_exception(&method(:process_uncaught_exception))
       @channel
     end
 
@@ -160,6 +161,10 @@ module Lynr
     #
     def exchange
       channel.default_exchange
+    end
+
+    def process_uncaught_exception(e, consumer)
+      log.error("type=error.uncaught name=#{e.class.name} message=#{e.message}")
     end
 
     # ## `Lynr::Queue#queue(name)`
