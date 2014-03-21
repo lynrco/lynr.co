@@ -1,5 +1,6 @@
 require './lib/lynr'
 require './lib/lynr/elasticsearch'
+require './lib/lynr/model/vehicle'
 require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
