@@ -15,9 +15,8 @@ ebay:
   runame: 'RuName to use from https://developer.ebay.com/DevZone/account/Default.aspx'
 # Used for searching vehicles
 elasticsearch:
-  url: 'from https://console.found.no'
-  username: 'from https://console.found.no'
-  password: 'from https://console.found.no'
+  # Multiple URIs can be included (for a cluster) by using a comma separated list
+  uris: 'from https://console.found.no in form {scheme}://{username}:{password}@{host}:{port}'
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"
