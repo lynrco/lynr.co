@@ -2,23 +2,43 @@ namespace :lynr do
 
   namespace :elasticsearch do
 
+    require 'bson'
+    require './lib/lynr'
+    require './lib/lynr/persist/dealership_dao'
+    require './lib/lynr/persist/vehicle_dao'
+    require './lib/lynr/queue/index_vehicle_job'
+
     desc 'Add each vehicle owned by `dealership` (slug or id) to elasticsearch'
     task :index, :dealership do |t, args|
 
-      require 'bson'
-      require './lib/lynr'
-      require './lib/lynr/persist/dealership_dao'
-      require './lib/lynr/persist/vehicle_dao'
-      require './lib/lynr/queue/index_vehicle_job'
+      index_vehicles_for(args[:dealership])
 
-      dealership_dao = Lynr::Persist::DealershipDao.new
-      vehicle_dao = Lynr::Persist::VehicleDao.new
+    end
 
+    desc 'Add each vehicle for each dealership to elasticsearch'
+    task :indexall do
+
+      # NOTE: Requires knowledge of `Lynr::Persist::DealershipDao` internals
+      collection = dealership_dao.instance_variable_get(:@dao)
+      collection.search({}, fields: ['_id']).each do |record|
+        index_vehicles_for(record['_id'])
+      end
+
+    end
+
+    def dealership_dao
+      return @dealership_dao unless @dealership_dao.nil?
+      @dealership_dao = Lynr::Persist::DealershipDao.new
+    end
+
+    def index_vehicles_for(dealership_id)
       dealership =
-        if BSON::ObjectId.legal?(args[:dealership])
-          dealership_dao.get(BSON::ObjectId.from_string(args[:dealership]))
+        if dealership_id.is_a?(BSON::ObjectId)
+          dealership_dao.get(dealership_id)
+        elsif BSON::ObjectId.legal?(dealership_id)
+          dealership_dao.get(BSON::ObjectId.from_string(dealership_id))
         else
-          dealership_dao.get_by_slug(args[:dealership])
+          dealership_dao.get_by_slug(dealership_id)
         end
 
       # NOTE: `VehicleDao#list` on returns 10 results
@@ -27,7 +47,11 @@ namespace :lynr do
       vehicles.each do |vehicle|
         Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
       end
+    end
 
+    def vehicle_dao
+      return @vehicle_dao unless @vehicle_dao.nil?
+      @vehicle_dao = Lynr::Persist::VehicleDao.new
     end
 
   end
