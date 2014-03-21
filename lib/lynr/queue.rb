@@ -19,7 +19,6 @@ module Lynr
     # Options used when creating the connection
     DEFAULT_CONNECTION_OPTS = {
       automatically_recover: false,
-      log_level: ::Logger::FATAL,
       locale: 'en_US'
     }
     # Options used when publishing a message
@@ -46,12 +45,13 @@ module Lynr
     #
     def initialize(name, uri, opts = {})
       @attempts = 0
-      @connection = Bunny.new(uri, fetch_options(opts, :connect, DEFAULT_CONNECTION_OPTS))
-      @name = name
-      @opts = opts
+      @connect_opts = { logger: log }.merge(fetch_options(opts, :connect, DEFAULT_CONNECTION_OPTS))
       @publish_opts = { routing_key: name }.merge(fetch_options(opts, :publish, DEFAULT_PUBLISH_OPTS))
       @queue_opts = fetch_options(opts, :queue, DEFAULT_QUEUE_OPTS)
       @subscribe_opts = fetch_options(opts, :subscribe, DEFAULT_SUBSCRIBE_OPTS)
+
+      @name = name
+      @connection = Bunny.new(uri, @connect_opts)
     end
 
     # ## `Lynr::Queue#ack(tag)`
