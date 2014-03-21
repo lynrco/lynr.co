@@ -25,6 +25,14 @@ module Lynr; class Queue;
       @vehicle = vehicle
     end
 
+    def document
+      vehicle.view.tap { |view|
+        view['dealership'] = view['dealership'].to_s
+        view.delete('images')
+        view['vin'].delete('raw')
+      }
+    end
+
     # ## `VehicleIndexJob#perform`
     #
     # Do the work of putting `@vehicle` into elasticsearch index.
@@ -35,7 +43,7 @@ module Lynr; class Queue;
                    index: 'vehicles',
                    type: vehicle.class.name,
                    id: vehicle.id.to_s,
-                   body: vehicle.view,
+                   body: document,
                  })
       Success
     rescue StandardError => e
