@@ -41,10 +41,11 @@ namespace :lynr do
           dealership_dao.get_by_slug(dealership_id)
         end
 
-      # NOTE: `VehicleDao#list` on returns 10 results
-      vehicles = vehicle_dao.list(dealership)
+      # NOTE: Requires knowledge of `Lynr::Persist::VehicleDao` internals
+      collection = vehicle_dao.instance_variable_get(:@dao)
 
-      vehicles.each do |vehicle|
+      collection.search({ dealership: dealership.id }, fields: ['_id']).each do |record|
+        vehicle = vehicle_dao.get(record['_id'])
         Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
       end
     end
