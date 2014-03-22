@@ -27,6 +27,7 @@ EOF
     config.vm.box = BOX_NAME
     config.vm.box_url = BOX_URL
     config.vm.network "forwarded_port", guest:  8080, host:  7887
+    config.vm.network "forwarded_port", guest:  9200, host:  9200
     config.vm.network "forwarded_port", guest: 27017, host: 27017
     config.vm.provision :shell, inline: script
     config.vm.synced_folder ".", "/vagrant", type: "rsync"
