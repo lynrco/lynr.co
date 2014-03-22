@@ -28,8 +28,9 @@ module Lynr::Controller
     #
     # Setup the page title based on the string being searched for.
     #
-    def before_POST(req)
+    def before_GET(req)
       super
+      @term = req.params['q']
       @title = "Search for #{req.params['q']}"
     end
 
