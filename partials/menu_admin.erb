@@ -1,11 +1,10 @@
       <nav class="menu menu-account menu-primary">
         <header class="hat">
-          <form class="f-search icon-search">
+          <form class="f-search icon-search" action="/admin/<%= @dealership.slug %>/search" method="GET">
             <fieldset class="menu-search-wrapper">
               <input class="fs-full <%= error_class('q') %>" type="text"
-                     name="q" id="q" placeholder="Search coming soon." disabled />
+                     name="q" id="q" placeholder="Search by make, model or year." />
             </fieldset>
-            <input type="hidden" name="dealership" value="<%= @dealership.id %>" />
           </form>
         </header>
         <ul class="menu-items">
