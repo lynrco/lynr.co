@@ -1,4 +1,7 @@
+require './lib/lynr'
 require './lib/lynr/controller/admin/vehicle'
+require './lib/lynr/model/mpg'
+require './lib/lynr/queue/index_vehicle_job'
 
 module Lynr::Controller
 
