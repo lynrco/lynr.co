@@ -5,7 +5,7 @@ require './lib/lynr/queue/job'
 
 module Lynr; class Queue;
 
-  # # `Lynr::Queue::VehicleIndexJob`
+  # # `Lynr::Queue::IndexVehicleJob`
   #
   # Background `Job` to add a `Lynr::Model::Vehicle` instance as a
   # document to the elasticsearch cluster. The `Job` relies on
@@ -16,7 +16,7 @@ module Lynr; class Queue;
 
     attr_reader :vehicle
 
-    # ## `VehicleIndexJob.new(vehicle)`
+    # ## `IndexVehicleJob.new(vehicle)`
     #
     # Create a new background `Job` to add `vehicle` to the elasticsearch
     # indices.
@@ -25,6 +25,12 @@ module Lynr; class Queue;
       @vehicle = vehicle
     end
 
+    # ## `IndexVehicleJob#document`
+    #
+    # Get the document to be indexed. This is a modified version of
+    # `Lynr::Model::Vehicle#view` which removes some of the larger text
+    # fields which do not need to be indexed.
+    #
     def document
       vehicle.view.tap { |view|
         view['dealership'] = view['dealership'].to_s
@@ -33,7 +39,7 @@ module Lynr; class Queue;
       }
     end
 
-    # ## `VehicleIndexJob#perform`
+    # ## `IndexVehicleJob#perform`
     #
     # Do the work of putting `@vehicle` into elasticsearch index.
     #
@@ -50,7 +56,7 @@ module Lynr; class Queue;
       failure(e.message, :norequeue)
     end
 
-    # ## `VehicleIndexJob#to_s`
+    # ## `IndexVehicleJob#to_s`
     #
     # String representation of this `Job`
     #
