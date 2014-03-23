@@ -18,11 +18,11 @@ EOF
   c.vm.define :db do |config|
 
     config.vm.provider :virtualbox do |vbox, override|
-      vbox.customize ["modifyvm", :id, "--memory", 512]
+      vbox.customize ["modifyvm", :id, "--memory", 1024]
     end
 
     config.vm.provider :vmware_fusion do |vbox, override|
-      vbox.customize ["modifyvm", :id, "--memory", 512]
+      vbox.customize ["modifyvm", :id, "--memory", 1024]
     end
     config.vm.box = BOX_NAME
     config.vm.box_url = BOX_URL
