@@ -1,4 +1,7 @@
+require './lib/lynr'
 require './lib/lynr/controller/admin/vehicle'
+require './lib/lynr/model/mpg'
+require './lib/lynr/queue/index_vehicle_job'
 
 module Lynr::Controller
 
@@ -25,7 +28,8 @@ module Lynr::Controller
       # Need to inflate the Mpg and Vin views that come from posted data
       posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
       posted['vin'] = @vehicle.vin.set(posted['vin'])
-      vehicle_dao.save(@vehicle.set(posted))
+      vehicle = vehicle_dao.save(@vehicle.set(posted))
+      Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
       redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
     end
 

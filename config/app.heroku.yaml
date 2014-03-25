@@ -13,6 +13,10 @@ ebay:
   appid: 'env:EBAY_APPID'
   certid: 'env:EBAY_CERTID'
   runame: 'env:EBAY_RUNAME'
+# Used for searching vehicles
+elasticsearch:
+  # Multiple URIs can be included (for a cluster) by using a comma separated list
+  uris: 'env:elasticsearch_uris'
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"

@@ -34,4 +34,4 @@ if [ ! -d /var/lib/puppet/ssl ]; then
   sudo cp /vagrant/vm/puppet.conf /etc/puppet/puppet.conf
 fi
 
-sudo puppet agent --server=puppet.bryanwrit.es --environment=$PUPPETENV --no-daemonize --onetime
+sudo puppet agent --server=puppet.bryanwrit.es --environment=$PUPPETENV --no-daemonize --onetime --verbose

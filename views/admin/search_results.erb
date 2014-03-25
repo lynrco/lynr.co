@@ -1,0 +1,14 @@
+        <h1 class="page-title">
+          Searched for <em><%= @term %></em>
+          and found <em><%= @vehicles.length %></em> result(s).
+        </h1>
+        <div class="vehicles">
+          <%- @vehicles.each do |vehicle| -%>
+<%= render_partial('vehicle/listing.erb', {
+      inventory: false,
+      dealership: @dealership,
+      vehicle: vehicle
+    })
+%>
+          <%- end -%>
+        </div>

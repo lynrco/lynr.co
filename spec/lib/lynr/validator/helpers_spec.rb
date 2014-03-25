@@ -97,10 +97,6 @@ describe Lynr::Validator::Helpers do
 
   context "with mongo connection", :if => (MongoHelpers.connected?) do
 
-    before(:each) do
-      MongoHelpers.empty! if MongoHelpers.connected?
-    end
-
     describe "#error_for_slug" do
 
       it "gives an error if slug is invalid" do

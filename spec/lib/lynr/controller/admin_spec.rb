@@ -10,10 +10,6 @@ describe Lynr::Controller::Admin do
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
-    before(:each) do
-      MongoHelpers.empty! if MongoHelpers.connected?
-    end
-
     let(:path) { '/admin/:slug' }
 
     # Test dealership retrieval based on slug

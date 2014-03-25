@@ -2,7 +2,7 @@
 
 namespace :lynr do
 
-  queues = ['email', 'stripe']
+  queues = ['job']
 
   require './lib/lynr'
   require './lib/lynr/logging'

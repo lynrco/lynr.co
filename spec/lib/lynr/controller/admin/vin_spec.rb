@@ -124,10 +124,6 @@ describe Lynr::Controller::AdminVin do
       end
     end
 
-    after(:each) do
-      MongoHelpers.empty! if MongoHelpers.dao.active?
-    end
-
     context "with active DB and primed cache", :if => (MongoHelpers.connected?) do
 
       before(:each) do

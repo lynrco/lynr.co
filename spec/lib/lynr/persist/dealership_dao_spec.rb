@@ -111,10 +111,6 @@ describe Lynr::Persist::DealershipDao do
     let(:saved) { dao.save(dealership) }
     let(:slug) { Lynr::Model::Slug.new(dealer_data['name'], nil) }
 
-    before(:each) do
-      MongoHelpers.empty! if MongoHelpers.connected?
-    end
-
     describe "#account_exists?" do
 
       it "returns false if email isn't taken" do

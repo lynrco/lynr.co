@@ -132,7 +132,7 @@ module Lynr; module Controller;
     # email address has been changed.
     #
     def notify_by_email(req)
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('email_updated', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('email_updated', {
         to: @dealership.identity.email,
         subject: "Lynr.co Email Address Updated",
         base_url: req.base_url,
@@ -161,7 +161,7 @@ module Lynr; module Controller;
     # customer information has changed for `dealership`.
     #
     def update_stripe(dealership)
-      Lynr.producer('stripe').publish(Lynr::Queue::StripeUpdateJob.new(dealership))
+      Lynr.producer('job').publish(Lynr::Queue::StripeUpdateJob.new(dealership))
     end
 
     # ## `AdminAccount#validate_account_info`

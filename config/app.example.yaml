@@ -13,6 +13,10 @@ ebay:
   certid: 'CertID from https://developer.ebay.com/DevZone/account/Default.aspx'
   devid: 'DEVID from https://developer.ebay.com/DevZone/account/Default.aspx'
   runame: 'RuName to use from https://developer.ebay.com/DevZone/account/Default.aspx'
+# Used for searching vehicles
+elasticsearch:
+  # Multiple URIs can be included (for a cluster) by using a comma separated list
+  uris: 'from https://console.found.no in form {scheme}://{username}:{password}@{host}:{port}'
 # Used to define application level headers
 headers:
   "Content-Type": "text/html; charset=utf-8"

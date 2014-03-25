@@ -1,8 +1,10 @@
 require 'libxml'
 require 'rest-client'
 
+require './lib/lynr'
 require './lib/lynr/controller/admin'
 require './lib/lynr/converter/data_one'
+require './lib/lynr/queue/index_vehicle_job'
 
 module Lynr; module Controller;
 
@@ -29,7 +31,6 @@ module Lynr; module Controller;
       posted['dealership'] = @dealership
       query_response = fetch(posted['vin'].upcase)
       if query_response.nil?
-        @base_menu = Lynr::View::Menu.new('Vehicle Menu', "", :menu_vehicle)
         @subsection = 'vehicle-add'
         @title = 'Add Vehicle'
 
@@ -39,6 +40,7 @@ module Lynr; module Controller;
         vehicle = vehicle_dao.save(xml_to_vehicle(query_response).set({
           'dealership' => @dealership
         }))
+        Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
         redirect "/admin/#{@dealership.slug}/#{vehicle.slug}/edit"
       end
     end

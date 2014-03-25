@@ -1,6 +1,8 @@
+require './lib/lynr'
 require './lib/lynr/controller/admin'
 require './lib/lynr/controller/admin/vehicle'
 require './lib/lynr/model/vehicle'
+require './lib/lynr/queue/index_vehicle_job'
 
 module Lynr::Controller
 
@@ -40,6 +42,7 @@ module Lynr::Controller
     #
     def post_html(req)
       vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(@posted))
+      Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
       redirect "/admin/#{@dealership.slug}/#{vehicle.slug}/edit"
     end
 
