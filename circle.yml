@@ -2,6 +2,9 @@ checkout:
   post:
     - git submodule sync
     - git submodule update --init
+dependencies:
+  bundler:
+    without: [heroku]
 deployment:
   staging:
     branch: master
