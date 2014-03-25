@@ -1,5 +1,8 @@
 require 'codeclimate-test-reporter'
 
+require './spec/model_helper'
+require './spec/support/route_helper'
+
 require './lib/lynr/model/identity'
 require './lib/lynr/persist/mongo_dao'
 
@@ -10,12 +13,14 @@ RSpec.configure do |c|
   c.add_setting :whereami, default: 'spec'
   c.add_setting :root, default: File.expand_path(File.dirname(__FILE__)).chomp('/spec')
   c.add_setting :env, default: [c.root, '.env'].join(File::SEPARATOR)
+
   if File.exists?(c.env) && File.readable?(c.env)
     File.readlines(c.env).each do |line|
       parts = line.chomp.split('=')
       ENV[parts[0]] = parts[1]
     end
   end
+
   if ENV.include?('whereami')
     c.whereami = ENV['whereami']
   else
