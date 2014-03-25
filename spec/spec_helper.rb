@@ -1,10 +1,10 @@
 require 'codeclimate-test-reporter'
 
 require './spec/support/model_helper'
+require './spec/support/mongo_helper'
 require './spec/support/route_helper'
 
 require './lib/lynr/model/identity'
-require './lib/lynr/persist/mongo_dao'
 
 CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
@@ -31,28 +31,6 @@ RSpec.configure do |c|
     ENV['whereami'] = c.whereami
   end
   puts "ENVIRONMENT UNDER TEST = #{c.whereami}"
-end
-
-# Define some helpers for interacting with Mongo
-class MongoHelpers
-
-  def self.dao(collection='dummy')
-    Lynr::Persist::MongoDao.new({ 'collection' => collection })
-  end
-
-  def self.connected?
-    MongoHelpers.dao.active?
-  end
-
-  def self.empty!
-    db = dao.db
-    db.collection_names.each do |coll_name|
-      next if coll_name.start_with?('system')
-      db.collection(coll_name).remove()
-      db.collection(coll_name).drop_indexes()
-    end
-  end
-
 end
 
 # Lower the cost of creating identity objects by lowering the work factor
