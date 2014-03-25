@@ -2,7 +2,9 @@ require './spec/spec_helper'
 
 require './lib/lynr/controller/base'
 
-shared_examples "Lynr::Controller::Base#valid_request" do
+shared_examples "Lynr::Controller::Base#valid_request" do |status|
+
+  status ||= 200
 
   describe "route.call(req)" do
 
@@ -25,8 +27,8 @@ shared_examples "Lynr::Controller::Base#valid_request" do
       expect(response[2]).to be_instance_of(Rack::BodyProxy)
     end
 
-    it "is a 200 response" do
-      expect(response[0]).to eq(200)
+    it "is a #{status} response" do
+      expect(response[0]).to eq(status)
     end
 
   end
