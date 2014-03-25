@@ -32,6 +32,20 @@ module Lynr
       @config = Lynr.config('app').elasticsearch
     end
 
+    # ## `Elasticsearch#vehicles(query)`
+    #
+    # Apply `query` to the vehicles index of the Elasticsearch cluster
+    # and pass along the result of the query.
+    #
+    def vehicles(query)
+      Lynr.metrics.time('time.service.elasticsearch.vehicles') do
+        client.search({
+          index: 'vehicles',
+          body: { query: query }
+        })
+      end
+    end
+
   end
 
 end

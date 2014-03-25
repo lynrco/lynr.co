@@ -59,25 +59,18 @@ module Lynr::Controller
     # have been filtered by their lack of a `deleted_at` date.
     #
     def search(dealership, query)
-      es = Lynr::Elasticsearch.new
-      Lynr.metrics.time('time.service.elasticsearch.vehicles') do
-        es.client.search({
-          index: 'vehicles',
-          body: {
-            query: {
-              filtered: {
-                query: { match: { "_all" => query } },
-                filter: {
-                  and: [
-                    { term: { "Lynr::Model::Vehicle.dealership" => dealership.id.to_s } },
-                    { missing: { field: "Lynr::Model::Vehicle.deleted_at", null_value: true, } },
-                  ],
-                }
-              }
-            }
+      search = Lynr::Elasticsearch.new
+      search.vehicles({
+        filtered: {
+          query: { match: { "_all" => query } },
+          filter: {
+            and: [
+              { term: { "Lynr::Model::Vehicle.dealership" => dealership.id.to_s } },
+              { missing: { field: "Lynr::Model::Vehicle.deleted_at", null_value: true, } },
+            ],
           }
-        })
-      end
+        }
+      })
     end
 
   end
