@@ -1,6 +1,6 @@
 require 'codeclimate-test-reporter'
 
-require './spec/model_helper'
+require './spec/support/model_helper'
 require './spec/support/route_helper'
 
 require './lib/lynr/model/identity'
