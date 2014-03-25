@@ -8,7 +8,8 @@ dependencies:
 test:
   post:
     - grunt heroku
-    - mv dist/* $CIRCLE_ARTIFACTS
+    - tar cfz $CIRCLE_SHA1.assets.tar.gz dist/*
+    - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
 deployment:
   staging:
     branch: master
