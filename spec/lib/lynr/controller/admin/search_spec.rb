@@ -6,6 +6,7 @@ require './lib/lynr/controller/admin/search'
 
 describe Lynr::Controller::Admin::Search do
 
+  include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"
 
   let(:path) { '/admin/:slug/search' }
@@ -57,8 +58,6 @@ describe Lynr::Controller::Admin::Search do
   end
 
   context "/admin/:slug/search?q=Ford", :route => :extend, :if => (MongoHelpers.connected?) do
-
-    include ModelHelper
 
     let(:uri) { "/admin/#{saved_empty_dealership.id.to_s}/search?q=Ford" }
 
