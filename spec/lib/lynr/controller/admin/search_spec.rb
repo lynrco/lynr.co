@@ -56,10 +56,6 @@ describe Lynr::Controller::Admin::Search do
     end
   end
 
-  after(:each) do
-    MongoHelpers.empty! if MongoHelpers.dao.active?
-  end
-
   context "/admin/:slug/search?q=Ford", :route => :extend, :if => (MongoHelpers.connected?) do
 
     include ModelHelper

@@ -35,10 +35,6 @@ describe Lynr::Persist::Dao do
 
   context "with active connection", :if => (MongoHelpers.connected?) do
 
-    before(:each) do
-      MongoHelpers.empty! if MongoHelpers.connected?
-    end
-
     describe "#create result" do
 
       it "is a DaoDummy instance" do

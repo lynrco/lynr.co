@@ -21,6 +21,10 @@ RSpec.configure do |c|
     end
   end
 
+  c.after(:each) do
+    MongoHelpers.empty! if MongoHelpers.dao.active?
+  end
+
   if ENV.include?('whereami')
     c.whereami = ENV['whereami']
   else
