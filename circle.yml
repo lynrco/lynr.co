@@ -5,6 +5,10 @@ checkout:
 dependencies:
   bundler:
     without: [heroku]
+test:
+  post:
+    - grunt heroku
+    - mv dist/* $CIRCLE_ARTIFACTS
 deployment:
   staging:
     branch: master
