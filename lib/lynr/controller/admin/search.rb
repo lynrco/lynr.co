@@ -1,4 +1,5 @@
 require 'bson'
+require 'cgi'
 
 require './lib/lynr/controller/admin'
 require './lib/lynr/elasticsearch'
@@ -30,8 +31,8 @@ module Lynr::Controller
     #
     def before_GET(req)
       super
-      @term = req.params['q']
-      @title = "Search for #{req.params['q']}"
+      @term = term(req)
+      @title = "Search for #{term(req)}"
     end
 
     # ## `Admin::Search#get`
@@ -40,11 +41,11 @@ module Lynr::Controller
     # passing it along to the get results from the search provider.
     #
     def get(req)
-      results = search(dealership(req), req.params['q'])
+      results = search(dealership(req), term(req))
       data = results['hits']
       count = data['total']
       documents = data['hits']
-      req.session['back_uri'] = "/admin/#{@dealership.slug}/search?q=#{req.params['q']}"
+      req.session['back_uri'] = "/admin/#{@dealership.slug}/search?q=#{term(req)}"
       @vehicles = documents.map do |doc|
         vehicle_dao.get(BSON::ObjectId.from_string(doc['_id']))
       end
@@ -71,6 +72,16 @@ module Lynr::Controller
           }
         }
       })
+    end
+
+    # ## `Admin::Search#term(req)`
+    #
+    # Extract the query term out of `req` and HTML encode it. Encoding
+    # it makes it safe for display in HTML source of the page and safe
+    # to pass along as part of a search query.
+    #
+    def term(req)
+      CGI.escapeHTML(req.params['q'])
     end
 
   end
