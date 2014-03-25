@@ -13,7 +13,7 @@ module Lynr::Controller
   #
   class Admin::Search < Lynr::Controller::Admin
 
-    get  '/admin/:slug/search', :post
+    get  '/admin/:slug/search', :get
 
     # ## `Admin::Search.new`
     #
@@ -39,7 +39,7 @@ module Lynr::Controller
     # Handle the GET requests for searching by pulling out the query and
     # passing it along to the get results from the search provider.
     #
-    def post(req)
+    def get(req)
       results = search(dealership(req), req.params['q'])
       data = results['hits']
       count = data['total']
