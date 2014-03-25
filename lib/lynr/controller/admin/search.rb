@@ -45,7 +45,7 @@ module Lynr::Controller
       data = results['hits']
       count = data['total']
       documents = data['hits']
-      req.session['back_uri'] = "/admin/#{@dealership.slug}/search?q=#{term(req)}"
+      req.session['back_uri'] = "/admin/#{dealership(req).slug}/search?q=#{term(req)}"
       @vehicles = documents.map do |doc|
         vehicle_dao.get(BSON::ObjectId.from_string(doc['_id']))
       end
