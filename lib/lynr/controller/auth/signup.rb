@@ -88,7 +88,7 @@ module Lynr::Controller
     end
 
     def notify_by_email(dealership, req)
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('auth/account_created', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('auth/account_created', {
         to: dealership.identity.email,
         subject: "Lynr.co Account Created",
         base_url: req.base_url,

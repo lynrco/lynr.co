@@ -61,7 +61,7 @@ group :rspec do
     watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-    watch('spec/spec_helper.rb')  { "spec" }
+    watch(%r{^spec/.+_helper.rb})  { "spec" }
     watch('spec/lib/lynr/cache_spec.rb') { 'spec/lib/lynr/cache' }
   end
 

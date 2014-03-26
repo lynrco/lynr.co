@@ -1,3 +1,15 @@
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+dependencies:
+  bundler:
+    without: [heroku]
+test:
+  post:
+    - grunt heroku
+    - tar cfz $CIRCLE_SHA1.assets.tar.gz dist/*
+    - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
 deployment:
   staging:
     branch: master

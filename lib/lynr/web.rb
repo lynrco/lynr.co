@@ -11,6 +11,7 @@ require './lib/lynr/controller/admin/account'
 require './lib/lynr/controller/admin/account/password'
 require './lib/lynr/controller/admin/billing'
 require './lib/lynr/controller/admin/manage_vehicles'
+require './lib/lynr/controller/admin/search'
 require './lib/lynr/controller/admin/support'
 require './lib/lynr/controller/admin/vehicle/add'
 require './lib/lynr/controller/admin/vehicle/delete'
@@ -60,7 +61,7 @@ module Lynr
     rescue Sly::HttpError => err
       Web.render_error(err, err.status)
     rescue StandardError => se
-      Lynr.producer('email').publish(Lynr::Queue::EmailJob.new('error/internal', {
+      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('error/internal', {
         to: 'tech@lynr.co',
         subject: "[#{env['HTTP_HOST']}] #{se.class} on #{env['PATH_INFO']}",
         err: se,

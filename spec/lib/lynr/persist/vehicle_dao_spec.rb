@@ -52,10 +52,6 @@ describe Lynr::Persist::VehicleDao do
     let(:vehicle) { Lynr::Model::Vehicle.new(vehicle_data) }
     let(:saved) { dao.save(vehicle) }
 
-    before(:each) do
-      MongoHelpers.empty! if MongoHelpers.connected?
-    end
-
     describe "#save" do
 
       it "returns a Vehicle instance" do
