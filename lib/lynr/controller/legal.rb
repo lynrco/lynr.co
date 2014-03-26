@@ -26,16 +26,6 @@ module Lynr::Controller
       @title = 'Lynr Legal'
     end
 
-    # ## `Legal#before_each(req)`
-    #
-    # Get the current user out `req` and set it as `@dealership` so the
-    # wordmark goes to the inventory screen.
-    #
-    def before_each(req)
-      super
-      @dealership = session_user(req)
-    end
-
     # ## `Legal#get(req)`
     #
     # Process `req` and create a `Rack::Response` based on the type of
