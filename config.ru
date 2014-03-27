@@ -15,7 +15,7 @@ statics = 'dist' if Lynr.env == 'heroku'
 
 use Rack::Deflater
 use Rack::SSL
-use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt", "/expensify.txt"], :root => statics
+use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => statics
 use Librato::Rack if Lynr.env == 'heroku'
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
