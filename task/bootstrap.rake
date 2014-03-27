@@ -8,7 +8,7 @@ namespace :lynr do
 
   include Lynr::Logging
 
-  @logger = Log4r::Logger.new('lynr:bootstrap')
+  @logger = Log4r::Logger.new('rake:lynr')
   @logger.outputters << Log4r::StdoutOutputter.new("console", OPTS)
 
   env = Lynr.env
