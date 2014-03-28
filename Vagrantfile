@@ -100,11 +100,8 @@ PRIVS
 
   c.vm.define :db do |config|
 
-    # # Box base files
-    config.vm.box = "precise64"
-    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    config.vm.box_download_checksum = "5803ee2fa7c5ded51a59f7928a2fead0"
-    config.vm.box_download_checksum_type = "md5"
+    # # [VagrantCloud](https://vagrantcloud.com) box
+    config.vm.box = "hashicorp/precise64"
 
     # # VM settings
     config.vm.provider :virtualbox do |vbox, override|
