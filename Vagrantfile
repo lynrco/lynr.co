@@ -105,7 +105,9 @@ PRIVS
 
     # # VM settings
     config.vm.provider :virtualbox do |vbox, override|
+      vbox.name = "lynrco_db"
       vbox.customize ["modifyvm", :id, "--memory", 1024]
+      vbox.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
     end
 
     # # Networking
