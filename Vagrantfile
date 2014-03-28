@@ -94,7 +94,7 @@ YULayq/fPB7G3gbzZVvYgwuohbpbLR0GwOGPtAqfMUGOz5js9wE4m5wFln8=
 PRIVS
 
   # Write pem files to tmp files so they can be copied over to box
-  Dir.mkdir("vm")
+  Dir.mkdir("vm") unless File.directory?('vm')
   File.open("vm/cert.pem", "w") { |cert_file| cert_file.puts certs }
   File.open("vm/priv.pem", "w") { |priv_file| priv_file.puts privs }
 
