@@ -63,7 +63,7 @@ module Lynr; module Controller;
         node = LibXML::XML::Node.new 'query_response'
         doc.root = node
       end
-      doc.find("//query_response[@identifier='#{vin}']").first
+      doc.find_first("//query_response[@identifier='#{vin}']")
     end
 
     def fetch_dataone(vin)
