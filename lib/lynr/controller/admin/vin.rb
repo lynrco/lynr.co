@@ -74,7 +74,7 @@ module Lynr; module Controller;
         client_id:          config.client_id,
         decoder_query:      dataone_xml_query(vin),
       }
-      Lynr.metrics.time('time.service.dataone.fetch') do
+      Lynr.metrics.time('time.service:dataone.fetch') do
         RestClient.post url, data
       end
     end
