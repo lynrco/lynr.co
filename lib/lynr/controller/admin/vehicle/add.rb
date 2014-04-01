@@ -41,8 +41,7 @@ module Lynr::Controller
     # HTML view of the vehicle by redirecting to the edit page.
     #
     def post_html(req)
-      vehicle = vehicle_dao.save(Lynr::Model::Vehicle.inflate(@posted))
-      Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
+      vehicle = save_vehicle(Lynr::Model::Vehicle.inflate(@posted))
       redirect "/admin/#{@dealership.slug}/#{vehicle.slug}/edit"
     end
 

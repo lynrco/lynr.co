@@ -99,6 +99,17 @@ module Lynr; module Controller;
       req.session['dealer_id'] == dealership(req).id
     end
 
+    # ## `Admin#save_vehicle(vehicle)`
+    #
+    # Handle the logic of saving a `Lynr::Model::Vehicle` to the database
+    # and producing the associated events.
+    #
+    def save_vehicle(vehicle)
+      vehicle_dao.save(vehicle).tap do |saved|
+        Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(saved))
+      end
+    end
+
     # TODO: Write documentation for `#transloadit_params`
     def transloadit_params(template_id_name)
       transloadit = Lynr::Web.config['transloadit']
