@@ -39,15 +39,6 @@ module Lynr::Controller
       render 'legal.erb'
     end
 
-    # ## `Legal#config`
-    #
-    # Get configuration to be used within `Lynr::Controller::Legal`
-    #
-    def config
-      return @config unless @config.nil?
-      @config = Lynr.config('app').legal
-    end
-
     # ## `Legal#document(req)`
     #
     # Get the `Kramdown::Document` to use for display based on the data
@@ -99,7 +90,7 @@ module Lynr::Controller
     # Get the version of legal document to look for based on `req`.
     #
     def version(req)
-      req.params.fetch('version', default=config.current)
+      req.params.fetch('version', 'current')
     end
 
   end
