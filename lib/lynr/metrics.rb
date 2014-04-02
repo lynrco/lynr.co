@@ -62,10 +62,9 @@ module Lynr
       queue.time(name, options) do
         yield if block_given?
       end
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.time err=#{err.class.to_s} msg=#{err.message}")
-    ensure
-      queue.submit
+    rescue Librato::Metrics::ClientError => err
+      queue.flush
+      retry
     end
 
     alias :benchmark :time
