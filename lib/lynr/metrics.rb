@@ -22,8 +22,6 @@ module Lynr
     #
     def add(measurements)
       queue.add(measurements)
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
     end
 
     # ## `Metrics#configured(config)`
@@ -63,12 +61,16 @@ module Lynr
       queue.time(name, options) do
         yield if block_given?
       end
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.time err=#{err.class.to_s} msg=#{err.message}")
     end
 
     alias :benchmark :time
 
   end
 
+rescue Librato::Metrics::MetricsError => err
+  log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
+rescue Librato::Metrics::ClientError => ce
+  log.warn("type=metrics.add err=#{ce.class.to_s} msg=#{ce.message}")
+  queue.flush
+  retry
 end
