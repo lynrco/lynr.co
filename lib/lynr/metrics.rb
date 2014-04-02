@@ -69,7 +69,8 @@ module Lynr
 
 rescue Librato::Metrics::MetricsError => err
   log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
-rescue Librato::Metrics::ClientError => err
+rescue Librato::Metrics::ClientError => ce
+  log.warn("type=metrics.add err=#{ce.class.to_s} msg=#{ce.message}")
   queue.flush
   retry
 end
