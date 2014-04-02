@@ -27,9 +27,6 @@ headers:
   "X-Content-Security-Policy": "script-src 'self' https://*"
   "X-Frame-Options": "DENY"
   "X-Xss-Protection": "1"
-# Used by `Lynr::Controller::Legal` to determine current version
-legal:
-  current: '2014-03-12'
 # Used for metrics
 librato:
   user: 'env:LIBRATO_USER'
