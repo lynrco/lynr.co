@@ -22,9 +22,6 @@ module Lynr
     #
     def add(measurements)
       queue.add(measurements)
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
-    ensure
       queue.submit
     end
 
@@ -75,4 +72,6 @@ module Lynr
 
   end
 
+rescue Librato::Metrics::MetricsError => err
+  log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
 end
