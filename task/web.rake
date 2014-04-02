@@ -84,4 +84,13 @@ namespace :lynr do
     server.run app, options
   end
 
+  task :'webrick:nossl' do
+    server, options = server_and_options
+    options[:SSLEnable] = false
+
+    app = Rack::Builder.parse_file("config.ru")[0]
+
+    server.run app, options
+  end
+
 end
