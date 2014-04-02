@@ -5,6 +5,7 @@
   "repository": "git@github.com:lynrco/lynr.co",
   "dependencies": {
     "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.13",
     "grunt-contrib-less": "~0.9.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-svgmin": "~0.3.0",
