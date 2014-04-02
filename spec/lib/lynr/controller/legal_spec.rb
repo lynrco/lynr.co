@@ -14,14 +14,6 @@ describe Lynr::Controller::Legal do
   }
   let(:response) { subject.get(req) }
 
-  before(:each) do
-    Lynr::Controller::Legal.any_instance.stub(:config) do
-      Lynr::Config.new(nil, nil, {
-        'current' => '2014-03-12',
-      })
-    end
-  end
-
   shared_examples "valid request" do
 
     describe "#markdown" do
@@ -83,8 +75,8 @@ describe Lynr::Controller::Legal do
 
     describe "#version" do
 
-      it "defaults to `config.current` when not provided" do
-        expect(subject.version(req)).to eq(subject.config.current)
+      it "defaults to 'current' when not provided" do
+        expect(subject.version(req)).to eq('current')
       end
 
     end
@@ -92,7 +84,7 @@ describe Lynr::Controller::Legal do
     describe "#header" do
 
       it "is read from document" do
-        expect(subject.header(req).options[:raw_text]).to eq('Lynr Terms of Service')
+        expect(subject.header(req).options[:raw_text]).to eq('Terms and Conditions')
       end
 
     end
@@ -116,8 +108,8 @@ describe Lynr::Controller::Legal do
 
     describe "#version" do
 
-      it "defaults to `config.current` when not provided" do
-        expect(subject.version(req)).to eq(subject.config.current)
+      it "defaults to 'current' when not provided" do
+        expect(subject.version(req)).to eq('current')
       end
 
     end
@@ -125,7 +117,7 @@ describe Lynr::Controller::Legal do
     describe "#header" do
 
       it "is read from document" do
-        expect(subject.header(req).options[:raw_text]).to eq('Lynr Terms of Service')
+        expect(subject.header(req).options[:raw_text]).to eq('Terms and Conditions')
       end
 
     end
@@ -149,8 +141,8 @@ describe Lynr::Controller::Legal do
 
     describe "#version" do
 
-      it "defaults to `config.current` when not provided" do
-        expect(subject.version(req)).to eq(subject.config.current)
+      it "defaults to 'current' when not provided" do
+        expect(subject.version(req)).to eq('current')
       end
 
     end
@@ -194,8 +186,8 @@ describe Lynr::Controller::Legal do
         expect(subject.version(req)).to eq('2014-03-12')
       end
 
-      it "is not `config.current` when in the uri" do
-        expect(subject.version(req)).to_not eq(subject.config.current)
+      it "is not 'current' when in the uri" do
+        expect(subject.version(req)).to_not eq('current')
       end
 
     end
@@ -227,8 +219,8 @@ describe Lynr::Controller::Legal do
 
     describe "#version" do
 
-      it "defaults to `config.current` when not provided" do
-        expect(subject.version(req)).to eq(subject.config.current)
+      it "defaults to 'current' when not provided" do
+        expect(subject.version(req)).to eq('current')
       end
 
     end
