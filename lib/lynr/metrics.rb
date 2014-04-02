@@ -24,6 +24,8 @@ module Lynr
       queue.add(measurements)
     rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
       log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
+    ensure
+      queue.submit
     end
 
     # ## `Metrics#configured(config)`
@@ -65,6 +67,8 @@ module Lynr
       end
     rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
       log.warn("type=metrics.time err=#{err.class.to_s} msg=#{err.message}")
+    ensure
+      queue.submit
     end
 
     alias :benchmark :time
