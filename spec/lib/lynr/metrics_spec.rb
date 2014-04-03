@@ -14,6 +14,16 @@ describe Lynr::Metrics do
     }
   }
 
+  describe "#add" do
+
+    before(:each) do
+      Librato::Metrics::Queue.any_instance.stub(:add) do |metrics|
+        self
+      end
+    end
+
+  end
+
   describe "#configured?" do
 
     it "is true when given config with user, token and source" do
