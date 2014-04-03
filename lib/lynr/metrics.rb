@@ -22,6 +22,10 @@ module Lynr
     #
     def add(measurements)
       queue.add(measurements)
+    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+      log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
+    ensure
+      queue.submit
     end
 
     # ## `Metrics#configured(config)`
@@ -36,7 +40,7 @@ module Lynr
 
     # ## `Metrics#queue`
     #
-    # *Private* method to retrieve a configured instance of
+    # Method to retrieve a configured instance of
     # `Librato::Metrics::Queue` to proxy method calls to.
     #
     def queue(config=nil)
@@ -58,8 +62,10 @@ module Lynr
     # of errors by logging them instead of letting them propogate up.
     #
     def time(name, options={})
-      queue.time(name, options) do
-        yield if block_given?
+      start = Time.now
+      yield.tap do
+        duration = (Time.now - start) * 1000.0 # milliseconds
+        add({ name => options.merge({ value: duration }) })
       end
     end
 
@@ -67,10 +73,4 @@ module Lynr
 
   end
 
-rescue Librato::Metrics::MetricsError => err
-  log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
-rescue Librato::Metrics::ClientError => ce
-  log.warn("type=metrics.add err=#{ce.class.to_s} msg=#{ce.message}")
-  queue.flush
-  retry
 end
