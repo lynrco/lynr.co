@@ -24,7 +24,7 @@ describe Lynr::Controller::Admin::Vehicle::Add do
 
     let(:route_method) { [:get_html, 'GET'] }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request"
+    it_behaves_like "Lynr::Controller::Base#valid_request" if MongoHelpers.connected?
 
   end
 
@@ -39,7 +39,7 @@ describe Lynr::Controller::Admin::Vehicle::Add do
       }
     }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request", 302
+    it_behaves_like "Lynr::Controller::Base#valid_request", 302 if MongoHelpers.connected?
 
   end
 
