@@ -1,6 +1,6 @@
 {
   "name": "lynr.co",
-  "engines": { "node": ">= 0.10.2 <0.11" },
+  "engines": { "node": "~0.10.2" },
   "version": "0.0.1",
   "repository": "git@github.com:lynrco/lynr.co",
   "dependencies": {
