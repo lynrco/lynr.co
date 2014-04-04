@@ -13,4 +13,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - "[[ $CIRCLE_REPO_USERNAME == 'lynrco' ]] && git push git@heroku.com:lynr-co-stage.git $CIRCLE_SHA1:master"
+      - "git push git@heroku.com:lynr-co-stage.git $CIRCLE_SHA1:master"
