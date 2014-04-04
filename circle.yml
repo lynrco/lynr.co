@@ -16,4 +16,4 @@ deployment:
       - if [[ $CIRCLE_PROJECT_USERNAME == 'lynrco' ]];
         then git push git@heroku.com:lynr-co-stage.git $CIRCLE_SHA1:master;
         else exit 0;
-        fi;"
+        fi;
