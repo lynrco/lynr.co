@@ -26,9 +26,6 @@ module Lynr; module Controller;
 
     attr_reader :vehicle_dao
 
-    get  '/admin/:slug', :index
-    get  '/menu/:slug',  :menu
-
     def initialize
       super
       @section = "admin"
@@ -50,27 +47,6 @@ module Lynr; module Controller;
       return not_found unless dealership(req)
       @dealership = dealership(req)
       super
-    end
-
-    # ## `Lynr::Controller::Admin#index`
-    #
-    # Admin Homepage. Renders `views/admin/index.erb`.
-    #
-    def index(req)
-      @subsection = 'vehicle-list'
-      @vehicles = vehicle_dao.list(@dealership)
-      @title = "Welcome back #{@dealership.name}"
-      req.session.delete('back_uri')
-      render 'admin/index.erb'
-    end
-
-    # ## `Admin#menu(req)`
-    #
-    # Primarmy menu shown over the admin homepage.
-    #
-    def menu(req)
-      @menu_vis = 'menu-visible-primary'
-      index(req)
     end
 
     # ## Helpers
