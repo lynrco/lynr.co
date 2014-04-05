@@ -1,4 +1,5 @@
 require './lib/lynr'
+require './lib/lynr/controller'
 require './lib/lynr/controller/admin'
 
 module Lynr::Controller
@@ -8,6 +9,8 @@ module Lynr::Controller
   # Logic for rendering the inventory screen.
   #
   class Admin::Inventory < Lynr::Controller::Admin
+
+    include Lynr::Controller::Paginated
 
     get  '/admin/:slug', :inventory
     get  '/menu/:slug',  :menu
@@ -27,7 +30,7 @@ module Lynr::Controller
     # Admin inventory screen. Renders `views/admin/index.erb`.
     #
     def inventory(req)
-      @vehicles = vehicle_dao.list(dealership(req))
+      @vehicles = vehicle_dao.list(dealership(req), page(req), PER_PAGE)
       req.session.delete('back_uri')
       render 'admin/index.erb'
     end
