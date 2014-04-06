@@ -1,5 +1,4 @@
-<%= render_partial('component/pagination.erb', @pagination_data)
-%>
+<%= render_partial('component/pagination.erb', @pagination_data) %>
         <div class="vehicles">
           <%- @vehicles.each do |vehicle| -%>
 <%= render_partial('vehicle/listing.erb', {
