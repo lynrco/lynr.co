@@ -30,6 +30,7 @@ module Lynr::Controller
     # Admin inventory screen. Renders `views/admin/index.erb`.
     #
     def inventory(req)
+      @pages = page_nums(req, vehicle_count(req))
       @vehicles = vehicle_dao.list(dealership(req), page(req), PER_PAGE)
       req.session.delete('back_uri')
       render 'admin/index.erb'
