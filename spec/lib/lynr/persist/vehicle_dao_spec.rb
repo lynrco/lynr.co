@@ -52,28 +52,29 @@ describe Lynr::Persist::VehicleDao do
     let(:vehicle) { Lynr::Model::Vehicle.new(vehicle_data) }
     let(:saved) { dao.save(vehicle) }
 
-    describe "#save" do
+    describe "#count" do
 
-      it "returns a Vehicle instance" do
-        expect(saved).to be_an_instance_of(Lynr::Model::Vehicle)
+      context "in DB with no records" do
+
+        it "has none" do
+          expect(dao.count(dealership)).to eq(0)
+        end
+
       end
 
-      it "returns an instance with an id" do
-        expect(vehicle.id).to be_nil
-        expect(saved.id).to_not be_nil
+      context "in DB with 1 record" do
+
+        before(:each) do
+          @list_saved = dao.save(vehicle)
+        end
+
+        it "has one" do
+          expect(dao.count(dealership)).to eq(1)
+        end
+
       end
 
-      it "returns instance with the same data" do
-        expect(saved.year).to eq(vehicle_data['year'])
-        expect(saved.make).to eq(vehicle_data['make'])
-        expect(saved.model).to eq(vehicle_data['model'])
-        expect(saved.price).to eq(vehicle_data['price'])
-        expect(saved.condition).to eq(vehicle_data['condition'])
-        expect(saved.mpg).to eq(vehicle_data['mpg'])
-        expect(saved.vin).to eq(vehicle_data['vin'])
-      end
-
-    end # #save
+    end
 
     describe "#get" do
 
@@ -138,6 +139,29 @@ describe Lynr::Persist::VehicleDao do
       end
 
     end # #list
+
+    describe "#save" do
+
+      it "returns a Vehicle instance" do
+        expect(saved).to be_an_instance_of(Lynr::Model::Vehicle)
+      end
+
+      it "returns an instance with an id" do
+        expect(vehicle.id).to be_nil
+        expect(saved.id).to_not be_nil
+      end
+
+      it "returns instance with the same data" do
+        expect(saved.year).to eq(vehicle_data['year'])
+        expect(saved.make).to eq(vehicle_data['make'])
+        expect(saved.model).to eq(vehicle_data['model'])
+        expect(saved.price).to eq(vehicle_data['price'])
+        expect(saved.condition).to eq(vehicle_data['condition'])
+        expect(saved.mpg).to eq(vehicle_data['mpg'])
+        expect(saved.vin).to eq(vehicle_data['vin'])
+      end
+
+    end # #save
 
   end
 

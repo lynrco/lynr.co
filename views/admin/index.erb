@@ -1,9 +1,10 @@
+<%= render_partial('component/pagination.erb', @pagination_data) %>
         <div class="vehicles">
           <%- @vehicles.each do |vehicle| -%>
 <%= render_partial('vehicle/listing.erb', {
       inventory: true,
       dealership: @dealership,
-      vehicle: vehicle
+      vehicle: vehicle,
     })
 %>
           <%- end -%>

@@ -26,9 +26,6 @@ module Lynr; module Controller;
 
     attr_reader :vehicle_dao
 
-    get  '/admin/:slug', :index
-    get  '/menu/:slug',  :menu
-
     def initialize
       super
       @section = "admin"
@@ -52,30 +49,9 @@ module Lynr; module Controller;
       super
     end
 
-    # ## `Lynr::Controller::Admin#index`
-    #
-    # Admin Homepage. Renders `views/admin/index.erb`.
-    #
-    def index(req)
-      @subsection = 'vehicle-list'
-      @vehicles = vehicle_dao.list(@dealership)
-      @title = "Welcome back #{@dealership.name}"
-      req.session.delete('back_uri')
-      render 'admin/index.erb'
-    end
-
-    # ## `Admin#menu(req)`
-    #
-    # Primarmy menu shown over the admin homepage.
-    #
-    def menu(req)
-      @menu_vis = 'menu-visible-primary'
-      index(req)
-    end
-
     # ## Helpers
 
-    # ## `Admin::Vehicle#dealership(req)`
+    # ## `Admin#dealership(req)`
     #
     # Get dealership object out of `req`.
     #
@@ -86,6 +62,14 @@ module Lynr; module Controller;
       else
         @dealership = dealer_dao.get_by_slug(req['slug'])
       end
+    end
+
+    # ## `Admin#vehicle_count(req)`
+    #
+    # Get the number of vehicles for the current dealership.
+    #
+    def vehicle_count(req)
+      @vehicle_count ||= vehicle_dao.count(dealership(req))
     end
 
     # ## Menus

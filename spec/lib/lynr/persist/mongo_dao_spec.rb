@@ -203,10 +203,6 @@ describe Lynr::Persist::MongoDao do
 
     let(:dao) { MongoHelpers.dao }
 
-    after(:each) do
-      dao.collection.remove() if MongoHelpers.dao.active?
-    end
-
     context "configured environment" do
 
       it "has a config property" do
@@ -242,6 +238,26 @@ describe Lynr::Persist::MongoDao do
       end
 
     end # client
+
+    describe "#count" do
+
+      before(:each) do
+        dao.save({ 'price' => 13532 })
+        dao.save({ 'price' => 13535 })
+        dao.save({ 'price' => 13538 })
+        dao.save({ 'price' => 13541 })
+        dao.save({ 'price' => 13544 })
+      end
+
+      it "counts all with no query" do
+        expect(dao.count).to eq(5)
+      end
+
+      it "counts according to query" do
+        expect(dao.count({ 'price' => 13532 })).to eq(1)
+      end
+
+    end
 
     describe "#save" do
 
