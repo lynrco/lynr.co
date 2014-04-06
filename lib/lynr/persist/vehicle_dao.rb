@@ -24,6 +24,14 @@ module Lynr; module Persist;
       ensure_indices if @dao.active?
     end
 
+    # ## `VehicleDao#count(dealership)`
+    #
+    # Get the count of active vehicles for `dealership`.
+    #
+    def count(dealership)
+      @dao.count({ 'dealership' => dealership.id, 'deleted_at' => nil })
+    end
+
     # ## `VehicleDao#get(id)`
     #
     # Retrieve the `Vehicle` identified by `id`.

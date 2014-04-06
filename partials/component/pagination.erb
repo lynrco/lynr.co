@@ -1,0 +1,7 @@
+        <%- if pages && pages.first != pages.last -%>
+        <nav class="pagination">
+          <%- pages.each do |page| -%>
+          <a class="<%= if current == page then 'current' end %>" href="<%= uri %><%= page %>"><%= page %></a>
+          <%- end -%>
+        </nav>
+        <%- end -%>

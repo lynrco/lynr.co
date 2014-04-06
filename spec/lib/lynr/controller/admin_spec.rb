@@ -6,48 +6,43 @@ require './lib/lynr/controller/admin'
 
 describe Lynr::Controller::Admin do
 
-  let(:controller) { Lynr::Controller::Admin.new }
-
   context "with active connection", :if => (MongoHelpers.connected?) do
+
+    include_context "spec/support/ModelHelper"
+    include_context "spec/support/RouteHelper"
 
     let(:path) { '/admin/:slug' }
 
     # Test dealership retrieval based on slug
     describe "#dealership" do
 
-      let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
-      let(:dealership) {
-        controller.dealer_dao.save(Lynr::Model::Dealership.new({
+      let(:dealership) do
+        subject.dealer_dao.save(Lynr::Model::Dealership.new({
           'identity' => identity,
           'name' => 'CarMax San Diego',
         }))
-      }
+      end
 
       it "retrieves an existing dealership when slug is id" do
         req = request("/admin/#{dealership.id}")
-        expect(controller.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
+        expect(subject.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
       end
 
       it "returns nil when id doesn't exist" do
         req = request("/admin/#{BSON::ObjectId.from_time(Time.now)}")
-        expect(controller.dealership(req)).to be_nil
+        expect(subject.dealership(req)).to be_nil
       end
 
       it "retrieves an existing dealership when slug is slug and exists" do
         req = request("/admin/#{Lynr::Model::Slug.new(dealership.name, nil)}")
-        expect(controller.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
+        expect(subject.dealership(req)).to be_an_instance_of(Lynr::Model::Dealership)
       end
 
       it "returns nil when slug is slug and doesn't exist" do
         req = request("/admin/#{Lynr::Model::Slug.new("I'm a fake name", nil)}")
-        expect(controller.dealership(req)).to be_nil
+        expect(subject.dealership(req)).to be_nil
       end
 
-    end
-
-    def request(uri)
-      rack_env = Rack::MockRequest.env_for(uri)
-      Sly::Request.new(rack_env, Sly::Route.make_r(path))
     end
 
   end
@@ -75,7 +70,7 @@ describe Lynr::Controller::Admin do
             }
           }
         }
-        expect(controller.transloadit_params_signature(params)).to eq(signature)
+        expect(subject.transloadit_params_signature(params)).to eq(signature)
       end
 
       it "generates a signature of 'f7d45bd0ff501c3fe30418f18e9a5281ee5f0a4e'" do
@@ -106,7 +101,7 @@ describe Lynr::Controller::Admin do
             }
           }
         }
-        expect(controller.transloadit_params_signature(params)).to eq(signature)
+        expect(subject.transloadit_params_signature(params)).to eq(signature)
       end
 
       it "generates a signature of '35b620e1f3a4dbea28ba0ad3d26cd3042022e8c6'" do
@@ -126,7 +121,7 @@ describe Lynr::Controller::Admin do
           },
           template_id: "some_template_id"
         }
-        expect(controller.transloadit_params_signature(params)).to eq(signature)
+        expect(subject.transloadit_params_signature(params)).to eq(signature)
       end
 
     end
@@ -134,7 +129,7 @@ describe Lynr::Controller::Admin do
     context "without auth_secret", :if => (!Lynr::Web.config['transloadit']['auth_secret']) do
 
       it "generates nil" do
-        expect(controller.transloadit_params_signature({})).to be_nil
+        expect(subject.transloadit_params_signature({})).to be_nil
       end
 
     end
