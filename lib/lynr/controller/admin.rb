@@ -51,7 +51,7 @@ module Lynr; module Controller;
 
     # ## Helpers
 
-    # ## `Admin::Vehicle#dealership(req)`
+    # ## `Admin#dealership(req)`
     #
     # Get dealership object out of `req`.
     #
@@ -62,6 +62,14 @@ module Lynr; module Controller;
       else
         @dealership = dealer_dao.get_by_slug(req['slug'])
       end
+    end
+
+    # ## `Admin#vehicle_count(req)`
+    #
+    # Get the number of vehicles for the current dealership.
+    #
+    def vehicle_count(req)
+      @vehicle_count ||= vehicle_dao.count(dealership(req))
     end
 
     # ## Menus
