@@ -87,6 +87,10 @@ module Lynr; module Persist;
 
     # ## Operate on the collection
     #
+    def count(query={})
+      collection.count({ query: query, read: :secondary })
+    end
+
     def save(record, id=nil)
       result = record.dup
       success = false
