@@ -3,13 +3,13 @@
 </h1>
 <h2>Message</h2>
 
-<p><%= err.message %></p>
+<p><%= CGI.escape_html(err.message) %></p>
 
 <h2>Backtrace</h2>
 
 <pre><code>
 <%- err.backtrace.each do |line| -%>
-<%= line %>
+<%= CGI.escape_html(line) %>
 <%- end -%>
 </code></pre>
 
