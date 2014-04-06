@@ -1,3 +1,5 @@
+require './lib/lynr'
+
 module Lynr
 
   module Controller
