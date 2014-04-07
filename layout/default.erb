@@ -10,6 +10,7 @@
   </head>
   <body id="<%= @section %>" class="<%= @subsection %>">
     <div class="window">
+      <b class="hat hat-window"></b>
       <%- if respond_to?(:menu_primary) && !menu_primary.nil? && !menu_primary.partial.nil? -%>
 <%= render_partial menu_primary.partial -%>
       <%- end -%>
