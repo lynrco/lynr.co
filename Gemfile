@@ -25,6 +25,7 @@ group :development do
   gem 'guard-shell'
   gem 'guard-bundler'
   gem 'guard-rake'
+  gem 'guard-rspec'
 
   gem 'pry'
   gem 'pry-debugger'
@@ -34,16 +35,14 @@ group :development do
   gem 'rb-inotify', :require => false
 
   group :local do
-    gem 'shotgun',        '0.9'
+    gem 'shotgun',      '0.9'
   end
+end
 
-  group :test do
-    gem 'rspec'
+group :test do
+  gem 'rspec'
 
-    gem 'codeclimate-test-reporter'
-
-    gem 'guard-rspec'
-  end
+  gem 'codeclimate-test-reporter'
 end
 
 group :heroku do
