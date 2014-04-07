@@ -4,7 +4,7 @@ checkout:
     - git submodule update --init
 dependencies:
   bundler:
-    without: [heroku]
+    without: [heroku, development]
 test:
   post:
     - tar cfz $CIRCLE_SHA1.assets.tar.gz dist/*
