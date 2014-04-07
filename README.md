@@ -39,7 +39,6 @@ Vagrant](#up-and-running-with-vagrant)).
 1. `brew install node`
 1. `npm install`
 1. `bundle install`
-1. `npm install -g grunt-cli`
 1. `bundle exec rake lynr:bootstrap`
 
 For the curious, more information about what `rake lynr:bootstrap` does
@@ -57,10 +56,13 @@ processing development you will also need to run the queue workers. The specific
 commands are:
 
 1. `bundle exec rake lynr:local` for the web server
-1. `bundle exec guard -g assets` or `grunt watch` for asset compilation.
-  `grunt watch` will generate source maps to show which .less file the
-  styles came from.
-1. `bundle exec guard -g rspec` for spec running
+  The `lynr:local` task uses the [shotgun gem][shotgunrb] to automatically
+  reload Ruby files when they are changed.
+1. `npm run-script grunt` for asset compilation. If the [grunt-cli][gruntcli]
+  is already installed just run `grunt`. `grunt` will do an initial build and
+  then watch for changes. Part of the grunt task is to generate source maps
+  to show which .less file the styles came from.
+1. `bundle exec guard -g rspec` for Ruby spec/test running
 1. `bundle exec rake lynr:workers` for queue workers
 
 If you did the above and set up the external dependencies correctly
@@ -205,3 +207,5 @@ responsiveness and CPU usage.
 [mongodb]: http://www.mongodb.org
 [rabbitmq]: http://www.rabbitmq.com
 [mongohq]: https://www.mongohq.com
+[shotgunrb]: https://github.com/rtomayko/shotgun
+[gruntcli]: https://www.npmjs.org/package/grunt-cli

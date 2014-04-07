@@ -66,11 +66,3 @@ group :rspec do
   end
 
 end
-
-group :assets do
-
-  guard 'rake', :task => 'assets:precompile' do
-    watch(%r{^public/less/(.+)\.less$})
-  end
-
-end
