@@ -26,10 +26,12 @@ or can run a build of Ruby 1.9.3. This can be accomplished with
 [Node.js](http://nodejs.org) and [Grunt](http://gruntjs.com) are used to
 build static files like CSS and JS. A [MongoDB](http://www.mongodb.org)
 instance needs to be running for the Lynr web application to work (beyond
-the landing page). Several actions will also require a running RabbitMQ
-instance. These can be accomplished by installing it with Homebrew
-or by running it in a virtual machine (see [Up and Running with
-Vagrant](#up-and-running-with-vagrant)).
+the landing page). Several actions will also require a running
+[RabbitMQ][rabbitmq] and [Elasticsearch][es] instance. These can be
+accomplished by installing it with Homebrew or by running it in a
+virtual machine (see [Up and Running with Vagrant](#up-and-running-with-vagrant)).
+Running these services inside a virtual machine with Vagrant is strongly
+encouraged.
 
 1. Editthe  `/etc/hosts` file (this may require super user priveleges) and
   append `127.0.0.1       lynr.co.local`
@@ -153,7 +155,7 @@ challenge password' or 'An optional company name'.
 ## Up and Running with Vagrant
 
 Get up and running with these files locally using vagrant. A Vagrant box can
-replace the need for a hosted MongoDB server and a hosted RabbitMQ server
+replace the need for hosted MongoDB, RabbitMQ and Elasticsearch servers
 which may speed up development but because of the other external dependencies
 (on things like Transloadit and Stripe) this is by no means necessary. These
 steps are included largely for future planning.
@@ -164,8 +166,11 @@ steps are included largely for future planning.
 1. Navigate to your working directory (wherever the source is cloned to)
 1. Execute `vagrant up`
 
-This gets a basic Ubuntu box up and running and exposes [MongoDB][mongodb] running
-on port 27017 (the default).
+This gets a basic Ubuntu box up and running and exposes:
+
+  * [MongoDB][mongodb] running on port 27017 (MongoDB default)
+  * [RabbitMQ][rabbitmq] running on port 5672 (RabbitMQ default)
+  * [Elasticsearch][es] running on port 9200 (Elasticsearch default)
 
 ---
 
@@ -224,3 +229,4 @@ responsiveness and CPU usage.
 [mongohq]: https://www.mongohq.com
 [shotgunrb]: https://github.com/rtomayko/shotgun
 [gruntcli]: https://www.npmjs.org/package/grunt-cli
+[es]: http://www.elasticsearch.org
