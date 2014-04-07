@@ -2,6 +2,20 @@
 @import "includes/reset.less";
 @import "includes/typography.less";
 
+@footer_color: #646b5d;
+
 .header { margin: 0 0 1.5rem; padding: 0.5rem 0; text-align: center; background: @brand_color; }
 .header img { max-height: 40px; }
+a { color: #386eff; }
 h1, h2, h3, h4, h5, h6, p { margin-left: @margin_width; margin-right: @margin_width; }
+
+.declaration { font-size: 2rem; font-weight: bold; }
+
+.social { margin: 1rem @margin_width; }
+.social a { color: @footer_color; }
+
+.footer, .footer a { color: @footer_color; }
+.footer { margin: 3rem @margin_width; }
+.footer a { display: inline-block; padding: 0 0.5rem; text-decoration: underline; }
+.footer a:first-child { padding-left: 0; }
+.footer span { display: inline-block; padding: 0 0.5rem; }
