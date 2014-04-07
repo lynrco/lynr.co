@@ -1,6 +1,8 @@
 require './lib/sly'
 require './lib/sly/view/erb_helpers'
 
+require './lib/lynr'
+require './lib/lynr/controller'
 require './lib/lynr/logging'
 require './lib/lynr/persist/dealership_dao'
 
