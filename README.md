@@ -12,11 +12,8 @@ it. It will make me ❤ you.
 ## Development Cycle
 
 Development can be done with a web server and other tasks running locally or
-running on the vagrant machine. In both cases `bundle install` must be executed
-on the local machine in order to install the Ruby dependencies. Because of the
-way the Lynr application is architected right now it will likely be faster to
-get up and running using your local machine for development and relying on
-SaaS providers for dependencies.
+running on the vagrant machine. Please see [Local Development](#local-development)
+for more information on running the web application locally.
 
 ### Setting up the Development Environment
 
@@ -29,7 +26,8 @@ or can run a build of Ruby 1.9.3. This can be accomplished with
 [Node.js](http://nodejs.org) and [Grunt](http://gruntjs.com) are used to
 build static files like CSS and JS. A [MongoDB](http://www.mongodb.org)
 instance needs to be running for the Lynr web application to work (beyond
-the landing page). This can be accomplished by installing it with Homebrew
+the landing page). Several actions will also require a running RabbitMQ
+instance. These can be accomplished by installing it with Homebrew
 or by running it in a virtual machine (see [Up and Running with
 Vagrant](#up-and-running-with-vagrant)).
 
@@ -96,7 +94,11 @@ the following services:
 
 ## Self-Signed Certificates
 
-In order to develop with the [eBay](https://developer.ebay.com/) API you will need a local SSL end point set up. In order to do this with the local `shotgun` server some files must be created containing certificate information. To generate the certificates execute the following steps from the root of your working directory:
+In order to develop with the [eBay](https://developer.ebay.com/) API you
+will need a local SSL end point set up. In order to do this with the local
+`shotgun` server some files must be created containing certificate
+information. To generate the certificates execute the following steps
+from the root of your working directory:
 
 1. `openssl req -new > certs/server.cert.csr`. This will ask you a series
   of questions about the certificate. Sample output of this command is
@@ -105,40 +107,48 @@ In order to develop with the [eBay](https://developer.ebay.com/) API you will ne
 1. `openssl rsa -in certs/privkey.pem -out certs/server.cert.key`
 1. `openssl x509 -in certs/server.cert.csr -out certs/server.cert.crt -req -signkey certs/server.cert.key -days 365`
 
-These steps will put the certificats in the certs directory with the names that are used in the rake task, `bundle exec rake lynr:local` which runs the local web server.
+These steps will put the certificats in the certs directory with the names
+that are used in the rake task, `bundle exec rake lynr:local` which runs
+the local web server.
 
 ### Self-Signed Certificate Generation
 
-These questions help to generate the certificate information. Information in [] are defaults or suggested answers by the openssl software, information after : are the provided answers. The PEM pass phrase is used in another step of the certificate generation but then shouldn't be needed again so this can be anything as long as it is more than four characters. Common name must match whatever 'domain' you are using for local development, 'lynr.co.local' is suggested but not required but it can not be 'localhost' or '127.0.0.1'. Do not include provide an answer for 'A challenge password' or 'An optional company name'.
+These questions help to generate the certificate information. Information
+in [] are defaults or suggested answers by the openssl software,
+information after : are the provided answers. The PEM pass phrase is used
+in another step of the certificate generation but then shouldn't be needed
+again so this can be anything as long as it is more than four characters.
+Common name must match whatever 'domain' you are using for local
+development, 'lynr.co.local' is suggested but not required but it can not
+be 'localhost' or '127.0.0.1'. Do not include provide an answer for 'A
+challenge password' or 'An optional company name'.
 
-```
-Generating a 1024 bit RSA private key
-.++++++
-..............++++++
-writing new private key to 'privkey.pem'
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
------
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [AU]:US
-State or Province Name (full name) [Some-State]:CA
-Locality Name (eg, city) []:Los Angeles
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Lynr, LLC
-Organizational Unit Name (eg, section) []:Tech
-Common Name (e.g. server FQDN or YOUR name) []:lynr.co.local
-Email Address []:email@domain.com
+    Generating a 1024 bit RSA private key
+    .++++++
+    ..............++++++
+    writing new private key to 'privkey.pem'
+    Enter PEM pass phrase:
+    Verifying - Enter PEM pass phrase:
+    -----
+    You are about to be asked to enter information that will be incorporated
+    into your certificate request.
+    What you are about to enter is what is called a Distinguished Name or a DN.
+    There are quite a few fields but you can leave some blank
+    For some fields there will be a default value,
+    If you enter '.', the field will be left blank.
+    -----
+    Country Name (2 letter code) [AU]:US
+    State or Province Name (full name) [Some-State]:CA
+    Locality Name (eg, city) []:Los Angeles
+    Organization Name (eg, company) [Internet Widgits Pty Ltd]:Lynr, LLC
+    Organizational Unit Name (eg, section) []:Tech
+    Common Name (e.g. server FQDN or YOUR name) []:lynr.co.local
+    Email Address []:email@domain.com
 
-Please enter the following 'extra' attributes
-to be sent with your certificate request
-A challenge password []:
-An optional company name []:
-```
+    Please enter the following 'extra' attributes
+    to be sent with your certificate request
+    A challenge password []:
+    An optional company name []:
 
 ## Up and Running with Vagrant
 
@@ -159,7 +169,12 @@ on port 27017 (the default).
 
 ---
 
-Ignore the instructions after the rule, do the development locally for now. Since Lynr is hosted on a PaaS provider the puppet configuration for a web server is incomplete. The below instructions were an attempt to work around that but the need for an SSL certificate means the [Unicorn][unicorn] process needs to run behind an SSL endpoint (like Nginx or Apache) and updating the Puppet manifests is not, at present, worth the effort.
+Ignore the instructions after the rule, do the development locally for now.
+Since Lynr is hosted on a PaaS provider the puppet configuration for a
+web server is incomplete. The below instructions were an attempt to work
+around that but the need for an SSL certificate means the [Unicorn][unicorn]
+process needs to run behind an SSL endpoint (like Nginx or Apache) and
+updating the Puppet manifests is not, at present, worth the effort.
 
 ### Box Dependencies
 
