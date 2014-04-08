@@ -150,7 +150,7 @@ describe Lynr::Controller::Legal do
     describe "#header" do
 
       it "is read from document" do
-        expect(subject.header(req).options[:raw_text]).to eq('Lynr Privacy Policy')
+        expect(subject.header(req).options[:raw_text]).to eq('Privacy Policy')
       end
 
     end
