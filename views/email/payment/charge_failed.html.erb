@@ -1,3 +1,16 @@
+<h1>Lynr.co Payment Unsuccessful</h1>
+
+<p>
+  We were unable to charge the card on file ending in <%= last4 %> for
+  your account at <%= base_url %>. This was our <%= attempt_count %>
+  attempt to collect payment. The next attempt will be on
+  <%= next_attempt.strftime('%b %d, %Y') %> at
+  <%= next_attempt.strftime('%r %Z') %>.
+</p>
+
+<p>
+  Please update your card information before then.
+</p>
 
 <div class="footer">
   <a href="<%= base_url %>/legal/terms">Terms &amp; Conditions</a> |
