@@ -1,4 +1,5 @@
 require 'json'
+require 'stripe'
 
 require './lib/lynr'
 require './lib/lynr/controller/base'
@@ -46,31 +47,36 @@ module Lynr; module Controller;
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json, req)
         when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json, req)
-        when 'charge.failed' then stripe_charge_failed(json, req)
+        when 'invoice.payment_failed' then stripe_invoice_payment_failed(json, req)
       end
       Rack::Response.new
     end
 
-    # ## `Api#stripe_charge_failed(event, req)`
+    # ## `Api#stripe_invoice_payment_failed(event, req)`
     #
-    # Process the charge.failed `event` and notify the customer of the
+    # Process the invoice.payment_failed `event` and notify the customer of the
     # problem via email.
     #
-    def stripe_charge_failed(event, req)
-      charge = event['data']['object']
-      log.debug {
-        [
-          "type=stripe.charge.failed",
-          "msg=#{charge['failure_message']}",
-          "code=#{charge['failure_code']}",
-        ].join(' ')
-      }
-      card = charge['card']
-      dealership = dealer_dao.get_by_customer_id(card['customer'])
+    def stripe_invoice_payment_failed(event, req)
+      invoice = event['data']['object']
+      # NOTE: If no next attempt we are on the last, subscription will be cancelled
+      return false unless invoice['next_payment_attempt']
+      # NOTE: Make sure we didn't misfire this hook
+      return false if invoice['paid']
+      dealership = dealer_dao.get_by_customer_id(invoice['customer'])
+      customer = Stripe::Customer.retrieve(dealership.customer_id)
+      attempt = case invoice['attempt_count']
+        when 1 then '1st'
+        when 2 then '2nd'
+        when 3 then '3rd'
+      end
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
         to: dealership.identity.email,
         subject: "Lynr.co Charge Failed",
         base_url: req.base_url,
+        attempt_count: attempt,
+        last4: customer.active_card.last4,
+        next_attempt: Time.at(invoice['next_payment_attempt']),
       }))
       # TODO: Something else needs to happen here so the system knows
       # this is no longer an account in good standing.
