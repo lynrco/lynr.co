@@ -23,6 +23,8 @@ require './lib/lynr/controller/admin/vin'
 require './lib/lynr/controller/api'
 require './lib/lynr/controller/auth'
 require './lib/lynr/controller/auth/ebay'
+# Email controller is for email previews
+require './lib/lynr/controller/email' if Lynr.env == 'development'
 require './lib/lynr/controller/home'
 require './lib/lynr/controller/legal'
 require './lib/lynr/logging'

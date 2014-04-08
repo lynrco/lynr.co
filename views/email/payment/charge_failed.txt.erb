@@ -1,0 +1,12 @@
+# Lynr.co Payment Unsuccessful #
+
+We were unable to charge the card on file ending in <%= last4 %> for
+your account at <%= base_url %>. This was our <%= attempt_count %>
+attempt to collect payment. The next attempt will be on
+<%= next_attempt.strftime('%b %d, %Y') %> at <%= next_attempt.strftime('%r %Z') %>.
+
+Please update your card information before then.
+
+Terms & Conditions (<%= base_url %>/legal/terms)
+Privacy Policy (<%= base_url %>/legal/privacy)
+© 2014 Lynr, LLC
