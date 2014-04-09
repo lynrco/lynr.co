@@ -53,10 +53,9 @@ module Lynr; module Model;
     # `self` and `o` are sent a message based on `#equality_fields`.
     #
     def equality_by_fields(o)
-      result = equality_fields.reduce(true) do |result, property|
+      equality_fields.reduce(true) do |result, property|
         result && o.respond_to?(property) && self.send(property) == o.send(property)
       end
-      result
     end
 
   end
