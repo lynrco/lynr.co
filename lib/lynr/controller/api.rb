@@ -98,6 +98,15 @@ module Lynr; module Controller;
       dealer_dao.delete(dealership.id)
     end
 
+    # ## `Api#stripe_customer_subscription_created(event, req)`
+    #
+    # Update the `Subscription` data associated with a `Dealership` when
+    # it is created in Stripe.
+    #
+    def stripe_customer_subscription_created(event, req)
+      stripe_customer_subscription_updated(event, req)
+    end
+
     # ## `Api#stripe_customer_subscription_updated(event, req)`
     #
     # Update the `Subscription` data associated with a `Dealership` when
