@@ -64,7 +64,7 @@ module Lynr::Model
     # Turn record into a `Subscription` instance. Delegates to `.new`.
     #
     def self.inflate(record)
-      Subscription.new(record)
+      Subscription.new(record || {})
     end
 
     protected
