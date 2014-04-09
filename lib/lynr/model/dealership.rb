@@ -6,6 +6,7 @@ require './lib/lynr/model/base'
 require './lib/lynr/model/identity'
 require './lib/lynr/model/sized_image'
 require './lib/lynr/model/slug'
+require './lib/lynr/model/subscription'
 
 module Lynr; module Model;
 
@@ -25,7 +26,8 @@ module Lynr; module Model;
     include Lynr::Model::Base
 
     attr_reader :id, :created_at, :updated_at
-    attr_reader :name, :slug, :accounts, :phone, :identity, :address, :image, :customer_id
+    attr_reader :name, :slug, :accounts, :phone, :identity, :address,
+                :image, :customer_id, :subscription
 
     def initialize(data={}, id=nil)
       @id = id
@@ -36,6 +38,7 @@ module Lynr; module Model;
       @address = extract_address(data)
       @image = data.fetch('image', default=nil)
       @accounts = data.fetch('accounts', default=Accounts.new)
+      @subscription = data.fetch('subscription', default=Subscription.new)
       @customer_id = data.fetch('customer_id', default=nil)
       @created_at = data.fetch('created_at', default=nil)
       @updated_at = data.fetch('updated_at', default=nil)
@@ -52,6 +55,7 @@ module Lynr; module Model;
       data['identity'] = @identity.view if @identity
       data['image'] = @image.view if @image
       data['slug'] = slug unless slug.empty?
+      data['subscription'] = @subscription.view unless @subscription.nil?
       data
     end
 
@@ -61,6 +65,7 @@ module Lynr; module Model;
         data['accounts'] = Lynr::Model::Accounts.inflate(record['accounts'])
         data['identity'] = Lynr::Model::Identity.inflate(record['identity'])
         data['image'] = Lynr::Model::SizedImage.inflate(record['image'])
+        data['subscription'] = Lynr::Model::Subscription.inflate(record['subscription'])
         Lynr::Model::Dealership.new(data, record['id'])
       else
         nil
