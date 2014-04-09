@@ -5,6 +5,7 @@ require './lib/lynr/model/address'
 require './lib/lynr/model/dealership'
 require './lib/lynr/model/identity'
 require './lib/lynr/model/sized_image'
+require './lib/lynr/model/subscription'
 
 describe Lynr::Model::Dealership do
 
@@ -12,6 +13,7 @@ describe Lynr::Model::Dealership do
   let(:identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'this is a fake password') }
   let(:img) { Lynr::Model::Image.new("300", "150", "//lynr.co/assets/image.gif") }
   let(:image) { Lynr::Model::SizedImage.new({ 'original' => img }) }
+  let(:subscription) { Lynr::Model::Subscription.new }
 
   describe "#==" do
 
@@ -184,6 +186,18 @@ describe Lynr::Model::Dealership do
 
       it "is the same as the constructing image" do
         expect(dealer.image).to eq(image)
+      end
+
+    end
+
+    context "#subscription" do
+
+      it "is a Lynr::Model::Subscription" do
+        expect(dealer.subscription).to be_an_instance_of(Lynr::Model::Subscription)
+      end
+
+      it "is an empty subscription" do
+        expect(dealer.subscription).to eq(subscription)
       end
 
     end
