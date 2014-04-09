@@ -48,7 +48,7 @@ stripe:
   pub_key: 'env:stripe_pub_key'
   version: '2013-02-13'
   plan: 'env:stripe_plan'
-  live: false
+  live: 'env:stripe_live'
 # Used to handle file uploads
 transloadit:
   auth_key: 'env:transloadit_key'
