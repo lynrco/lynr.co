@@ -6,6 +6,7 @@ require './lib/lynr/model/subscription'
 describe Lynr::Model::Subscription do
 
   subject(:subscription) { Lynr::Model::Subscription.new(plan: 'lynr_alpha', status: status) }
+  subject(:empty_subscription) { Lynr::Model::Subscription.new }
 
   context "with status=inactive" do
 
@@ -142,6 +143,10 @@ describe Lynr::Model::Subscription do
 
     it "is the same as .new" do
       expect(Lynr::Model::Subscription.inflate(props)).to eq(Lynr::Model::Subscription.new(props))
+    end
+
+    it "is any empty subscription if given `nil`" do
+      expect(Lynr::Model::Subscription.inflate(nil)).to eq(empty_subscription)
     end
 
   end
