@@ -9,11 +9,12 @@ namespace :lynr do
     Stripe.api_key = Lynr.config('app').stripe.key
     Stripe.api_version = Lynr.config('app').stripe.version
 
+    # Shortcut to a new `Lynr::Persist::DealershipDao`
     def dealership_dao
-      return @dealership_dao unless @dealership_dao.nil?
-      @dealership_dao = Lynr::Persist::DealershipDao.new
+      @dealership_dao ||= Lynr::Persist::DealershipDao.new
     end
 
+    # Get customer information from Stripe and save it
     def sync_customer(customer_id)
       customer = Stripe::Customer.retrieve(customer_id)
       dealer = dealership_dao.get_by_customer_id(customer_id)
@@ -21,6 +22,7 @@ namespace :lynr do
       dealership_dao.save(dealer.set({ 'subscription' => subscription }))
     end
 
+    # Turn `Stripe::Subscription` into `Lynr::Model::Subscription`
     def stripe_to_subscription(subscription)
       record =
         if subscription.nil? || subscription.plan.nil?
