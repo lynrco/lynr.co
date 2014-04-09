@@ -141,7 +141,7 @@ describe Lynr::Model::Subscription do
     let(:props) { { plan: 'lynr_plan', status: 'active' } }
 
     it "is the same as .new" do
-      expect(Lynr::Model::Subscription.new(props)).to eq(Lynr::Model::Subscription.inflate(props))
+      expect(Lynr::Model::Subscription.inflate(props)).to eq(Lynr::Model::Subscription.new(props))
     end
 
   end
