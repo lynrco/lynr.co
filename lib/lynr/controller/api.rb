@@ -46,6 +46,7 @@ module Lynr; module Controller;
       log.debug({ type: 'data', stripe_type: json['type'] })
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json, req)
+        when 'customer.subscription.updated' then stripe_customer_subscription_updated(json, req)
         when 'customer.subscription.trial_will_end' then stripe_customer_trial_ending(json, req)
         when 'invoice.payment_failed' then stripe_invoice_payment_failed(json, req)
       end
@@ -78,8 +79,6 @@ module Lynr; module Controller;
         last4: customer.active_card.last4,
         next_attempt: Time.at(invoice['next_payment_attempt']),
       }))
-      # TODO: Something else needs to happen here so the system knows
-      # this is no longer an account in good standing.
     end
 
     # ## `Api#stripe_customer_deleted(event, req)`
@@ -97,6 +96,18 @@ module Lynr; module Controller;
       return false unless stripe_customer.deleted
       log.debug({ type: 'notice', message: "Verified #{id} was deleted with Stripe" })
       dealer_dao.delete(dealership.id)
+    end
+
+    # ## `Api#stripe_customer_subscription_updated(event, req)`
+    #
+    # Update the `Subscription` data associated with a `Dealership` when
+    # it changes in Stripe.
+    #
+    def stripe_customer_subscription_updated(event, req)
+      subscription = event['data']['object']
+      subs = Lynr::Model::Subscription.new(plan: subscription['plan']['id'], status: subscription['status'])
+      dealership = dealer_dao.get_by_customer_id(subscription['customer']).set('subscription' => subs)
+      dealer_dao.save(dealership)
     end
 
     # ## `Api#stripe_customer_trial_ending(event, req)`
