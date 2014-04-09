@@ -49,7 +49,8 @@ module Lynr::Controller
     def create_dealership(identity, customer)
       dealership = Lynr::Model::Dealership.new({
         'identity' => identity,
-        'customer_id' => customer.id
+        'customer_id' => customer.id,
+        'subscription' => Lynr::Model::Subscription.new(status: 'trialing'),
       })
       dealer_dao.save(dealership)
     end
