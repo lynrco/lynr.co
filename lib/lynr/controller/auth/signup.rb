@@ -1,3 +1,7 @@
+require './lib/lynr/model/dealership'
+require './lib/lynr/model/identity'
+require './lib/lynr/model/subscription'
+
 module Lynr::Controller
 
   # # `Lynr::Controller::Auth::Signup`
@@ -63,7 +67,7 @@ module Lynr::Controller
       render 'auth/signup.erb'
     end
 
-    # ## `Lynr::Controller::Auth::Signup#handle_stripe_error!(err, message)`
+    # ## `Auth::Signup#handle_stripe_error!(err, message)`
     #
     # This method takes an error and message and maps it to the credit card
     # fields and then provides an appropriate response object. The 'bang' at
@@ -88,6 +92,11 @@ module Lynr::Controller
       render 'auth/signup.erb'
     end
 
+    # ## `Auth::Signup#notify_by_email(dealership, req)`
+    #
+    # When a new dealership is created send an email address notifying
+    # of the account creation.
+    #
     def notify_by_email(dealership, req)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('auth/account_created', {
         to: dealership.identity.email,
