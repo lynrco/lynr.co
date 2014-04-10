@@ -1,0 +1,12 @@
+        <h1 class="page-title">Cancel Account</h1>
+        <div class="content">
+          <p>
+            This will schedule your account for cancelation at the end of your
+            current billing cycle. At which time your acount and vehicle information
+            will be removed from our databases.
+          </p>
+          <form class="f-delete" action="/admin/<%= @dealership.slug %>/account/cancel" method="POST">
+            <input type="hidden" name="deleted_at" value="<%= Time.now %>" />
+            <button class="btn btn-full btn-delete" type="submit">Cancel Account</button>
+          </form>
+        </div>
