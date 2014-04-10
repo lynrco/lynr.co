@@ -2,7 +2,19 @@
 
 namespace :lynr do
 
+  def load_env(path)
+    if File.exists?(path) && File.readable?(path)
+      File.readlines(path).each do |line|
+        parts = line.chomp.split('=')
+        ENV[parts[0]] = parts[1]
+      end
+    end
+  end
+
   def server_and_options
+    load_env(File.join(Lynr.root, '.env'))
+    load_env(File.join(Lynr.root, ".env.#{Lynr.env}"))
+
     ENV['SSL_CERT_FILE'] = "#{File.dirname(__FILE__).chomp('/task')}/certs/server.cert.crt"
     ENV['SSL_CERT_DIR'] = "#{File.dirname(__FILE__).chomp('/task')}/certs"
 
