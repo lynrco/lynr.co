@@ -16,11 +16,15 @@ Lynr::Web.setup
 config = Lynr.config('app')
 
 statics = 'public'
-statics = 'dist' if Lynr.env == 'heroku'
 
-use NewRelic::Rack::AgentHooks if Lynr.env == 'heroku'
-use NewRelic::Rack::BrowserMonitoring if Lynr.env == 'heroku'
-use NewRelic::Rack::ErrorCollector if Lynr.env == 'heroku'
+if Lynr.env == 'heroku'
+  statics = 'dist'
+
+  use NewRelic::Rack::AgentHooks
+  use NewRelic::Rack::BrowserMonitoring
+  use NewRelic::Rack::ErrorCollector
+end
+
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
 use Rack::Static, :urls => [
