@@ -5,7 +5,14 @@ require './lib/lynr/model/subscription'
 
 describe Lynr::Model::Subscription do
 
-  subject(:subscription) { Lynr::Model::Subscription.new(plan: 'lynr_alpha', status: status) }
+  let(:canceled_at) { nil }
+  subject(:subscription) {
+    Lynr::Model::Subscription.new({
+      canceled_at: canceled_at,
+      plan: 'lynr_alpha',
+      status: status,
+    })
+  }
   subject(:empty_subscription) { Lynr::Model::Subscription.new }
 
   context "with status=inactive" do
@@ -22,6 +29,10 @@ describe Lynr::Model::Subscription do
 
     describe "#canceled?" do
       it { expect(subscription.canceled?).to be_false }
+    end
+
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_false }
     end
 
   end
@@ -42,6 +53,10 @@ describe Lynr::Model::Subscription do
       it { expect(subscription.canceled?).to be_false }
     end
 
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_false }
+    end
+
   end
 
   context "with status=active" do
@@ -60,6 +75,33 @@ describe Lynr::Model::Subscription do
       it { expect(subscription.canceled?).to be_false }
     end
 
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_false }
+    end
+
+  end
+
+  context "with status=active and canceled_at not nil" do
+
+    let(:canceled_at) { Time.now }
+    let(:status) { 'active' }
+
+    describe "#active?" do
+      it { expect(subscription.active?).to be_true }
+    end
+
+    describe "#canceled?" do
+      it { expect(subscription.canceled?).to be_false }
+    end
+
+    describe "#delinquent?" do
+      it { expect(subscription.delinquent?).to be_false }
+    end
+
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_true }
+    end
+
   end
 
   context "with status=past_due" do
@@ -76,6 +118,10 @@ describe Lynr::Model::Subscription do
 
     describe "#canceled?" do
       it { expect(subscription.canceled?).to be_false }
+    end
+
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_false }
     end
 
   end
@@ -114,6 +160,10 @@ describe Lynr::Model::Subscription do
       it { expect(subscription.canceled?).to be_true }
     end
 
+    describe "#ending?" do
+      it { expect(subscription.ending?).to be_false }
+    end
+
   end
 
   describe "#set" do
@@ -134,6 +184,14 @@ describe Lynr::Model::Subscription do
 
     it "updates :status when provided" do
       expect(subscription.set(status: 'newstatus').status).to eq('newstatus')
+    end
+
+    it "updates canceled_at when provided" do
+      expect(subscription.set(canceled_at: 'newcancel').canceled_at).to eq('newcancel')
+    end
+
+    it "updates :canceled_at when provided" do
+      expect(subscription.set(canceled_at: 'newcancel').canceled_at).to eq('newcancel')
     end
 
     it "errors when nil provided" do
