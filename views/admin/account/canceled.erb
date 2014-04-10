@@ -1,0 +1,17 @@
+        <h1 class="page-title">Canceled Account</h1>
+        <div class="content">
+          <p>
+            Your account will be active until <%= @active_until.strftime('%b %d, %Y') %>
+            at <%= @active_until.strftime('%r %Z') %> which is the end of your
+            current billing cycle. At which time your acount and vehicle information
+            will be removed from our databases and you will no longer be able to access
+            your account.
+          </p>
+          <p>
+            We apologize for not living up to your expectations and would appreciate it
+            if you told us what we could have done better by emailing us at
+            <a href="mailto:<%= Lynr.config('app').support_email %>">
+              <%= Lynr.config('app').support_email %>
+            </a>.
+          </p>
+        </div>

@@ -12,16 +12,17 @@ module Lynr::Model
 
     include Base
 
-    attr_reader :plan, :status
+    attr_reader :canceled_at, :plan, :status
 
     # ## `Subscription.new(data)`
     #
-    # Get `plan` and `status` out of `data`. `plan` defaults to empty
-    # string and `status` defaults to 'inactive'. 'inactive' is nonsense
-    # as far as customer status is concerned and translates to mean,
-    # "we don't have information about this customer".
+    # Get `canceled_at`, `plan` and `status` out of `data`. `canceled_at` defaults
+    # to nil `plan` defaults to empty string and `status` defaults to 'inactive'.
+    # 'inactive' is nonsense as far as customer status is concerned and translates
+    # to mean, "we don't have information about this customer".
     #
     def initialize(data={})
+      @canceled_at = data.fetch('canceled_at', data.fetch(:canceled_at, nil))
       @plan = data.fetch('plan', data.fetch(:plan, ''))
       @status = data.fetch('status', data.fetch(:status, 'inactive'))
     end
@@ -51,12 +52,38 @@ module Lynr::Model
       ['past_due'].include?(status)
     end
 
+    # ## `Subscription#ending?`
+    #
+    # True if this customer has request their account be canceled but there
+    # is still time before the end of their billing cycle.
+    #
+    def ending?
+      active? && !canceled_at.nil?
+    end
+
+    # ## `Subscription#set(data)`
+    #
+    # Merge `data` with current properties and create a new `Subscription`
+    # instance from the result.
+    #
+    def set(data={})
+      Subscription.new({
+        canceled_at: data.fetch('canceled_at', data.fetch(:canceled_at, @canceled_at)),
+        plan: data.fetch('plan', data.fetch(:plan, @plan)),
+        status: data.fetch('status', data.fetch(:status, @status)),
+      })
+    end
+
     # ## `Subscription#view`
     #
     # Get a `Hash` representation of this instance.
     #
     def view
-      { 'plan' => plan, 'status' => status }
+      {
+        'canceled_at' => canceled_at,
+        'plan' => plan,
+        'status' => status,
+      }
     end
 
     # ## `Subscription.inflate(record)`
