@@ -114,7 +114,11 @@ module Lynr; module Controller;
     #
     def stripe_customer_subscription_updated(event, req)
       subscription = event['data']['object']
-      subs = Lynr::Model::Subscription.new(plan: subscription['plan']['id'], status: subscription['status'])
+      subs = Lynr::Model::Subscription.new({
+        canceled_at: subscription['canceled_at'],
+        plan: subscription['plan']['id'],
+        status: subscription['status'],
+      })
       dealership = dealer_dao.get_by_customer_id(subscription['customer']).set('subscription' => subs)
       dealer_dao.save(dealership)
     end
