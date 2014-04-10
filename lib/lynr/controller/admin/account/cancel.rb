@@ -28,8 +28,13 @@ module Lynr::Controller
     # Process GET requests.
     #
     def get(req)
-      # TODO: If the subscription is already canceled then render 'admin/account/canceled.erb'
-      render 'admin/account/cancel.erb'
+      if dealership(req).subscription.ending?
+        customer = Stripe::Customer.retrieve(dealership(req).customer_id)
+        @active_until = Time.at(customer.subscription.current_period_end)
+        render 'admin/account/canceled.erb'
+      else
+        render 'admin/account/cancel.erb'
+      end
     end
 
     # ## `AdminAccountCancel#post(req)`
@@ -44,6 +49,9 @@ module Lynr::Controller
         else
           customer.subscription.delete(at_period_end: true)
         end
+      dealer_dao.save(dealership(req).set({
+        'subscription' => dealership(req).subscription.set(canceled_at: subscription.canceled_at)
+      }))
       @active_until = Time.at(subscription.current_period_end)
       render 'admin/account/canceled.erb'
     end
