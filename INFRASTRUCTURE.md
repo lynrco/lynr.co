@@ -19,3 +19,14 @@ Presently (as of 2014-03-15) both lynr-co and lynr-co-stage are served by the sa
 System emails are being processed through [Mailgun][mailgun]. The appropriate SPF and DKIM DNS records have been setup to permit Mailgun to send email on behalf of the lynr.co domain. Mailgun has a straightforward REST API to enable sending emails.
 
 [mailgun]: http://www.mailgun.com
+
+## Search
+
+Search queries are being processed by [Elasticsearch][es] hosted by [Found][found].
+Elasticsearch is powered by [Lucene][lucene] which is a powerful full-text indexing
+library and server. There are separate clusters running for the lynr-co-stage and
+lynr-co applications.
+
+[es]: http://elasticsearch.org
+[found]: https://www.found.no
+[lucene]: https://lucene.apache.org
