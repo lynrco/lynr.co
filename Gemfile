@@ -47,4 +47,5 @@ end
 
 group :heroku do
   gem 'unicorn',        '4.8.2'
+  gem 'newrelic_rpm',   '3.7.3.204'
 end
