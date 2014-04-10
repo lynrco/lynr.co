@@ -116,6 +116,32 @@ describe Lynr::Model::Subscription do
 
   end
 
+  describe "#set" do
+
+    let(:status) { 'active' }
+
+    it "updates plan when provided" do
+      expect(subscription.set('plan' => 'newplan').plan).to eq('newplan')
+    end
+
+    it "updates :plan when provided" do
+      expect(subscription.set(plan: 'newplan').plan).to eq('newplan')
+    end
+
+    it "updates status when provided" do
+      expect(subscription.set('status' => 'newstatus').status).to eq('newstatus')
+    end
+
+    it "updates :status when provided" do
+      expect(subscription.set(status: 'newstatus').status).to eq('newstatus')
+    end
+
+    it "errors when nil provided" do
+      expect { subscription.set(nil) }.to raise_error
+    end
+
+  end
+
   describe "#==" do
 
     let(:status) { 'active' }

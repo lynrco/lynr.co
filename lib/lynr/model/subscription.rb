@@ -51,6 +51,13 @@ module Lynr::Model
       ['past_due'].include?(status)
     end
 
+    def set(data={})
+      Subscription.new({
+        plan: data.fetch('plan', data.fetch(:plan, @plan)),
+        status: data.fetch('status', data.fetch(:status, @status)),
+      })
+    end
+
     # ## `Subscription#view`
     #
     # Get a `Hash` representation of this instance.
