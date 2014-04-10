@@ -27,6 +27,7 @@ require './lib/lynr/controller/auth/ebay'
 require './lib/lynr/controller/email' if Lynr.env == 'development'
 require './lib/lynr/controller/home'
 require './lib/lynr/controller/legal'
+require './lib/lynr/controller/ping'
 require './lib/lynr/logging'
 require './lib/lynr/view/renderer'
 
