@@ -1,6 +1,9 @@
 # Lynr.co Infrastructure
 
-This document provides information about the infrastructure supporting [lynr-co][lynr] and if different [lynr-co-stage][lynr-stage]. The goal of this document is to provide an overview of how the pieces fit together so it exists somewhere other than the developer's head.
+This document provides information about the infrastructure supporting [lynr-co][lynr]
+and if different [lynr-co-stage][lynr-stage]. The goal of this document is to provide
+an overview of how the pieces fit together so it exists somewhere other than the
+developer's head.
 
 [lynr]: https://www.lynr.co
 [lynr-stage]: https://lynr-co-stage.herokuapp.com
@@ -23,7 +26,9 @@ twelve (12) connections available for use.
 
 ## Email Delivery
 
-System emails are being processed through [Mailgun][mailgun]. The appropriate SPF and DKIM DNS records have been setup to permit Mailgun to send email on behalf of the lynr.co domain. Mailgun has a straightforward REST API to enable sending emails.
+System emails are being processed through [Mailgun][mailgun]. The appropriate SPF
+and DKIM DNS records have been setup to permit Mailgun to send email on behalf of
+the lynr.co domain. Mailgun has a straightforward REST API to enable sending emails.
 
 [mailgun]: http://www.mailgun.com
 
