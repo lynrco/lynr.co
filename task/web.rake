@@ -68,9 +68,6 @@ namespace :lynr do
 
     app =
       Rack::Builder.new do
-        # these middleware run in the master process.
-        use Shotgun::SkipFavicon
-
         # loader forks the child and runs the embedded config followed by the
         # application config.
         run Shotgun::Loader.new('config.ru') {
