@@ -9,6 +9,7 @@
 !/config/*.wercker.yaml
 !/config/*.spec.yaml
 /dist/
+/log/
 /node_modules/
 /public/css/*.css
 /public/svg/*.svg

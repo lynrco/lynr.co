@@ -1,6 +1,8 @@
 require 'rack'
 require 'rack/ssl'
 require 'librato-rack'
+
+require 'newrelic_rpm'
 require 'new_relic/rack/agent_hooks'
 require 'new_relic/rack/browser_monitoring'
 require 'new_relic/rack/error_collector'
