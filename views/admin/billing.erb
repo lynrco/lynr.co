@@ -1,3 +1,4 @@
+        <h1 class="page-title">Billing Information</h1>
 <%= render_partial 'form_messages.erb' -%>
         <form class="m-billing <%= if has_errors? then "m-billing-active" end %>" novalidate="novalidate"
             action="/admin/<%= @dealership.slug %>/billing" method="POST"
@@ -24,7 +25,6 @@
           <button class="btn btn-half btn-positive" type="submit">Update Billing Information</button>
           <a class="btn btn-half btn-negative" href="#cancel">Cancel</a>
         </form>
-        <%- # TODO: Number and pattern of stars needs to change based on card type -%>
         <div class="m-billing <%= if !has_errors? then "m-billing-active" end %>">
           <div class="fs">
             <p id="card_number" class="fs-full fs-input">
@@ -55,4 +55,7 @@
             <p id="card_cvv" class="fs-half fs-input">***</p>
           </div>
           <a class="btn btn-full btn-positive" href="#edit" type="submit">Edit Billing Information</a>
+          <p class="account-link">
+            <a href="/admin/<%= @dealership.slug %>/account/cancel">Cancel Account</a>
+          </p>
         </div>
