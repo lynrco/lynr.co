@@ -23,7 +23,9 @@ use NewRelic::Rack::BrowserMonitoring if Lynr.env == 'heroku'
 use NewRelic::Rack::ErrorCollector if Lynr.env == 'heroku'
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
-use Rack::Static, :urls => ["/css", "/js", "/img", "/robots.txt"], :root => statics
+use Rack::Static, :urls => [
+    "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
+  ], :root => statics
 use Librato::Rack if Lynr.env == 'heroku'
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
