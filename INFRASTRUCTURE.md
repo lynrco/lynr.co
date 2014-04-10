@@ -7,9 +7,16 @@ This document provides information about the infrastructure supporting [lynr-co]
 
 ## AMQP
 
-We are using [CloudAMQP][cloudamqp] as the hosting provider for [RabbitMQ][rabbitmq]. RabbitMQ is a rock solid piece of software well suited to passing ephemeral messages between disparate parts of the application. Using a SaaS provider for this allows more focus on development and less focus on infrastructure which is a common theme in this document.
+We are using [CloudAMQP][cloudamqp] as the hosting provider for [RabbitMQ][rabbitmq].
+RabbitMQ is a rock solid piece of software well suited to passing ephemeral messages
+between disparate parts of the application. Using a SaaS provider for this allows
+more focus on development and less focus on infrastructure which is a common
+theme in this document.
 
-Presently (as of 2014-03-15) both lynr-co and lynr-co-stage are served by the same CloudAMQP instance. There is only one worker process running and both write to the same Queues on CloudAMQP, meaning both lynr-co and lynr-co-stage place messages in the same Queue and the single worker processes them. There is some **risk** associated with this stragegy if new types of `Lynr::Queue::Job` messages are published to the Queue before the lynr-co worker process knows how to process them.
+Generally, lynr-co-stage does not have a 'worker' process running so background
+jobs are not being processed. There is a CloudAMQP instance running for staging
+but it is the smallest plan type. The AMQP instance for lynr-co has a pool of
+twelve (12) connections available for use.
 
 [cloudamqp]: http://www.cloudamqp.com
 [rabbitmq]: http://www.rabbitmq.com
