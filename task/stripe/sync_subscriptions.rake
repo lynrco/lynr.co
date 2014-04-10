@@ -29,7 +29,11 @@ namespace :lynr do
         if subscription.nil? || subscription.plan.nil?
           { plan: 'unknown', status: 'inactive' }
         else
-          { plan: subscription.plan.id, status: subscription.status }
+          {
+            canceled_at: subscription.canceled_at,
+            plan: subscription.plan.id,
+            status: subscription.status
+          }
         end
       Lynr::Model::Subscription.new(record)
     end
