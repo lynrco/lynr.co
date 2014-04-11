@@ -5,6 +5,7 @@
       '*': {
         'domReady': 'libs/domReady-2.0.0',
         'heap': 'modules/heapanalytics',
+        'identity': '/identity.js',
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.4.0',
         'mixpanel': 'modules/mixpanel',
