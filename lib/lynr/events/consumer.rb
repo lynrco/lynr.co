@@ -45,7 +45,7 @@ module Lynr
     # Defines what to do when a messages is received from `#consumer`.
     #
     def process(delivery_info, metadata, payload)
-      event = deserialize(payload)
+      event = deserialize(delivery_info, metadata, payload)
       log.info("type=processed payload=#{event.to_json}")
     end
 
