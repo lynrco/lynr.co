@@ -11,6 +11,17 @@ module Lynr
   #
   class Events::Handler
 
+    attr_reader :data
+
+    # ## `Events::Handler.new(data)`
+    #
+    # Store `data` to be accessed later. Default constructor for child
+    # classes so the same behavior doesn't need to be repeated.
+    #
+    def initialize(data={})
+      @data = data
+    end
+
     # ## `Events::Handler#dealership_dao`
     #
     # Get an instance of `Lynr::Persist::DealershipDao`
