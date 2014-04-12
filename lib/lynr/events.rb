@@ -31,7 +31,7 @@ module Lynr
     # `emit`ed.
     #
     def producer
-      @producer ||= Lynr::Queue.new("#{Lynr.env}.events", Lynr.config('app').amqp.producer, QUEUE_OPTS)
+      @producer ||= Lynr::Queue.new("#{Lynr.env}.events", Lynr.config('app').amqp.producer, Events::QUEUE_OPTS)
     end
 
     # ## `Events.emit(event)`

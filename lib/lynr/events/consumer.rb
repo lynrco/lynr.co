@@ -1,6 +1,7 @@
 require './lib/lynr'
 require './lib/lynr/events'
 require './lib/lynr/queue'
+require './lib/lynr/worker'
 
 module Lynr
 
@@ -25,7 +26,7 @@ module Lynr
     # consumed.
     #
     def consumer
-      @consumer ||= Lynr::Queue.new(queue_name, Lynr.config('app').amqp.producer, QUEUE_OPTS)
+      @consumer ||= Lynr::Queue.new(queue_name, Lynr.config('app').amqp.producer, Events::QUEUE_OPTS)
     end
 
     # ## `Events::Consumer#deserialize(delivery_info, metadata, payload)`
