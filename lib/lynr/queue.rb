@@ -164,7 +164,8 @@ module Lynr
     end
 
     def process_uncaught_exception(e, consumer)
-      log.error("type=error.uncaught name=#{e.class.name} message=#{e.message}")
+      trace = e.backtrace.map { |line| "\t#{line}" }.join("\n")
+      log.error("type=error.uncaught name=#{e.class.name} message=#{e.message} trace=\n#{trace}")
     end
 
     # ## `Lynr::Queue#queue(name)`
