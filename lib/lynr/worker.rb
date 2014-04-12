@@ -29,9 +29,11 @@ module Lynr
   #
   class Worker
 
+    autoload :Job, './lib/lynr/worker/job'
+
     include Lynr::Logging
 
-    attr_reader :config
+    attr_reader :config, :queue_name
 
     # ## `Lynr::Worker.new(queue_name)`
     #
@@ -40,7 +42,7 @@ module Lynr
     #
     def initialize(queue_name)
       @config = Lynr.config('app')
-      @consumer = Lynr::Queue::JobQueue.new(queue_name, @config['amqp']['consumer'])
+      @queue_name = queue_name
     end
 
     # ## `Lynr::Worker#call`
@@ -55,7 +57,7 @@ module Lynr
       end
 
       log.info("#{queue_info} state=started")
-      @consumer.subscribe({ block: true }) { |job| process(job) }
+      consumer.subscribe({ block: true }, &method(:process))
     rescue SystemExit => sysexit
       stop unless sysexit.success?
     rescue Exception => e
@@ -63,21 +65,23 @@ module Lynr
       stop
     end
 
-    # ## `Lynr::Worker#process(job)`
+    # ## `Lynr::Worker#consumer`
     #
-    # Perform the `job` provided by the `@consumer` while subscribed. This
-    # method is the one that makes the action happen. If `perform` returns
-    # a successful result send an `ack` message to the queue, otherwise
-    # send a nack with the option to requeue based on the result.
+    # Defines the type of `Lynr::Queue` to for which this `Worker`
+    # consumes messages. This method must be implemented by subclasses.
+    # `#consumer` is expected to return the same consumer every time.
     #
-    def process(job)
-      result = job.perform
-      log.info("#{queue_info} #{job.info} job.result=#{result.info}")
-      if result.success?
-        @consumer.ack(job.delivery_info.delivery_tag)
-      else
-        @consumer.nack(job.delivery_info.delivery_tag, result.requeue?)
-      end
+    def consumer
+      raise NoMethodError.new("`Lynr::Worker#consumer` must be defined in subclass")
+    end
+
+    # ## `Lynr::Worker#process(*args)`
+    #
+    # Perform the work for this `Worker`. This method is the one that
+    # makes the action happen and must be implemented by subclasses.
+    #
+    def process(*args)
+      raise NoMethodError.new("`Lynr::Worker#process` must be defined in subclass")
     end
 
     # ## `Lynr::Worker#queue_info`
@@ -86,7 +90,7 @@ module Lynr
     # and the name of the consumer.
     #
     def queue_info
-      "pid=#{Process.pid} queue=#{@consumer.name}"
+      "pid=#{Process.pid} queue=#{queue_name}"
     end
 
     # ## `Lynr::Worker#stop`
@@ -95,7 +99,7 @@ module Lynr
     #
     def stop
       log.info("#{queue_info} state=stopped")
-      @consumer.disconnect
+      consumer.disconnect
       Process.exit(0)
     rescue Bunny::NetworkFailure => be
       # Do nothing. We are quitting and if this happened it is probably because

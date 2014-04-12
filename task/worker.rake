@@ -4,17 +4,17 @@ namespace :lynr do
 
   queues = ['job']
 
-  require './lib/lynr'
-  require './lib/lynr/logging'
-  require './lib/lynr/worker'
-
   desc 'Starts the Lynr queue processors'
   task :workers do
+
+    require './lib/lynr'
+    require './lib/lynr/logging'
+    require './lib/lynr/worker'
 
     include Lynr::Logging
 
     workers = queues.map do |queue_name|
-      Lynr::Worker.new("#{Lynr.env}.#{queue_name}")
+      Lynr::Worker::Job.new("#{Lynr.env}.#{queue_name}")
     end
 
     pids = workers.map do |worker|
