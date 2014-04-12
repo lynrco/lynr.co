@@ -14,10 +14,13 @@ namespace :lynr do
     include Lynr::Logging
 
     workers = queues.map do |queue_name|
-      Lynr::Worker::Job.new("#{Lynr.env}.#{queue_name}")
+      count = ENV.fetch("lynr_workers_#{queue_name}", 1).to_i
+      (1..count).map do |n|
+        Lynr::Worker::Job.new("#{Lynr.env}.#{queue_name}")
+      end
     end
 
-    pids = workers.map do |worker|
+    pids = workers.flatten.map do |worker|
       fork &worker.method(:call)
     end
 
