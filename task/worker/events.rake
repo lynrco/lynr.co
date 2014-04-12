@@ -1,3 +1,4 @@
+# Defines tasks to start Event consumer Workers
 namespace :lynr do
 
   namespace :worker do
@@ -7,6 +8,7 @@ namespace :lynr do
 
       require './lib/lynr'
       require './lib/lynr/events'
+      require './lib/lynr/logging'
 
       include Lynr::Logging
 
@@ -18,19 +20,8 @@ namespace :lynr do
         Lynr::Events::Consumer.new
       end
 
-      pids = workers.flatten.map do |worker|
-        fork &worker.method(:call)
-      end
-
-      [:TERM, :INT].each do |sig|
-        Signal.trap(sig) do
-          pids.each { |pid| Process.kill(:QUIT, pid) }
-          log.info("told `Events::Consumer`s to QUIT from #{sig}")
-          Process.exit(0)
-        end
-      end
-
-      Process.wait
+      # `start_workers` is defined in the `lynr:worker` namespace
+      start_workers(workers)
 
     end
 

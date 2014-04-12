@@ -1,5 +1,4 @@
 # Defines tasks to start Queue consumer Workers
-
 namespace :lynr do
 
   namespace :worker do
@@ -25,19 +24,8 @@ namespace :lynr do
         end
       end
 
-      pids = workers.flatten.map do |worker|
-        fork &worker.method(:call)
-      end
-
-      [:TERM, :INT].each do |sig|
-        Signal.trap(sig) do
-          pids.each { |pid| Process.kill(:QUIT, pid) }
-          log.info("`rake lynr:workers` told Workers to QUIT from #{sig}")
-          Process.exit(0)
-        end
-      end
-
-      Process.wait
+      # `start_workers` is defined in the `lynr:worker` namespace
+      start_workers(workers)
 
     end
 
