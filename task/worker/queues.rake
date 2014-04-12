@@ -15,6 +15,9 @@ namespace :lynr do
 
       include Lynr::Logging
 
+      @logger = Log4r::Logger.new('rake:lynr:worker:queues')
+      @logger.outputters << Log4r::StdoutOutputter.new("console", OPTS)
+
       workers = queues.map do |queue_name|
         count = ENV.fetch("lynr_workers_#{queue_name}", 1).to_i
         (1..count).map do |n|
