@@ -184,7 +184,7 @@ module Lynr
     # existing backing data.
     #
     def merge_external
-      external = YAML.load_file(external_name)
+      external = YAML.load_file(external_name) || {}
       @config = external.merge(@config) do |key, externalval, configval|
         if (configval.is_a?(Hash))
           externalval.merge(configval)
