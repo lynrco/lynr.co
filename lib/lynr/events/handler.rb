@@ -69,7 +69,7 @@ module Lynr
       type = class_name.split('::').inject(Kernel) do |scope, name|
         scope.const_get(name)
       end
-      type.new(config)
+      type.new(Lynr::Config.new(nil, Lynr.env, config))
     end
 
     # # `Lynr::Events::Handler::Success`
