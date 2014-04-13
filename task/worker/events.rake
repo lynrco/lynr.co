@@ -19,7 +19,7 @@ namespace :lynr do
       @logger = Log4r::Logger.new('rake:lynr:worker:events')
       @logger.outputters << Log4r::StdoutOutputter.new("console", OPTS)
 
-      events = YAML.load_file('config/events.yaml').map do |type, handlers|
+      events = Lynr.config('events').to_hash.map do |type, handlers|
         [type, handlers.map { |h| Lynr::Events::Handler.from(h) }]
       end
 
