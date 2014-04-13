@@ -14,15 +14,15 @@ module Lynr
 
     include Lynr::Logging
 
-    attr_reader :data
+    attr_reader :config
 
-    # ## `Events::Handler.new(data)`
+    # ## `Events::Handler.new(config)`
     #
-    # Store `data` to be accessed later. Default constructor for child
+    # Store `config` to be accessed later. Default constructor for child
     # classes so the same behavior doesn't need to be repeated.
     #
-    def initialize(data={})
-      @data = data
+    def initialize(config={})
+      @config = config
     end
 
     # ## `Events::Handler#dealership_dao`
