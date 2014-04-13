@@ -55,21 +55,23 @@ module Lynr
     # which be consumed be processed.
     #
     def deserialize(delivery_info, metadata, payload)
-      JSON.parse(payload)
+      JSON.parse(payload, symbolize_names: true)
     rescue JSON::JSONError => e
       log.warn("type=parse.error payload=#{paylaod}")
     end
 
-    # ## `Events::Consumer#handlers_for(type)`
+    # ## `Events::Consumer#handlers_for(event)`
     #
-    # Retrieves the handlers for the given `type` of event. This is
+    # Retrieves the handlers for the `:type` in a given `event`. This is
     # used to retrieve the current set of handlers used to process a
-    # received event.
+    # received `event`.
     #
-    def handlers_for(type)
-      @semaphore.synchronize {
-        @backend.fetch(type, [])
+    def handlers_for(event)
+      handlers = @semaphore.synchronize {
+        @backend.fetch(event[:type], [])
       }
+      skippable = event.fetch(:_skippable, [])
+      handlers.reject { |handler| skippable.include?(handler.id) }
     end
 
     # ## `Events::Consumer#process(delivery_info, metadata, payload)`
@@ -78,12 +80,17 @@ module Lynr
     #
     def process(delivery_info, metadata, payload)
       event = deserialize(delivery_info, metadata, payload)
-      handlers = handlers_for(event['type'])
-      results = handlers.map do |handler|
-        handler.call(event)
-        log.info("type=processed.handler handler=#{handler.id}")
+      event[:_attempts] ||= 0
+      handlers = handlers_for(event)
+      results = handlers.map { |handler| handler.call(event) }
+      successes = results.select { |result| result.is_a?(Lynr::Events::Handler::Success) }
+      log.debug("type=processed payload=#{event.to_json}")
+      if successes.length != handlers.length && event[:_attempts] < 3
+        event[:_skippable] = successes
+        event[:_attempts] += 1
+        Lynr::Events.emit(event)
       end
-      log.info("type=processed payload=#{event.to_json}")
+      consumer.ack(delivery_info.delivery_tag)
     end
 
   end
