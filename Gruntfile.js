@@ -78,7 +78,8 @@ module.exports = function(grunt) {
         "mainConfigFile": "public/js/main.js",
         "dir": "dist",
         "paths": {
-          "stripe": "empty"
+          "stripe": "empty:",
+          "../identity": "empty:"
         },
         "modules": [
           { "name": "main" },
@@ -97,6 +98,7 @@ module.exports = function(grunt) {
           done();
         },
         function(err) {
+          grunt.log.error('Main build failure: ' + err);
           fatal('Main build failure: ' + err);
         }
       );

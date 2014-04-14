@@ -47,6 +47,8 @@ module Lynr; module Persist;
       record =
         if (id.is_a?(BSON::DBRef) && id.namespace == @collection)
           @dao.db.dereference(id)
+        elsif (id.is_a?(String) && BSON::ObjectId.legal?(id))
+          @dao.read(BSON::ObjectId.from_string(id))
         else
           @dao.read(id)
         end

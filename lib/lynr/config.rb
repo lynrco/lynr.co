@@ -44,7 +44,7 @@ module Lynr
     #
     def initialize(type, whereami='development', defaults={})
       @type = type
-      @environment = whereami || 'development'
+      @environment = whereami || Lynr.env
       @config = defaults || {}
       merge_external if has_external?
     end
@@ -55,6 +55,15 @@ module Lynr
     #
     def [](key)
       fetch(key)
+    end
+
+    # ## `Lynr::Config#delete(key)`
+    #
+    # Create a new `Config` instance without the value of `key` in the
+    # data.
+    #
+    def delete(key)
+      Config.new(nil, environment, to_hash.delete_if { |k| k == key })
     end
 
     # ## `Lynr::Config#fetch(key, default)
@@ -175,7 +184,7 @@ module Lynr
     # existing backing data.
     #
     def merge_external
-      external = YAML.load_file(external_name)
+      external = YAML.load_file(external_name) || {}
       @config = external.merge(@config) do |key, externalval, configval|
         if (configval.is_a?(Hash))
           externalval.merge(configval)
