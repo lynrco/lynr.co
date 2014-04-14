@@ -14,11 +14,23 @@ module Lynr
     def call(event)
       if distinct_id(event) && dealership_id(event)
         tracker.alias(dealership_id(event), distinct_id(event))
+        tracker.people.set(dealership_id(event), {
+          '$email' => dealership(event).identity.email,
+        })
       end
       success
     rescue Mixpanel::ConnectionError => err
       log.warn("type=handler.failure id=#{id} message=#{err.message}")
       failure
+    end
+
+    # ## `Events::Handler::MixpanelAlias#dealership(event)`
+    #
+    # Extract the dealership_id from the information provided in `event`
+    # and use it to retrieve the `Lynr::Model::Dealership`.
+    #
+    def dealership(event)
+      dealership_dao.get(dealership_id(event))
     end
 
     # ## `Events::Handler::MixpanelAlias#dealership_id(event)`
@@ -57,7 +69,7 @@ module Lynr
     # Create a `Mixpanel::Tracker` from the token provided in `data`.
     #
     def tracker
-      Mixpanel::Tracker.new(config['token'])
+      @_tracker ||= Mixpanel::Tracker.new(config['token'])
     end
 
   end
