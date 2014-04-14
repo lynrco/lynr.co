@@ -5,7 +5,6 @@
       '*': {
         'domReady': 'libs/domReady-2.0.0',
         'heap': 'modules/heapanalytics',
-        'identity': '/identity.js',
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.4.0',
         'mixpanel': 'modules/mixpanel',
@@ -63,7 +62,7 @@
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
 
-  require(['heap', 'mixpanel'], function(heap, mp) {
+  require(['heap', 'mixpanel', '../identity'], function(heap, mp, identity) {
     var heap_id = false;
 
     mp.track('pageview', {
@@ -71,6 +70,8 @@
       url: window.location.pathname,
       domain: window.location.host || window.location.hostname
     });
+
+    if (identity && identity.id) { mp.identify(identity.id); }
 
     if (!window.location.host) { return; }
     if (location.host.match(/lynr\.co$/)) {
