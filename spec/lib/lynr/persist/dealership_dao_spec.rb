@@ -187,6 +187,10 @@ describe Lynr::Persist::DealershipDao do
         expect(dao.get(ref)).to be_nil
       end
 
+      it "resolves String to ObjectId" do
+        expect(dao.get(saved.id.to_s)).to eq(saved)
+      end
+
     end
 
     describe "#get_by_email" do

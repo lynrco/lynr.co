@@ -1,0 +1,19 @@
+# Event handlers are configured here. They are configured by mapping
+# an event name to an Array of Event handler configurations. An example
+# configuration might look like:
+#
+#     dealership.created:
+#       - type: Lynr::Events::Handler::Email
+#         :template: 'auth/account_created'
+#         :subject: "Lynr.co Account Created"
+#
+# `type:` specifies the class name of the handler to be created. When
+# handlers are created they are passed the entire event handler
+# configuration as a `Lynr::Config` instance.
+#
+dealership.created:
+  - type: Lynr::Events::Handler::MixpanelAlias
+    token: 'env:mixpanel_token'
+  - type: Lynr::Events::Handler::Email
+    :template: 'auth/account_created'
+    :subject: "Lynr.co Account Created"

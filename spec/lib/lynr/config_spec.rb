@@ -106,6 +106,15 @@ describe Lynr::Config do
 
     end
 
+    describe "#delete" do
+
+      it "returns an instance without specified key" do
+        expect(config.include?('mongo')).to be_true
+        expect(config.delete('mongo').include?('mongo')).to be_false
+      end
+
+    end
+
   end
 
   context "with defaults" do
@@ -144,6 +153,15 @@ describe Lynr::Config do
 
       it "reads a value when key is symbol or string" do
         expect(config[:int_val]).to eq(63)
+      end
+
+    end
+
+    describe "#delete" do
+
+      it "returns an instance without specified key" do
+        expect(config.include?('mongo')).to be_true
+        expect(config.delete('mongo').include?('mongo')).to be_false
       end
 
     end

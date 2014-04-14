@@ -40,12 +40,14 @@ module Lynr
     # delivery if the type is incorrect, otherwise yield the `Job` to `block`.
     # Raises an `ArgumentError` if `block` is not provided.
     #
-    def subscribe(opts = {})
-      raise ArgumentError.new("`subscribe` needs a block") if !block_given?
+    def subscribe(opts = {}, &handler)
+      if !handler.respond_to?(:call)
+        raise ArgumentError.new("`#subscribe`'s handler must respond to `:call`")
+      end
       queue(@name).subscribe(@subscribe_opts.merge(opts)) do |delivery_info, metadata, payload|
         job = deserialize(delivery_info, metadata, payload)
         return unknown_type(delivery_info, metadata, payload) if job.nil?
-        yield job
+        handler.call(job)
       end
       self
     end

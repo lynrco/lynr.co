@@ -27,6 +27,7 @@ require './lib/lynr/controller/auth/ebay'
 # Email controller is for email previews
 require './lib/lynr/controller/email' if Lynr.env == 'development'
 require './lib/lynr/controller/home'
+require './lib/lynr/controller/js_identity'
 require './lib/lynr/controller/legal'
 require './lib/lynr/controller/ping'
 require './lib/lynr/logging'
