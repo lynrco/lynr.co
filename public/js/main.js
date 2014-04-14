@@ -62,9 +62,7 @@
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
 
-  require(['heap', 'mixpanel', '../identity'], function(heap, mp, identity) {
-    var heap_id = false;
-
+  require(['mixpanel', '../identity'], function(mp, identity) {
     mp.track('pageview', {
       title: document.title,
       url: window.location.pathname,
@@ -72,14 +70,6 @@
     });
 
     if (identity && identity.id) { mp.identify(identity.id); }
-
-    if (!window.location.host) { return; }
-    if (location.host.match(/lynr\.co$/)) {
-      heap_id = '3641699606';
-    } else if (location.host.match(/herokuapp\.com$/)) {
-      heap_id = '3039819491';
-    }
-    heap.load(heap_id);
   });
 
 })();
