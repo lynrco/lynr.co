@@ -10,7 +10,7 @@ namespace :lynr do
       [:TERM, :INT].each do |sig|
         Signal.trap(sig) do
           pids.each { |pid| Process.kill(:QUIT, pid) }
-          log.info("told `Events::Consumer`s to QUIT from #{sig}")
+          log.info("told workers to QUIT from #{sig}")
           Process.exit(0)
         end
       end
