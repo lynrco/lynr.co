@@ -25,6 +25,8 @@ RSpec.configure do |c|
     MongoHelpers.empty! if MongoHelpers.dao.active?
   end
 
+  Log4r::Logger.global.level = 6
+
   if ENV.include?('whereami')
     c.whereami = ENV['whereami']
   else
