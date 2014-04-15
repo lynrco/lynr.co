@@ -6,3 +6,5 @@ force_ssl:      'env:feature_force_ssl'      # (true|false)
 # TODO: Remove when there is no need for flip flopping
 # NOTE: Used in `views/index.erb`
 live:           'env:feature_live_stripe'    # (true|false)
+# If demo is true then this is the demonstration site
+demo:           'env:feature_demo'           # (true|false)
