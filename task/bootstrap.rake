@@ -36,6 +36,10 @@ namespace :lynr do
     execute_commands(["cp config/features.{example,#{env}}.yaml"])
   end
 
+  file "config/events.#{env}.yaml" do
+    execute_commands(["cp config/events.{example,#{env}}.yaml"])
+  end
+
   desc 'Generate self-signed certificates and put them in certs'
   task :'bootstrap:certs' => [ "certs/server.cert.key",
                                "certs/server.cert.crt",
