@@ -35,10 +35,12 @@ encouraged.
 
 1. Editthe  `/etc/hosts` file (this may require super user priveleges) and
   append `127.0.0.1       lynr.co.local`
+1. `brew install node rbenv ruby-build`
+1. `rbenv install $(cat .ruby-version)`
 1. `gem install bundler`
-1. `brew install node`
-1. `npm install`
+1. `rbenv rehash`
 1. `bundle install`
+1. `npm install`
 1. `bundle exec rake lynr:bootstrap`
 
 For the curious, more information about what `rake lynr:bootstrap` does
@@ -63,7 +65,8 @@ commands are:
   then watch for changes. Part of the grunt task is to generate source maps
   to show which .less file the styles came from.
 1. `bundle exec guard -g rspec` for Ruby spec/test running
-1. `bundle exec rake lynr:workers` for queue workers
+1. `bundle exec rake lynr:queues` for background jobs
+1. `bundle exec rake lynr:events` for event processing
 
 If you did the above and set up the external dependencies correctly
 you should now have a server up and running. Point a browser to
@@ -79,6 +82,8 @@ files use an environment variable, `whereami`, in the filename:
 
 * `config/database.#{ENV['whereami']}.yaml`
 * `config/app.#{ENV['whereami']}.yaml`
+* `config/features.#{ENV['whereami']}.yaml`
+* `config/events.#{ENV['whereami']}.yaml`
 
 There are example files committed to source control containing the fields necessary
 for operation. Many of the configuration values are API keys for third party services.
