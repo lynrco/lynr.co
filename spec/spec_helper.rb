@@ -1,5 +1,6 @@
 require 'codeclimate-test-reporter'
 
+require './spec/support/config_helper'
 require './spec/support/model_helper'
 require './spec/support/mongo_helper'
 require './spec/support/route_helper'
