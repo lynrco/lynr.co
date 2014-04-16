@@ -1,11 +1,13 @@
-# Lynr.co Payment Unsuccessful #
+Someone got a fancy new card we see,
 
-We were unable to charge the card on file ending in <%= last4 %> for
-your account at <%= base_url %>. This was our <%= attempt_count %>
-attempt to collect payment. The next attempt will be on
-<%= next_attempt.strftime('%b %d, %Y') %> at <%= next_attempt.strftime('%r %Z') %>.
+We’re writing to let you know that the card ending in <%= last4 %> failed
+to process. This was our <%= attempt_count %> try to process the card.
+We'll try again on <%= next_attempt.strftime('%b %d, %Y') %> at
+<%= next_attempt.strftime('%r %Z') %>.
 
-Please update your card information before then.
+If you have any questions or need help for any reason please let us know
+by sending a note to <%= support_email %>.
+
 
 Terms & Conditions (<%= base_url %>/legal/terms)
 Privacy Policy (<%= base_url %>/legal/privacy)
