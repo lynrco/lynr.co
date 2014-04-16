@@ -12,7 +12,6 @@ describe Lynr::Controller::Legal do
     path = ::File.join(Lynr.root, "public/legal/#{subject.version(req)}/#{subject.type(req)}.md")
     ::File.read(path)
   }
-  let(:response) { subject.get(req) }
 
   shared_examples "valid request" do
 
@@ -33,6 +32,8 @@ describe Lynr::Controller::Legal do
     end
 
     describe "#get" do
+
+      let(:response) { subject.get(req) }
 
       it "is a Rack::Response" do
         expect(response).to be_instance_of(Rack::Response)
@@ -60,7 +61,7 @@ describe Lynr::Controller::Legal do
 
   end
 
-  context "/legal" do
+  context "GET /legal" do
 
     let(:uri) { '/legal' }
     let(:path) { '/legal' }
@@ -93,7 +94,7 @@ describe Lynr::Controller::Legal do
 
   end
 
-  context "/legal/terms" do
+  context "GET /legal/terms" do
 
     let(:uri) { '/legal/terms' }
     let(:path) { '/legal/:type' }
@@ -126,7 +127,7 @@ describe Lynr::Controller::Legal do
 
   end
 
-  context "/legal/privacy" do
+  context "GET /legal/privacy" do
 
     let(:uri) { '/legal/privacy' }
     let(:path) { '/legal/:type' }
@@ -159,7 +160,7 @@ describe Lynr::Controller::Legal do
 
   end
 
-  context "/legal/2014-03-12/privacy" do
+  context "GET /legal/2014-03-12/privacy" do
 
     before(:each) do
       Lynr::Controller::Legal.any_instance.stub(:config) do
@@ -204,7 +205,7 @@ describe Lynr::Controller::Legal do
 
   end
 
-  context "/legal/not_a_doc" do
+  context "GET /legal/not_a_doc" do
 
     let(:uri) { '/legal/not_a_doc' }
     let(:path) { '/legal/:type' }

@@ -12,6 +12,7 @@ shared_context "spec/support/RouteHelper" do
   let(:env_opts) { { method: route_method[1] } }
   let(:env) { env_for(uri) }
   let(:req) { Sly::Request.new(env, route.path_regex) }
+  let(:response) { route.call(env) }
 
   def env_for(uri)
     Rack::MockRequest.env_for("https://#{domain}#{uri}", env_opts)
