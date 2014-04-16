@@ -15,6 +15,8 @@ RSpec.configure do |c|
   c.add_setting :root, default: File.expand_path(File.dirname(__FILE__)).chomp('/spec')
   c.add_setting :env, default: [c.root, '.env'].join(File::SEPARATOR)
 
+  $VERBOSE = nil
+
   if File.exists?(c.env) && File.readable?(c.env)
     File.readlines(c.env).each do |line|
       parts = line.chomp.split('=')
