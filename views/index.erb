@@ -7,17 +7,6 @@
           <a class="btn btn-full btn-positive btn-signin" href="/signin" title="Sign In">Sign In</a>
           <a class="btn btn-full btn-positive btn-signup" href="/signup" title="Sign Up">Sign Up</a>
         </nav>
-        <%- elsif Lynr.features.demo? %>
-        <form class="signup" action="/signup" method="POST">
-          <fieldset class="fs">
-            <label for="email">Email Address</label>
-            <input class="fs-full <%= error_class('email') %>" type="email" name="email"
-                   id="email" placeholder="Your email address"
-                   autocomplete="email" autocompletetype="email"
-                   value="<%= posted['email'] %>" />
-          </fieldset>
-          <button class="btn btn-full btn-positive">Sign Up</button>
-        </form>
         <%- else -%>
 <%= render_partial 'form_messages.erb' -%>
         <form class="signup" action="/" method="POST">
