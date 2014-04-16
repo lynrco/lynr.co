@@ -6,9 +6,10 @@
 </p>
 <p>
   We can help you get that PIN sorted out right now. Just head over to
-  <%= url %> before <%= token_expires.strftime('%F') %> at
-  <%= token_expires.strftime('%r %Z') %> and reset it. If you need
-  anything else just send a note to <%= support_email%>.
+  <a href="<%= url %>"><%= url %></a> before
+  <%= token_expires.strftime('%F') %> at <%= token_expires.strftime('%r %Z') %>
+  and reset it. If you need anything else just send a note to
+  <%= support_email%>.
 </p>
 
 <div class="footer">
