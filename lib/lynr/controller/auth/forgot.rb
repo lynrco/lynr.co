@@ -52,10 +52,11 @@ module Lynr::Controller
     def notify_by_email(dealership, token, req)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('auth/forgot', {
         to: dealership.identity.email,
-        subject: "Lynr.co password reset",
+        subject: "Your request to change your Lynr password",
         base_url: req.base_url,
         url: "#{req.base_url}/signin/#{token.id}",
         token_expires: token.expires,
+        support_email: Lynr.config('app').support_email,
       }))
     end
 
