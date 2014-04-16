@@ -21,11 +21,11 @@ module Lynr
     # of errors by logging them instead of letting them propogate up.
     #
     def add(measurements)
-      queue.add(measurements)
+      queue.add(measurements) if configured?
     rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
       log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
     ensure
-      queue.submit
+      queue.submit unless queue.empty?
     end
 
     # ## `Metrics#configured(config)`

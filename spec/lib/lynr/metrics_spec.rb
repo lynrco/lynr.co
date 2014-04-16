@@ -6,6 +6,8 @@ require './lib/lynr/metrics'
 
 describe Lynr::Metrics do
 
+  include_context "spec/support/ConfigHelper"
+
   let(:librato_config) {
     {
       'user'   => 'bryan@lynr.co',
@@ -108,6 +110,16 @@ describe Lynr::Metrics do
     end
 
     context "with no explicit config" do
+
+      before(:each) do
+        stub_config('app', {
+          'librato' => {
+            'user' => 'foo@bar.com',
+            'token' => 'madeup',
+            'source' => 'lynr-co-spec',
+          }
+        })
+      end
 
       let(:queue) { subject.queue }
       let(:config) { Lynr.config('app') }
