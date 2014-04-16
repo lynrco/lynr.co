@@ -16,4 +16,4 @@ dealership.created:
     token: 'env:mixpanel_token'
   - type: Lynr::Events::Handler::Email
     :template: 'auth/account_created'
-    :subject: "Lynr.co Account Created"
+    :subject: "Welcome to Lynr, your inventory and sales system"

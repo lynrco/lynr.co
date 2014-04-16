@@ -134,7 +134,7 @@ module Lynr; module Controller;
     def notify_by_email(req)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('email_updated', {
         to: @dealership.identity.email,
-        subject: "Lynr.co Email Address Updated",
+        subject: "Just confirming a recent change to your Lynr account",
         base_url: req.base_url,
         support_email: Lynr.config('app').support_email,
       }))

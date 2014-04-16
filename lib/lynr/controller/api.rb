@@ -73,11 +73,12 @@ module Lynr; module Controller;
       end
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
         to: dealership.identity.email,
-        subject: "Lynr.co Charge Failed",
+        subject: "We couldn't process payment for your Lynr account",
         base_url: req.base_url,
         attempt_count: attempt,
         last4: customer.active_card.last4,
         next_attempt: Time.at(invoice['next_payment_attempt']),
+        support_email: Lynr.config('app').support_email,
       }))
     end
 
@@ -141,6 +142,7 @@ module Lynr; module Controller;
         subject: "Lynr.co Trial Ends on #{trial_end_date.strftime('%B %d')}",
         base_url: req.base_url,
         end_date: trial_end_date,
+        support_email: Lynr.config('app').support_email,
       }))
     end
 
