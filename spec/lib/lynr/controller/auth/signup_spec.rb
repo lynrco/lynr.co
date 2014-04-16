@@ -26,7 +26,14 @@ describe Lynr::Controller::Auth::Signup do
   }
 
   before(:each) do
-    stub_config('app', { 'stripe' => { 'plan' => 'lynr_spec' } })
+    stub_config('app', { 'stripe' => {
+      'plan' => 'lynr_spec', 'pub_key' => 'made up' }
+    })
+  end
+
+  context "GET /signup" do
+    let(:route_method) { [:get_signup, 'GET'] }
+    it_behaves_like "Lynr::Controller::Base#valid_request"
   end
 
   context "POST /signup - with valid data" do
