@@ -1,3 +1,4 @@
+require 'nokogiri'
 require 'rack'
 
 require './lib/sly/request'

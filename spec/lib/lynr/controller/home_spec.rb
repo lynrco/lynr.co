@@ -2,8 +2,6 @@ require 'rspec/autorun'
 require './spec/spec_helper'
 require './spec/lib/lynr/controller/base_specs_shared'
 
-require 'nokogiri'
-
 require './lib/lynr/controller/home'
 
 describe Lynr::Controller::Home do
