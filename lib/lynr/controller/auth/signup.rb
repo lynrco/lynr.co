@@ -1,3 +1,5 @@
+require './lib/lynr/controller'
+require './lib/lynr/controller/auth'
 require './lib/lynr/events'
 require './lib/lynr/model/dealership'
 require './lib/lynr/model/identity'
@@ -52,9 +54,10 @@ module Lynr::Controller
     # instance and save it to the database.
     #
     def create_dealership(identity, customer)
+      customer_id = if customer.nil? then nil else customer.id end
       dealership = Lynr::Model::Dealership.new({
         'identity' => identity,
-        'customer_id' => customer.id,
+        'customer_id' => customer_id,
         'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: 'trialing'),
       })
       dealer_dao.save(dealership)
