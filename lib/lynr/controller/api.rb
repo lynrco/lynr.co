@@ -73,7 +73,7 @@ module Lynr; module Controller;
       end
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('payment/charge_failed', {
         to: dealership.identity.email,
-        subject: "Lynr.co Charge Failed",
+        subject: "We couldn't process payment for your Lynr account",
         base_url: req.base_url,
         attempt_count: attempt,
         last4: customer.active_card.last4,
