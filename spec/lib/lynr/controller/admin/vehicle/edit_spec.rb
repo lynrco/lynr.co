@@ -32,11 +32,7 @@ describe Lynr::Controller::Admin::Vehicle::Edit do
 
     let(:route_method) { [:post_edit_vehicle, 'POST'] }
     let(:env_opts) {
-      {
-        method: route_method[1],
-        params: { 'vin[ext_color]' => 'silver' },
-        'rack.session' => { 'dealer_id' => saved_empty_dealership.id },
-      }
+      super().merge(params: { 'vin[ext_color]' => 'silver' })
     }
 
     it_behaves_like "Lynr::Controller::Base#valid_request", 302
