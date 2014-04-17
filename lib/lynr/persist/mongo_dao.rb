@@ -47,6 +47,7 @@ module Lynr; module Persist;
       defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
       @collection_name = @config['collection']
+      @db, @client, @collection = nil
     end
 
     # ## Manage the connection
