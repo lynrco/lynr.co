@@ -5,7 +5,9 @@ require './lib/ebay/token'
 
 describe Ebay::Token do
 
-  LibXML::XML::Error.reset_handler
+  before(:each) do
+    LibXML::XML::Error.set_handler(&LibXML::XML::Error::QUIET_HANDLER)
+  end
 
   let(:token) { Ebay::Token.new(@response) }
   let(:valid_success) {

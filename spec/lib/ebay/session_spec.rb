@@ -5,7 +5,9 @@ require './lib/ebay/session'
 
 describe Ebay::Session do
 
-  LibXML::XML::Error.reset_handler
+  before(:each) do
+    LibXML::XML::Error.set_handler(&LibXML::XML::Error::QUIET_HANDLER)
+  end
 
   let(:session) { Ebay::Session.new(@response) }
   let(:valid_success) {
