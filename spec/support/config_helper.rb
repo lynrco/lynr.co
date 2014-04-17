@@ -13,6 +13,10 @@ shared_context "spec/support/ConfigHelper" do
     @_config.fetch(type, {})
   end
 
+  def stubbed_config_clear(type)
+    @_config.delete(type)
+  end
+
   before(:each) do
     Lynr.stub(:config) do |type, defaults|
       defaults ||= {}
