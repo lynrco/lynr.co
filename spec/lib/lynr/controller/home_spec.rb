@@ -15,7 +15,7 @@ describe Lynr::Controller::Home do
 
   before(:each) do
     stub_config('app', { 'librato' => { } })
-    stub_config('features', { 'demo' => false, 'live' => true })
+    stub_config('features', { 'demo' => false })
   end
 
   context "GET /" do
@@ -37,7 +37,7 @@ describe Lynr::Controller::Home do
     context "with features.demo" do
 
       before(:each) do
-        stub_config('features', { 'demo' => true, 'live' => false })
+        stub_config('features', { 'demo' => true })
       end
 
       it "has a signup form" do
