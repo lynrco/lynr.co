@@ -1,4 +1,5 @@
 require 'codeclimate-test-reporter'
+require 'stripe_mock'
 
 require './spec/matchers/have_element'
 require './spec/support/config_helper'
@@ -23,6 +24,12 @@ RSpec.configure do |c|
     end
   end
 
+  c.before(:suite) do
+    StripeMock.start
+  end
+  c.after(:suite) do
+    StripeMock.stop
+  end
   c.after(:each) do
     MongoHelpers.empty! if MongoHelpers.dao.active?
   end
