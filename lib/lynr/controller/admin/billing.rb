@@ -1,3 +1,4 @@
+require 'stripe'
 require './lib/lynr/controller/admin'
 
 module Lynr; module Controller;
@@ -16,11 +17,23 @@ module Lynr; module Controller;
     # Create a new instance of this controller and set up instance properties
     # needed for all request handlers.
     #
+    # NOTE: The behavior of the `AdminBilling` varies based on the 'demo'
+    # feature flag. When a new `AdminBilling` instance is created either
+    # the `AdminBilling::Default` or `AdminBilling::Demo` modules are
+    # used to extend the controller. These modules provide the
+    # `#get_signup` and `#post_signup` methods through which requests
+    # are routed in order to generate HTTP responses.
+    #
     def initialize
       super
       @title = "Billing Information"
-      @stripe_pub_key = Lynr::Web.config['stripe']['pub_key']
+      @stripe_pub_key = Lynr.config('app').stripe.pub_key
       @subsection = 'billing'
+      if Lynr.features.demo?
+        self.send(:extend, AdminBilling::Demo)
+      else
+        self.send(:extend, AdminBilling::Default)
+      end
     end
 
     # ## `AdminBilling#before_POST(req)`
@@ -32,19 +45,6 @@ module Lynr; module Controller;
       super
       @errors = validate_billing_info
       render 'admin/billing.erb' if has_errors?
-    end
-
-    # ## `AdminBilling#get_account(req)`
-    #
-    # Handle GET request for the billing information page.
-    #
-    def get_billing(req)
-      @msg = req.session.delete('billing_flash_msg')
-      # TODO: This card information could be stored locally. It is innocuous enough.
-      # Or perhaps in memcache or something
-      customer = Stripe::Customer.retrieve(@dealership.customer_id)
-      @card = customer.active_card
-      render 'admin/billing.erb'
     end
 
     # ## `AdminBilling#post_account(req)`
@@ -105,6 +105,52 @@ module Lynr; module Controller;
       end
 
       errors
+    end
+
+    def card_for(customer)
+      customer.cards.find { |card| card.id == customer.default_card }
+    end
+
+    # # `Lynr::Controller::AdminBilling::Default`
+    #
+    # Method definitions to use by default. These should be a part of
+    # the class definition but if they are they can not be overridden by
+    # including the `Demo` module.
+    #
+    # NOTE: With Ruby 2.0 `Demo` module could be included via `prepend`
+    # which would allow class method definitions to be overriden.
+    #
+    module Default
+
+      # ## `AdminBilling::Default#get_account(req)`
+      #
+      # Handle GET request for the billing information page.
+      #
+      def get_billing(req)
+        @msg = req.session.delete('billing_flash_msg')
+        # TODO: This card information could be stored locally. It is innocuous enough.
+        # Or perhaps in memcache or something
+        customer = Stripe::Customer.retrieve(@dealership.customer_id)
+        @card = card_for(customer)
+        render 'admin/billing.erb'
+      end
+
+    end
+
+    # # `Lynr::Controller::AdminBilling::Demo`
+    #
+    # Method definitions to use when the demo 'feature' is on.
+    #
+    module Demo
+
+      # ## `AdminBilling::Demo#get_account(req)`
+      #
+      # Handle GET request for the billing information page on the demo site.
+      #
+      def get_billing(req)
+        render 'demo/admin/billing.erb'
+      end
+
     end
 
   end
