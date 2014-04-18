@@ -29,7 +29,7 @@ define(function(require) {
 
   function initBilling() {
     require(
-      ['modules/domEvents', 'modules/clazz', 'modules/stripe'],
+      ['modules/dom-events', 'modules/clazz', 'modules/stripe'],
       function(evt, clazz, setupStripeForm) {
         var form = document.querySelector('form.m-billing');
         var div = document.querySelector('div.m-billing');

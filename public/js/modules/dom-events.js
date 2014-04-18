@@ -1,5 +1,5 @@
 /*!
- * domEvents, a simple interface for interacting with DOM events
+ * dom-events, a simple interface for interacting with DOM events
  * (c) Bryan J Swift 2012
  * https://github.com/bryanjswift/require-js-bootstrap
  * license MIT

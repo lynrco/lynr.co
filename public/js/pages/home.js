@@ -1,7 +1,7 @@
 define(function(require) {
 
   var mixpanel = require('mixpanel');
-  var evt = require('modules/domEvents');
+  var evt = require('modules/dom-events');
 
   function trackFormSubmit(e) {
     mixpanel.track('signup.launch', {
