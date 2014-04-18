@@ -42,10 +42,10 @@ module Lynr::Controller
     # Set attributes used in all methods.
     #
     def before_each(req)
-      super
       @subsection = "signup"
       @title = "Sign Up for Lynr"
       @stripe_pub_key = stripe_config.pub_key
+      super
     end
 
     # ## `Auth::Signup#before_GET(req)`
@@ -228,7 +228,7 @@ module Lynr::Controller
         # Create account
         identity = Lynr::Model::Identity.new(@posted['email'], @posted['email'])
         # Create and Save dealership
-        dealer = create_dealership(identity, customer)
+        dealer = create_dealership(identity, nil)
         notify(req, dealer)
         # Send to admin pages?
         send_to_admin(req, dealer)

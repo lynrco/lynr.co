@@ -17,6 +17,8 @@ describe Lynr::Controller::Auth::Signup do
   let(:path) { '/signup' }
   let(:uri) { "/signup" }
 
+  before(:each) { StripeMock.start }
+  after(:each) { StripeMock.stop }
   before(:all) do
     stub_config('app', { 'stripe' => {
       'plan' => 'lynr_spec', 'pub_key' => 'made up' }
@@ -47,6 +49,7 @@ describe Lynr::Controller::Auth::Signup do
   end
 
   context "POST /signup" do
+    let(:card_token) { StripeMock.generate_card_token(last4: "4242", exp_year: 2016) }
     let(:route_method) { [:post_signup, 'POST'] }
     let(:posted) {
       {
@@ -54,15 +57,21 @@ describe Lynr::Controller::Auth::Signup do
         'password' => '1234',
         'password_confirm' => '1234',
         'agree_terms' => '1',
-        'stripeToken' => 'foobar',
+        'stripeToken' => card_token,
       }
     }
     let(:env_opts) { { params: posted } }
+
+    before(:each) do
+      Stripe::Plan.create(amount: 9900, id: 'lynr_spec')
+    end
 
     context "with valid data" do
       describe "#validate_signup" do
         it { expect(controller.validate_signup(posted)).to be_empty }
       end
+
+      it_behaves_like "Lynr::Controller::Base#valid_request", 302
     end
 
     context "with missing data" do
@@ -80,19 +89,34 @@ describe Lynr::Controller::Auth::Signup do
           expect(controller.validate_signup(data)).to include('password')
         end
       end
+
+      it_behaves_like "Lynr::Controller::Base#valid_request" do
+        let(:posted) {
+          {
+            'password' => '1234',
+            'password_confirm' => '1234',
+            'agree_terms' => '1',
+            'stripeToken' => card_token,
+          }
+        }
+        it { expect(response_body_document).to have_element('.msg-error') }
+        it "should have .msg-error 'Email is required.'" do
+          expect(response_body_document.css('.msg-error').first.text).to eq('Email is required.')
+        end
+      end
     end
 
     context "with features.demo" do
       include_context "features.demo=true"
 
-      let(:posted) {
-        { 'email' => 'bryan@lynr.co' }
-      }
+      let(:posted) { { 'email' => 'bryan@lynr.co' } }
 
       context "with valid data (demo)" do
         describe "#validate_signup" do
           it { expect(controller.validate_signup(posted)).to be_empty }
         end
+
+        it_behaves_like "Lynr::Controller::Base#valid_request", 302
       end
 
       context "with missing data (demo)" do
@@ -102,15 +126,19 @@ describe Lynr::Controller::Auth::Signup do
             expect(controller.validate_signup(data)).to include('email')
           end
         end
+        it_behaves_like "Lynr::Controller::Base#valid_request" do
+          let(:posted) { {} }
+          it { expect(response_body_document).to have_element('.msg-error') }
+          it "should have .msg-error 'Email is required.'" do
+            expect(response_body_document.css('.msg-error').first.text).to eq('Email is required.')
+          end
+        end
       end
 
     end
   end
 
   describe "#create_dealership" do
-
-    before { StripeMock.start }
-    after { StripeMock.stop }
     let(:customer) {
       Stripe::Customer.create({
         email: 'bryan@lynr.co',
