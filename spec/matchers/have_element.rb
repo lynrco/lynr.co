@@ -15,6 +15,6 @@ RSpec::Matchers.define :have_element do |css_selector|
     "did not expect #{actual.class.name.to_s} to have element matching #{css_selector}"
   end
   description do |actual|
-    "have element for #{css_selector}"
+    "contain element for selector '#{css_selector}'"
   end
 end
