@@ -62,6 +62,7 @@ group :rspec do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch(%r{^spec/.+_helper.rb})  { "spec" }
+    watch(%r{^views/}) { "spec/lib/lynr/controller" }
     watch('spec/lib/lynr/cache_spec.rb') { 'spec/lib/lynr/cache' }
   end
 
