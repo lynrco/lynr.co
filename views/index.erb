@@ -1,30 +1,7 @@
         <p>Lynr is a cloud inventory tool and CRM sales assistant for the pre-owned automobile industy.</p>
         <p>We set out to make something simple and efficient that would help you focus on what you do best, building great relationships and closing deals.</p>
         <p>Your first 30 days are free to ensure Lynr is right for you. After that $99/month.</p>
-
-        <%- if Lynr.features.live? %>
         <nav class="auth">
           <a class="btn btn-full btn-positive btn-signin" href="/signin" title="Sign In">Sign In</a>
           <a class="btn btn-full btn-positive btn-signup" href="/signup" title="Sign Up">Sign Up</a>
         </nav>
-        <%- else -%>
-<%= render_partial 'form_messages.erb' -%>
-        <form class="signup" action="/" method="POST">
-          <fieldset class="fs">
-            <label for="dealer_name">Dealership Name</label>
-            <input class="fs-full" type="text"
-                   id="dealer_name" name="dealer_name" placeholder="Dealership Name"
-                   value="<%= posted.fetch('dealer_name', '') %>" />
-            <label for="name">Dealership Name</label>
-            <input class="fs-half" type="text"
-                   id="name" name="name" placeholder="Your Name"
-                   value="<%= posted.fetch('name', '') %>" />
-            <label for="email">Dealership Name</label>
-            <input class="fs-half <%= error_class('email') %>" type="email"
-                   id="email" name="email" placeholder="Your Email Address"
-                   value="<%= posted.fetch('email', '') %>" />
-          </fieldset>
-          <input type="hidden" name="list" value="" />
-          <button class="btn btn-full btn-positive">Sign Up</button>
-        </form>
-        <%- end -%>
