@@ -138,7 +138,7 @@ module Lynr
       Stripe.api_key = conf['stripe']['key']
       Stripe.api_version = conf['stripe']['version'] || '2013-02-13'
 
-      setup_librato(conf) if Lynr.metrics.configured?(conf.librato)
+      setup_librato(conf) if Lynr.metrics.configured?
     end
 
     # ## `Lynr::Web.setup_librato`
