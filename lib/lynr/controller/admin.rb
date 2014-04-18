@@ -101,7 +101,7 @@ module Lynr; module Controller;
 
     # TODO: Write documentation for `#transloadit_params`
     def transloadit_params(template_id_name)
-      transloadit = Lynr::Web.config['transloadit']
+      transloadit = Lynr.config('app')['transloadit']
       expires = (Time.now + (60 * 10)).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
       params = {
         auth: { expires: expires, key: transloadit['auth_key'] },
@@ -111,7 +111,7 @@ module Lynr; module Controller;
 
     # TODO: Write documentation for `#transloadit_params_signature`
     def transloadit_params_signature(params)
-      auth_secret = Lynr::Web.config['transloadit']['auth_secret']
+      auth_secret = Lynr.config('app')['transloadit']['auth_secret']
       return nil if auth_secret.nil?
       digest = OpenSSL::Digest::Digest.new('sha1')
       OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
