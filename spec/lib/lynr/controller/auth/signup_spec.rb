@@ -10,58 +10,100 @@ describe Lynr::Controller::Auth::Signup do
   include_context "spec/support/ConfigHelper"
   include_context "spec/support/RouteHelper"
 
-  subject(:controller) { Lynr::Controller::Auth::Signup.new }
+  subject(:controller) {
+    Lynr::Controller::Auth::Signup.new
+  }
 
   let(:path) { '/signup' }
   let(:uri) { "/signup" }
 
-  let(:posted) {
-    {
-      'email' => 'bryan@lynr.co',
-      'password' => '1234',
-      'password_confirm' => '1234',
-      'agree_terms' => '1',
-      'stripeToken' => 'foobar',
-    }
-  }
-
-  before(:each) do
+  before(:all) do
     stub_config('app', { 'stripe' => {
       'plan' => 'lynr_spec', 'pub_key' => 'made up' }
     })
+    stub_config('features', 'demo' => 'false')
+  end
+
+  shared_context "features.demo=true" do
+    before(:all) do
+      stub_config('features', 'demo' => 'true')
+    end
+    after(:all) do
+      stub_config('features', 'demo' => 'false')
+    end
   end
 
   context "GET /signup" do
     let(:route_method) { [:get_signup, 'GET'] }
     it_behaves_like "Lynr::Controller::Base#valid_request"
-  end
+    it { expect(response_body_document).to have_element('input[name=stripeToken]') }
 
-  context "POST /signup - with valid data" do
-    describe "#validate_signup" do
-      it { expect(controller.validate_signup(posted)).to be_empty }
+    context "with features.demo" do
+      include_context "features.demo=true"
+
+      it_behaves_like "Lynr::Controller::Base#valid_request"
+      it { expect(response_body_document).to_not have_element('input[name=stripeToken]') }
     end
   end
 
-  context "POST /signup - missing data" do
-    ['email', 'password', 'agree_terms', 'stripeToken'].each do |field|
-      describe "#validate_signup - without #{field}" do
-        let(:posted) { super().delete_if { |k,v| k == field } }
-        let(:errors) { controller.validate_signup(posted) }
+  context "POST /signup" do
+    let(:route_method) { [:post_signup, 'POST'] }
+    let(:posted) {
+      {
+        'email' => 'bryan@lynr.co',
+        'password' => '1234',
+        'password_confirm' => '1234',
+        'agree_terms' => '1',
+        'stripeToken' => 'foobar',
+      }
+    }
+    let(:env_opts) { { params: posted } }
 
-        it { expect(errors).to_not be_empty }
-        it { expect(errors).to include(field) }
+    context "with valid data" do
+      describe "#validate_signup" do
+        it { expect(controller.validate_signup(posted)).to be_empty }
       end
     end
-  end
 
-  context "POST /signup - missing password_confirm" do
-    let(:posted) { super().delete_if { |k,v| k == 'password_confirm' } }
+    context "with missing data" do
+      describe "#validate_signup" do
+        ['email', 'password', 'agree_terms', 'stripeToken'].each do |field|
+          it "should have error for #{field} without #{field}" do
+            data = posted.delete_if { |k,v| k == field }
+            errors = controller.validate_signup(data)
+            expect(controller.validate_signup(data)).to include(field)
+          end
+        end
 
-    describe "#validate_signup" do
-      let(:errors) { controller.validate_signup(posted) }
+        it "should have error for password without password_confirm" do
+          data = posted.delete_if { |k,v| k == 'password_confirm' }
+          expect(controller.validate_signup(data)).to include('password')
+        end
+      end
+    end
 
-      it { expect(errors).to_not be_empty }
-      it { expect(errors).to include('password') }
+    context "with features.demo" do
+      include_context "features.demo=true"
+
+      let(:posted) {
+        { 'email' => 'bryan@lynr.co' }
+      }
+
+      context "with valid data (demo)" do
+        describe "#validate_signup" do
+          it { expect(controller.validate_signup(posted)).to be_empty }
+        end
+      end
+
+      context "with missing data (demo)" do
+        describe "#validate_signup" do
+          it "should have error for email without email" do
+            data = posted.delete_if { |k,v| k == 'email' }
+            expect(controller.validate_signup(data)).to include('email')
+          end
+        end
+      end
+
     end
   end
 
@@ -79,12 +121,12 @@ describe Lynr::Controller::Auth::Signup do
       Lynr::Model::Identity.new('bryan@lynr.co', 'foobar')
     }
 
-    it "creates dealership when given identity and customer" do
+    it "should create dealership when given identity and customer" do
       dealership = controller.create_dealership(identity, customer)
       expect(dealership).to be_instance_of(Lynr::Model::Dealership)
     end
 
-    it "creates dealership when given identity only" do
+    it "should create dealership when only given identity" do
       dealership = controller.create_dealership(identity, nil)
       expect(dealership).to be_instance_of(Lynr::Model::Dealership)
     end

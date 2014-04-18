@@ -1,0 +1,17 @@
+<%= render_partial 'form_messages.erb' -%>
+        <form class="signup" action="/signup" method="POST" novalidate="novalidate"
+              autocomplete="on">
+          <fieldset class="fs">
+            <h2 class="fs-title">1. Create an account</h2>
+            <label for="email">Email Address</label>
+            <input class="fs-full <%= error_class('email') %>" type="email" name="email"
+                   id="email" placeholder="Your email address"
+                   autocomplete="email" autocompletetype="email"
+                   value="<%= posted['email'] %>" />
+          </fieldset>
+          <label for="agree_terms">
+            I agree to the <a href="/legal/terms">Terms &amp; Conditions</a>
+            <input type="checkbox" name="agree_terms" id="agree_terms" />
+          </label>
+          <button class="btn btn-full btn-positive" type="submit">Create Account</button>
+        </form>
