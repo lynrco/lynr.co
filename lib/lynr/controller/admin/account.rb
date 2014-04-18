@@ -2,6 +2,8 @@ require 'json'
 
 require './lib/lynr'
 require './lib/lynr/controller/admin'
+require './lib/lynr/controller/admin/account/password'
+require './lib/lynr/controller/auth/ebay'
 require './lib/lynr/model/slug'
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
