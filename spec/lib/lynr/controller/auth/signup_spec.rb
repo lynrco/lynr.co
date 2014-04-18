@@ -17,8 +17,6 @@ describe Lynr::Controller::Auth::Signup do
   let(:path) { '/signup' }
   let(:uri) { "/signup" }
 
-  before(:each) { StripeMock.start }
-  after(:each) { StripeMock.stop }
   before(:all) do
     stub_config('app', { 'stripe' => {
       'plan' => 'lynr_spec', 'pub_key' => 'made up' }
