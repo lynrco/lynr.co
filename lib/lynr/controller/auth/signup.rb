@@ -17,6 +17,26 @@ module Lynr::Controller
     get  '/signup',         :get_signup
     post '/signup',         :post_signup
 
+    # ## `Auth::Signup.new`
+    #
+    # Create a new controller instance to allow for account creation.
+    #
+    # NOTE: The behavior of the `Signup` varies based on the 'demo'
+    # feature flag. When a new `Signup` instance is created either the
+    # `Signup::Default` or `Signup::Demo` modules are used to extend the
+    # controller. These modules provide the `#get_signup` and `#post_signup`
+    # methods through which requests are routed in order to generate HTTP
+    # responses.
+    #
+    def initialize
+      super
+      if Lynr.features.demo?
+        self.send(:extend, Signup::Demo)
+      else
+        self.send(:extend, Signup::Default)
+      end
+    end
+
     # ## `Auth::Signup#before_each(req)`
     #
     # Set attributes used in all methods.
@@ -45,7 +65,7 @@ module Lynr::Controller
     def before_POST(req)
       super
       @errors = validate_signup(@posted)
-      render 'auth/signup.erb' if has_errors?
+      get_signup(req) if has_errors?
     end
 
     # ## `Auth::Signup#create_dealership(identity, customer)`
@@ -61,14 +81,6 @@ module Lynr::Controller
         'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: 'trialing'),
       })
       dealer_dao.save(dealership)
-    end
-
-    # ## `Auth::Signup#get_signup(req)`
-    #
-    # Render signup page for `req`.
-    #
-    def get_signup(req)
-      render 'auth/signup.erb'
     end
 
     # ## `Auth::Signup#handle_stripe_error!(err, message)`
@@ -96,37 +108,17 @@ module Lynr::Controller
       render 'auth/signup.erb'
     end
 
-    # ## `Auth::Signup#post_signup(req)`
+    # ## `Auth::Signup#notify(req, dealership)`
     #
-    # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
-    # to create and save a `Lynr::Model::Dealership` instance and then log
-    # the new customer in.
+    # Store `dealership` in session for `req` and `#emit` the
+    # 'dealership.created' event.
     #
-    def post_signup(req)
-      # Create account
-      identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
-      # Create Customer and subscribe them
-      customer = Stripe::Customer.create(
-        card: @posted['stripeToken'],
-        plan: stripe_config.plan,
-        email: identity.email
-      )
-      dealer = create_dealership(identity, customer)
+    def notify(req, dealership)
       Lynr::Events.emit(type: 'dealership.created', data: {
-        dealership_id: dealer.id.to_s,
+        dealership_id: dealership.id.to_s,
         cookies: req.cookies,
       })
-      # Create and Save dealership
-      req.session['dealer_id'] = dealer.id
-      # Send to admin pages?
-      send_to_admin(req, dealer)
-    rescue Stripe::CardError => sce
-      handle_stripe_error!(sce, sce.message)
-    rescue Stripe::InvalidRequestError => sire
-      handle_stripe_error!(sire, "You might have submitted the form more than once.")
-    rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
-      msg = "Couldn't communicate with our card processor. We've been notified of the error."
-      handle_stripe_error!(sse, msg)
+      req.session['dealer_id'] = dealership.id
     end
 
     # ## `Auth::Signup#stripe_config`
@@ -137,30 +129,128 @@ module Lynr::Controller
       Lynr.config('app').stripe
     end
 
-    # ## `Auth::Signup#validate_signup(posted)`
+    # # `Lynr::Controller::Auth::Signup::Default`
     #
-    # Verify the validity of data in `posted` and return a `Hash` of
-    # field names to error strings if there are any. Otherwise return an
-    # empty `Hash`.
+    # Method definitions to use by default. These should be a part of
+    # the class definition but if they are they can not be overridden by
+    # including the `Demo` module.
     #
-    def validate_signup(posted)
-      errors = validate_required(posted, ['email', 'password'])
-      email = posted['email']
-      password = posted['password']
+    # NOTE: With Ruby 2.0 `Demo` module could be included via `prepend`
+    # which would allow class method definitions to be overriden.
+    #
+    module Default
 
-      errors['email'] ||= error_for_email(dealer_dao, email)
-      errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
-
-      if (posted['agree_terms'].nil?)
-        errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
+      # ## `Auth::Signup::Default#get_signup(req)`
+      #
+      # Render signup page for `req`.
+      #
+      def get_signup(req)
+        render 'auth/signup.erb'
       end
 
-      if (posted['stripeToken'].nil? || posted['stripeToken'].empty?)
-        errors['stripeToken'] = "Your card wasn't accepted."
+      # ## `Auth::Signup::Default#post_signup(req)`
+      #
+      # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
+      # to create and save a `Lynr::Model::Dealership` instance and then log
+      # the new customer in.
+      #
+      def post_signup(req)
+        # Create account
+        identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
+        # Create Customer and subscribe them
+        customer = Stripe::Customer.create(
+          card: @posted['stripeToken'],
+          plan: stripe_config.plan,
+          email: identity.email
+        )
+        # Create and Save dealership
+        dealer = create_dealership(identity, customer)
+        notify(req, dealer)
+        # Send to admin pages?
+        send_to_admin(req, dealer)
+      rescue Stripe::CardError => sce
+        handle_stripe_error!(sce, sce.message)
+      rescue Stripe::InvalidRequestError => sire
+        handle_stripe_error!(sire, "You might have submitted the form more than once.")
+      rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
+        msg = "Couldn't communicate with our card processor. We've been notified of the error."
+        handle_stripe_error!(sse, msg)
       end
 
-      errors.delete_if { |k,v| v.nil? }
+      # ## `Auth::Signup::Default#validate_signup(posted)`
+      #
+      # Verify the validity of data in `posted` and return a `Hash` of
+      # field names to error strings if there are any. Otherwise return an
+      # empty `Hash`.
+      #
+      def validate_signup(posted)
+        errors = validate_required(posted, ['email', 'password'])
+        email = posted['email']
+        password = posted['password']
+
+        errors['email'] ||= error_for_email(dealer_dao, email)
+        errors['password'] ||= error_for_passwords(password, posted['password_confirm'])
+
+        if (posted['agree_terms'].nil?)
+          errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
+        end
+
+        if (posted['stripeToken'].nil? || posted['stripeToken'].empty?)
+          errors['stripeToken'] = "Your card wasn't accepted."
+        end
+
+        errors.delete_if { |k,v| v.nil? }
+      end
+
     end
+
+    # # `Lynr::Controller::Auth::Signup::Demo`
+    #
+    # Method definitions to use when the demo 'feature' is on.
+    #
+    module Demo
+
+      # ## `Auth::Signup::Demo#get_signup(req)`
+      #
+      # Render signup page for `req`.
+      #
+      def get_signup(req)
+        render 'demo/auth/signup.erb'
+      end
+
+      # ## `Auth::Signup::Demo#post_signup(req)`
+      #
+      # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
+      # to create and save a `Lynr::Model::Dealership` instance and then log
+      # the new customer in.
+      #
+      def post_signup(req)
+        # Create account
+        identity = Lynr::Model::Identity.new(@posted['email'], @posted['email'])
+        # Create and Save dealership
+        dealer = create_dealership(identity, customer)
+        notify(req, dealer)
+        # Send to admin pages?
+        send_to_admin(req, dealer)
+      end
+
+      # ## `Auth::Signup::Demo#validate_signup(posted)`
+      #
+      # Verify the validity of data in `posted` and return a `Hash` of
+      # field names to error strings if there are any. Otherwise return an
+      # empty `Hash`.
+      #
+      def validate_signup(posted)
+        errors = validate_required(posted, ['email'])
+        email = posted['email']
+
+        errors['email'] ||= error_for_email(dealer_dao, email)
+
+        errors.delete_if { |k,v| v.nil? }
+      end
+
+    end
+
 
   end
 
