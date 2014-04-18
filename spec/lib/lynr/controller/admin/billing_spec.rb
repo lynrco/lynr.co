@@ -1,5 +1,4 @@
 require 'rspec/autorun'
-require 'stripe_mock'
 require './spec/spec_helper'
 require './spec/lib/lynr/controller/base_specs_shared'
 
