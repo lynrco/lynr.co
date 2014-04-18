@@ -109,7 +109,7 @@ describe Lynr::Controller::Auth::Signup do
     context "with features.demo" do
       include_context "features.demo=true"
 
-      let(:posted) { { 'email' => 'bryan@lynr.co' } }
+      let(:posted) { { 'email' => 'bryan@lynr.co', 'agree_terms' => '1', } }
 
       context "with valid data (demo)" do
         describe "#validate_signup" do
@@ -121,9 +121,11 @@ describe Lynr::Controller::Auth::Signup do
 
       context "with missing data (demo)" do
         describe "#validate_signup" do
-          it "should have error for email without email" do
-            data = posted.delete_if { |k,v| k == 'email' }
-            expect(controller.validate_signup(data)).to include('email')
+          ['email', 'agree_terms'].each do |field|
+            it "should have error for #{field} without #{field}" do
+              data = posted.delete_if { |k,v| k == field }
+              expect(controller.validate_signup(data)).to include(field)
+            end
           end
         end
         it_behaves_like "Lynr::Controller::Base#valid_request" do

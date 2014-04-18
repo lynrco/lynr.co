@@ -246,6 +246,10 @@ module Lynr::Controller
 
         errors['email'] ||= error_for_email(dealer_dao, email)
 
+        if (posted['agree_terms'].nil?)
+          errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
+        end
+
         errors.delete_if { |k,v| v.nil? }
       end
 
