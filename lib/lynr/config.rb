@@ -95,9 +95,9 @@ module Lynr
     #
     def method_missing(name, *args, &block)
       property, query = name.to_s.match(PropertyRegex).captures
-      if args.size == 0 && block.nil? && include?(property) && query.nil?
+      if args.size == 0 && block.nil? && query.nil?
         fetch(property)
-      elsif args.size == 0 && block.nil? && include?(property) && !query.nil?
+      elsif args.size == 0 && block.nil? && !query.nil?
         fetch(property, false)
       else
         super
