@@ -30,7 +30,7 @@ describe Lynr::Controller::Home do
 
     context "without features.demo" do
 
-      it { expect(response_body_document).to_not have_element('form.signup') }
+      it { expect(response_body_document).to_not have_element('form.signup-demo') }
 
     end
 
@@ -41,7 +41,7 @@ describe Lynr::Controller::Home do
       end
 
       it "has a signup form" do
-        expect(response_body_document).to have_element('form.signup')
+        expect(response_body_document).to have_element('form.signup-demo')
       end
 
     end
