@@ -62,14 +62,16 @@
     require(['modules/menu'], function(menu) { menu(menuLinks); });
   }
 
-  require(['mixpanel', '../identity'], function(mp, identity) {
+  require(['mixpanel'], function(mp) {
     mp.track('pageview', {
       title: document.title,
       url: window.location.pathname,
       domain: window.location.host || window.location.hostname
     });
 
-    if (identity && identity.id) { mp.identify(identity.id); }
+    require(['../identity'], function(identity) {
+      if (identity && identity.id) { mp.identify(identity.id); }
+    });
   });
 
 })();
