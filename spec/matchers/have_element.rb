@@ -1,5 +1,9 @@
 require 'rspec/expectations'
 
+# Checks to see if `actual` contains an element matching the provided
+# `css_selector`. Passes if an element is found matching the selector
+# so the `css_selector` used must be specific.
+#
 RSpec::Matchers.define :have_element do |css_selector|
   match do |actual|
     actual.css(css_selector).first != nil
