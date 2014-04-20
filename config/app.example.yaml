@@ -40,7 +40,7 @@ session:
 stripe:
   key: 'secret key from https://manage.stripe.com/account/apikeys'
   pub_key: 'publishable key from https://manage.stripe.com/account/apikeys'
-  version: '2013-02-13'
+  version: '2014-03-28'
   plan: 'plan id from https://manage.stripe.com/plans'
   live: false
 # Used to handle file uploads
