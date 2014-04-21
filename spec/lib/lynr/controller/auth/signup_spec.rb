@@ -9,6 +9,7 @@ describe Lynr::Controller::Auth::Signup do
 
   include_context "spec/support/ConfigHelper"
   include_context "spec/support/DemoHelper"
+  include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"
 
   subject(:controller) {
@@ -35,6 +36,22 @@ describe Lynr::Controller::Auth::Signup do
 
       it_behaves_like "Lynr::Controller::Base#valid_request"
       it { expect(response_body_document).to_not have_element('input[name=stripeToken]') }
+    end
+
+    context "with signed-in session" do
+      let(:session) {
+        session = double("Rack::Session::Abstract::SessionHash")
+        allow(session).to receive(:destroy) { nil }
+        allow(session).to receive(:[]) { saved_empty_dealership.id.to_s }
+        session
+      }
+      let(:env_opts) do
+        { 'rack.session' => session }
+      end
+      it_behaves_like "Lynr::Controller::Base#valid_request", 302 do
+        it { expect(response_headers).to include('Location') }
+        it { expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}") }
+      end
     end
   end
 

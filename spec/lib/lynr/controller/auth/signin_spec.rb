@@ -40,7 +40,10 @@ describe Lynr::Controller::Auth::Signin do
       let(:env_opts) do
         { 'rack.session' => session }
       end
-      it_behaves_like "Lynr::Controller::Base#valid_request", 302
+      it_behaves_like "Lynr::Controller::Base#valid_request", 302 do
+        it { expect(response_headers).to include('Location') }
+        it { expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}") }
+      end
     end
   end
 
