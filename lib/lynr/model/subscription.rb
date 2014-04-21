@@ -52,6 +52,14 @@ module Lynr::Model
       ['past_due'].include?(status)
     end
 
+    # ## `Subscription#demo?`
+    #
+    # True if this customer is on a demo account.
+    #
+    def demo?
+      ['demo'].include?(status)
+    end
+
     # ## `Subscription#ending?`
     #
     # True if this customer has request their account be canceled but there
