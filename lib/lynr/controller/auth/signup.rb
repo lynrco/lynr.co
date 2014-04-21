@@ -48,16 +48,6 @@ module Lynr::Controller
       super
     end
 
-    # ## `Auth::Signup#before_GET(req)`
-    #
-    # Redirect to the admin page if there is already a dealer_id in the
-    # session.
-    #
-    def before_GET(req)
-      super
-      send_to_admin(req) if req.session['dealer_id']
-    end
-
     # ## `Auth::Signup#before_POST(req)`
     #
     # Validate data in `req` and render the page if there are errors.

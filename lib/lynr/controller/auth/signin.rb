@@ -1,0 +1,120 @@
+require './lib/lynr/controller/auth'
+require './lib/lynr/events'
+require './lib/lynr/model/dealership'
+require './lib/lynr/persist/dao'
+
+module Lynr::Controller
+
+  # # `Lynr::Controller::Auth::Signin`
+  #
+  # Class to encapsulate the logic of displaying the singin page as well as
+  # authenticating accounts.
+  #
+  class Auth::Signin < Lynr::Controller::Auth
+
+    get  '/signin',        :get_signin
+    post '/signin',        :post_signin
+    get  '/signin/:token', :get_token_signin
+
+    # ## `Auth::Signin.new`
+    #
+    # Create a new controller instance to allow for account authentication.
+    #
+    # NOTE: The behavior of the `Signin` varies based on the 'demo'
+    # feature flag. When a new `Signin` instance is created either the
+    # `Signin::Default` or `Signin::Demo` modules are used to extend the
+    # controller. These modules provide the `#get_signin` and `#post_signin`
+    # methods through which requests are routed in order to generate HTTP
+    # responses.
+    #
+    def initialize
+      super
+      if Lynr.features.demo?
+        self.send(:extend, Signin::Demo)
+      else
+        self.send(:extend, Signin::Default)
+      end
+    end
+
+    # ## `Auth::Signup#before_each(req)`
+    #
+    # Set attributes used in all methods.
+    #
+    def before_each(req)
+      @subsection = "signin"
+      @title = "Sign In to Lynr"
+      super
+    end
+
+    def before_POST(req)
+      super
+      @errors = validate_signin(@posted)
+      render 'auth/signin.erb' if has_errors?
+    end
+
+    def post_signin(req)
+      dealership = dealer_dao.get_by_email(@posted['email'])
+      # Send to admin pages
+      req.session['dealer_id'] = dealership.id
+      send_to_admin(req, dealership)
+    end
+
+    def get_token_signin(req)
+      id = BSON::ObjectId.from_string(req['token'])
+      dao = Lynr::Persist::Dao.new
+      token = dao.read(id)
+      return unauthorized if token.nil? or token.expired?
+      dao.delete(id)
+      req.session['dealer_id'] = token.dealership
+      redirect "/admin/#{token.dealership.to_s}/account/password"
+    end
+
+    module Default
+
+      # ## Sign In Handlers
+      def get_signin(req)
+        render 'auth/signin.erb'
+      end
+
+      def validate_signin(posted)
+        errors = validate_required(posted, ['email', 'password'])
+        email = posted['email']
+        password = posted['password']
+        dealership = dealer_dao.get_by_email(email)
+
+        if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, password)))
+          errors['account'] = "Invalid email or password."
+        end
+
+        errors.delete_if { |k,v| v.nil? }
+      end
+
+    end
+
+    module Demo
+
+      # ## Sign In Handlers
+      def get_signin(req)
+        render 'demo/auth/signin.erb'
+      end
+
+      def validate_signin(posted)
+        errors = validate_required(posted, ['email'])
+        email = posted['email']
+        dealership = dealer_dao.get_by_email(email)
+
+        # TODO: If dealership is a live account then give error with link
+        # to live site.
+
+        if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, email)))
+          errors['account'] = "Invalid email."
+        end
+
+        errors.delete_if { |k,v| v.nil? }
+      end
+
+    end
+
+  end
+
+end
