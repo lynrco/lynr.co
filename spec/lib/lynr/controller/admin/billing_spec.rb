@@ -7,21 +7,13 @@ require './lib/lynr/controller/admin/billing'
 describe Lynr::Controller::AdminBilling do
 
   include_context "spec/support/ConfigHelper"
+  include_context "spec/support/DemoHelper"
   include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"
 
   let(:path) { '/admin/:slug/billing' }
   let(:uri) { "/admin/#{saved_empty_dealership.id}/billing" }
   let(:env_opts) { { 'rack.session' => { 'dealer_id' => saved_empty_dealership.id } } }
-
-  shared_context "features.demo=true" do
-    before(:all) do
-      stub_config('features', 'demo' => 'true')
-    end
-    after(:all) do
-      stub_config('features', 'demo' => 'false')
-    end
-  end
 
   before(:all) do
     stub_config('app', { 'stripe' => {

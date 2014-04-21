@@ -3,6 +3,7 @@ require 'stripe_mock'
 
 require './spec/matchers/have_element'
 require './spec/support/config_helper'
+require './spec/support/demo_helper'
 require './spec/support/model_helper'
 require './spec/support/mongo_helper'
 require './spec/support/route_helper'

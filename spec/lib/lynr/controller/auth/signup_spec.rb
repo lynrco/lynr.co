@@ -8,6 +8,7 @@ require './lib/lynr/controller/auth/signup'
 describe Lynr::Controller::Auth::Signup do
 
   include_context "spec/support/ConfigHelper"
+  include_context "spec/support/DemoHelper"
   include_context "spec/support/RouteHelper"
 
   subject(:controller) {
@@ -22,15 +23,6 @@ describe Lynr::Controller::Auth::Signup do
       'plan' => 'lynr_spec', 'pub_key' => 'made up' }
     })
     stub_config('features', 'demo' => 'false')
-  end
-
-  shared_context "features.demo=true" do
-    before(:all) do
-      stub_config('features', 'demo' => 'true')
-    end
-    after(:all) do
-      stub_config('features', 'demo' => 'false')
-    end
   end
 
   context "GET /signup" do
