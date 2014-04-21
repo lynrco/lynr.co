@@ -68,6 +68,11 @@ describe Lynr::Controller::Auth::Signup do
       }
     }
     let(:env_opts) { { params: posted } }
+    let(:dealership) {
+      location = response_headers['Location']
+      dealership_id = location.match(%r(/admin/(?<id>.*)$))['id']
+      controller.dealer_dao.get(dealership_id)
+    }
 
     before(:each) do
       Stripe::Plan.create(amount: 9900, id: 'lynr_spec')
@@ -78,7 +83,11 @@ describe Lynr::Controller::Auth::Signup do
         it { expect(controller.validate_signup(posted)).to be_empty }
       end
 
-      it_behaves_like "Lynr::Controller::Base#valid_request", 302
+      it_behaves_like "Lynr::Controller::Base#valid_request", 302 do
+        it "creates dealership with active subscription" do
+          expect(dealership.subscription.active?).to be_true
+        end
+      end
     end
 
     context "with missing data" do
@@ -123,7 +132,11 @@ describe Lynr::Controller::Auth::Signup do
           it { expect(controller.validate_signup(posted)).to be_empty }
         end
 
-        it_behaves_like "Lynr::Controller::Base#valid_request", 302
+        it_behaves_like "Lynr::Controller::Base#valid_request", 302 do
+          it "creates dealership with demo subscription" do
+            expect(dealership.subscription.demo?).to be_true
+          end
+        end
       end
 
       context "with missing data (demo)" do

@@ -65,10 +65,11 @@ module Lynr::Controller
     #
     def create_dealership(identity, customer)
       customer_id = if customer.nil? then nil else customer.id end
+      status = if Lynr.features.demo? then 'demo' else 'trialing' end
       dealership = Lynr::Model::Dealership.new({
         'identity' => identity,
         'customer_id' => customer_id,
-        'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: 'trialing'),
+        'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: status),
       })
       dealer_dao.save(dealership)
     end
