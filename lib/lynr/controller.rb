@@ -4,7 +4,8 @@ module Lynr
 
   module Controller
 
-    autoload :Base,      './lib/lynr/controller/base'
+    autoload :Authorization, './lib/lynr/controller/component/authorization'
+    autoload :Base, './lib/lynr/controller/base'
     autoload :Paginated, './lib/lynr/controller/component/paginated'
 
   end
