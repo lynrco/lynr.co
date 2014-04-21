@@ -1,7 +1,7 @@
 require 'json'
 require 'openssl'
 
-require './lib/lynr/controller/base'
+require './lib/lynr/controller'
 require './lib/lynr/controller/form_helpers'
 require './lib/lynr/converter/number_translator'
 require './lib/lynr/persist/dealership_dao'
@@ -18,11 +18,9 @@ module Lynr; module Controller;
   #
   class Admin < Lynr::Controller::Base
 
-    # Provides `error_for_slug`, `is_valid_slug?`, `validate_required`
-    include Lynr::Validator::Helpers
-    # Provides `error_class`, `error_message`, `errors`, `has_error?`,
-    # `has_errors?`, `posted`, `card_data`
+    include Lynr::Controller::Authorization
     include Lynr::Controller::FormHelpers
+    include Lynr::Validator::Helpers
 
     attr_reader :vehicle_dao
 
@@ -43,7 +41,7 @@ module Lynr; module Controller;
     # `before_METHOD` methods are returned to user agent.
     #
     def before_each(req)
-      return unauthorized unless authorized?(req)
+      return unauthorized unless authorized?(role(req), session_user(req))
       return not_found unless dealership(req)
       @dealership = dealership(req)
       super
@@ -64,6 +62,15 @@ module Lynr; module Controller;
       end
     end
 
+    # ## `Admin#role(req)`
+    #
+    # Define the role required to access this resource. This method is
+    # meant to be overridden by child controllers.
+    #
+    def role(req)
+      "admin:#{req['slug']}"
+    end
+
     # ## `Admin#vehicle_count(req)`
     #
     # Get the number of vehicles for the current dealership.
@@ -80,23 +87,6 @@ module Lynr; module Controller;
     #
     def menu_primary
       Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
-    end
-
-    # ## `Lynr::Controller::Admin#authorized?`
-    #
-    # Whether or not the current user is authorized to access the requested dealership
-    #
-    # ### Params
-    #
-    # * `req` Request with session and dealership information to be compared
-    #
-    # ### Returns
-    #
-    # true if current user is allowed to view/modify the requested Dealership
-    # false otherwise
-    #
-    def authorized?(req)
-      req.session['dealer_id'] == dealership(req).id
     end
 
     # TODO: Write documentation for `#transloadit_params`
