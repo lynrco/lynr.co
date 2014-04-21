@@ -69,6 +69,15 @@ module Lynr::Controller
       redirect "/admin/#{token.dealership.to_s}/account/password"
     end
 
+    # # `Lynr::Controller::Auth::Signin::Default`
+    #
+    # Method definitions to use by default. These should be a part of
+    # the class definition but if they are they can not be overridden by
+    # including the `Demo` module.
+    #
+    # NOTE: With Ruby 2.0 `Demo` module could be included via `prepend`
+    # which would allow class method definitions to be overriden.
+    #
     module Default
 
       # ## Sign In Handlers
@@ -91,6 +100,10 @@ module Lynr::Controller
 
     end
 
+    # # `Lynr::Controller::Auth::Signin::Demo`
+    #
+    # Method definitions to use when the demo 'feature' is on.
+    #
     module Demo
 
       # ## Sign In Handlers
