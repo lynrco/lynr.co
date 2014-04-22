@@ -1,7 +1,7 @@
 machine:
   post:
-    - sed -e "s/AWS_SECRET_ACCESS_KEY/$AWS_SECRET_ACCESS_KEY/" \
-      -e "s/AWS_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/" \
+    - sed -e "s/AWS_SECRET_ACCESS_KEY/$AWS_SECRET_ACCESS_KEY/"
+      -e "s/AWS_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/"
       -e "s/S3CFG_GPG_PASSPHRASE/$S3CFG_GPG_PASSPHRASE/" config/s3cfg.txt > ~/.s3cfg
 checkout:
   post:
