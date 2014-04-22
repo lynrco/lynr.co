@@ -15,7 +15,7 @@ test:
   post:
     - rm -f dist/build.txt
     - mv dist/all.txt $HOME/dist_all.txt
-    - export ASSET_HASH=`md5 -q $HOME/dist_all.txt`
+    - export ASSET_HASH=`md5sum $HOME/dist_all.txt | awk '{ print $1 }'`
     - mv dist/ $ASSET_HASH
     - tar cfz $CIRCLE_SHA1.assets.tar.gz $ASSET_HASH/*
     - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
