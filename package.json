@@ -1,16 +1,16 @@
 {
   "name": "lynr.co",
-  "engines": { "node": "~0.10.2" },
+  "engines": { "node": "^0.10.2" },
   "version": "0.0.1",
   "repository": "git@github.com:lynrco/lynr.co",
   "dependencies": {
-    "grunt": "~0.4.2",
-    "grunt-cli": "~0.1.13",
-    "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-svgmin": "~0.3.0",
-    "requirejs": "~2.1.10",
-    "grunt-contrib-concat": "~0.4.0"
+    "grunt": "^0.4.2",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-less": "^0.9.0",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-svgmin": "^0.3.0",
+    "requirejs": "^2.1.10",
+    "grunt-contrib-concat": "^0.4.0"
   },
   "scripts": {
     "grunt": "node_modules/.bin/grunt",
