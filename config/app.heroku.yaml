@@ -29,6 +29,7 @@ headers:
   "X-Xss-Protection": "1"
 # Used for metrics
 librato:
+  enabled: 'env:LIBRATO_ENABLED'
   user: 'env:LIBRATO_USER'
   token: 'env:LIBRATO_TOKEN'
   source: 'env:LIBRATO_SOURCE'
