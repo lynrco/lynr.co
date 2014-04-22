@@ -15,18 +15,18 @@ test:
   post:
     - rm -f dist/build.txt
     - mv dist/all.txt $HOME/dist_all.txt
-    - export ASSET_HASH=`md5sum $HOME/dist_all.txt | awk '{ print $1 }'`
-    - mv dist/ $ASSET_HASH
-    - tar cfz $CIRCLE_SHA1.assets.tar.gz $ASSET_HASH/*
+    - echo `md5sum $HOME/dist_all.txt | awk '{ print $1 }'` > $CIRCLE_ARTIFACTS/assets-md5.txt
+    - mv dist/ `cat $CIRCLE_ARTIFACTS/assets-md5.txt`
+    - tar cfz $CIRCLE_SHA1.assets.tar.gz `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/*
     - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
-    - echo $ASSET_HASH > $CIRCLE_ARTIFACTS/assets-md5.txt
 deployment:
   staging:
     branch: master
     commands:
       # Push assets to S3
       - if [[ $CIRCLE_PROJECT_USERNAME == 'lynrco' ]];
-        then s3cmd sync $ASSET_HASH/ s3://lynr-prod-assets-nocal/$ASSET_HASH/;
+        then ASSET_HASH=`cat $CIRCLE_ARTIFACTS/assets-md5.txt`
+             s3cmd sync $ASSET_HASH/ s3://lynr-prod-assets-nocal/$ASSET_HASH/;
         else exit 0;
         fi;
       # Push code to Heroku
