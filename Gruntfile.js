@@ -88,12 +88,12 @@ module.exports = function(grunt) {
           { "name": "pages/home" },
           { "name": "pages/legal" }
         ],
-        "findNestedDependencies": true
+        "findNestedDependencies": true,
+        "fileExclusionRegExp": /^(\.|less|legal|build)/
       };
 
       requirejs.optimize(buildjs,
         function(output) {
-          grunt.log.writeln(output);
           grunt.log.ok('Main build complete.');
           done();
         },
