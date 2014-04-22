@@ -68,7 +68,7 @@ module Lynr; module Controller;
     # meant to be overridden by child controllers.
     #
     def role(req)
-      "admin:#{req['slug']}"
+      "admin:#{dealership(req).id}"
     end
 
     # ## `Admin#vehicle_count(req)`
