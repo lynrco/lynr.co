@@ -12,6 +12,22 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    concat: {
+      options: {
+        separator: '\n'
+      },
+      dist: {
+        src: [
+          'dist/css/**/*.css',
+          'dist/js/**/*.js',
+          'dist/svg/**/*.svg',
+          'dist/img/**/*.(gif|png|jpg)',
+          'dist/robots.txt',
+          'dist/favicon.ico'
+        ],
+        dest: 'dist/all.txt'
+      }
+    },
     // /usr/local/share/npm/lib/node_modules/less/bin/lessc --source-map --source-map-url=/css/main.css.map --source-map-rootpath=https://lynr.co.local:9393/less public/less/main.less public/css/main.css
     less: {
       development: {
@@ -59,12 +75,13 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less:development', 'watch']);
-  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build']);
+  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build', 'concat']);
 
   grunt.registerTask(
     'build',
