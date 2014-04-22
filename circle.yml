@@ -1,3 +1,8 @@
+machine:
+  post:
+    - sed -e "s/AWS_SECRET_ACCESS_KEY/$AWS_SECRET_ACCESS_KEY/" \
+      -e "s/AWS_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/" \
+      -e "s/S3CFG_GPG_PASSPHRASE/$S3CFG_GPG_PASSPHRASE/" config/s3cfg.txt > ~/.s3cfg
 checkout:
   post:
     - git submodule sync
@@ -11,11 +16,16 @@ test:
     - mv dist/ $CIRCLE_SHA1
     - tar cfz $CIRCLE_SHA1.assets.tar.gz $CIRCLE_SHA1/*
     - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
-    - s3cmd sync $CIRCLE_SHA1/ s3://lynr-prod-assets-nocal/$CIRCLE_SHA1/
 deployment:
   staging:
     branch: master
     commands:
+      # Push assets to S3
+      - if [[ $CIRCLE_PROJECT_USERNAME == 'lynrco' ]];
+        then s3cmd sync $CIRCLE_SHA1/ s3://lynr-prod-assets-nocal/$CIRCLE_SHA1/;
+        else exit 0;
+        fi;
+      # Push code to Heroku
       - if [[ $CIRCLE_PROJECT_USERNAME == 'lynrco' ]];
         then git push git@heroku.com:lynr-co-stage.git $CIRCLE_SHA1:master;
         else exit 0;
