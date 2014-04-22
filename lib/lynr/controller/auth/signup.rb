@@ -223,6 +223,10 @@ module Lynr::Controller
         notify(req, dealer)
         # Send to admin pages?
         send_to_admin(req, dealer)
+      rescue Lynr::Persist::MongoUniqueError
+        dealership = dealer_dao.get_by_email(posted['email'])
+        req.session['dealer_id'] = dealership.id
+        send_to_admin(req, dealership)
       end
 
       # ## `Auth::Signup::Demo#validate_signup(posted)`
@@ -236,6 +240,9 @@ module Lynr::Controller
         email = posted['email']
 
         errors['email'] ||= error_for_email(dealer_dao, email)
+        if / is already taken.\Z/.match(errors['email'])
+          errors['email'] = nil
+        end
 
         if (posted['agree_terms'].nil?)
           errors['agree_terms'] = "You must agree to Terms &amp; Conditions."
