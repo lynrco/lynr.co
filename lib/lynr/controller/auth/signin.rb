@@ -1,3 +1,4 @@
+require './lib/lynr/controller'
 require './lib/lynr/controller/auth'
 require './lib/lynr/events'
 require './lib/lynr/model/dealership'
@@ -11,6 +12,8 @@ module Lynr::Controller
   # authenticating accounts.
   #
   class Auth::Signin < Lynr::Controller::Auth
+
+    include Lynr::Controller::Authentication
 
     get  '/signin',        :get_signin
     post '/signin',        :post_signin
@@ -54,6 +57,7 @@ module Lynr::Controller
 
     def post_signin(req)
       dealership = dealer_dao.get_by_email(@posted['email'])
+      Lynr::Events.emit(type: 'signin', data: { dealership_id: dealership.id.to_s, })
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
       send_to_admin(req, dealership)
@@ -63,6 +67,7 @@ module Lynr::Controller
       id = BSON::ObjectId.from_string(req['token'])
       dao = Lynr::Persist::Dao.new
       token = dao.read(id)
+      # TODO: There needs to be an error message if the token is expired
       return unauthorized if token.nil? or token.expired?
       dao.delete(id)
       req.session['dealer_id'] = token.dealership
@@ -89,9 +94,8 @@ module Lynr::Controller
         errors = validate_required(posted, ['email', 'password'])
         email = posted['email']
         password = posted['password']
-        dealership = dealer_dao.get_by_email(email)
 
-        if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, password)))
+        if (authenticates?(email, password))
           errors['account'] = "Invalid email or password."
         end
 
@@ -114,12 +118,8 @@ module Lynr::Controller
       def validate_signin(posted)
         errors = validate_required(posted, ['email'])
         email = posted['email']
-        dealership = dealer_dao.get_by_email(email)
 
-        # TODO: If dealership is a live account then give error with link
-        # to live site.
-
-        if (errors.empty? && (dealership.nil? || !dealership.identity.auth?(email, email)))
+        if (authenticates?(email, email))
           errors['account'] = "Invalid email."
         end
 
