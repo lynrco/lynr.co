@@ -2,11 +2,6 @@ require 'rack'
 require 'rack/ssl'
 require 'librato-rack'
 
-require 'newrelic_rpm'
-require 'new_relic/rack/agent_hooks'
-require 'new_relic/rack/browser_monitoring'
-require 'new_relic/rack/error_collector'
-
 require './lib/lynr/web'
 require './lib/rack/middleware/logger'
 require './lib/rack/middleware/timer'
@@ -15,21 +10,11 @@ Lynr::Web.setup
 
 config = Lynr.config('app')
 
-statics = 'public'
-
-if Lynr.env == 'heroku'
-  statics = 'dist'
-
-  use NewRelic::Rack::AgentHooks
-  use NewRelic::Rack::BrowserMonitoring
-  use NewRelic::Rack::ErrorCollector
-end
-
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
 use Rack::Static, :urls => [
     "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
-  ], :root => statics
+  ], :root => if Lynr.env == 'heroku' then 'dist' else 'public' end
 use Librato::Rack if Lynr.env == 'heroku'
 use Rack::Middleware::Timer, Lynr::Web.instance.log
 use Rack::Session::Cookie,  :key          => '_lynr',
