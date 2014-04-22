@@ -11,6 +11,7 @@ test:
     - mv dist/ $CIRCLE_SHA1
     - tar cfz $CIRCLE_SHA1.assets.tar.gz $CIRCLE_SHA1/*
     - mv $CIRCLE_SHA1.assets.tar.gz $CIRCLE_ARTIFACTS
+    - s3cmd sync $CIRCLE_SHA1/ s3://lynr-prod-assets-nocal/$CIRCLE_SHA1/
 deployment:
   staging:
     branch: master
