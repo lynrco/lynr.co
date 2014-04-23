@@ -31,6 +31,15 @@ RSpec.configure do |c|
   c.after(:suite) do
     StripeMock.stop
   end
+
+  c.before(:each) do
+    Lynr::Queue.any_instance.stub(:publish) do |job, opts|
+      self
+    end
+    Lynr::Queue::JobQueue.any_instance.stub(:publish) do |job, opts|
+      self
+    end
+  end
   c.after(:each) do
     MongoHelpers.empty! if MongoHelpers.dao.active?
   end
@@ -49,6 +58,6 @@ end
 # used by BCrypt
 module Lynr; module Model;
   class Identity
-    DEFAULT_COST = 5
+    DEFAULT_COST = 1
   end
 end; end;

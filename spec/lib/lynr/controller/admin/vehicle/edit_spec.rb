@@ -14,12 +14,6 @@ describe Lynr::Controller::Admin::Vehicle::Edit do
   let(:env_opts) { { 'rack.session' => { 'dealer_id' => saved_empty_dealership.id } } }
   let(:full_uri) { "https://#{domain}#{uri}" }
 
-  before(:each) do
-    Lynr::Queue::JobQueue.any_instance.stub(:publish) do |job, opts|
-      self
-    end
-  end
-
   context "GET /admin/:slug/:vehicle/edit" do
 
     let(:route_method) { [:get_edit_vehicle, 'GET'] }
