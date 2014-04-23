@@ -44,6 +44,9 @@ describe Lynr::Controller::AdminBilling do
 
     context "with features.demo" do
       include_context "features.demo=true"
+      before(:each) do
+        Stripe::Plan.create(amount: 9900, id: 'lynr_spec')
+      end
       it_behaves_like "Lynr::Controller::Base#valid_request", 302
     end
   end
