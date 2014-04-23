@@ -68,12 +68,12 @@ namespace :lynr do
 
     app =
       Rack::Builder.new do
+        use Rack::Static, :urls => [
+            "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
+          ], :root => './public'
         # loader forks the child and runs the embedded config followed by the
         # application config.
-        run Shotgun::Loader.new('config.ru') {
-          use Rack::CommonLogger, STDERR
-          use Rack::Lint
-        }
+        run Shotgun::Loader.new('config.ru')
       end
 
     Shotgun.enable_copy_on_write
