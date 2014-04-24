@@ -113,10 +113,11 @@ module Lynr; module Controller;
       require './lib/lynr/model/subscription'
 
       def cookie(req)
+        value = URI.encode(req.cookies['_lynr']) if req.cookies['_lynr']
         live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
         # Thu, 01 May 2014 02:13:58 -0000; HttpOnly
         expires = (Time.now + 604800).utc.strftime('%a, %d %b %Y %H:%M:%S %z')
-        "_lynr=#{req.cookies['_lynr']}; domain=#{live_domain}; path=/; expires=#{expires}; HttpOnly"
+        "_lynr=#{value}; domain=#{live_domain}; path=/; expires=#{expires}; HttpOnly"
       end
 
       # ## `AdminBilling::Demo#get_account(req)`
