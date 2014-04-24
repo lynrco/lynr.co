@@ -12,6 +12,7 @@
 /log/
 /node_modules/
 /public/css/*.css
+/public/js/built/*.js
 /public/svg/*.svg
 /tags
 /vendor/

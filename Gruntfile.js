@@ -105,4 +105,39 @@ module.exports = function(grunt) {
     }
   );
 
+  // NOTE: This task will fail while identity is required in main.js
+  grunt.registerTask(
+    'build-almond',
+    'Run the r.js build script with Almond',
+    function() {
+      var done = this.async();
+
+      var buildjs = {
+        "baseUrl": "public/js",
+        "mainConfigFile": "public/js/main.js",
+        "name": "libs/almond-0.2.9",
+        "include": ['main', 'pages/admin', 'pages/auth', 'pages/home', 'pages/legal'],
+        "insertRequire": ['main'],
+        "out": "public/js/built/main.js",
+        "paths": {
+          "stripe": "empty:",
+          "identity": "empty:"
+        },
+        "findNestedDependencies": true
+      };
+
+      requirejs.optimize(buildjs,
+        function(output) {
+          grunt.log.writeln(output);
+          grunt.log.ok('Main build complete.');
+          done();
+        },
+        function(err) {
+          grunt.log.error('Main build failure: ' + err);
+          fatal('Main build failure: ' + err);
+        }
+      );
+    }
+  );
+
 };
