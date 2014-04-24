@@ -57,7 +57,7 @@ module Lynr; module Controller;
       @posted['identity'] = Identity.new(posted['email'], dealership(req).identity.password)
       @posted['image'] = translate_image
       @posted['slug'] = slugify(posted['name']) if has_error?('slug') && posted['slug'].nil?
-      render 'admin/account.erb' if has_errors?
+      get_account(req) if has_errors?
     end
 
     # ## `AdminAccount#get_account(req)`
@@ -66,7 +66,7 @@ module Lynr; module Controller;
     #
     def get_account(req)
       @msg = connect_message(req)
-      render 'admin/account.erb'
+      render template_path()
     end
 
     # ## `AdminAccount#post_account(req)`
@@ -88,6 +88,15 @@ module Lynr; module Controller;
     #
     def slugify(str)
       Slug.new(str)
+    end
+
+    # ## `AdminAccount#template_path()`
+    #
+    # Define the path for the template to be rendered for GET requests
+    # and POST requests with errors.
+    #
+    def template_path()
+      'admin/account.erb'
     end
 
     protected
