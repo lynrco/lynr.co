@@ -11,20 +11,28 @@ describe Lynr::Controller::AdminAccount do
   include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"
 
+  let(:session_user) { saved_empty_dealership }
   let(:path) { '/admin/:slug/account' }
-  let(:uri) { "/admin/#{saved_empty_dealership.id}/account" }
-  let(:env_opts) { { 'rack.session' => { 'dealer_id' => saved_empty_dealership.id } } }
+  let(:uri) { "/admin/#{session_user.id}/account" }
+  let(:env_opts) { { 'rack.session' => { 'dealer_id' => session_user.id } } }
 
   context "GET /admin/:slug/account" do
     let(:route_method) { [:get_account, 'GET'] }
     it_behaves_like "Lynr::Controller::Base#valid_request" do
       it { expect(response_body_document).to have_element('p.account-link') }
+      it "should have .account-link with 'Upgrade Account'" do
+        expect(response_body_document.css('.account-link a').first.text).to eq('Change Password')
+      end
     end
 
     context "with features.demo" do
+      let(:session_user) { saved_demo_dealership }
       include_context "features.demo=true"
       it_behaves_like "Lynr::Controller::Base#valid_request" do
-        it { expect(response_body_document).to_not have_element('p.account-link') }
+        it { expect(response_body_document).to have_element('p.account-link') }
+        it "should have .account-link with 'Upgrade Account'" do
+          expect(response_body_document.css('.account-link a').first.text).to eq('Upgrade Account')
+        end
       end
     end
   end
@@ -36,6 +44,7 @@ describe Lynr::Controller::AdminAccount do
     it_behaves_like "Lynr::Controller::Base#valid_request", 302
 
     context "with features.demo" do
+      let(:session_user) { saved_demo_dealership }
       include_context "features.demo=true"
       it_behaves_like "Lynr::Controller::Base#valid_request", 302
     end
