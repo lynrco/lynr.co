@@ -46,5 +46,5 @@
           </fieldset>
           <input type="hidden" name="stripeToken" id="stripeToken" value="<%= posted['stripeToken'] %>" />
           <button class="btn btn-half btn-positive" type="submit">Subscribe</button>
-          <a class="btn btn-half btn-negative" href="#cancel">Cancel</a>
+          <a class="btn btn-half btn-negative" href="/admin/<%= @dealership.slug %>/account">Cancel</a>
         </form>

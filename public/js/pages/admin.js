@@ -38,6 +38,7 @@ define(function(require) {
         evt.on(document.querySelector('a.btn-negative'), 'click', toggleActive);
 
         function toggleActive(e) {
+          if (clazz.has(form, 'm-billing-demo')) { return; }
           evt.prevent(e);
           clazz.toggle(form, 'm-billing-active');
           clazz.toggle(div, 'm-billing-active');
