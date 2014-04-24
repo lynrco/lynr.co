@@ -4,7 +4,7 @@ require './lib/lynr/controller'
 require './lib/lynr/controller/admin'
 require './lib/lynr/validator'
 
-module Lynr; module Controller;
+module Lynr::Controller
 
   # # `Lynr::Controller::AdminBilling`
   #
@@ -110,8 +110,14 @@ module Lynr; module Controller;
     #
     module Demo
 
+      require './lib/lynr/events'
       require './lib/lynr/model/subscription'
 
+      # ## `AdminBilling::Demo#cookie(req)`
+      #
+      # Create a Set-Cookie header value for the live domain so new customers
+      # hit the live domain already logged in.
+      #
       def cookie(req)
         value = URI.encode(req.cookies['_lynr']) if req.cookies['_lynr']
         live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
@@ -120,7 +126,7 @@ module Lynr; module Controller;
         "_lynr=#{value}; domain=#{live_domain}; path=/; expires=#{expires}; HttpOnly"
       end
 
-      # ## `AdminBilling::Demo#get_account(req)`
+      # ## `AdminBilling::Demo#get_billing(req)`
       #
       # Handle GET request for the billing information page on the demo site.
       #
@@ -128,21 +134,18 @@ module Lynr; module Controller;
         render template_path()
       end
 
+      # ## `AdminBilling::Demo#post_billing(req)`
+      #
+      # Process a demo account into a live account and redirect the new
+      # customer to the live site.
+      #
       def post_billing(req)
         with_stripe_error_handlers do
-          dealership = dealership(req)
-          stripe_config = Lynr.config('app').stripe
-          identity = Lynr::Model::Identity.new(dealership.identity.email, posted['password'])
-          customer = create_customer(identity)
-          dealer = dealer_dao.save(dealership.set(
-            'identity' => identity,
-            'customer_id' => customer.id,
-            'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: 'trialing'),
-          ))
-          # TODO: Need to set lynr.co cookie or this redirect will log me out
+          dealership = update_dealership(req)
+          Lynr::Events.emit(type: 'dealership.upgraded', data: { dealership_id: dealership.id.to_s })
           live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
           expires = (Time.now + 604800).strftime('')
-          redirect("https://#{live_domain}/admin/#{dealer.slug}/billing", 302, {
+          redirect("https://#{live_domain}/admin/#{dealership.slug}/billing", 302, {
             'Set-Cookie' => cookie(req)
           })
         end
@@ -155,6 +158,23 @@ module Lynr; module Controller;
       #
       def template_path()
         'demo/admin/billing.erb'
+      end
+
+      # ## `AdminBilling::Demo#update_dealership(req)`
+      #
+      # Use the data in `req` to update the current dealership with new
+      # customer and subscription information.
+      #
+      def update_dealership(req)
+        identity = Lynr::Model::Identity.new(dealership(req).identity.email, posted['password'])
+        customer = create_customer(identity)
+        dealer_dao.save(dealership(req).set(
+          'identity' => identity,
+          'customer_id' => customer.id,
+          'subscription' => Lynr::Model::Subscription.new(
+            plan: Lynr.config('app').stripe.plan, status: 'trialing'
+          ),
+        ))
       end
 
       # ## `AdminBilling::Demo#validate_billing_info`
@@ -171,4 +191,4 @@ module Lynr; module Controller;
 
   end
 
-end; end;
+end
