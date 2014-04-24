@@ -1,5 +1,6 @@
 # Used to setting cookies/sessions
 domain: 'env:app_domain'
+live_domain: 'env:app_domain_live'
 support_email: 'general@support.lynr.co'
 # Used for passing messages between boxes/processes/workers
 amqp:
