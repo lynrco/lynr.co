@@ -14,6 +14,8 @@ module Lynr::Controller
   #
   class Auth::Signup < Lynr::Controller::Auth
 
+    include Lynr::Controller::Striped
+
     get  '/signup',         :get_signup
     post '/signup',         :post_signup
 
@@ -74,30 +76,13 @@ module Lynr::Controller
       dealer_dao.save(dealership)
     end
 
-    # ## `Auth::Signup#handle_stripe_error!(err, message)`
-    #
-    # This method takes an error and message and maps it to the credit card
-    # fields and then provides an appropriate response object. The 'bang' at
-    # the end of the method name signifies it terminates a request.
-    #
-    # ### Params
-    #
-    # * `err` is a Exception or Error class, it could be any kind of object
-    #   but it is logged as a warning.
-    # * `message` is the error message displayed to the potential customer
-    #   informing them of the problem. This message is tied to the credit card
-    #   info.
-    #
-    # ### Returns
-    #
-    # A `Rack::Response` style object that responds to a `finish` message.
-    #
-    def handle_stripe_error!(err, message)
-      log.warn { err }
-      @errors['stripeToken'] = message
-      @posted.delete('stripeToken')
-      render 'auth/signup.erb'
-    end
+      # ## `Auth::Signup#get_signup(req)`
+      #
+      # Render signup page for `req` using `#template_path`.
+      #
+      def get_signup(req)
+        render template_path()
+      end
 
     # ## `Auth::Signup#notify(req, dealership)`
     #
@@ -131,14 +116,6 @@ module Lynr::Controller
     #
     module Default
 
-      # ## `Auth::Signup::Default#get_signup(req)`
-      #
-      # Render signup page for `req`.
-      #
-      def get_signup(req)
-        render 'auth/signup.erb'
-      end
-
       # ## `Auth::Signup::Default#post_signup(req)`
       #
       # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
@@ -146,26 +123,26 @@ module Lynr::Controller
       # the new customer in.
       #
       def post_signup(req)
-        # Create account
-        identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
-        # Create Customer and subscribe them
-        customer = Stripe::Customer.create(
-          card: @posted['stripeToken'],
-          plan: stripe_config.plan,
-          email: identity.email
-        )
-        # Create and Save dealership
-        dealer = create_dealership(identity, customer)
-        notify(req, dealer)
-        # Send to admin pages?
-        send_to_admin(req, dealer)
-      rescue Stripe::CardError => sce
-        handle_stripe_error!(sce, sce.message)
-      rescue Stripe::InvalidRequestError => sire
-        handle_stripe_error!(sire, "You might have submitted the form more than once.")
-      rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
-        msg = "Couldn't communicate with our card processor. We've been notified of the error."
-        handle_stripe_error!(sse, msg)
+        with_stripe_error_handlers do
+          # Create account
+          identity = Lynr::Model::Identity.new(@posted['email'], @posted['password'])
+          # Create Customer and subscribe them
+          customer = create_customer(identity)
+          # Create and Save dealership
+          dealer = create_dealership(identity, customer)
+          notify(req, dealer)
+          # Send to admin pages?
+          send_to_admin(req, dealer)
+        end
+      end
+
+      # ## `Auth::Signup::Default#template_path()`
+      #
+      # Define the path for the template to be rendered for GET requests
+      # and POST requests with errors.
+      #
+      def template_path()
+        'auth/signup.erb'
       end
 
       # ## `Auth::Signup::Default#validate_signup(posted)`
@@ -201,14 +178,6 @@ module Lynr::Controller
     #
     module Demo
 
-      # ## `Auth::Signup::Demo#get_signup(req)`
-      #
-      # Render signup page for `req`.
-      #
-      def get_signup(req)
-        render 'demo/auth/signup.erb'
-      end
-
       # ## `Auth::Signup::Demo#post_signup(req)`
       #
       # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
@@ -227,6 +196,15 @@ module Lynr::Controller
         dealership = dealer_dao.get_by_email(posted['email'])
         req.session['dealer_id'] = dealership.id
         send_to_admin(req, dealership)
+      end
+
+      # ## `Auth::Signup::Demo#template_path()`
+      #
+      # Define the path for the template to be rendered for GET requests
+      # and POST requests with errors.
+      #
+      def template_path()
+        'demo/auth/signup.erb'
       end
 
       # ## `Auth::Signup::Demo#validate_signup(posted)`
