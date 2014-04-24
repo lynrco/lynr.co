@@ -1,5 +1,8 @@
 require 'stripe'
+
+require './lib/lynr/controller'
 require './lib/lynr/controller/admin'
+require './lib/lynr/validator'
 
 module Lynr; module Controller;
 
@@ -8,6 +11,9 @@ module Lynr; module Controller;
   # Handles requests for the billing information page.
   #
   class AdminBilling < Lynr::Controller::Admin
+
+    include Lynr::Controller::Striped
+    include Lynr::Validator::Password
 
     get  '/admin/:slug/billing', :get_billing
     post '/admin/:slug/billing', :post_billing
@@ -31,8 +37,6 @@ module Lynr; module Controller;
       @subsection = 'billing'
       if Lynr.features.demo?
         self.send(:extend, AdminBilling::Demo)
-      else
-        self.send(:extend, AdminBilling::Default)
       end
     end
 
@@ -44,7 +48,20 @@ module Lynr; module Controller;
     def before_POST(req)
       super
       @errors = validate_billing_info
-      render 'admin/billing.erb' if has_errors?
+      render template_path() if has_errors?
+    end
+
+    # ## `AdminBilling#get_account(req)`
+    #
+    # Handle GET request for the billing information page.
+    #
+    def get_billing(req)
+      @msg = req.session.delete('billing_flash_msg')
+      # TODO: This card information could be stored locally. It is innocuous enough.
+      # Or perhaps in memcache or something
+      customer = Stripe::Customer.retrieve(@dealership.customer_id)
+      @card = card_for(customer)
+      render template_path()
     end
 
     # ## `AdminBilling#post_account(req)`
@@ -53,42 +70,22 @@ module Lynr; module Controller;
     # updating data.
     #
     def post_billing(req)
-      customer = Stripe::Customer.retrieve(@dealership.customer_id)
-      customer.card = posted['stripeToken']
-      customer.save
-      req.session['billing_flash_msg'] = "Card updated successfully."
-      redirect "/admin/#{@dealership.slug}/billing"
-    rescue Stripe::CardError => sce
-      handle_stripe_error!(sce, sce.message)
-    rescue Stripe::InvalidRequestError => sire
-      handle_stripe_error!(sire, "You might have submitted the form more than once.")
-    rescue Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => sse
-      msg = "Couldn't communicate with our card processor. We've been notified of the error."
-      handle_stripe_error!(sse, msg)
+      with_stripe_error_handlers do
+        customer = Stripe::Customer.retrieve(@dealership.customer_id)
+        customer.card = posted['stripeToken']
+        customer.save
+        req.session['billing_flash_msg'] = "Card updated successfully."
+        redirect "/admin/#{@dealership.slug}/billing"
+      end
     end
 
-    # ## `Lynr::Controller::AdminBilling#handle_stripe_error!`
+    # ## `AdminBilling#template_path()`
     #
-    # This method takes an error and message and maps it to the credit card
-    # fields and then provides an appropriate response object. The 'bang' at
-    # the end of the method name signifies it terminates a request.
+    # Define the path for the template to be rendered for GET requests
+    # and POST requests with errors.
     #
-    # ### Params
-    #
-    # * `err` is a Exception or Error class, it could be any kind of object
-    #   but it is logged as a warning.
-    # * `message` is the error message displayed to the potential customer
-    #   informing them of the problem. This message is tied to the credit card
-    #   info.
-    #
-    # ### Returns
-    #
-    # A `Rack::Response` style object that responds to a `finish` message.
-    #
-    def handle_stripe_error!(err, message)
-      log.warn { err }
-      @errors['stripeToken'] = message
-      render 'admin/billing.erb'
+    def template_path()
+      'admin/billing.erb'
     end
 
     # ## `AdminBilling#validate_billing_info`
@@ -107,48 +104,66 @@ module Lynr; module Controller;
       errors
     end
 
-    def card_for(customer)
-      customer.cards.find { |card| card.id == customer.default_card }
-    end
-
-    # # `Lynr::Controller::AdminBilling::Default`
-    #
-    # Method definitions to use by default. These should be a part of
-    # the class definition but if they are they can not be overridden by
-    # including the `Demo` module.
-    #
-    # NOTE: With Ruby 2.0 `Demo` module could be included via `prepend`
-    # which would allow class method definitions to be overriden.
-    #
-    module Default
-
-      # ## `AdminBilling::Default#get_account(req)`
-      #
-      # Handle GET request for the billing information page.
-      #
-      def get_billing(req)
-        @msg = req.session.delete('billing_flash_msg')
-        # TODO: This card information could be stored locally. It is innocuous enough.
-        # Or perhaps in memcache or something
-        customer = Stripe::Customer.retrieve(@dealership.customer_id)
-        @card = card_for(customer)
-        render 'admin/billing.erb'
-      end
-
-    end
-
     # # `Lynr::Controller::AdminBilling::Demo`
     #
     # Method definitions to use when the demo 'feature' is on.
     #
     module Demo
 
+      require './lib/lynr/model/subscription'
+
+      def cookie(req)
+        live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
+        # Thu, 01 May 2014 02:13:58 -0000; HttpOnly
+        expires = (Time.now + 604800).utc.strftime('%a, %d %b %Y %H:%M:%S %z')
+        "_lynr=#{req.cookies['_lynr']}; domain=#{live_domain}; path=/; expires=#{expires}; HttpOnly"
+      end
+
       # ## `AdminBilling::Demo#get_account(req)`
       #
       # Handle GET request for the billing information page on the demo site.
       #
       def get_billing(req)
-        render 'demo/admin/billing.erb'
+        render template_path()
+      end
+
+      def post_billing(req)
+        with_stripe_error_handlers do
+          dealership = dealership(req)
+          stripe_config = Lynr.config('app').stripe
+          identity = Lynr::Model::Identity.new(dealership.identity.email, posted['password'])
+          customer = create_customer(identity)
+          dealer = dealer_dao.save(dealership.set(
+            'identity' => identity,
+            'customer_id' => customer.id,
+            'subscription' => Lynr::Model::Subscription.new(plan: stripe_config.plan, status: 'trialing'),
+          ))
+          # TODO: Need to set lynr.co cookie or this redirect will log me out
+          live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
+          expires = (Time.now + 604800).strftime('')
+          redirect("https://#{live_domain}/admin/#{dealer.slug}/billing", 302, {
+            'Set-Cookie' => cookie(req)
+          })
+        end
+      end
+
+      # ## `AdminBilling::Demo#template_path()`
+      #
+      # Define the path for the template to be rendered for GET requests
+      # and POST requests with errors.
+      #
+      def template_path()
+        'demo/admin/billing.erb'
+      end
+
+      # ## `AdminBilling::Demo#validate_billing_info`
+      #
+      # Validate password information in addition to the stripeToken.
+      #
+      def validate_billing_info
+        errors = super.merge(validate_required(posted, ['password']))
+        errors['password'] ||= error_for_passwords(posted['password'], posted['password_confirm'])
+        errors.delete_if { |k,v| v.nil? }
       end
 
     end
