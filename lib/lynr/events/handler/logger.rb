@@ -19,6 +19,10 @@ module Lynr
       log.debug("type=event.handler event=#{JSON.pretty_generate(event)}")
     end
 
+    def id
+      "Handler::Logger"
+    end
+
   end
 
 end
