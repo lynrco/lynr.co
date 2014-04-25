@@ -6,6 +6,8 @@ module Lynr
 
   class Events::Handler::MixpanelAlias < Lynr::Events::Handler
 
+    include Lynr::Events::Handler::WithDealership
+
     # ## `Events::Handler::MixpanelAlias#call(event)`
     #
     # Process `event` by aliasing distinct_id to dealership_id, both
@@ -22,23 +24,6 @@ module Lynr
     rescue Mixpanel::ConnectionError => err
       log.warn("type=handler.failure id=#{id} message=#{err.message}")
       failure
-    end
-
-    # ## `Events::Handler::MixpanelAlias#dealership(event)`
-    #
-    # Extract the dealership_id from the information provided in `event`
-    # and use it to retrieve the `Lynr::Model::Dealership`.
-    #
-    def dealership(event)
-      dealership_dao.get(dealership_id(event))
-    end
-
-    # ## `Events::Handler::MixpanelAlias#dealership_id(event)`
-    #
-    # Extract the dealership_id from the information provided in `event`.
-    #
-    def dealership_id(event)
-      event[:dealership_id]
     end
 
     # ## `Events::Handler::MixpanelAlias#distinct_id(event)`
