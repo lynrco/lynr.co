@@ -37,19 +37,10 @@ group :unicorn do
       end
     end
 
-    watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
-
-    watch('Gemfile') { |m|
-      restart_unicorn(m)
-    }
-
-    watch('web.rb') { |m|
-      restart_unicorn(m)
-    }
-
-    watch(%r{^lib/(.+)\.rb$}) { |m|
-      restart_unicorn(m)
-    }
+#   watch(/^(.*)\.rb$/) { |m| check_syntax(m) }
+#   watch('Gemfile') { |m| restart_unicorn(m) }
+#   watch('web.rb') { |m| restart_unicorn(m) }
+#   watch(%r{^lib/(.+)\.rb$}) { |m| restart_unicorn(m) }
 
   end
 
