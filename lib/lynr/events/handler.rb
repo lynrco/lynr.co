@@ -12,8 +12,8 @@ module Lynr
   #
   class Events::Handler
 
-    autoload :WithDealership, './lib/lynr/events/handler/components/with_dealership'
-    autoload :WithVehicle, './lib/lynr/events/handler/components/with_vehicle'
+    autoload :WithDealership, './lib/lynr/events/handler/component/with_dealership'
+    autoload :WithVehicle, './lib/lynr/events/handler/component/with_vehicle'
 
     include Lynr::Logging
 
