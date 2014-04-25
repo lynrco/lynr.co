@@ -48,6 +48,8 @@ stripe:
 # Used to handle file uploads
 transloadit:
   auth_key: 'auth key from https://transloadit.com/accounts/credentials'
+  # auth_secret available when 'Enable signature authentication' is on
+  auth_secret: 'auth secret from https://transloadit.com/accounts/credentials'
   account_template_id: 'template id from https://transloadit.com/templates'
   vehicle_template_id: 'template id from https://transloadit.com/templates'
 vin:
