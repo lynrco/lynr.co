@@ -3,6 +3,7 @@ namespace :lynr do
   namespace :db do
 
     require './lib/lynr'
+    require './lib/lynr/events'
     require './lib/lynr/persist/dealership_dao'
     require './lib/lynr/persist/vehicle_dao'
 

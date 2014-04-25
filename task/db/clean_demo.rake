@@ -18,6 +18,8 @@ namespace :lynr do
         result = vehicles.delete(vehicle['_id'])
         if write_success?(result)
           puts "Removed vehicle:#{vehicle['_id']} from dealer:#{vehicle['dealership']}"
+          Lynr::Events.emit(type: 'vehicle.deleted',
+              dealership_id: vehicle['dealership'].to_s, vehicle_id: vehicle['_id'].to_s)
         end
         write_success?(result)
       end
@@ -25,6 +27,7 @@ namespace :lynr do
         result = dealers.delete(dealer['_id'])
         if write_success?(result)
           puts "Removed dealer:#{dealer['_id']}"
+          Lynr::Events.emit(type: 'dealership.deleted', dealership_id: dealer['_id'].to_s)
         end
         write_success?(result)
       end
