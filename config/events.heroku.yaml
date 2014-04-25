@@ -18,3 +18,5 @@ dealership.created:
     :subject: "Lynr.co Account Created"
   - type: Lynr::Events::Handler::MixpanelAlias
     token: 'env:mixpanel_token'
+vehicle.deleted:
+  - type: Lynr::Events::Handler::UnindexVehicle
