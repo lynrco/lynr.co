@@ -12,6 +12,9 @@ module Lynr
   #
   class Events::Handler
 
+    autoload :WithDealership, './lib/lynr/events/handler/components/with_dealership'
+    autoload :WithVehicle, './lib/lynr/events/handler/components/with_vehicle'
+
     include Lynr::Logging
 
     attr_reader :config
@@ -23,14 +26,6 @@ module Lynr
     #
     def initialize(config={})
       @config = config
-    end
-
-    # ## `Events::Handler#dealership_dao`
-    #
-    # Get an instance of `Lynr::Persist::DealershipDao`
-    #
-    def dealership_dao
-      @dealership_dao ||= Lynr::Persist::DealershipDao.new
     end
 
     # ## `Events::Handler#failure`
