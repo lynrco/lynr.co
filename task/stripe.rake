@@ -16,6 +16,7 @@ namespace :lynr do
 
     # Get customer information from Stripe and save it
     def sync_customer(customer_id)
+      return if customer_id.nil?
       puts "Syncing subscription status from Stripe for #{customer_id}"
       customer = Stripe::Customer.retrieve(customer_id)
       dealer = dealership_dao.get_by_customer_id(customer_id)
