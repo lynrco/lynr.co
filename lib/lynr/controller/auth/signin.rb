@@ -57,7 +57,7 @@ module Lynr::Controller
 
     def post_signin(req)
       dealership = dealer_dao.get_by_email(@posted['email'])
-      Lynr::Events.emit(type: 'signin', data: { dealership_id: dealership.id.to_s, })
+      Lynr::Events.emit(type: 'signin', dealership_id: dealership.id.to_s)
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
       send_to_admin(req, dealership)

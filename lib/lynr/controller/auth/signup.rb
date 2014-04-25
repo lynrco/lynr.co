@@ -90,10 +90,10 @@ module Lynr::Controller
     # 'dealership.created' event.
     #
     def notify(req, dealership)
-      Lynr::Events.emit(type: 'dealership.created', data: {
+      Lynr::Events.emit(type: 'dealership.created',
         dealership_id: dealership.id.to_s,
         cookies: req.cookies,
-      })
+      )
       req.session['dealer_id'] = dealership.id
     end
 

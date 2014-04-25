@@ -39,7 +39,7 @@ module Lynr
     # `event`.
     #
     def dealership(event)
-      dealership_dao.get(event[:data][:dealership_id])
+      dealership_dao.get(event[:dealership_id])
     end
 
     # ## `Events::Handler::Email#id`
@@ -70,7 +70,7 @@ module Lynr
     # be sent.
     #
     def to(event)
-      event[:data].fetch(:to, config.fetch(:to, dealership(event).identity.email))
+      event.fetch(:to, config.fetch(:to, dealership(event).identity.email))
     end
 
   end

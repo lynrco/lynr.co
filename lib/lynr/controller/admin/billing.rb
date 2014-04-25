@@ -142,7 +142,7 @@ module Lynr::Controller
       def post_billing(req)
         with_stripe_error_handlers do
           dealership = update_dealership(req)
-          Lynr::Events.emit(type: 'dealership.upgraded', data: { dealership_id: dealership.id.to_s })
+          Lynr::Events.emit(type: 'dealership.upgraded', dealership_id: dealership.id.to_s)
           live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
           expires = (Time.now + 604800).strftime('')
           redirect("https://#{live_domain}/admin/#{dealership.slug}/billing", 302, {

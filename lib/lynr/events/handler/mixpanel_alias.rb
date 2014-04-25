@@ -38,7 +38,7 @@ module Lynr
     # Extract the dealership_id from the information provided in `event`.
     #
     def dealership_id(event)
-      event[:data][:dealership_id]
+      event[:dealership_id]
     end
 
     # ## `Events::Handler::MixpanelAlias#distinct_id(event)`
@@ -47,7 +47,7 @@ module Lynr
     # exists.
     #
     def distinct_id(event)
-      cookies = event[:data][:cookies]
+      cookies = event[:cookies]
       mp, cookie = cookies.find { |key, data|
         key.to_s.start_with?('mp_') && key.to_s.end_with?('_mixpanel')
       }
