@@ -24,9 +24,15 @@ describe Lynr::Controller::Authorization do
       role = "admin:#{saved_empty_dealership.id}"
       expect(controller.authorized?(role, saved_empty_dealership)).to be_true
     end
-    it "should be faulse if dealership.id not in role" do
+    it "should be false if dealership.id not in role" do
       role = "admin:#{BSON::ObjectId.from_time(Time.now)}"
       expect(controller.authorized?(role, dealership)).to be_false
+    end
+    it "should be false if role is nil" do
+      expect(controller.authorized?(nil, dealership)).to be_false
+    end
+    it "should be false if role is false" do
+      expect(controller.authorized?(false, dealership)).to be_false
     end
   end
 
