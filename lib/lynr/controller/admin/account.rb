@@ -1,6 +1,7 @@
-require 'json'
+require 'yajl/json_gem'
 
 require './lib/lynr'
+require './lib/lynr/controller'
 require './lib/lynr/controller/admin'
 require './lib/lynr/controller/admin/account/password'
 require './lib/lynr/controller/auth/ebay'
@@ -9,7 +10,7 @@ require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
 require './lib/lynr/validator'
 
-module Lynr; module Controller;
+module Lynr::Controller;
 
   # # `Lynr::Controller::AdminAccount`
   #
@@ -194,4 +195,4 @@ module Lynr; module Controller;
 
   end
 
-end; end;
+end
