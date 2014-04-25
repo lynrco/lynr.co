@@ -1,4 +1,5 @@
 require 'mixpanel-ruby'
+require 'yajl/json_gem'
 
 require './lib/lynr/events/handler'
 
