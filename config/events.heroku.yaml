@@ -12,8 +12,9 @@
 # configuration as a `Lynr::Config` instance.
 #
 dealership.created:
-  - type: Lynr::Events::Handler::MixpanelAlias
-    token: 'env:mixpanel_token'
+  - type: Lynr::Events::Handler::AddDemoVehicles
   - type: Lynr::Events::Handler::Email
     :template: 'auth/account_created'
     :subject: "Lynr.co Account Created"
+  - type: Lynr::Events::Handler::MixpanelAlias
+    token: 'env:mixpanel_token'
