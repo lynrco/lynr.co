@@ -17,6 +17,7 @@ module Lynr
     #
     def call(event)
       log.debug("type=event.handler event=#{JSON.pretty_generate(event)}")
+      success
     end
 
     def id
