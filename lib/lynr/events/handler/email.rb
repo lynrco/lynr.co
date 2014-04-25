@@ -11,9 +11,9 @@ module Lynr
 
     attr_reader :template
 
-    # ## `Events::Handler::Email.new(data)`
+    # ## `Events::Handler::Email.new(config)`
     #
-    # Create a new `Email` handler with `data`. `data` must contain
+    # Create a new `Email` handler with `config`. `config` must contain
     # `:template` as it is provided to the `Lynr::Queue::EmailJob` this
     # handler creates.
     #
@@ -28,7 +28,7 @@ module Lynr
     # 'job' queue.
     #
     def call(event)
-      mail_data = mail_defaults(event).merge(data)
+      mail_data = mail_defaults(event).merge(config.to_hash)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new(template, mail_data))
       success
     end
