@@ -18,8 +18,9 @@ shared_context "spec/support/ModelHelper" do
     })
   }
 
+  let(:demo_identity) { Lynr::Model::Identity.new('bryan@lynr.co', 'bryan@lynr.co') }
   let(:demo_dealership) {
-    Lynr::Model::Dealership.new({ 'identity' => identity, })
+    Lynr::Model::Dealership.new({ 'identity' => demo_identity, })
   }
   let(:saved_demo_dealership) { subject.dealer_dao.save(demo_dealership) }
 
