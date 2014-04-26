@@ -116,6 +116,8 @@ describe Lynr::Controller::Auth::Signup do
           }
         }
         it { expect(response_body_document).to have_element('.msg-error') }
+        it { expect(response_body_document).to have_element('form.signup') }
+        it { expect(response_body_document).to_not have_element('form.signup-demo') }
         it "should have .msg-error 'Email is required.'" do
           expect(response_body_document.css('.msg-error').first.text).to eq('Email is required.')
         end
@@ -136,6 +138,14 @@ describe Lynr::Controller::Auth::Signup do
           it "creates dealership with demo subscription" do
             expect(dealership.subscription.demo?).to be_true
           end
+        end
+      end
+
+      context "with email for existing account" do
+        let(:posted) do super().merge({ 'email' => saved_empty_dealership.identity.email }) end
+        it_behaves_like "Lynr::Controller::Base#valid_request" do
+          it { expect(response_body_document).to have_element('.msg-error') }
+          it { expect(response_body_document).to have_element('form.signup-demo') }
         end
       end
 

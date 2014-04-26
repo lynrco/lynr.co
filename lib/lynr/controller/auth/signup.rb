@@ -176,6 +176,13 @@ module Lynr::Controller
     #
     module Demo
 
+      def attempt_signin(req)
+        signin = Lynr::Controller::Auth::Signin.new
+        response = signin.before_each(req)
+        response = signin.post_signin(req) unless response.is_a?(Rack::Response)
+        response
+      end
+
       # ## `Auth::Signup::Demo#post_signup(req)`
       #
       # Create a `Lynr::Model::Identity` and a `Stripe::Customer` and use them
@@ -191,9 +198,7 @@ module Lynr::Controller
         # Send to admin pages?
         send_to_admin(req, dealer)
       rescue Lynr::Persist::MongoUniqueError
-        dealership = dealer_dao.get_by_email(posted['email'])
-        req.session['dealer_id'] = dealership.id
-        send_to_admin(req, dealership)
+        attempt_signin(req)
       end
 
       # ## `Auth::Signup::Demo#template_path()`
