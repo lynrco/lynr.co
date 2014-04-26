@@ -63,7 +63,7 @@ module Lynr::Controller
     # Render `#template_path` for a GET request.
     #
     def get_signin(req)
-      render template_path()
+      render template_path
     end
 
     # ## `Auth::Signin#get_token_signin(req)`
@@ -96,14 +96,12 @@ module Lynr::Controller
       send_to_admin(req, dealership)
     end
 
-    # ## `Auth::Signin#template_path()`
+    # ## `Auth::Signin#template_path`
     #
     # Define the path for the template to be rendered for GET requests
     # and POST requests with errors.
     #
-    def template_path()
-      'auth/signin.erb'
-    end
+    def template_path() 'auth/signin.erb' end
 
     # ## `Auth::Signin#validate_signin(posted)`
     #
@@ -127,14 +125,12 @@ module Lynr::Controller
     #
     module Demo
 
-      # ## `Auth::Signin::Demo#template_path()`
+      # ## `Auth::Signin::Demo#template_path`
       #
       # Define the path for the template to be rendered for GET requests
       # and POST requests with errors.
       #
-      def template_path()
-        'demo/auth/signin.erb'
-      end
+      def template_path() 'demo/auth/signin.erb' end
 
       # ## `Auth::Signin::Demo#validate_signin(posted)`
       #
