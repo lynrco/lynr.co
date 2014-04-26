@@ -113,7 +113,7 @@ module Lynr::Controller
       password = posted['password']
 
       unless authenticates?(email, password)
-        errors['account'] = "Unable to sign you in. Double check your email and password."
+        errors['account'] = 'Unable to sign you in. Double check your email and password.'
       end
 
       errors.delete_if { |k,v| v.nil? }
