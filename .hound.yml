@@ -1,3 +1,9 @@
+Blocks:
+  Enabled: false
+
+BracesAroundHashParameters:
+  Enabled: false
+
 LineLength:
   Description: 'Limit lines to 115 characters.'
   Max: 115
