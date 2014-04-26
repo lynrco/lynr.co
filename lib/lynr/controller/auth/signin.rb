@@ -34,12 +34,10 @@ module Lynr::Controller
       super
       if Lynr.features.demo?
         self.send(:extend, Signin::Demo)
-      else
-        self.send(:extend, Signin::Default)
       end
     end
 
-    # ## `Auth::Signup#before_each(req)`
+    # ## `Auth::Signin#before_each(req)`
     #
     # Set attributes used in all methods.
     #
@@ -49,20 +47,30 @@ module Lynr::Controller
       super
     end
 
+    # ## `Auth::Signin#before_POST(req)`
+    #
+    # Perform validation and hand-off to `#get_signin` method if
+    # there are errors to display.
+    #
     def before_POST(req)
       super
       @errors = validate_signin(@posted)
-      render 'auth/signin.erb' if has_errors?
+      get_signin(req) if has_errors?
     end
 
-    def post_signin(req)
-      dealership = dealer_dao.get_by_email(@posted['email'])
-      Lynr::Events.emit(type: 'signin', dealership_id: dealership.id.to_s)
-      # Send to admin pages
-      req.session['dealer_id'] = dealership.id
-      send_to_admin(req, dealership)
+    # ## `Auth::SignIn#get_signin(req)`
+    #
+    # Render `#template_path` for a GET request.
+    #
+    def get_signin(req)
+      render template_path
     end
 
+    # ## `Auth::Signin#get_token_signin(req)`
+    #
+    # Handle authentication by token created when a customer issues a
+    # forgotten password request.
+    #
     def get_token_signin(req)
       id = BSON::ObjectId.from_string(req['token'])
       dao = Lynr::Persist::Dao.new
@@ -74,34 +82,41 @@ module Lynr::Controller
       redirect "/admin/#{token.dealership.to_s}/account/password"
     end
 
-    # # `Lynr::Controller::Auth::Signin::Default`
+    # ## `Auth::Signin#post_signin(req)`
     #
-    # Method definitions to use by default. These should be a part of
-    # the class definition but if they are they can not be overridden by
-    # including the `Demo` module.
+    # Handle the logic of signing a customer into the application. Sets
+    # the session information and authentication details before forwarding
+    # to the inventory.
     #
-    # NOTE: With Ruby 2.0 `Demo` module could be included via `prepend`
-    # which would allow class method definitions to be overriden.
-    #
-    module Default
+    def post_signin(req)
+      dealership = dealer_dao.get_by_email(@posted['email'])
+      Lynr::Events.emit(type: 'signin', dealership_id: dealership.id.to_s)
+      # Send to admin pages
+      req.session['dealer_id'] = dealership.id
+      send_to_admin(req, dealership)
+    end
 
-      # ## Sign In Handlers
-      def get_signin(req)
-        render 'auth/signin.erb'
+    # ## `Auth::Signin#template_path`
+    #
+    # Define the path for the template to be rendered for GET requests
+    # and POST requests with errors.
+    #
+    def template_path() 'auth/signin.erb' end
+
+    # ## `Auth::Signin#validate_signin(posted)`
+    #
+    # Make sure credentials exist and authenticate successfully.
+    #
+    def validate_signin(posted)
+      errors = validate_required(posted, ['email', 'password'])
+      email = posted['email']
+      password = posted['password']
+
+      unless authenticates?(email, password)
+        errors['account'] = 'Unable to sign you in. Double check your email and password.'
       end
 
-      def validate_signin(posted)
-        errors = validate_required(posted, ['email', 'password'])
-        email = posted['email']
-        password = posted['password']
-
-        if (authenticates?(email, password))
-          errors['account'] = "Invalid email or password."
-        end
-
-        errors.delete_if { |k,v| v.nil? }
-      end
-
+      errors.delete_if { |k, v| v.nil? }
     end
 
     # # `Lynr::Controller::Auth::Signin::Demo`
@@ -110,20 +125,29 @@ module Lynr::Controller
     #
     module Demo
 
-      # ## Sign In Handlers
-      def get_signin(req)
-        render 'demo/auth/signin.erb'
-      end
+      # ## `Auth::Signin::Demo#template_path`
+      #
+      # Define the path for the template to be rendered for GET requests
+      # and POST requests with errors.
+      #
+      def template_path() 'demo/auth/signin.erb' end
 
+      # ## `Auth::Signin::Demo#validate_signin(posted)`
+      #
+      # Make sure credentials exist and authenticate successfully.
+      #
       def validate_signin(posted)
         errors = validate_required(posted, ['email'])
         email = posted['email']
 
-        if (authenticates?(email, email))
-          errors['account'] = "Invalid email."
+        unless authenticates?(email, email)
+          errors['account'] = <<ERR
+An account exists for that email address but it has a password. Should you be on \
+the <a href="https://#{Lynr.config('app').live_domain}/signin">Live Site</a>?
+ERR
         end
 
-        errors.delete_if { |k,v| v.nil? }
+        errors.delete_if { |k, v| v.nil? }
       end
 
     end
