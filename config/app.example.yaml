@@ -1,5 +1,6 @@
 # Used to setting cookies/sessions
 domain: 'domain.local'
+live_domain: 'domain.local'
 support_email: 'general@support.lynr.co'
 # Used for passing messages between boxes/processes/workers
 amqp:
@@ -22,6 +23,7 @@ headers:
   "Content-Type": "text/html; charset=utf-8"
 # Used for metrics
 librato:
+  enabled: 'true|false'
   user: 'user email address for https://librato.com'
   token: 'user token from https://metrics.librato.com/account'
   source: 'source for the metrics'
@@ -40,12 +42,14 @@ session:
 stripe:
   key: 'secret key from https://manage.stripe.com/account/apikeys'
   pub_key: 'publishable key from https://manage.stripe.com/account/apikeys'
-  version: '2013-02-13'
+  version: '2014-03-28'
   plan: 'plan id from https://manage.stripe.com/plans'
   live: false
 # Used to handle file uploads
 transloadit:
   auth_key: 'auth key from https://transloadit.com/accounts/credentials'
+  # auth_secret available when 'Enable signature authentication' is on
+  auth_secret: 'auth secret from https://transloadit.com/accounts/credentials'
   account_template_id: 'template id from https://transloadit.com/templates'
   vehicle_template_id: 'template id from https://transloadit.com/templates'
 vin:

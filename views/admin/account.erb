@@ -44,7 +44,11 @@
             <input class="fs-full <%= error_class('email') %>" type="email" name="email"
                    id="email" value="<%= dealer_email %>" placeholder="Your email address" />
             <p class="account-link">
+              <%- if Lynr.features.demo? -%>
+              <a href="/admin/<%= @dealership.slug %>/billing">Upgrade Account</a>
+              <%- else -%>
               <a href="/admin/<%= @dealership.slug %>/account/password">Change Password</a>
+              <%- end -%>
             </p>
             <label for="phone">Phone Number</label>
             <input class="fs-full" type="text" name="phone"

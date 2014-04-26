@@ -8,8 +8,6 @@ shared_examples "Lynr::Controller::Base#valid_request" do |status|
 
   describe "route.call(req)" do
 
-    let(:response) { route.call(env) }
-
     it "is an Array" do
       expect(response).to be_instance_of(Array)
     end

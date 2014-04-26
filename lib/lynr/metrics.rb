@@ -15,6 +15,12 @@ module Lynr
 
     include Lynr::Logging
 
+    EMPTY_QUEUE = Object.new
+    def EMPTY_QUEUE.add(measurements) end
+    def EMPTY_QUEUE.client() nil end
+    def EMPTY_QUEUE.empty?() true end
+    def EMPTY_QUEUE.submit() end
+
     # ## `Metrics#add(measurements)`
     #
     # Proxy to `Librato::Metrics::Queue#add` but handle the MetricsError tree
@@ -28,14 +34,29 @@ module Lynr
       queue.submit
     end
 
-    # ## `Metrics#configured(config)`
+    # ## `Metrics#config`
+    #
+    # Shortcut to configuration used for metrics
+    #
+    def config
+      @config ||= Lynr.config('app').librato
+    end
+
+    # ## `Metrics#configured?`
     #
     # Check the values of `config` to determine if `Librato::Metrics` can be
     # appropriately configured.
     #
-    def configured?(config=nil)
-      config ||= Lynr.config('app')['librato']
-      !config.nil? && config.include?('user') && config.include?('token') && config.include?('source')
+    def configured?
+      enabled? && config.include?('user') && config.include?('token') && config.include?('source')
+    end
+
+    # ## `Metrics#enabled?`
+    #
+    # Check the configuration says metrics are enabled
+    #
+    def enabled?
+      !config.nil? && config.enabled?
     end
 
     # ## `Metrics#queue`
@@ -43,17 +64,21 @@ module Lynr
     # Method to retrieve a configured instance of
     # `Librato::Metrics::Queue` to proxy method calls to.
     #
-    def queue(config=nil)
-      return @lynr_metrics_queue unless @lynr_metrics_queue.nil?
-      config ||= Lynr.config('app').librato
-      client = Librato::Metrics::Client.new
-      client.authenticate(config['user'], config['token']) if configured?(config)
-      @lynr_metrics_queue = client.new_queue({
-        autosubmit_count: 15,
-        autosubmit_interval: 90,
-        prefix: 'lynr',
-        source: config['source']
-      })
+    def queue
+      if !@lynr_metrics_queue.nil?
+        @lynr_metrics_queue
+      elsif configured?
+        client = Librato::Metrics::Client.new
+        client.authenticate(config.user, config.token)
+        @lynr_metrics_queue = client.new_queue({
+          autosubmit_count: 15,
+          autosubmit_interval: 90,
+          prefix: 'lynr',
+          source: config['source']
+        })
+      else
+        @lynr_metrics_queue = EMPTY_QUEUE
+      end
     end
 
     # ## `Metrics#time(name, options)`

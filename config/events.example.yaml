@@ -11,3 +11,5 @@
 # handlers are created they are passed the entire event handler
 # configuration as a `Lynr::Config` instance.
 #
+dealership.created:
+  - type: Lynr::Events::Handler::Logger

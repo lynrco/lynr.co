@@ -1,10 +1,13 @@
 require 'mixpanel-ruby'
+require 'yajl/json_gem'
 
 require './lib/lynr/events/handler'
 
 module Lynr
 
   class Events::Handler::MixpanelAlias < Lynr::Events::Handler
+
+    include Lynr::Events::Handler::WithDealership
 
     # ## `Events::Handler::MixpanelAlias#call(event)`
     #
@@ -24,30 +27,13 @@ module Lynr
       failure
     end
 
-    # ## `Events::Handler::MixpanelAlias#dealership(event)`
-    #
-    # Extract the dealership_id from the information provided in `event`
-    # and use it to retrieve the `Lynr::Model::Dealership`.
-    #
-    def dealership(event)
-      dealership_dao.get(dealership_id(event))
-    end
-
-    # ## `Events::Handler::MixpanelAlias#dealership_id(event)`
-    #
-    # Extract the dealership_id from the information provided in `event`.
-    #
-    def dealership_id(event)
-      event[:data][:dealership_id]
-    end
-
     # ## `Events::Handler::MixpanelAlias#distinct_id(event)`
     #
     # Extract the distinct_id from the data provided to `event` if one
     # exists.
     #
     def distinct_id(event)
-      cookies = event[:data][:cookies]
+      cookies = event[:cookies]
       mp, cookie = cookies.find { |key, data|
         key.to_s.start_with?('mp_') && key.to_s.end_with?('_mixpanel')
       }

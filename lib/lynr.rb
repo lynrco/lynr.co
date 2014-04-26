@@ -12,6 +12,7 @@ module Lynr
 
   # `Lynr::VERSION` is the current version string for the Lynr application.
   VERSION = '0.0.1'
+  PRODUCERS = {}
 
   # ## `Lynr.cache`
   #
@@ -62,8 +63,8 @@ module Lynr
   # `name`.
   #
   def self.producer(name)
-    return @producer unless @producer.nil?
-    @producer = Lynr::Queue::JobQueue.new("#{Lynr.env}.#{name}", Lynr.config('app')['amqp']['producer'])
+    uri = Lynr.config('app')['amqp']['producer']
+    PRODUCERS[name] ||= Lynr::Queue::JobQueue.new("#{Lynr.env}.#{name}", uri)
   end
 
   # ## `Lynr.root`

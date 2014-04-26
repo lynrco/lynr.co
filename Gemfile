@@ -42,6 +42,7 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'stripe-ruby-mock', '1.10.1.6'
 
   gem 'codeclimate-test-reporter'
 end

@@ -38,7 +38,7 @@ module Lynr
     # and pass along the result of the query.
     #
     def vehicles(query)
-      Lynr.metrics.time('time.service.elasticsearch.vehicles') do
+      Lynr.metrics.time('time.service:elasticsearch.vehicles') do
         client.search({
           index: 'vehicles',
           body: { query: query }

@@ -15,8 +15,8 @@ namespace :lynr do
     load_env(File.join(Lynr.root, '.env'))
     load_env(File.join(Lynr.root, ".env.#{Lynr.env}"))
 
-    ENV['SSL_CERT_FILE'] = "#{File.dirname(__FILE__).chomp('/task')}/certs/server.cert.crt"
-    ENV['SSL_CERT_DIR'] = "#{File.dirname(__FILE__).chomp('/task')}/certs"
+    ENV['SSL_CERT_FILE'] = "#{File.dirname(__FILE__).chomp('/task')}/vm/certs/server.cert.crt"
+    ENV['SSL_CERT_DIR'] = "#{File.dirname(__FILE__).chomp('/task')}/vm/certs"
 
     require 'bundler/setup'
     require 'openssl'
@@ -47,8 +47,8 @@ namespace :lynr do
     # `openssl req -new > server.cert.csr`
     # `openssl rsa -in privkey.pem -out server.cert.key`
     # `openssl x509 -in server.cert.csr -out server.cert.crt -req -signkey server.cert.key -days 365`
-    pkey = OpenSSL::PKey::RSA.new(File.open("#{Lynr.root}/certs/server.cert.key").read)
-    cert = OpenSSL::X509::Certificate.new(File.open("#{Lynr.root}/certs/server.cert.crt").read)
+    pkey = OpenSSL::PKey::RSA.new(File.open("#{Lynr.root}/vm/certs/server.cert.key").read)
+    cert = OpenSSL::X509::Certificate.new(File.open("#{Lynr.root}/vm/certs/server.cert.crt").read)
 
     options = options.merge({
       SSLEnable: true,
@@ -68,12 +68,12 @@ namespace :lynr do
 
     app =
       Rack::Builder.new do
+        use Rack::Static, :urls => [
+            "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
+          ], :root => './public'
         # loader forks the child and runs the embedded config followed by the
         # application config.
-        run Shotgun::Loader.new('config.ru') {
-          use Rack::CommonLogger, STDERR
-          use Rack::Lint
-        }
+        run Shotgun::Loader.new('config.ru')
       end
 
     Shotgun.enable_copy_on_write

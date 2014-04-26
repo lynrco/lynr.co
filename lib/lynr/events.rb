@@ -18,7 +18,9 @@ module Lynr
     # ## `Events#emit(event)`
     #
     # Publish `event` to the message broker to be handled later. Returns
-    # `self` for chaining.
+    # `self` for chaining. An 'event' must have a `:type` property and
+    # must not have `:_skippable` or `:_attempts` properties, anything
+    # else is fair game.
     #
     def emit(event={})
       producer.publish(event.to_json)

@@ -9,7 +9,11 @@ module Lynr
 
   # # `Lynr::Events::Consumer`
   #
-  # The `Lynr::Worker` which is used to process events data.
+  # The `Lynr::Worker` which is used to process event information. Events
+  # are consumed by arbitrary handlers which are added to the consumer via
+  # the `#add` instance method. An 'event' must have a `:type` and must
+  # not be emitted with `:_skippable` or `:_attempts` properties, anything
+  # else is fair game.
   #
   class Events::Consumer < Lynr::Worker
 

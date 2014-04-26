@@ -1,5 +1,9 @@
 require 'codeclimate-test-reporter'
+require 'stripe_mock'
 
+require './spec/matchers/have_element'
+require './spec/support/config_helper'
+require './spec/support/demo_helper'
 require './spec/support/model_helper'
 require './spec/support/mongo_helper'
 require './spec/support/route_helper'
@@ -21,9 +25,26 @@ RSpec.configure do |c|
     end
   end
 
+  c.before(:suite) do
+    StripeMock.start
+  end
+  c.after(:suite) do
+    StripeMock.stop
+  end
+
+  c.before(:each) do
+    Lynr::Queue.any_instance.stub(:publish) do |job, opts|
+      self
+    end
+    Lynr::Queue::JobQueue.any_instance.stub(:publish) do |job, opts|
+      self
+    end
+  end
   c.after(:each) do
     MongoHelpers.empty! if MongoHelpers.dao.active?
   end
+
+  Log4r::Logger.global.level = 6
 
   if ENV.include?('whereami')
     c.whereami = ENV['whereami']
@@ -37,6 +58,6 @@ end
 # used by BCrypt
 module Lynr; module Model;
   class Identity
-    DEFAULT_COST = 5
+    DEFAULT_COST = 1
   end
 end; end;

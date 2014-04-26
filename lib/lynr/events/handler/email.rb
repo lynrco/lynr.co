@@ -9,11 +9,13 @@ module Lynr
   #
   class Events::Handler::Email < Lynr::Events::Handler
 
+    include Lynr::Events::Handler::WithDealership
+
     attr_reader :template
 
-    # ## `Events::Handler::Email.new(data)`
+    # ## `Events::Handler::Email.new(config)`
     #
-    # Create a new `Email` handler with `data`. `data` must contain
+    # Create a new `Email` handler with `config`. `config` must contain
     # `:template` as it is provided to the `Lynr::Queue::EmailJob` this
     # handler creates.
     #
@@ -28,18 +30,9 @@ module Lynr
     # 'job' queue.
     #
     def call(event)
-      mail_data = mail_defaults(event).merge(data)
+      mail_data = mail_defaults(event).merge(config.to_hash)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new(template, mail_data))
       success
-    end
-
-    # ## `Events::Handler::Email#dealership(event)`
-    #
-    # Get a `Lynr::Model::Dealership` from the information provided in
-    # `event`.
-    #
-    def dealership(event)
-      dealership_dao.get(event[:data][:dealership_id])
     end
 
     # ## `Events::Handler::Email#id`
@@ -70,7 +63,7 @@ module Lynr
     # be sent.
     #
     def to(event)
-      event[:data].fetch(:to, config.fetch(:to, dealership(event).identity.email))
+      event.fetch(:to, config.fetch(:to, dealership(event).identity.email))
     end
 
   end

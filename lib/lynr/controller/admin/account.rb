@@ -1,13 +1,16 @@
-require 'json'
+require 'yajl/json_gem'
 
 require './lib/lynr'
+require './lib/lynr/controller'
 require './lib/lynr/controller/admin'
+require './lib/lynr/controller/admin/account/password'
+require './lib/lynr/controller/auth/ebay'
 require './lib/lynr/model/slug'
 require './lib/lynr/queue/email_job'
 require './lib/lynr/queue/stripe_update_job'
 require './lib/lynr/validator'
 
-module Lynr; module Controller;
+module Lynr::Controller;
 
   # # `Lynr::Controller::AdminAccount`
   #
@@ -55,7 +58,7 @@ module Lynr; module Controller;
       @posted['identity'] = Identity.new(posted['email'], dealership(req).identity.password)
       @posted['image'] = translate_image
       @posted['slug'] = slugify(posted['name']) if has_error?('slug') && posted['slug'].nil?
-      render 'admin/account.erb' if has_errors?
+      get_account(req) if has_errors?
     end
 
     # ## `AdminAccount#get_account(req)`
@@ -64,7 +67,7 @@ module Lynr; module Controller;
     #
     def get_account(req)
       @msg = connect_message(req)
-      render 'admin/account.erb'
+      render template_path()
     end
 
     # ## `AdminAccount#post_account(req)`
@@ -86,6 +89,15 @@ module Lynr; module Controller;
     #
     def slugify(str)
       Slug.new(str)
+    end
+
+    # ## `AdminAccount#template_path()`
+    #
+    # Define the path for the template to be rendered for GET requests
+    # and POST requests with errors.
+    #
+    def template_path()
+      'admin/account.erb'
     end
 
     protected
@@ -183,4 +195,4 @@ module Lynr; module Controller;
 
   end
 
-end; end;
+end

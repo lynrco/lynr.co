@@ -26,6 +26,7 @@ module Lynr; module Persist;
     # configration is provided to the constructor.
     #
     MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
+    MongoCollectionOptions = { j: true }
 
     # ## `Lynr::Persist::MongoDao.new`
     #
@@ -47,6 +48,7 @@ module Lynr; module Persist;
       defaults = config || MongoDefaults
       @config = Lynr.config('database', { 'mongo' => defaults }).mongo
       @collection_name = @config['collection']
+      @db, @client, @collection = nil
     end
 
     # ## Manage the connection
@@ -69,7 +71,7 @@ module Lynr; module Persist;
 
     def collection
       return @collection unless @collection.nil?
-      @collection = db.collection(@collection_name)
+      @collection = db.collection(@collection_name, MongoCollectionOptions)
     end
 
     def credentials
@@ -164,7 +166,7 @@ module Lynr; module Persist;
       now = Time.now
       record['created_at'] ||= now
       record['updated_at'] ||= now
-      collection.insert(record, { j: true })
+      collection.insert(record)
     end
 
     # Returns the record
@@ -176,12 +178,12 @@ module Lynr; module Persist;
     def update(id, obj)
       record = obj.reject { |k, v| k == 'id' || k == :id }
       record['updated_at'] ||= Time.now
-      collection.update({ _id: id }, record, { j: true })
+      collection.update({ _id: id }, record)
     end
 
     # Returns `true` or the last error
     def delete(id)
-      collection.remove({ _id: id }, { j: true })
+      collection.remove({ _id: id })
     end
 
   end

@@ -1,5 +1,6 @@
 # Used to setting cookies/sessions
 domain: 'env:app_domain'
+live_domain: 'env:app_domain_live'
 support_email: 'general@support.lynr.co'
 # Used for passing messages between boxes/processes/workers
 amqp:
@@ -29,6 +30,7 @@ headers:
   "X-Xss-Protection": "1"
 # Used for metrics
 librato:
+  enabled: 'env:LIBRATO_ENABLED'
   user: 'env:LIBRATO_USER'
   token: 'env:LIBRATO_TOKEN'
   source: 'env:LIBRATO_SOURCE'
@@ -46,7 +48,7 @@ session:
 stripe:
   key: 'env:stripe_key'
   pub_key: 'env:stripe_pub_key'
-  version: '2013-02-13'
+  version: '2014-03-28'
   plan: 'env:stripe_plan'
   live: 'env:stripe_live'
 # Used to handle file uploads

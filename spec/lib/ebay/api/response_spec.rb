@@ -5,7 +5,9 @@ require './lib/ebay/api/response'
 
 describe Ebay::Api::Response do
 
-  LibXML::XML::Error.reset_handler
+  before(:each) do
+    LibXML::XML::Error.set_handler(&LibXML::XML::Error::QUIET_HANDLER)
+  end
 
   let(:simple_success) {
     <<-EOF

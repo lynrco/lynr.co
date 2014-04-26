@@ -9,6 +9,8 @@ define(function(require) {
   }
 
   function setupStripeForm(form) {
+    if (!document.getElementById('stripeToken')) { return; }
+
     var card = require('modules/credit-card-numbers');
     var evt = require('modules/dom-events');
     var clazz = require('modules/clazz');
@@ -67,5 +69,5 @@ define(function(require) {
   }
 
   return setupStripeForm;
-  
+
 });

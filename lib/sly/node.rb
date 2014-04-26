@@ -163,14 +163,16 @@ module Sly
     #
     # * `target` value for the Location header
     # * `status` response status code. *Default*: 302
+    # * `headers` Hash of headers to set. *Default*: {}
     #
     # ### Returns
     #
     # A `Rack::Response` instance
     #
-    def redirect(target, status=302)
+    def redirect(target, status=302, headers={})
       res = Rack::Response.new
       res.redirect(target, status)
+      headers.each { |name, value| res[name] = value }
       res
     end
 

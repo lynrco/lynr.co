@@ -24,9 +24,11 @@
           <li class="menu-item">
             <a href="/admin/<%= @dealership.slug %>/account">Account Settings</a>
           </li>
+          <%- unless Lynr.features.demo? -%>
           <li class="menu-item">
             <a href="/admin/<%= @dealership.slug %>/billing">Billing Information</a>
           </li>
+          <%- end -%>
           <li class="menu-item">
             <a href="/admin/<%=@dealership.slug %>/support">Contact &amp; Support</a>
           </li>

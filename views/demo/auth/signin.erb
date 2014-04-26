@@ -1,0 +1,13 @@
+<%= render_partial 'form_messages.erb' -%>
+        <form class="signin signin-demo" action="/signin" method="POST">
+          <fieldset class="fs">
+            <h2 class="fs-title">Sign In</h2>
+            <label for="email">Email Address</label>
+            <input class="fs-top fs-full <%= error_class('email') %>" type="email" name="email"
+                   id="email" value="<%= posted['email'] %>" placeholder="Your email address" />
+            <label for="password">Password</label>
+            <input class="fs-bottom fs-full <%= error_class('password') %>" type="password"
+                   name="password" id="password" value="" placeholder="Your PIN" />
+          </fieldset>
+          <button class="btn btn-full btn-positive" type="submit">Sign In</button>
+        </form>

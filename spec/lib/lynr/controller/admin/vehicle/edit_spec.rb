@@ -14,12 +14,6 @@ describe Lynr::Controller::Admin::Vehicle::Edit do
   let(:env_opts) { { 'rack.session' => { 'dealer_id' => saved_empty_dealership.id } } }
   let(:full_uri) { "https://#{domain}#{uri}" }
 
-  before(:each) do
-    Lynr::Queue::JobQueue.any_instance.stub(:publish) do |job, opts|
-      self
-    end
-  end
-
   context "GET /admin/:slug/:vehicle/edit" do
 
     let(:route_method) { [:get_edit_vehicle, 'GET'] }
@@ -32,11 +26,7 @@ describe Lynr::Controller::Admin::Vehicle::Edit do
 
     let(:route_method) { [:post_edit_vehicle, 'POST'] }
     let(:env_opts) {
-      {
-        method: route_method[1],
-        params: { 'vin[ext_color]' => 'silver' },
-        'rack.session' => { 'dealer_id' => saved_empty_dealership.id },
-      }
+      super().merge(params: { 'vin[ext_color]' => 'silver' })
     }
 
     it_behaves_like "Lynr::Controller::Base#valid_request", 302

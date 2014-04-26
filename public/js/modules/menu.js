@@ -1,9 +1,9 @@
 define(
-  ['modules/clazz', 'modules/domEvents', 'modules/data-attrs'],
+  ['modules/clazz', 'modules/dom-events', 'modules/data-attrs'],
   function(clazz, evt, data) {
 
     var body = document.querySelector('html');
-    
+
     function init(args) {
       var els = [];
       var i;

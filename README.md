@@ -107,14 +107,14 @@ will need a local SSL end point set up. In order to do this with the local
 information. To generate the certificates execute the following steps
 from the root of your working directory:
 
-1. `openssl req -new > certs/server.cert.csr`. This will ask you a series
+1. `openssl req -new > vm/certs/server.cert.csr`. This will ask you a series
   of questions about the certificate. Sample output of this command is
   included below, see [Self-Signed Certificate Generation](#self-signed-certificate-generation)
-1. `mv privkey.pem certs/`
-1. `openssl rsa -in certs/privkey.pem -out certs/server.cert.key`
-1. `openssl x509 -in certs/server.cert.csr -out certs/server.cert.crt -req -signkey certs/server.cert.key -days 365`
+1. `mv privkey.pem vm/certs/`
+1. `openssl rsa -in vm/certs/privkey.pem -out vm/certs/server.cert.key`
+1. `openssl x509 -in vm/certs/server.cert.csr -out vm/certs/server.cert.crt -req -signkey vm/certs/server.cert.key -days 365`
 
-These steps will put the certificats in the certs directory with the names
+These steps will put the certificats in the vm/certs directory with the names
 that are used in the rake task, `bundle exec rake lynr:local` which runs
 the local web server.
 

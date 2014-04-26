@@ -1,7 +1,7 @@
 require 'json'
 require 'openssl'
 
-require './lib/lynr/controller/base'
+require './lib/lynr/controller'
 require './lib/lynr/controller/form_helpers'
 require './lib/lynr/converter/number_translator'
 require './lib/lynr/persist/dealership_dao'
@@ -18,11 +18,9 @@ module Lynr; module Controller;
   #
   class Admin < Lynr::Controller::Base
 
-    # Provides `error_for_slug`, `is_valid_slug?`, `validate_required`
-    include Lynr::Validator::Helpers
-    # Provides `error_class`, `error_message`, `errors`, `has_error?`,
-    # `has_errors?`, `posted`, `card_data`
+    include Lynr::Controller::Authorization
     include Lynr::Controller::FormHelpers
+    include Lynr::Validator::Helpers
 
     attr_reader :vehicle_dao
 
@@ -43,8 +41,8 @@ module Lynr; module Controller;
     # `before_METHOD` methods are returned to user agent.
     #
     def before_each(req)
-      return unauthorized unless authorized?(req)
       return not_found unless dealership(req)
+      return unauthorized unless authorized?(role(req), session_user(req))
       @dealership = dealership(req)
       super
     end
@@ -62,6 +60,15 @@ module Lynr; module Controller;
       else
         @dealership = dealer_dao.get_by_slug(req['slug'])
       end
+    end
+
+    # ## `Admin#role(req)`
+    #
+    # Define the role required to access this resource. This method is
+    # meant to be overridden by child controllers.
+    #
+    def role(req)
+      "admin:#{dealership(req).id}"
     end
 
     # ## `Admin#vehicle_count(req)`
@@ -82,26 +89,9 @@ module Lynr; module Controller;
       Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
-    # ## `Lynr::Controller::Admin#authorized?`
-    #
-    # Whether or not the current user is authorized to access the requested dealership
-    #
-    # ### Params
-    #
-    # * `req` Request with session and dealership information to be compared
-    #
-    # ### Returns
-    #
-    # true if current user is allowed to view/modify the requested Dealership
-    # false otherwise
-    #
-    def authorized?(req)
-      req.session['dealer_id'] == dealership(req).id
-    end
-
     # TODO: Write documentation for `#transloadit_params`
     def transloadit_params(template_id_name)
-      transloadit = Lynr::Web.config['transloadit']
+      transloadit = Lynr.config('app')['transloadit']
       expires = (Time.now + (60 * 10)).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
       params = {
         auth: { expires: expires, key: transloadit['auth_key'] },
@@ -111,7 +101,7 @@ module Lynr; module Controller;
 
     # TODO: Write documentation for `#transloadit_params_signature`
     def transloadit_params_signature(params)
-      auth_secret = Lynr::Web.config['transloadit']['auth_secret']
+      auth_secret = Lynr.config('app')['transloadit']['auth_secret']
       return nil if auth_secret.nil?
       digest = OpenSSL::Digest::Digest.new('sha1')
       OpenSSL::HMAC.hexdigest(digest, auth_secret, JSON.generate(params))
