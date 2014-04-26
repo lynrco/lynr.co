@@ -147,6 +147,7 @@ describe Lynr::Persist::DealershipDao do
         }
         let(:to_save) {
           dealership.set({
+            'customer_id' => customer_id,
             'identity' => Lynr::Model::Identity.new('bryan+t@lynr.co', identity.password)
           })
         }
