@@ -105,10 +105,22 @@ module Lynr; module Persist;
     # Create appropriate indexes on the database structure backing this 'table'.
     #
     def ensure_indices
-      @dao.collection.ensure_index([['identity.email', Mongo::ASCENDING]], { unique: true })
-      @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], { unique: true })
-      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], { })
+      @dao.collection.ensure_index(
+        [['identity.email', Mongo::ASCENDING]],
+        index_options([:background, :unique])
+      )
+      @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], index_options)
+      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], index_options([]))
       @indexed = true
+    end
+
+    # ## `DealershipDao#index_options(keys)`
+    #
+    # Create a `Hash` of options for the array of keys provided. Each
+    # value in `keys` is mapped to `true`.
+    #
+    def index_options(keys=[:background, :unique, :sparse])
+      Hash[ keys.map { |k| [k, true] } ]
     end
 
     # ## `DealershipDao#translate(record)`
