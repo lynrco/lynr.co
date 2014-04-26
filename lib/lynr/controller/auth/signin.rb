@@ -116,7 +116,7 @@ module Lynr::Controller
         errors['account'] = 'Unable to sign you in. Double check your email and password.'
       end
 
-      errors.delete_if { |k,v| v.nil? }
+      errors.delete_if { |k, v| v.nil? }
     end
 
     # # `Lynr::Controller::Auth::Signin::Demo`
@@ -147,7 +147,7 @@ the <a href="https://#{Lynr.config('app').live_domain}/signin">Live Site</a>?
 ERR
         end
 
-        errors.delete_if { |k,v| v.nil? }
+        errors.delete_if { |k, v| v.nil? }
       end
 
     end
