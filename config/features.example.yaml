@@ -1,7 +1,10 @@
+# Load built almond file?
+almond_amd:     'env:feature_almond_amd'     # (true|false)
 # Whether or not VINs are decoded via dataone
 dataone_decode: 'env:feature_dataone_decode' # (true|false)
+# If demo is true then this is the demonstration site
+demo:           'env:feature_demo'           # (true|false)
+# Show connect to ebay button on account screen
 ebay_connect:   'env:feature_ebay_connect'   # (true|false)
 # If on then `use Rack::SSL`
 force_ssl:      'env:feature_force_ssl'      # (true|false)
-# If demo is true then this is the demonstration site
-demo:           'env:feature_demo'           # (true|false)

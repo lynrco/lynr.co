@@ -67,6 +67,10 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+      almond: {
+        files: 'public/js/**/*.js',
+        tasks: ['build-almond']
+      },
       less: {
         files: 'public/less/**/*.less',
         tasks: ['less:development']
@@ -79,9 +83,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-svgmin');
 
-  grunt.registerTask('default', ['less:development', 'watch']);
-  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build', 'concat']);
-
+  grunt.registerTask('default', ['less:development', 'build-almond', 'watch']);
+  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build-almond', 'build', 'concat']);
   grunt.registerTask(
     'build',
     'Run the r.js build script',
@@ -93,10 +96,6 @@ module.exports = function(grunt) {
         "baseUrl": "js",
         "mainConfigFile": "public/js/main.js",
         "dir": "dist",
-        "paths": {
-          "stripe": "empty:",
-          "../identity": "empty:"
-        },
         "modules": [
           { "name": "main" },
           { "name": "pages/admin" },
@@ -120,8 +119,6 @@ module.exports = function(grunt) {
       );
     }
   );
-
-  // NOTE: This task will fail while identity is required in main.js
   grunt.registerTask(
     'build-almond',
     'Run the r.js build script with Almond',
@@ -135,16 +132,11 @@ module.exports = function(grunt) {
         "include": ['main', 'pages/admin', 'pages/auth', 'pages/home', 'pages/legal'],
         "insertRequire": ['main'],
         "out": "public/js/built/main.js",
-        "paths": {
-          "stripe": "empty:",
-          "identity": "empty:"
-        },
         "findNestedDependencies": true
       };
 
       requirejs.optimize(buildjs,
         function(output) {
-          grunt.log.writeln(output);
           grunt.log.ok('Main build complete.');
           done();
         },
