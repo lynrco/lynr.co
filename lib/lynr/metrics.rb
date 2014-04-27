@@ -21,6 +21,12 @@ module Lynr
     def EMPTY_QUEUE.empty?() true end
     def EMPTY_QUEUE.submit() end
 
+    EMPTY_AGGREGATOR = Object.new
+    def EMPTY_AGGREGATOR.add(measurements) end
+    def EMPTY_AGGREGATOR.client() nil end
+    def EMPTY_AGGREGATOR.empty?() true end
+    def EMPTY_AGGREGATOR.submit() end
+
     # ## `Metrics#add(measurements)`
     #
     # Proxy to `Librato::Metrics::Queue#add` but handle the MetricsError tree
@@ -32,6 +38,50 @@ module Lynr
       log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
     ensure
       queue.submit
+    end
+
+    # ## `Metrics#agg(measurements)`
+    #
+    # Proxy to `Librato::Metrics::Aggregator#add` but handle `MetricsError`s
+    # by logging them.
+    #
+    def agg(measurements)
+      aggregator.add(measurements)
+    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+      log.warn("type=metrics.agg err=#{err.class.to_s} msg=#{err.message}")
+    ensure
+      aggregator.submit
+    end
+
+    # ## `Metrics#aggregator`
+    #
+    # Method to retrieve a configured instance of
+    # `Librato::Metrics::Aggregator` to which measuremants can be sent.
+    #
+    def aggregator
+      if !@lynr_metrics_aggregator.nil?
+        @lynr_metrics_aggregator
+      elsif
+        @lynr_metrics_aggregator = Lynr::Metrics::Aggregator.new({
+          client: client,
+          autosubmit_count: 15,
+          autosubmit_interval: 90,
+          prefix: 'lynr',
+          source: config['source']
+        })
+      else
+      end
+    end
+
+    # ## `Metrics#client`
+    #
+    # Get a configured and authenticated `Librato::Metrics::Client`
+    # instance.
+    #
+    def client
+      client = Librato::Metrics::Client.new
+      client.authenticate(config.user, config.token)
+      client
     end
 
     # ## `Metrics#config`
@@ -68,8 +118,6 @@ module Lynr
       if !@lynr_metrics_queue.nil?
         @lynr_metrics_queue
       elsif configured?
-        client = Librato::Metrics::Client.new
-        client.authenticate(config.user, config.token)
         @lynr_metrics_queue = client.new_queue({
           autosubmit_count: 15,
           autosubmit_interval: 90,
