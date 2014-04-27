@@ -11,5 +11,7 @@ string_val: 'hithere'
 env_val: 'env:whereami'
 str_bool_false: 'false'
 str_bool_true: 'true'
+str_empty: ''
+str_empty_env: 'env:this_should_not_exist_in_environment'
 int_bool_0: 0
 int_bool_1: 1

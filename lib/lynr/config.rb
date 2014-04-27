@@ -158,7 +158,7 @@ module Lynr
     def self.bool(val)
       val = val.to_s
       return true if val == true || val =~ (/(true|t|yes|y|1)$/i)
-      return false if val == false || val.nil? || val =~ (/(false|f|no|n|0)$/i)
+      return false if val == false || val.nil? || val.empty? || val =~ (/(false|f|no|n|0)$/i)
       raise ArgumentError.new("invalid value for Boolean: \"#{val}\"")
     end
 

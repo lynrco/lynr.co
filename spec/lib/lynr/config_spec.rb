@@ -210,6 +210,14 @@ describe Lynr::Config do
       expect(config.str_bool_true?).to equal(true)
     end
 
+    it "reads '' as bool(false) when a query" do
+      expect(config.str_empty?).to equal(false)
+    end
+
+    it "reads empty env var as bool(false) when a query" do
+      expect(config.str_empty_env?).to equal(false)
+    end
+
   end
 
   describe "#respond_to_missing?" do
