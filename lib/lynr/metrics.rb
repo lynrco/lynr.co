@@ -15,14 +15,7 @@ module Lynr
 
     include Lynr::Logging
 
-    EMPTY_QUEUE = Object.new.tap do |o|
-      def o.add(measurements) end
-      def o.client() nil end
-      def o.empty?() true end
-      def o.submit() end
-    end
-
-    EMPTY_AGGREGATOR = Object.new.tap do |o|
+    EMPTY_PROCESSOR = Object.new.tap do |o|
       def o.add(measurements) end
       def o.client() nil end
       def o.empty?() true end
@@ -35,11 +28,7 @@ module Lynr
     # of errors by logging them instead of letting them propogate up.
     #
     def add(measurements)
-      queue.add(measurements)
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.add err=#{err.class.to_s} msg=#{err.message}")
-    ensure
-      queue.submit
+      measure(queue, 'add', measurements)
     end
 
     # ## `Metrics#agg(measurements)`
@@ -48,11 +37,7 @@ module Lynr
     # by logging them.
     #
     def agg(measurements)
-      aggregator.add(measurements)
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.agg err=#{err.class.to_s} msg=#{err.message}")
-    ensure
-      aggregator.submit
+      measure(aggregator, 'agg', measurements)
     end
 
     # ## `Metrics#aggregator`
@@ -64,14 +49,9 @@ module Lynr
       if !@lynr_metrics_aggregator.nil?
         @lynr_metrics_aggregator
       elsif
-        @lynr_metrics_aggregator = Lynr::Metrics::Aggregator.new({
-          client: client,
-          autosubmit_count: 15,
-          autosubmit_interval: 90,
-          prefix: 'lynr',
-          source: config['source']
-        })
+        @lynr_metrics_aggregator = Lynr::Metrics::Aggregator.new(processor_options)
       else
+        @lynr_metrics_aggregator = EMPTY_PROCESSOR
       end
     end
 
@@ -111,6 +91,33 @@ module Lynr
       !config.nil? && config.enabled?
     end
 
+    # ## `Metrics#measure(processor, type, measurements)`
+    #
+    # Submit `measurements` to `processor` and if they fail identify the
+    # `measurements` as `type` in the log.
+    #
+    def measure(processor, type, measurements)
+      processor.add(measurements)
+    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+      log.warn("type=metrics.#{type} err=#{err.class.to_s} msg=#{err.message}")
+    ensure
+      processor.submit
+    end
+
+    # ## `Metrics#processor_options`
+    #
+    # The options to give to Librato processor instances.
+    #
+    def processor_options
+      {
+        client: client,
+        autosubmit_count: 15,
+        autosubmit_interval: 90,
+        prefix: 'lynr',
+        source: config['source']
+      }
+    end
+
     # ## `Metrics#queue`
     #
     # Method to retrieve a configured instance of
@@ -120,14 +127,9 @@ module Lynr
       if !@lynr_metrics_queue.nil?
         @lynr_metrics_queue
       elsif configured?
-        @lynr_metrics_queue = client.new_queue({
-          autosubmit_count: 15,
-          autosubmit_interval: 90,
-          prefix: 'lynr',
-          source: config['source']
-        })
+        @lynr_metrics_queue = Librato::Metrics::Queue.new(processor_options)
       else
-        @lynr_metrics_queue = EMPTY_QUEUE
+        @lynr_metrics_queue = EMPTY_PROCESSOR
       end
     end
 
