@@ -10,7 +10,7 @@
         'mixpanel': 'modules/mixpanel',
         'modernizr': 'libs/modernizr.custom.45012',
         'spinner': 'libs/spin-1.3.2',
-        'stripe': 'https://js.stripe.com/v1/',
+        'stripe': 'libs/stripe-20140426',
         'underscore': 'libs/underscore-1.3.3'
       }
     },
@@ -28,7 +28,7 @@
       'libs/spin-1.3.2': {
         exports: 'Spinner'
       },
-      'https://js.stripe.com/v1/': {
+      'libs/stripe-20140426': {
         exports: 'Stripe'
       }
     }
@@ -67,10 +67,6 @@
       title: document.title,
       url: window.location.pathname,
       domain: window.location.host || window.location.hostname
-    });
-
-    require(['../identity'], function(identity) {
-      if (identity && identity.id) { mp.identify(identity.id); }
     });
   });
 

@@ -1,3 +1,4 @@
+assets: ''
 # Used to setting cookies/sessions
 domain: 'domain.local'
 live_domain: 'domain.local'
