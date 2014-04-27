@@ -8,7 +8,7 @@
 !/config/*.heroku.yaml
 !/config/*.wercker.yaml
 !/config/*.spec.yaml
-/dist/
+/out/
 /log/
 /node_modules/
 /public/css/*.css
