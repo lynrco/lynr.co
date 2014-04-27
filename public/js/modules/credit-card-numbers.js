@@ -1,5 +1,5 @@
 /* Nearly everything taken from https://github.com/stripe/jquery.payment */
-define(function(require) {
+define(function() {
 
   var defaultFormat = /(\d{1,4})/g;
 
