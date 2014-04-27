@@ -80,8 +80,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less:development', 'watch']);
-  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build', 'concat']);
-
+  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build-almond', 'build', 'concat']);
   grunt.registerTask(
     'build',
     'Run the r.js build script',
