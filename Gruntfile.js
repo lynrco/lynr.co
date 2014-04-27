@@ -94,8 +94,7 @@ module.exports = function(grunt) {
         "mainConfigFile": "public/js/main.js",
         "dir": "dist",
         "paths": {
-          "stripe": "empty:",
-          "../identity": "empty:"
+          "stripe": "empty:"
         },
         "modules": [
           { "name": "main" },
@@ -120,8 +119,6 @@ module.exports = function(grunt) {
       );
     }
   );
-
-  // NOTE: This task will fail while identity is required in main.js
   grunt.registerTask(
     'build-almond',
     'Run the r.js build script with Almond',
@@ -136,8 +133,7 @@ module.exports = function(grunt) {
         "insertRequire": ['main'],
         "out": "public/js/built/main.js",
         "paths": {
-          "stripe": "empty:",
-          "identity": "empty:"
+          "stripe": "empty:"
         },
         "findNestedDependencies": true
       };
