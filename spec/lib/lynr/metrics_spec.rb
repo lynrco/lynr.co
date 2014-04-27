@@ -6,8 +6,6 @@ require './lib/lynr/metrics'
 
 describe Lynr::Metrics do
 
-  require 'pry-debugger'
-
   include_context "spec/support/ConfigHelper"
 
   subject(:metrics) { Lynr::Metrics.new }
