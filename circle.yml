@@ -24,21 +24,24 @@ deployment:
     commands:
       # Push assets to S3
       - if [[ $CIRCLE_PROJECT_USERNAME == 'lynrco' ]];
-        then s3cmd sync --add-header="Cache-Control:max-age=604800"
-                        `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/
-                        s3://lynr-prod-assets-nocal/`cat $CIRCLE_ARTIFACTS/assets-md5.txt`/;
-             s3cmd sync --add-header="Content-Encoding:gzip"
-                        --add-header="Content-Type:text/javascript"
+        then s3cmd sync --add-header="Content-Encoding:gzip"
+                        --add-header="Content-Type:application/javascript"
+                        --add-header="Cache-Control:max-age=604800"
                         `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/js/
                         s3://lynr-prod-assets-nocal/`cat $CIRCLE_ARTIFACTS/assets-md5.txt`/js/;
              s3cmd sync --add-header="Content-Encoding:gzip"
                         --add-header="Content-Type:text/css"
+                        --add-header="Cache-Control:max-age=604800"
                         `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/css/
                         s3://lynr-prod-assets-nocal/`cat $CIRCLE_ARTIFACTS/assets-md5.txt`/css/;
              s3cmd sync --add-header="Content-Encoding:gzip"
                         --add-header="Content-Type:image/svg+xml"
+                        --add-header="Cache-Control:max-age=604800"
                         `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/svg/
                         s3://lynr-prod-assets-nocal/`cat $CIRCLE_ARTIFACTS/assets-md5.txt`/svg/;
+             s3cmd sync --add-header="Cache-Control:max-age=604800"
+                        `cat $CIRCLE_ARTIFACTS/assets-md5.txt`/
+                        s3://lynr-prod-assets-nocal/`cat $CIRCLE_ARTIFACTS/assets-md5.txt`/;
         else exit 0;
         fi;
       # Push code to Heroku
