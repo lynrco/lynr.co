@@ -21,8 +21,8 @@ describe Lynr::Metrics do
     }
   end
 
-  describe "EMPTY_QUEUE" do
-    subject(:queue) { Lynr::Metrics::EMPTY_QUEUE }
+  describe "EMPTY_PROCESSOR" do
+    subject(:queue) { Lynr::Metrics::EMPTY_PROCESSOR }
     it "should have nil client" do expect(queue.client).to be_nil end
     it "should be empty" do expect(queue.empty?).to be_true end
   end
@@ -93,7 +93,7 @@ describe Lynr::Metrics do
         it { expect(metrics.enabled?).to be_true }
       end
       describe "#queue" do
-        it "should be EMPTY_QUEUE" do expect(queue).to eq(Lynr::Metrics::EMPTY_QUEUE) end
+        it "should be EMPTY_PROCESSOR" do expect(queue).to eq(Lynr::Metrics::EMPTY_PROCESSOR) end
       end
     end
 
@@ -110,7 +110,7 @@ describe Lynr::Metrics do
       it { expect(metrics.enabled?).to be_false }
     end
     describe "#queue" do
-      it "should be EMPTY_QUEUE" do expect(queue).to eq(Lynr::Metrics::EMPTY_QUEUE) end
+      it "should be EMPTY_PROCESSOR" do expect(queue).to eq(Lynr::Metrics::EMPTY_PROCESSOR) end
     end
   end
 
