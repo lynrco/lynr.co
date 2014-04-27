@@ -17,9 +17,30 @@ module.exports = function(grunt) {
           mode: 'gzip'
         },
         files: [
-          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.js'], ext: '.js', extDot: 'last' },
-          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.css'], ext: '.css', extDot: 'last' },
-          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.svg'], ext: '.svg', extDot: 'last' }
+          {
+            expand: true,
+            cwd: 'out/build/',
+            dest: 'out/dist/',
+            src: ['**/*.js'],
+            ext: '.js',
+            extDot: 'last'
+          },
+          {
+            expand: true,
+            cwd: 'out/build/',
+            dest: 'out/dist/',
+            src: ['**/*.css'],
+            ext: '.css',
+            extDot: 'last'
+          },
+          {
+            expand: true,
+            cwd: 'out/build/',
+            dest: 'out/dist/',
+            src: ['**/*.svg'],
+            ext: '.svg',
+            extDot: 'last'
+          }
         ]
       }
     },
