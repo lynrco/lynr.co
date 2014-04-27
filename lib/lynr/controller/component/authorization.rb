@@ -26,6 +26,7 @@ module Lynr::Controller
     #
     def authorized?(role, dealership)
       return false unless role.is_a?(String)
+      return false unless dealership.respond_to?(:id)
       type, id = role.split(':')
       id = BSON::ObjectId.legal?(id) && BSON::ObjectId.from_string(id)
       dealership.id == id
