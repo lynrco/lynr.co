@@ -68,10 +68,6 @@
       url: window.location.pathname,
       domain: window.location.host || window.location.hostname
     });
-
-    require(['../identity'], function(identity) {
-      if (identity && identity.id) { mp.identify(identity.id); }
-    });
   });
 
 })();
