@@ -166,7 +166,7 @@ module Lynr; module Controller;
     end
 
     def unauthorized
-      error(403)
+      raise Sly::UnauthorizedError.new
     end
 
   end

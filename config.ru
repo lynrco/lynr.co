@@ -6,8 +6,7 @@ require './lib/lynr/web'
 require './lib/rack/middleware/logger'
 require './lib/rack/middleware/timer'
 
-Lynr::Web.setup
-
+app = Lynr::Web.new
 config = Lynr.config('app')
 
 use Rack::Deflater
@@ -16,7 +15,7 @@ use Rack::Static, :urls => [
     "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
   ], :root => if Lynr.env == 'heroku' then 'out/build' else 'public' end
 use Librato::Rack if Lynr.env == 'heroku' && Lynr.metrics.configured?
-use Rack::Middleware::Timer, Lynr::Web.instance.log
+use Rack::Middleware::Timer, app.log
 use Rack::Session::Cookie,  :key          => '_lynr',
                             :domain       => config['domain'],
                             :path         => '/',
@@ -24,4 +23,4 @@ use Rack::Session::Cookie,  :key          => '_lynr',
                             :secret       => config['session']['secret'],
                             :old_secret   => config['session']['old_secret']
 
-run Lynr::Web.instance
+run app

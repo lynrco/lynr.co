@@ -50,14 +50,14 @@ describe Lynr::Controller::Admin do
   # Test signature encryption against transloadit fixtures
   describe "#transloadit_params_signature" do
 
-    context "with auth_secret", :if => (Lynr::Web.config['transloadit']['auth_secret']) do
+    context "with auth_secret", :if => (Lynr.config('app')['transloadit']['auth_secret']) do
 
       # NOTE: This is used to test signature generation implementation
       it "generates a signature of 'fd9adec73d417c983a85608ad152d90adb94f0fd'" do
         signature = 'fd9adec73d417c983a85608ad152d90adb94f0fd'
         params = {
           auth: {
-            key: Lynr::Web.config['transloadit']['auth_key'],
+            key: Lynr.config('app')['transloadit']['auth_key'],
             expires: "2013/12/20 06:50:57+00:00"
           },
           steps: {
@@ -77,7 +77,7 @@ describe Lynr::Controller::Admin do
         signature = 'f7d45bd0ff501c3fe30418f18e9a5281ee5f0a4e'
         params = {
           auth: {
-            key: Lynr::Web.config['transloadit']['auth_key'],
+            key: Lynr.config('app')['transloadit']['auth_key'],
             expires: "2013/12/20 06:50:57+00:00"
           },
           steps: {
@@ -126,7 +126,7 @@ describe Lynr::Controller::Admin do
 
     end
 
-    context "without auth_secret", :if => (!Lynr::Web.config['transloadit']['auth_secret']) do
+    context "without auth_secret", :if => (!Lynr.config('app')['transloadit']['auth_secret']) do
 
       it "generates nil" do
         expect(subject.transloadit_params_signature({})).to be_nil
