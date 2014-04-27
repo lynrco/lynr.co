@@ -67,6 +67,11 @@ module Lynr
       Sly.core.call(env)
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
+    rescue Sly::UnauthorizedError
+      log.warn('type=httperror code=403 msg=redirecting to signin')
+      Rack::Response.new.tap do |res|
+        res.redirect "/signin?next=#{URI.encode(env['PATH_INFO'])}"
+      end
     rescue Sly::HttpError => err
       Web.render_error(err, err.status)
     rescue StandardError => se
