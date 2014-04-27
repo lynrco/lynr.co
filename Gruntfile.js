@@ -96,9 +96,6 @@ module.exports = function(grunt) {
         "baseUrl": "js",
         "mainConfigFile": "public/js/main.js",
         "dir": "dist",
-        "paths": {
-          "stripe": "empty:"
-        },
         "modules": [
           { "name": "main" },
           { "name": "pages/admin" },
@@ -135,15 +132,11 @@ module.exports = function(grunt) {
         "include": ['main', 'pages/admin', 'pages/auth', 'pages/home', 'pages/legal'],
         "insertRequire": ['main'],
         "out": "public/js/built/main.js",
-        "paths": {
-          "stripe": "empty:"
-        },
         "findNestedDependencies": true
       };
 
       requirejs.optimize(buildjs,
         function(output) {
-          grunt.log.writeln(output);
           grunt.log.ok('Main build complete.');
           done();
         },
