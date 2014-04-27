@@ -6,11 +6,13 @@ require './lib/lynr/metrics'
 
 describe Lynr::Metrics do
 
+  require 'pry-debugger'
+
   include_context "spec/support/ConfigHelper"
 
   subject(:metrics) { Lynr::Metrics.new }
+  subject(:aggregator) { metrics.aggregator }
   subject(:queue) { metrics.queue }
-  subject(:client) { queue.client }
 
   def librato_config
     {
@@ -36,6 +38,16 @@ describe Lynr::Metrics do
         'token'   => "I'm not real",
         'source'  => 'lynr.specs',
       })
+    end
+
+    describe "#aggregator" do
+      it { expect(aggregator).to be_instance_of(Librato::Metrics::Aggregator) }
+      # NOTE: Dangerous spec, testing implementation details of a dependency,
+      # because this value isn't exposed
+      it "has an autosubmit_interval set" do
+        expect(aggregator.instance_variable_get(:@autosubmit_interval)).to eq(90)
+      end
+      it { expect(aggregator.client).to be_instance_of(Librato::Metrics::Client) }
     end
 
     describe "#configured?" do
@@ -69,11 +81,11 @@ describe Lynr::Metrics do
       end
 
       it "has a client with email" do
-        expect(client.email).to eq(librato_config['user'])
+        expect(queue.client.email).to eq(librato_config['user'])
       end
 
       it "has a client with an api_key" do
-        expect(client.api_key).to eq(librato_config['token'])
+        expect(queue.client.api_key).to eq(librato_config['token'])
       end
 
     end

@@ -47,9 +47,9 @@ module Lynr
     #
     def aggregator
       if !@lynr_metrics_aggregator.nil?
-        @lynr_metrics_aggregator
-      elsif
-        @lynr_metrics_aggregator = Lynr::Metrics::Aggregator.new(processor_options)
+        @lynr_metrics_queue
+      elsif configured?
+        @lynr_metrics_aggregator = Librato::Metrics::Aggregator.new(processor_options)
       else
         @lynr_metrics_aggregator = EMPTY_PROCESSOR
       end
