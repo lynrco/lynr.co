@@ -15,17 +15,19 @@ module Lynr
 
     include Lynr::Logging
 
-    EMPTY_QUEUE = Object.new
-    def EMPTY_QUEUE.add(measurements) end
-    def EMPTY_QUEUE.client() nil end
-    def EMPTY_QUEUE.empty?() true end
-    def EMPTY_QUEUE.submit() end
+    EMPTY_QUEUE = Object.new.tap do |o|
+      def o.add(measurements) end
+      def o.client() nil end
+      def o.empty?() true end
+      def o.submit() end
+    end
 
-    EMPTY_AGGREGATOR = Object.new
-    def EMPTY_AGGREGATOR.add(measurements) end
-    def EMPTY_AGGREGATOR.client() nil end
-    def EMPTY_AGGREGATOR.empty?() true end
-    def EMPTY_AGGREGATOR.submit() end
+    EMPTY_AGGREGATOR = Object.new.tap do |o|
+      def o.add(measurements) end
+      def o.client() nil end
+      def o.empty?() true end
+      def o.submit() end
+    end
 
     # ## `Metrics#add(measurements)`
     #
