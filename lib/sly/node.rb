@@ -170,10 +170,10 @@ module Sly
     # A `Rack::Response` instance
     #
     def redirect(target, status=302, headers={})
-      res = Rack::Response.new
-      res.redirect(target, status)
-      headers.each { |name, value| res[name] = value }
-      res
+      Rack::Response.new.tap do |res|
+        res.redirect(target, status)
+        headers.each { |name, value| res[name] = value }
+      end
     end
 
   end
