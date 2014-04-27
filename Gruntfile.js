@@ -11,20 +11,44 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    compress: {
+      dist: {
+        options: {
+          mode: 'gzip'
+        },
+        files: [
+          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.js'], ext: '.js', extDot: 'last' },
+          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.css'], ext: '.css', extDot: 'last' },
+          { expand: true, cwd: 'out/build/', dest: 'out/dist/', src: ['**/*.svg'], ext: '.svg', extDot: 'last' }
+        ]
+      }
+    },
     concat: {
       options: {
         separator: '\n'
       },
       dist: {
         src: [
-          'dist/css/**/*.css',
-          'dist/js/**/*.js',
-          'dist/svg/**/*.svg',
-          'dist/img/**/*.(gif|png|jpg)',
-          'dist/robots.txt',
-          'dist/favicon.ico'
+          'out/dist/css/**/*.css',
+          'out/dist/js/**/*.js',
+          'out/dist/svg/**/*.svg',
+          'out/dist/img/**/*.(gif|png|jpg)',
+          'out/dist/robots.txt',
+          'out/dist/favicon.ico'
         ],
-        dest: 'dist/all.txt'
+        dest: 'out/all.txt'
+      }
+    },
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: 'out/build/',
+            dest: 'out/dist/',
+            src: ['**/*', '!**/*.js', '!**/*.css', '!**/*.svg', '!build.txt']
+          }
+        ]
       }
     },
     // /usr/local/share/npm/lib/node_modules/less/bin/lessc --source-map --source-map-url=/css/main.css.map --source-map-rootpath=https://lynr.co.local:9393/less public/less/main.less public/css/main.css
@@ -51,7 +75,7 @@ module.exports = function(grunt) {
           { removeUselessStrokeAndFill: false }
         ]
       },
-      dist: {
+      build: {
         files: [
           {
             expand: true,
@@ -78,13 +102,17 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default', ['less:development', 'build-almond', 'watch']);
-  grunt.registerTask('heroku', ['svgmin', 'less:production', 'build-almond', 'build', 'concat']);
+  grunt.registerTask('heroku', [
+    'svgmin', 'less:production', 'build-almond', 'build', 'copy', 'compress', 'concat'
+  ]);
   grunt.registerTask(
     'build',
     'Run the r.js build script',
@@ -95,7 +123,7 @@ module.exports = function(grunt) {
         "appDir": "public",
         "baseUrl": "js",
         "mainConfigFile": "public/js/main.js",
-        "dir": "dist",
+        "dir": "out/build",
         "modules": [
           { "name": "main" },
           { "name": "pages/admin" },
@@ -104,7 +132,7 @@ module.exports = function(grunt) {
           { "name": "pages/legal" }
         ],
         "findNestedDependencies": true,
-        "fileExclusionRegExp": /^(\.|less|legal|build)/
+        "fileExclusionRegExp": /^(\.|less|legal)/
       };
 
       requirejs.optimize(buildjs,
@@ -137,12 +165,12 @@ module.exports = function(grunt) {
 
       requirejs.optimize(buildjs,
         function(output) {
-          grunt.log.ok('Main build complete.');
+          grunt.log.ok('Almond build complete.');
           done();
         },
         function(err) {
-          grunt.log.error('Main build failure: ' + err);
-          fatal('Main build failure: ' + err);
+          grunt.log.error('Almond build failure: ' + err);
+          fatal('Almond build failure: ' + err);
         }
       );
     }
