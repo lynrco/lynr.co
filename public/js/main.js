@@ -35,8 +35,13 @@
   });
 
   require(['modernizr'], function(modernizr) { /* nothing to see here */ });
-  require(['modules/grunticon'], function(grunticon) {
-    grunticon(["/css/icons.data.svg.css", "/css/icons.data.png.css", "/css/icons.fallback.css"]);
+  require(['modules/grunticon', 'modules/data-attrs'], function(grunticon, data) {
+    var assetPath = data.get(document.body, 'asset-path');
+    grunticon([
+      assetPath + "/css/icons.data.svg.css",
+      assetPath + "/css/icons.data.png.css",
+      assetPath + "/css/icons.fallback.css"
+    ]);
   });
   require(['domReady'], function(domready) {
     domready(function() {
