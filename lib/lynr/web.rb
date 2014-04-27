@@ -54,6 +54,9 @@ module Lynr
     #
     def initialize
       @config = Lynr.config('app')
+
+      Web.setup_stripe(config)
+      Web.setup_librato(config) if Lynr.metrics.configured?
     end
 
     # ## `Lynr::Web#call(env)`
@@ -74,23 +77,6 @@ module Lynr
         req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
       })) unless Lynr.env == 'development'
       Web.render_error(se)
-    end
-
-    # ## `Lynr::Web.config`
-    #
-    # Helper method to get to app config
-    #
-    def self.config
-      instance.config
-    end
-
-    # ## `Lynr::Web.instance`
-    #
-    # Helper method to get at `Lynr::Web` singleton instance.
-    #
-    def self.instance
-      @app = Lynr::Web.new if !@app
-      @app
     end
 
     # ## `Lynr::Web.message_for_code(status)`
@@ -128,20 +114,7 @@ module Lynr
       }
     end
 
-    # ## `Lynr::Web.setup`
-    #
-    # Helper method to set up application wide variables.
-    #
-    def self.setup
-      conf = instance.config
-
-      Stripe.api_key = conf['stripe']['key']
-      Stripe.api_version = conf['stripe']['version'] || '2013-02-13'
-
-      setup_librato(conf) if Lynr.metrics.configured?
-    end
-
-    # ## `Lynr::Web.setup_librato`
+    # ## `Lynr::Web.setup_librato(conf)`
     #
     # Set LIBRATO_* environment variables if they aren't set as actual
     # environment variables.
@@ -151,6 +124,15 @@ module Lynr
       ENV['LIBRATO_TOKEN'] ||= conf.librato.token
       ENV['LIBRATO_SOURCE'] ||= conf.librato.source
       Librato::Metrics.authenticate conf.librato.user, conf.librato.token
+    end
+
+    # ## `Lynr::Web.setup_stripe(conf)`
+    #
+    # Helper method to set up Stripe application variables.
+    #
+    def self.setup_stripe(conf)
+      Stripe.api_key = conf['stripe']['key']
+      Stripe.api_version = conf['stripe']['version'] || '2013-02-13'
     end
 
     # ## `Lynr::Web.title_for_code(status)`
