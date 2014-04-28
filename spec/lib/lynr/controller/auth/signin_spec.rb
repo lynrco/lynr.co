@@ -11,6 +11,7 @@ describe Lynr::Controller::Auth::Signin do
   include_context 'spec/support/DemoHelper'
   include_context 'spec/support/ModelHelper'
   include_context 'spec/support/RouteHelper'
+  include_context 'spec/support/TokenHelper'
 
   subject(:controller) {
     Lynr::Controller::Auth::Signin.new
@@ -43,6 +44,43 @@ describe Lynr::Controller::Auth::Signin do
       it_behaves_like 'Lynr::Controller::Base#valid_request', 302 do
         it { expect(response_headers).to include('Location') }
         it { expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}") }
+      end
+    end
+  end
+
+  context 'GET /signin/:token' do
+    let(:path) { '/signin/:token' }
+    let(:uri) { "/signin/#{request_token.id}" }
+    let(:route_method) { [:get_token_signin, 'GET'] }
+
+    context 'with valid token' do
+      let(:request_token) { token('dealership' => saved_empty_dealership) }
+      it_behaves_like 'Lynr::Controller::Base#valid_request', 302
+      it 'redirects to password reset' do
+        redirect_uri = "/admin/#{saved_empty_dealership.id}/account/password"
+        expect(response_headers['Location']).to eq(redirect_uri)
+      end
+    end
+    context 'with expired token' do
+      let(:request_token) do
+        token('dealership' => saved_empty_dealership, 'expires' => (Time.now - 1))
+      end
+      it_behaves_like 'Lynr::Controller::Base#valid_request'
+      it { expect(response_body_document).to have_element('.msg-error') }
+      it 'should have expired error message' do
+        message = 'Sorry, this signin URL has expired.'
+        expect(response_body_document.css('.msg-error').first.text).to eq(message)
+      end
+    end
+    context 'with no token found' do
+      let(:request_token) do
+        OpenStruct.new(id: BSON::ObjectId.from_time(Time.now))
+      end
+      it_behaves_like 'Lynr::Controller::Base#valid_request'
+      it { expect(response_body_document).to have_element('.msg-error') }
+      it 'should have expired error message' do
+        message = "Sorry, the token in the URL doesn't match our records."
+        expect(response_body_document.css('.msg-error').first.text).to eq(message)
       end
     end
   end
