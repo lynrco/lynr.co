@@ -7,6 +7,7 @@ require './spec/support/demo_helper'
 require './spec/support/model_helper'
 require './spec/support/mongo_helper'
 require './spec/support/route_helper'
+require './spec/support/token_helper'
 
 require './lib/lynr/model/identity'
 
