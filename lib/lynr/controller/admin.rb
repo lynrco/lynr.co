@@ -29,7 +29,6 @@ module Lynr; module Controller;
       super
       @section = "admin"
       @vehicle_dao = Lynr::Persist::VehicleDao.new
-      @dealership = false
     end
 
     # ## `Admin#before_each(req)`
@@ -58,12 +57,12 @@ module Lynr; module Controller;
     # Get dealership object out of `req`.
     #
     def dealership(req)
-      return @dealership unless @dealership == false
-      if BSON::ObjectId.legal?(req['slug'])
-        @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      else
-        @dealership = dealer_dao.get_by_slug(req['slug'])
-      end
+      @dealership ||=
+        if BSON::ObjectId.legal?(req['slug'])
+          dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+        else
+          dealer_dao.get_by_slug(req['slug'])
+        end
     end
 
     # ## `Admin#role(req)`
