@@ -18,6 +18,7 @@ module Lynr; module Controller;
   #
   class Admin < Lynr::Controller::Base
 
+    include Lynr::Controller::Authentication
     include Lynr::Controller::Authorization
     include Lynr::Controller::FormHelpers
     include Lynr::Validator::Helpers
@@ -33,8 +34,9 @@ module Lynr; module Controller;
 
     # ## `Admin#before_each(req)`
     #
-    # Make sure dealership is authorized to view the admin page and the
-    # dealership associated with `:slug` exists.
+    # Make sure the dealership associated with `:slug` exists, there
+    # is an authenticated user and `#session_user` is authorized to view
+    # the admin page associated with the dealerhsip in the request.
     #
     # NOTE: `super` is called at the end of this method in order to ensure
     # `Rack::Response` instances returned by child implementations of
@@ -42,6 +44,7 @@ module Lynr; module Controller;
     #
     def before_each(req)
       return not_found unless dealership(req)
+      return unauthenticated unless authenticated?(req)
       return unauthorized unless authorized?(role(req), session_user(req))
       @dealership = dealership(req)
       super
