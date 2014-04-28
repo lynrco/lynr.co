@@ -72,12 +72,10 @@ module Lynr::Controller
     # forgotten password request.
     #
     def get_token_signin(req)
-      id = BSON::ObjectId.from_string(req['token'])
-      dao = Lynr::Persist::Dao.new
-      token = dao.read(id)
-      # TODO: There needs to be an error message if the token is expired
-      return unauthorized if token.nil? or token.expired?
-      dao.delete(id)
+      @errors = validate_token(req)
+      return get_signin(req) if has_errors?
+      token = token(req)
+      Lynr::Persist::Dao.new.delete(token.id)
       req.session['dealer_id'] = token.dealership
       redirect "/admin/#{token.dealership.to_s}/account/password"
     end
@@ -103,6 +101,28 @@ module Lynr::Controller
     #
     def template_path() 'auth/signin.erb' end
 
+    # ## `Auth::Signin#token(req)`
+    #
+    # Extract `Token` based on the 'token' path parameter in the request.
+    #
+    def token(req)
+      dao = Lynr::Persist::Dao.new
+      dao.read(token_id(req))
+    end
+
+    # ## `Auth::Signin#token_id(req)`
+    #
+    # Extract the token id out of the `req` path parameters. If it is a
+    # legal `BSON::ObjectId` convert it, otherwise leave it as a String.
+    #
+    def token_id(req)
+      if BSON::ObjectId.legal?(req['token'])
+        BSON::ObjectId.from_string(req['token'])
+      else
+        req['token']
+      end
+    end
+
     # ## `Auth::Signin#validate_signin(posted)`
     #
     # Make sure credentials exist and authenticate successfully.
@@ -117,6 +137,22 @@ module Lynr::Controller
       end
 
       errors.delete_if { |k, v| v.nil? }
+    end
+
+    # ## `Auth::Signin#validate_token(req)`
+    #
+    # Validate the token data in `req`. Provide appropriate errors if
+    # the token can't be found or is expired.
+    #
+    def validate_token(req)
+      token = token(req)
+      if token.nil?
+        errors = { 'token' => "Sorry, the token in the URL doesn't match our records." }
+      elsif token.expired?
+        errors = { 'token' => 'Sorry, this signin URL has expired.' }
+      else
+        {}
+      end
     end
 
     # # `Lynr::Controller::Auth::Signin::Demo`
