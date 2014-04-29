@@ -56,10 +56,9 @@ describe Lynr::Controller::AdminBilling, :if => (MongoHelpers.connected?) do
       before(:each) do
         Stripe::Plan.create(amount: 9900, id: 'lynr_spec')
       end
-      it_behaves_like "Lynr::Controller::Base#valid_request", 302 do
-        it { expect(response_headers['Location']).to match(%r(www\.lynr\.co)) }
-        it { expect(response_headers['Set-Cookie']).to match(%r(domain=www\.lynr\.co)) }
-      end
+      it_behaves_like "Lynr::Controller::Base#valid_request", 302
+      it { expect(response_headers['Location']).to match(%r(www\.lynr\.co)) }
+      it { expect(response_headers['Location']).to match(%r(/signin)) }
 
       context "without matching password" do
         let(:posted) do
