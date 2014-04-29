@@ -77,7 +77,7 @@ module Lynr::Controller
       token = token(req)
       Lynr::Persist::Dao.new.delete(token.id)
       req.session['dealer_id'] = token.dealership
-      redirect "/admin/#{token.dealership.to_s}/account/password"
+      redirect token.next
     end
 
     # ## `Auth::Signin#post_signin(req)`

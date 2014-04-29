@@ -57,7 +57,12 @@ describe Lynr::Controller::Auth::Signin, :if => (MongoHelpers.connected?) do
     let(:route_method) { [:get_token_signin, 'GET'] }
 
     context 'with valid token' do
-      let(:request_token) { token('dealership' => saved_empty_dealership) }
+      let(:request_token) do
+        token(
+          'dealership' => saved_empty_dealership,
+          'next' => "/admin/#{saved_empty_dealership.id}/account/password",
+        )
+      end
       it_behaves_like 'Lynr::Controller::Base#valid_request', 302
       it 'redirects to password reset' do
         redirect_uri = "/admin/#{saved_empty_dealership.id}/account/password"
