@@ -1,5 +1,6 @@
 require 'rack'
 require 'rack/ssl'
+require 'rack-timeout'
 require 'librato-rack'
 
 require './lib/lynr/web'
@@ -8,7 +9,9 @@ require './lib/rack/middleware/timer'
 
 app = Lynr::Web.new
 config = Lynr.config('app')
+Rack::Timeout.timeout = 5
 
+use Rack::Timeout
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
 use Rack::Static, :urls => [
