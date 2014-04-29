@@ -29,7 +29,7 @@ namespace :lynr do
     require 'shotgun'
     require 'webrick/https'
 
-    server = Rack::Handler.default
+    server = Rack::Handler::WEBrick
     options = {
       :Port => ENV.fetch('PORT', 9393),
       :Host => '127.0.0.1',
