@@ -1,5 +1,8 @@
+require './lib/lynr/controller'
+require './lib/lynr/controller/auth'
 require './lib/lynr/model/token'
 require './lib/lynr/persist/dao'
+require './lib/lynr/queue/email_job'
 
 module Lynr::Controller
 
@@ -36,7 +39,10 @@ module Lynr::Controller
       return render 'auth/forgot.erb' if has_errors?
       dealership = dealer_dao.get_by_email(@posted['email'])
       dao = Lynr::Persist::Dao.new
-      token = dao.create(Lynr::Model::Token.new('dealership' => dealership))
+      token = dao.create(Lynr::Model::Token.new({
+        'dealership' => dealership,
+        'next' => "/admin/#{dealership.id}/account/password",
+      }))
       notify_by_email(dealership, token, req)
       @msg = "Reset notification sent to #{@posted['email']}"
       render 'auth/forgot.erb'
