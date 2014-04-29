@@ -18,6 +18,7 @@ gem 'mongo',            '1.9.2'
 gem 'nokogiri',         '1.6.1'
 gem 'premailer',        '1.8.1'
 gem 'rack-ssl',         '1.3.3'
+gem 'rack-timeout',     '0.0.4'
 gem 'stripe',           '1.10.1'
 gem 'yajl-ruby',        '1.2.0'
 
@@ -49,4 +50,5 @@ end
 
 group :heroku do
   gem 'unicorn',        '4.8.2'
+  gem 'puma',           '2.8.2'
 end
