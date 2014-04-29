@@ -18,6 +18,7 @@ module Lynr; module Controller;
   #
   class Admin < Lynr::Controller::Base
 
+    include Lynr::Controller::Authentication
     include Lynr::Controller::Authorization
     include Lynr::Controller::FormHelpers
     include Lynr::Validator::Helpers
@@ -28,23 +29,25 @@ module Lynr; module Controller;
       super
       @section = "admin"
       @vehicle_dao = Lynr::Persist::VehicleDao.new
-      @dealership = false
     end
 
     # ## `Admin#before_each(req)`
     #
-    # Make sure dealership is authorized to view the admin page and the
-    # dealership associated with `:slug` exists.
+    # Make sure the dealership associated with `:slug` exists, there
+    # is an authenticated user and `#session_user` is authorized to view
+    # the admin page associated with the dealerhsip in the request.
     #
     # NOTE: `super` is called at the end of this method in order to ensure
     # `Rack::Response` instances returned by child implementations of
     # `before_METHOD` methods are returned to user agent.
     #
     def before_each(req)
-      return not_found unless dealership(req)
-      return unauthorized unless authorized?(role(req), session_user(req))
-      @dealership = dealership(req)
-      super
+      case req
+      when dealership(req).nil? then not_found
+      when !authenticated?(req) then unauthenticated
+      when !authorized?(role(req), session_user(req)) then unauthorized
+      else super
+      end
     end
 
     # ## Helpers
@@ -54,12 +57,12 @@ module Lynr; module Controller;
     # Get dealership object out of `req`.
     #
     def dealership(req)
-      return @dealership unless @dealership == false
-      if BSON::ObjectId.legal?(req['slug'])
-        @dealership = dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
-      else
-        @dealership = dealer_dao.get_by_slug(req['slug'])
-      end
+      @dealership ||=
+        if BSON::ObjectId.legal?(req['slug'])
+          dealer_dao.get(BSON::ObjectId.from_string(req['slug']))
+        else
+          dealer_dao.get_by_slug(req['slug'])
+        end
     end
 
     # ## `Admin#role(req)`

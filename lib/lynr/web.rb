@@ -67,8 +67,8 @@ module Lynr
       Sly.core.call(env)
     rescue Sly::TooManyRoutesError
       Sly::Router::TooMany
-    rescue Sly::UnauthorizedError
-      log.warn('type=httperror code=403 msg=redirecting to signin')
+    rescue Lynr::UnauthenticatedError => err
+      log.warn("type=#{err.class.name} code=200 msg=redirecting to signin")
       Rack::Response.new.tap do |res|
         res.redirect "/signin?next=#{URI.encode(env['PATH_INFO'])}"
       end
@@ -90,7 +90,7 @@ module Lynr
     #
     def self.message_for_code(status)
       case status
-      when 403 then "You don't have permission to view this."
+      when 403 then "You don't have permission to view this. Maybe you are signed into the wrong account, would you like to <a href=\"/signout\">sign out</a>?"
       when 404 then "Why don't you try that again."
       else "We aren't sure what happend but have been notified and will look into it."
       end

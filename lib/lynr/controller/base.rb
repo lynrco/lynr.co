@@ -165,9 +165,9 @@ module Lynr; module Controller;
       dealer_dao.get(id)
     end
 
-    def unauthorized
-      raise Sly::UnauthorizedError.new
-    end
+    def unauthenticated() raise Lynr::UnauthenticatedError.new end
+
+    def unauthorized() raise Sly::UnauthorizedError.new end
 
   end
 

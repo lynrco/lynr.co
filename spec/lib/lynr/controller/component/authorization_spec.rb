@@ -4,7 +4,7 @@ require './spec/spec_helper'
 require './lib/lynr/controller/component/authorization'
 require './lib/lynr/persist/dealership_dao'
 
-describe Lynr::Controller::Authorization do
+describe Lynr::Controller::Authorization, :if => (MongoHelpers.connected?) do
 
   include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"

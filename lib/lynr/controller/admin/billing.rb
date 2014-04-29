@@ -112,19 +112,8 @@ module Lynr::Controller
 
       require './lib/lynr/events'
       require './lib/lynr/model/subscription'
-
-      # ## `AdminBilling::Demo#cookie(req)`
-      #
-      # Create a Set-Cookie header value for the live domain so new customers
-      # hit the live domain already logged in.
-      #
-      def cookie(req)
-        value = URI.encode(req.cookies['_lynr']) if req.cookies['_lynr']
-        live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
-        # Thu, 01 May 2014 02:13:58 -0000; HttpOnly
-        expires = (Time.now + 604800).utc.strftime('%a, %d %b %Y %H:%M:%S %z')
-        "_lynr=#{value}; domain=#{live_domain}; path=/; expires=#{expires}; HttpOnly"
-      end
+      require './lib/lynr/model/token'
+      require './lib/lynr/persist/dao'
 
       # ## `AdminBilling::Demo#get_billing(req)`
       #
@@ -142,12 +131,9 @@ module Lynr::Controller
       def post_billing(req)
         with_stripe_error_handlers do
           dealership = update_dealership(req)
-          Lynr::Events.emit(type: 'dealership.upgraded', dealership_id: dealership.id.to_s)
           live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
-          expires = (Time.now + 604800).strftime('')
-          redirect("https://#{live_domain}/admin/#{dealership.slug}/billing", 302, {
-            'Set-Cookie' => cookie(req)
-          })
+          Lynr::Events.emit(type: 'dealership.upgraded', dealership_id: dealership.id.to_s)
+          redirect "https://#{live_domain}/signin/#{token(req).id}", 302
         end
       end
 
@@ -156,8 +142,14 @@ module Lynr::Controller
       # Define the path for the template to be rendered for GET requests
       # and POST requests with errors.
       #
-      def template_path()
-        'demo/admin/billing.erb'
+      def template_path() 'demo/admin/billing.erb' end
+
+      def token(req)
+        dao = Lynr::Persist::Dao.new
+        dao.create(Lynr::Model::Token.new(
+          'dealership' => dealership(req),
+          'next' => "/admin/#{dealership(req).slug}",
+        ))
       end
 
       # ## `AdminBilling::Demo#update_dealership(req)`
