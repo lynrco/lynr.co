@@ -7,6 +7,14 @@ require './lib/lynr/controller/base'
 
 shared_context "spec/support/RouteHelper" do
 
+  class MockSession < Hash
+    def initialize(data={})
+      # The parens are important otherwise it tries to invoke passing `data`
+      super() { |h, k| h.fetch(k, data.fetch(k, nil)) }
+    end
+    def destroy() self.clear end
+  end
+
   let(:domain) { 'lynr.co.local' }
   let(:route_method) { [:get, 'GET'] }
   let(:route) { subject.class.create_route(path, *route_method) }
@@ -14,6 +22,7 @@ shared_context "spec/support/RouteHelper" do
   let(:env) { env_for(uri) }
   let(:req) { Sly::Request.new(env, route.path_regex) }
   let(:response) { route.call(env) }
+  let(:response_status) { response[0] }
   let(:response_headers) { response[1] }
   let(:response_body) {
     response[2].body.reduce("") { |m,d| m + d }
