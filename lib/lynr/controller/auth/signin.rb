@@ -87,11 +87,11 @@ module Lynr::Controller
     # to the inventory.
     #
     def post_signin(req)
-      dealership = dealer_dao.get_by_email(@posted['email'])
+      dealership = dealer_dao.get_by_email(posted['email'])
       Lynr::Events.emit(type: 'signin', dealership_id: dealership.id.to_s)
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
-      send_to_admin(req, dealership)
+      send_to_next(req) || send_to_admin(req, dealership)
     end
 
     # ## `Auth::Signin#template_path`
