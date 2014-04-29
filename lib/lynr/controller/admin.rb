@@ -42,10 +42,9 @@ module Lynr; module Controller;
     # `before_METHOD` methods are returned to user agent.
     #
     def before_each(req)
-      case req
-      when dealership(req).nil? then not_found
-      when !authenticated?(req) then unauthenticated
-      when !authorized?(role(req), session_user(req)) then unauthorized
+      if dealership(req).nil? then not_found
+      elsif !authenticated?(req) then unauthenticated
+      elsif !authorized?(role(req), session_user(req)) then unauthorized
       else super
       end
     end
