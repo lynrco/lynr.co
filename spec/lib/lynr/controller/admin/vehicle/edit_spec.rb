@@ -4,7 +4,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/admin/vehicle/edit'
 
-describe Lynr::Controller::Admin::Vehicle::Edit do
+describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?) do
 
   include_context "spec/support/ModelHelper"
   include_context "spec/support/RouteHelper"

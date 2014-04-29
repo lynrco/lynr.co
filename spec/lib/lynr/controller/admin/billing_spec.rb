@@ -4,7 +4,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/admin/billing'
 
-describe Lynr::Controller::AdminBilling do
+describe Lynr::Controller::AdminBilling, :if => (MongoHelpers.connected?) do
 
   include_context "spec/support/ConfigHelper"
   include_context "spec/support/DemoHelper"
