@@ -17,6 +17,8 @@ module Lynr
   #
   class Config
 
+    include Enumerable
+
     attr_reader :environment, :type
 
     PropertyRegex = /(?<property>\w+)(?<query>\?)?/
@@ -66,6 +68,18 @@ module Lynr
       Config.new(nil, environment, to_hash.delete_if { |k| k == key })
     end
 
+    # ## `Lynr::Config#each`
+    #
+    # Accepts a block, and is the building block for `Enumerable`.
+    #
+    def each
+      return enum_for(:each) unless block_given?
+
+      @config.each do |k, v|
+        yield [k, v] if block_given?
+      end
+    end
+
     # ## `Lynr::Config#fetch(key, default)
     #
     # Retrieve a value from the backing data by `key`. Backing data is probed for
@@ -102,6 +116,28 @@ module Lynr
       else
         super
       end
+    end
+
+    # ## `Lynr::Config.resolve(config)`
+    #
+    # Takes a `Config` instance and resolves all the values in it
+    # according to the defined `Transforms`.
+    #
+    def self.resolve(config)
+      values = config.map do |k, v|
+        value = config.fetch(k)
+        if value.is_a?(Lynr::Config)
+          [k, Lynr::Config.resolve(value)]
+        else
+          [k, config.fetch(k)]
+        end
+      end
+
+      Lynr::Config.new(nil, config.environment, Hash[ values ])
+    end
+
+    def resolve
+      Lynr::Config.resolve(self)
     end
 
     # ## `Lynr::Config#respond_to_missing?(sym, include_private)`
