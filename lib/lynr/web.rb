@@ -30,6 +30,7 @@ require './lib/lynr/controller/home'
 require './lib/lynr/controller/js_identity'
 require './lib/lynr/controller/legal'
 require './lib/lynr/controller/ping'
+require './lib/lynr/events'
 require './lib/lynr/logging'
 require './lib/lynr/view/renderer'
 
@@ -75,13 +76,23 @@ module Lynr
     rescue Sly::HttpError => err
       Web.render_error(err, err.status)
     rescue StandardError => se
-      Lynr.producer('job').publish(Lynr::Queue::EmailJob.new('error/internal', {
-        to: 'tech@lynr.co',
-        subject: "[#{env['HTTP_HOST']}] #{se.class} on #{env['PATH_INFO']}",
-        err: se,
-        req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
-      })) unless Lynr.env == 'development'
+      Lynr::Events.emit(error_event(se, env))
       Web.render_error(se)
+    end
+
+    # ## `Web#error_event(err, env)`
+    #
+    # Create an event `Hash` suitable for `Lynr::Events.emit` that
+    # represents a given `err` and request `env`.
+    #
+    def error_event(err, env)
+      {
+        type: 'error.internal',
+        to: 'tech@lynr.co',
+        subject: "[#{env['HTTP_HOST']}] #{err.class} on #{env['PATH_INFO']}",
+        err: err,
+        req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
+      }
     end
 
     # ## `Lynr::Web.message_for_code(status)`

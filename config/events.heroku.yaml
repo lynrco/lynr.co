@@ -20,3 +20,6 @@ dealership.created:
     token: 'env:mixpanel_token'
 vehicle.deleted:
   - type: Lynr::Events::Handler::UnindexVehicle
+error.internal:
+  - type: Lynr::Events::Handler::Email
+    :template: 'error/internal'
