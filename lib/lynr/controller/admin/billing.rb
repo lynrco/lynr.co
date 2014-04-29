@@ -132,6 +132,7 @@ module Lynr::Controller
         with_stripe_error_handlers do
           dealership = update_dealership(req)
           live_domain = Lynr.config('app').fetch(:live_domain, 'www.lynr.co')
+          req.session.destroy
           Lynr::Events.emit(type: 'dealership.upgraded', dealership_id: dealership.id.to_s)
           redirect "https://#{live_domain}/signin/#{token(req).id}", 302
         end

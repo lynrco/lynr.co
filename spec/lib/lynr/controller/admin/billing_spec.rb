@@ -14,7 +14,7 @@ describe Lynr::Controller::AdminBilling, :if => (MongoHelpers.connected?) do
   let(:session_user) { saved_empty_dealership }
   let(:path) { '/admin/:slug/billing' }
   let(:uri) { "/admin/#{session_user.id}/billing" }
-  let(:env_opts) { { 'rack.session' => { 'dealer_id' => session_user.id } } }
+  let(:env_opts) do { 'rack.session' => MockSession.new('dealer_id' => session_user.id) } end
 
   before(:all) do
     stub_config('app', { 'stripe' => {
