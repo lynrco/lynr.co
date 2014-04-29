@@ -34,8 +34,12 @@ module Lynr; module Controller;
     # session.
     #
     def before_GET(req)
-      super
-      send_to_admin(req) if req.session['dealer_id']
+      if !req.params['next'].nil? then req.session['next'] = req.params['next'] end
+      if !req.session['dealer_id'].nil?
+        send_to_next(req) || send_to_admin(req)
+      else
+        super
+      end
     end
 
     def dealer_dao
@@ -51,6 +55,19 @@ module Lynr; module Controller;
     def send_to_admin(req, dealership=nil)
       dealership = dealer_dao.get(req.session['dealer_id']) if dealership.nil?
       redirect "/admin/#{dealership.slug}"
+    end
+
+    # ## `Auth#send_to_next(req)`
+    #
+    # Redirect `req` to the URI stored in the session as 'next' if it
+    # exists, otherwise return false.
+    #
+    def send_to_next(req)
+      if !req.session['next'].nil?
+        redirect req.session['next']
+      else
+        false
+      end
     end
 
   end
