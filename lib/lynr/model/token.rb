@@ -11,7 +11,7 @@ module Lynr::Model
 
     include Lynr::Model::Base
 
-    attr_reader :id, :dealership, :expires
+    attr_reader :id, :dealership, :expires, :next
 
     # ## `Token.new(data)`
     #
@@ -22,6 +22,8 @@ module Lynr::Model
     #   with this token
     # * `expires` is the timestamp after which this authentication token is no
     #   longer valid
+    # * `next` is where to send the custerom after the login. Defaults to
+    #   the customer's inventory screen
     #
     def initialize(data={})
       @id = data.fetch('id', nil)
@@ -29,6 +31,7 @@ module Lynr::Model
       @dealership = @dealership.id if @dealership.respond_to?(:id)
       # Defaults to 24 hours from now
       @expires = data.fetch('expires', Time.now + 86400)
+      @next = data.fetch('next', "/admin/#{@dealership}")
     rescue KeyError
       raise ArgumentError.new('Token requires a dealership id')
     end
@@ -53,6 +56,7 @@ module Lynr::Model
         'class' => self.class.name,
         'dealership' => @dealership,
         'expires' => @expires,
+        'next' => @next
       }
     end
 
@@ -73,7 +77,7 @@ module Lynr::Model
     # determine equality of two token instances.
     #
     def equality_fields
-      [:id, :dealership, :expires]
+      [:id, :dealership, :expires, :next]
     end
 
   end

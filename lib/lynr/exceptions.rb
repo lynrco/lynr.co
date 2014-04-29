@@ -32,7 +32,16 @@ module Lynr
   # current request. `HttpError` instances are created with a `status` and an
   # optional `msg`.
   #
-  class HttpError < Sly::HttpError
+  class HttpError < Sly::HttpError; end
+
+  # # `Lynr::UnauthenticatedError`
+  #
+  # Raise to indicate there is no authenticated user.
+  #
+  class UnauthenticatedError < HttpError
+    def initialize(msg=nil)
+      super(200, msg)
+    end
   end
 
 end

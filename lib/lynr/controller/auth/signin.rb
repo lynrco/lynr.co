@@ -77,7 +77,7 @@ module Lynr::Controller
       token = token(req)
       Lynr::Persist::Dao.new.delete(token.id)
       req.session['dealer_id'] = token.dealership
-      redirect "/admin/#{token.dealership.to_s}/account/password"
+      redirect token.next
     end
 
     # ## `Auth::Signin#post_signin(req)`
@@ -87,11 +87,11 @@ module Lynr::Controller
     # to the inventory.
     #
     def post_signin(req)
-      dealership = dealer_dao.get_by_email(@posted['email'])
+      dealership = dealer_dao.get_by_email(posted['email'])
       Lynr::Events.emit(type: 'signin', dealership_id: dealership.id.to_s)
       # Send to admin pages
       req.session['dealer_id'] = dealership.id
-      send_to_admin(req, dealership)
+      send_to_next(req) || send_to_admin(req, dealership)
     end
 
     # ## `Auth::Signin#template_path`

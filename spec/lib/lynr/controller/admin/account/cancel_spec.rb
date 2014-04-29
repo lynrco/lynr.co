@@ -13,13 +13,13 @@ describe Lynr::Controller::AdminAccountCancel do
   let(:uri) { "/admin/#{saved_empty_dealership.id}/account/cancel" }
   let(:env_opts) { { 'rack.session' => { 'dealer_id' => saved_empty_dealership.id } } }
 
-  context "GET /admin/:slug/account/cancel" do
+  context "GET /admin/:slug/account/cancel", if: MongoHelpers.connected? do
 
     let(:route_method) { [:get, 'GET'] }
     let(:response) { route.call(env) }
     let(:headers) { response[1] }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request" if MongoHelpers.connected?
+    it_behaves_like "Lynr::Controller::Base#valid_request"
 
     it { expect(headers).to include('Content-Type') }
 

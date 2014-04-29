@@ -5,7 +5,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/auth/signin'
 
-describe Lynr::Controller::Auth::Signin do
+describe Lynr::Controller::Auth::Signin, :if => (MongoHelpers.connected?) do
 
   include_context 'spec/support/ConfigHelper'
   include_context 'spec/support/DemoHelper'
@@ -33,17 +33,20 @@ describe Lynr::Controller::Auth::Signin do
 
     context 'with signed-in session' do
       let(:session) {
-        session = double('Rack::Session::Abstract::SessionHash')
-        allow(session).to receive(:destroy) { nil }
-        allow(session).to receive(:[]) { saved_empty_dealership.id.to_s }
-        session
+        MockSession.new('dealer_id' => saved_empty_dealership.id.to_s)
       }
       let(:env_opts) do
         { 'rack.session' => session }
       end
-      it_behaves_like 'Lynr::Controller::Base#valid_request', 302 do
-        it { expect(response_headers).to include('Location') }
-        it { expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}") }
+      it 'response.status should eq 302' do expect(response_status).to eq(302) end
+      it "response.headers['Location'] should eq /admin/:slug" do
+        expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}")
+      end
+
+      context 'with next parameter' do
+        let(:uri) { "/signin?next=/admin/#{saved_empty_dealership.id}/account" }
+        it { expect(response_status).to eq(302) }
+        it { expect(response_headers['Location']).to eq("/admin/#{saved_empty_dealership.id}/account") }
       end
     end
   end
@@ -54,7 +57,12 @@ describe Lynr::Controller::Auth::Signin do
     let(:route_method) { [:get_token_signin, 'GET'] }
 
     context 'with valid token' do
-      let(:request_token) { token('dealership' => saved_empty_dealership) }
+      let(:request_token) do
+        token(
+          'dealership' => saved_empty_dealership,
+          'next' => "/admin/#{saved_empty_dealership.id}/account/password",
+        )
+      end
       it_behaves_like 'Lynr::Controller::Base#valid_request', 302
       it 'redirects to password reset' do
         redirect_uri = "/admin/#{saved_empty_dealership.id}/account/password"

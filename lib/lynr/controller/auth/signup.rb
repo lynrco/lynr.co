@@ -130,7 +130,7 @@ module Lynr::Controller
           dealer = create_dealership(identity, customer)
           notify(req, dealer)
           # Send to admin pages?
-          send_to_admin(req, dealer)
+          send_to_next(req) || send_to_admin(req, dealer)
         end
       end
 
@@ -196,7 +196,7 @@ module Lynr::Controller
         dealer = create_dealership(identity, nil)
         notify(req, dealer)
         # Send to admin pages?
-        send_to_admin(req, dealer)
+        send_to_next(req) || send_to_admin(req, dealer)
       rescue Lynr::Persist::MongoUniqueError
         attempt_signin(req)
       end

@@ -5,7 +5,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/auth/signup'
 
-describe Lynr::Controller::Auth::Signup do
+describe Lynr::Controller::Auth::Signup, :if => (MongoHelpers.connected?) do
 
   include_context "spec/support/ConfigHelper"
   include_context "spec/support/DemoHelper"
@@ -40,10 +40,7 @@ describe Lynr::Controller::Auth::Signup do
 
     context "with signed-in session" do
       let(:session) {
-        session = double("Rack::Session::Abstract::SessionHash")
-        allow(session).to receive(:destroy) { nil }
-        allow(session).to receive(:[]) { saved_empty_dealership.id.to_s }
-        session
+        MockSession.new('dealer_id' => saved_empty_dealership.id.to_s)
       }
       let(:env_opts) do
         { 'rack.session' => session }
