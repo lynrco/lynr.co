@@ -30,7 +30,12 @@ namespace :lynr do
     require 'webrick/https'
 
     server = Rack::Handler.default
-    options = { :Port => 9393, :Host => '127.0.0.1', :AccessLog => [], :Path => '/' }
+    options = {
+      :Port => ENV.fetch('PORT', 9393),
+      :Host => '127.0.0.1',
+      :AccessLog => [],
+      :Path => '/'
+    }
 
     # trap exit signals
     downward = false
