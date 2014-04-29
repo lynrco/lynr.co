@@ -12,7 +12,8 @@ shared_context "spec/support/RouteHelper" do
       # The parens are important otherwise it tries to invoke passing `data`
       super() { |h, k| h.fetch(k, data.fetch(k, nil)) }
     end
-    def destroy() self.clear end
+
+    def destroy() clear end
   end
 
   let(:domain) { 'lynr.co.local' }
