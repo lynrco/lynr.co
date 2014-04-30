@@ -136,6 +136,12 @@ module Lynr
       Lynr::Config.new(nil, config.environment, Hash[ values ])
     end
 
+    # ## `Lynr::Config#resolve`
+    #
+    # Public: Proxies to `Lynr::Config.resolve` passing `self`
+    #
+    # See `Lynr::Config.resolve(config)`
+    #
     def resolve
       Lynr::Config.resolve(self)
     end
