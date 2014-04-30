@@ -24,16 +24,16 @@ module Lynr
     PropertyRegex = /(?<property>\w+)(?<query>\?)?/
     Transforms = [
       {
-        test: lambda { |v, _| v.is_a?(String) && v.start_with?('env:') },
-        rule: lambda { |v, _| ENV[v.sub(%r(^env:), '')] },
+        test: lambda { |v, d| v.is_a?(String) && v.start_with?('env:') },
+        rule: lambda { |v, d| ENV[v.sub(%r(^env:), '')] },
       },
       {
-        test: lambda { |v, _| v.is_a?(Hash) },
-        rule: lambda { |v, _| Config.new(type=nil, whereami=nil, config=v) },
+        test: lambda { |v, d| v.is_a?(Hash) },
+        rule: lambda { |v, d| Config.new(type=nil, whereami=nil, config=v) },
       },
       {
         test: lambda { |v, d| (d.class == TrueClass || d.class == FalseClass) },
-        rule: lambda { |v, _| Config.bool(v) },
+        rule: lambda { |v, d| Config.bool(v) },
       },
     ]
 
@@ -228,7 +228,7 @@ module Lynr
     def merge_external
       external = YAML.load_file(external_name) || {}
       @config = external.merge(@config) do |key, externalval, configval|
-        if (configval.is_a?(Hash))
+        if configval.is_a?(Hash)
           externalval.merge(configval)
         else
           configval
