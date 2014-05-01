@@ -4,6 +4,8 @@
 # on vagrant guard has to be started with `bundle exec guard -p` to use
 # polling according to http://stackoverflow.com/a/12122612/1357024
 
+notification :tmux, color_location: 'status-left-fg', display_message: true
+
 guard 'bundler' do
   watch('Gemfile')
 end
