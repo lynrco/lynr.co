@@ -29,7 +29,7 @@ module DataOne
     # before reaching out over the wire to the DataOne API.
     #
     def fetch(vin)
-      if File.exists?("spec/data/#{vin}.xml")
+      if File.exist?("spec/data/#{vin}.xml")
         doc = LibXML::XML::Document.file("spec/data/#{vin}.xml")
       elsif Lynr.cache.include?(vin)
         doc = LibXML::XML::Document.string(Lynr.cache.read(vin))
