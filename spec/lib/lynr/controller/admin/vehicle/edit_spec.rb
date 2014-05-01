@@ -18,7 +18,7 @@ describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?
 
     let(:route_method) { [:get_edit_vehicle, 'GET'] }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request"
+    it_behaves_like "Lynr::Controller::Base#valid_request" if MongoHelpers.connected?
 
   end
 
@@ -29,7 +29,7 @@ describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?
       super().merge(params: { 'vin[ext_color]' => 'silver' })
     }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request", 302
+    it_behaves_like "Lynr::Controller::Base#valid_request", 302 if MongoHelpers.connected?
 
   end
 

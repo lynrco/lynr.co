@@ -91,6 +91,17 @@ module Lynr::Controller
       Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
+    # ## `Admin#save_vehicle(vehicle)`
+    #
+    # Handle the logic of saving a `Lynr::Model::Vehicle` to the database
+    # and producing the associated events.
+    #
+    def save_vehicle(vehicle)
+      vehicle_dao.save(vehicle).tap do |saved|
+        Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(saved))
+      end
+    end
+
     # ## `Admin#transloadit_params(template_id_name)`
     #
     # Internal: Get a `Hash` of parameters for inclusion in an HTML
