@@ -168,6 +168,10 @@ describe Lynr::Config do
 
   end
 
+  describe '#each' do
+    it { expect(config.each).to be_an_instance_of(Enumerator) }
+  end
+
   describe "#method_missing" do
 
     it "read an int value from YAML data" do
@@ -220,6 +224,24 @@ describe Lynr::Config do
 
   end
 
+  describe '#resolve' do
+    let(:resolved) { config.resolve }
+    [
+      :int_val, :bool_val, :false_val, :string_val, :env_val,
+      :str_bool_false, :str_bool_true, :int_bool_0, :int_bool_1,
+    ].each do |name|
+      it "should be equivalent to resolved on #{name}" do
+        expect(resolved[name.to_s]).to eq(config[name.to_s])
+      end
+    end
+    it 'should be the same config for mongo' do
+      expect(resolved['mongo'].to_hash).to eq(config['mongo'].to_hash)
+    end
+    it 'should be the same as different from raw config for env_val' do
+      expect(resolved.to_hash['env_val']).to_not eq(config.to_hash['env_val'])
+    end
+  end
+
   describe "#respond_to_missing?" do
 
     [
@@ -231,6 +253,12 @@ describe Lynr::Config do
         expect(config.respond_to?(name.to_sym)).to be_true
       end
 
+    end
+
+    [ :junk, :no_exist ].each do |name|
+      it "should not respond to #{name}" do
+        expect(config.respond_to?(name.to_sym)).to be_false
+      end
     end
 
   end

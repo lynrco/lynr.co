@@ -9,7 +9,7 @@ require './lib/lynr/persist/vehicle_dao'
 require './lib/lynr/validator/helpers'
 require './lib/lynr/view/menu'
 
-module Lynr; module Controller;
+module Lynr::Controller
 
   # # `Lynr::Controller::Admin`
   #
@@ -91,17 +91,58 @@ module Lynr; module Controller;
       Lynr::View::Menu.new('Menu', "/menu/#{@dealership.slug}", :menu_admin) unless @dealership.nil?
     end
 
-    # TODO: Write documentation for `#transloadit_params`
+    # ## `Admin#transloadit_params(template_id_name)`
+    #
+    # Internal: Get a `Hash` of parameters for inclusion in an HTML
+    # form element rendered to the customer.
+    #
+    # template_id_name - name of the [Transloadit](http://transloadit.com)
+    #                    template id name in the app configuration
+    #
+    # Examples
+    #
+    #   # Controller
+    #   @params = transloadit_params('account_template_id').to_json
+    #   # HTML Template
+    #   <form>
+    #     <input type="hidden" name="params" value="<%= CGI.escape_html(@params) %>" />
+    #   </form>
+    #
+    # Returns `Hash` with :auth and :template_id values for use with HTML
+    # posting media to transloadit.
+    #
     def transloadit_params(template_id_name)
       transloadit = Lynr.config('app')['transloadit']
       expires = (Time.now + (60 * 10)).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
-      params = {
+      {
         auth: { expires: expires, key: transloadit['auth_key'] },
         template_id: transloadit[template_id_name]
       }
     end
 
-    # TODO: Write documentation for `#transloadit_params_signature`
+    # ## `Admin#transloadit_params_signature(params)`
+    #
+    # Internal: Generate a signature from `params` to ensure transloadit
+    # credentials are being used by an authorized account. This is necessary
+    # when 'Enable signature authentication' is on inside the [Transloadit
+    # API Credentials](https://transloadit.com/accounts/credentials)
+    #
+    # params - `Hash` of params from `Admin#transloadit_params` based on
+    #          an `'auth_secret'` key in app configuration.
+    #
+    # Examples
+    #
+    #     # Controller
+    #     params = transloadit_params('account_template_id')
+    #     @signature = transloadit_params_signature(params)
+    #     # HTML Template
+    #     <form>
+    #       <input type="hidden" name="signature" value="<%= @signature %>" />
+    #     </form>
+    #
+    # Returns signature value to be sent alongside JSON representation of
+    # parameters to authenticate the parameters.
+    #
     def transloadit_params_signature(params)
       auth_secret = Lynr.config('app')['transloadit']['auth_secret']
       return nil if auth_secret.nil?
@@ -111,4 +152,4 @@ module Lynr; module Controller;
 
   end
 
-end; end;
+end
