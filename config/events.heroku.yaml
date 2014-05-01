@@ -12,10 +12,18 @@
 # configuration as a `Lynr::Config` instance.
 #
 dealership.created:
-  - type: Lynr::Events::Handler::AddDemoVehicles
   - type: Lynr::Events::Handler::Email
     :template: 'auth/account_created'
-    :subject: "Welcome to Lynr, your inventory and sales system"
+    :subject: 'Welcome to Lynr, your inventory and sales system'
+    :from: 'Lynr.co <general@support.lynr.co>'
+  - type: Lynr::Events::Handler::MixpanelAlias
+    token: 'env:mixpanel_token'
+dealership.created.demo:
+  - type: Lynr::Events::Handler::AddDemoVehicles
+  - type: Lynr::Events::Handler::Email
+    :template: 'demo/auth/account_created'
+    :from: 'Lynr.co <general@support.lynr.co>'
+    :subject: 'Welcome to your demo of Lynr, an inventory and sales system'
   - type: Lynr::Events::Handler::MixpanelAlias
     token: 'env:mixpanel_token'
 vehicle.deleted:
