@@ -6,8 +6,8 @@ require './lib/lynr/controller/admin/vehicle/add'
 
 describe Lynr::Controller::Admin::Vehicle::Add do
 
-  include_context "spec/support/ModelHelper"
-  include_context "spec/support/RouteHelper"
+  include_context 'spec/support/ModelHelper'
+  include_context 'spec/support/RouteHelper'
 
   let(:path) { '/admin/:slug/vehicle/add' }
   let(:uri) { "/admin/#{saved_empty_dealership.id}/vehicle/add" }
@@ -20,15 +20,15 @@ describe Lynr::Controller::Admin::Vehicle::Add do
     end
   end
 
-  context "GET /admin/:slug/vehicle/add" do
+  context 'GET /admin/:slug/vehicle/add' do
 
     let(:route_method) { [:get_html, 'GET'] }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request" if MongoHelpers.connected?
+    it_behaves_like 'Lynr::Controller::Base#valid_request' if MongoHelpers.connected?
 
   end
 
-  context "POST /admin/:slug/:vehicle/edit" do
+  context 'POST /admin/:slug/:vehicle/edit' do
 
     let(:route_method) { [:post_html, 'POST'] }
     let(:env_opts) {
@@ -39,7 +39,7 @@ describe Lynr::Controller::Admin::Vehicle::Add do
       }
     }
 
-    it_behaves_like "Lynr::Controller::Base#valid_request", 302 if MongoHelpers.connected?
+    it_behaves_like 'Lynr::Controller::Base#valid_request', 302 if MongoHelpers.connected?
 
   end
 
