@@ -4,7 +4,7 @@
     map: {
       '*': {
         'domReady': 'libs/domReady-2.0.0',
-        'heap': 'modules/heapanalytics',
+        'fastdom': 'libs/fastdom-0.8.4',
         'jquery': 'libs/jquery-1.10.2.min',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.4.0',
         'mixpanel': 'modules/mixpanel',
