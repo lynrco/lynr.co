@@ -4,7 +4,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/admin/vin'
 
-describe Lynr::Controller::AdminVin do
+describe Lynr::Controller::AdminVin, if: MongoHelpers.connected? do
 
   include_context 'spec/support/ModelHelper'
   include_context 'spec/support/RouteHelper'
@@ -15,16 +15,12 @@ describe Lynr::Controller::AdminVin do
   let(:full_uri) { "https://#{domain}#{uri}" }
 
   before(:each) do
-    Lynr::Queue::JobQueue.any_instance.stub(:publish) do |job, opts|
-      self
-    end
-
     DataOne::Api.any_instance.stub(:fetch_dataone) do |vin|
       File.read('spec/data/1HGEJ6229XL063838.xml').gsub('1HGEJ6229XL063838', vin)
     end
   end
 
-  context 'POST /admin/:slug/:vehicle/edit' do
+  context 'POST /admin/:slug/vin/search' do
 
     let(:route_method) { [:search, 'POST'] }
     let(:env_opts) {
@@ -35,7 +31,8 @@ describe Lynr::Controller::AdminVin do
       }
     }
 
-    it_behaves_like 'Lynr::Controller::Base#valid_request', 302 if MongoHelpers.connected?
+    it_behaves_like 'Lynr::Controller::Base#valid_request', 302
+    it { expect(response_headers['Location']).to match(%r(/admin/#{saved_empty_dealership.id}/[^/]*/edit)) }
 
   end
 

@@ -4,7 +4,7 @@ require './spec/lib/lynr/controller/base_specs_shared'
 
 require './lib/lynr/controller/admin/vehicle/edit'
 
-describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?) do
+describe Lynr::Controller::Admin::Vehicle::Edit, if: MongoHelpers.connected? do
 
   include_context 'spec/support/ModelHelper'
   include_context 'spec/support/RouteHelper'
@@ -18,7 +18,9 @@ describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?
 
     let(:route_method) { [:get_edit_vehicle, 'GET'] }
 
-    it_behaves_like 'Lynr::Controller::Base#valid_request' if MongoHelpers.connected?
+    it_behaves_like 'Lynr::Controller::Base#valid_request'
+    it { expect(response_body_document).to have_element('div.vehicle-photos') }
+    it { expect(response_body_document).to have_element('form.vehicle-edit') }
 
   end
 
@@ -29,7 +31,8 @@ describe Lynr::Controller::Admin::Vehicle::Edit, :if => (MongoHelpers.connected?
       super().merge(params: { 'vin[ext_color]' => 'silver' })
     }
 
-    it_behaves_like 'Lynr::Controller::Base#valid_request', 302 if MongoHelpers.connected?
+    it_behaves_like 'Lynr::Controller::Base#valid_request', 302
+    it { expect(response_headers['Location']).to match(%r(/admin/#{saved_empty_dealership.id}/[^/]*/edit)) }
 
   end
 
