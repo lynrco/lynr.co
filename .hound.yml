@@ -4,9 +4,19 @@ Blocks:
 BracesAroundHashParameters:
   Enabled: false
 
+EmptyLinesAroundBody:
+  Enabled: false
+
 LineLength:
   Description: 'Limit lines to 115 characters.'
   Max: 115
 
+PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%r': ()
+
 SpaceInsideBrackets:
   Enabled: false
+
+TrailingComma:
+  EnforcedStyleForMultiline: comma
