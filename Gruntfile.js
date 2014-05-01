@@ -113,7 +113,7 @@ module.exports = function(grunt) {
     },
     watch: {
       almond: {
-        files: 'public/js/**/*.js',
+        files: ['public/js/**/*.js', '!public/js/built/main.js'],
         tasks: ['build-almond']
       },
       less: {
