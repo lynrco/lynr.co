@@ -1,12 +1,31 @@
+# Rubocop defaults
+# https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+#
+# Rubocop defaults enabled
+# https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+#
+# Rubocop defaults from Hound
+# https://github.com/thoughtbot/hound/blob/master/config/rubocop.yml
+#
 Blocks:
   Enabled: false
 
 BracesAroundHashParameters:
   Enabled: false
 
+EmptyLinesAroundBody:
+  Enabled: false
+
 LineLength:
   Description: 'Limit lines to 115 characters.'
   Max: 115
 
+PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%r': ()
+
 SpaceInsideBrackets:
   Enabled: false
+
+TrailingComma:
+  EnforcedStyleForMultiline: comma

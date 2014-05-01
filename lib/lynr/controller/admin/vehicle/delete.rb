@@ -23,8 +23,7 @@ module Lynr::Controller
 
     def post_delete_vehicle(req)
       posted['deleted_at'] = Time.now
-      vehicle = vehicle_dao.save(@vehicle.set(posted))
-      Lynr.producer('job').publish(Lynr::Queue::IndexVehicleJob.new(vehicle))
+      save_vehicle(@vehicle.set(posted))
       # `@back_uri` is set in `Lynr::Controller::Admin::Vehicle`
       redirect @back_uri
     end
