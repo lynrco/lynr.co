@@ -13,3 +13,9 @@
 #
 dealership.created:
   - type: Lynr::Events::Handler::Logger
+dealership.created.demo:
+  - type: Lynr::Events::Handler::Logger
+vehicle.deleted:
+  - type: Lynr::Events::Handler::Logger
+error.internal:
+  - type: Lynr::Events::Handler::Logger

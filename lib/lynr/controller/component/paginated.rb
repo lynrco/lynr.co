@@ -16,7 +16,7 @@ module Lynr::Controller
     # ## `Paginated::SPREAD`
     #
     # The spread of page numbers to display in the style of
-    # {current page}-SPREAD..{current page}+SPREAD as long as the
+    # `current page`-SPREAD..`current page`+SPREAD as long as the
     # computed page numbers do not exceed the minimum page (1) and
     # maximum page (#last_page).
     #
