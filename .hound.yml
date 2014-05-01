@@ -1,3 +1,12 @@
+# Rubocop defaults
+# https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+#
+# Rubocop defaults enabled
+# https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+#
+# Rubocop defaults from Hound
+# https://github.com/thoughtbot/hound/blob/master/config/rubocop.yml
+#
 Blocks:
   Enabled: false
 
