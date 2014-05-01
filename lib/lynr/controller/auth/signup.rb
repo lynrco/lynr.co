@@ -84,13 +84,21 @@ module Lynr::Controller
         render template_path()
       end
 
-    # ## `Auth::Signup#notify(req, dealership)`
+    # ## `Auth::Signup#notify(evt, req, dealership)`
     #
-    # Store `dealership` in session for `req` and `#emit` the
-    # 'dealership.created' event.
+    # Internal: Store `dealership` in session for `req` and `#emit` the
+    # `evt` with `req.cookies` from `req` and `dealership.id` from
+    # `dealership`.
     #
-    def notify(req, dealership)
-      Lynr::Events.emit(type: 'dealership.created',
+    # * evt        - `String` name of event type to be `#emit`ted.
+    # * req        - `Rack::Request` from which cookies can be extracted.
+    # * dealership - `Lynr::Model::Dealership` to which this event
+    #                pertains.
+    #
+    # Returns `dealership.id`.
+    #
+    def notify(evt, req, dealership)
+      Lynr::Events.emit(type: evt,
           dealership_id: dealership.id.to_s, cookies: req.cookies)
       req.session['dealer_id'] = dealership.id
     end
@@ -128,7 +136,7 @@ module Lynr::Controller
           customer = create_customer(identity)
           # Create and Save dealership
           dealer = create_dealership(identity, customer)
-          notify(req, dealer)
+          notify('dealership.created', req, dealer)
           # Send to admin pages?
           send_to_next(req) || send_to_admin(req, dealer)
         end
@@ -194,7 +202,7 @@ module Lynr::Controller
         identity = Lynr::Model::Identity.new(@posted['email'], @posted['email'])
         # Create and Save dealership
         dealer = create_dealership(identity, nil)
-        notify(req, dealer)
+        notify('dealership.created.demo', req, dealer)
         # Send to admin pages?
         send_to_next(req) || send_to_admin(req, dealer)
       rescue Lynr::Persist::MongoUniqueError
