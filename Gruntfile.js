@@ -116,9 +116,17 @@ module.exports = function(grunt) {
         files: ['public/js/**/*.js', '!public/js/built/main.js'],
         tasks: ['build-almond']
       },
+      icons: {
+        files: 'public/img/icon/*.png',
+        tasks: ['less:development']
+      },
       less: {
         files: 'public/less/**/*.less',
         tasks: ['less:development']
+      },
+      svg: {
+        files: 'public/svg/**/*.max.svg',
+        tasks: ['svgmin', 'less:development'],
       }
     }
   });
