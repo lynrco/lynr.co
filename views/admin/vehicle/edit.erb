@@ -23,9 +23,15 @@
           </a>
           <%- else -%>
           <a href="/admin/<%= @dealership.slug %>/<%= @vehicle.slug %>/photos" class="vehicle-photos-inner vehicle-photos-single">
-            <img class="vehicle-image <%= @vehicle.image.empty? && "vehicle-image-empty" %>"
+            <%- if @vehicle.image.empty? -%>
+            <img class="vehicle-image vehicle-image-empty"
+                 src="<%= asset_path %>/img/blank-75x25.gif"
+                 alt="Manage vehicle photos" />
+            <%- else -%>
+            <img class="vehicle-image"
                  src="<%= @vehicle.image.thumb.url %>"
                  alt="Manage vehicle photos" />
+            <%- end -%>
           </a>
           <%- end -%>
         </div>
