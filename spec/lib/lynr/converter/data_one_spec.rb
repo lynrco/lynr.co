@@ -47,30 +47,12 @@ describe Lynr::Converter::DataOne do
           expect(vin.drivetrain).to eq(query_response.find("#{path}//drive_type").first.content)
         end
 
-        it "creates a Vin with ext_colors from XML" do
-          ext_colors = query_response.find("#{path}//exterior_colors//generic_color_name").map { |el|
-            el.content
-          }
-          # NOTE: This is necessary because of a quirk in VIN creation. In order
-          # to create 'empty' VINs nil/empty properties are deleted.
-          if (ext_colors.length > 0)
-            expect(vin.ext_color).to eq(ext_colors.join(', '))
-          else
-            expect(vin.ext_color).to be_nil
-          end
+        it "creates a Vin without ext_color information" do
+          expect(vin.ext_color).to be_nil
         end
 
-        it "creates a Vin with int_colors from XML" do
-          int_colors = query_response.find("#{path}//interior_colors//generic_color_name").map { |el|
-            el.content
-          }
-          # NOTE: This is necessary because of a quirk in VIN creation. In order
-          # to create 'empty' VINs nil/empty properties are deleted.
-          if (int_colors.length > 0)
-            expect(vin.int_color).to eq(int_colors.join(', '))
-          else
-            expect(vin.int_color).to be_nil
-          end
+        it "creates a Vin without int_color information" do
+          expect(vin.int_color).to be_nil
         end
 
         it "creates a Vin with a number from XML" do
