@@ -65,8 +65,6 @@ module Lynr; module Converter;
         'fuel' => content(us_data, './/fuel_type'),
         'doors' => content(us_data, './/doors'),
         'drivetrain' => content(us_data, './/drive_type'),
-        'ext_color' => get_color_data(us_data, 'ext'),
-        'int_color' => get_color_data(us_data, 'int'),
         'number' => query_response['identifier'],
         'raw' => query_response.to_s
       )

@@ -29,7 +29,7 @@ module Lynr::Controller
       posted['mpg'] = Lynr::Model::Mpg.inflate(posted['mpg'])
       posted['vin'] = @vehicle.vin.set(posted['vin'])
       save_vehicle(@vehicle.set(posted))
-      redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}/edit"
+      redirect "/admin/#{@dealership.slug}/#{@vehicle.slug}"
     end
 
   end

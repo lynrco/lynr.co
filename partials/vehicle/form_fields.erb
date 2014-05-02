@@ -9,11 +9,11 @@
                    value="<%= posted.fetch('vin', default={})['year'] %>" />
             <label for="make">Make</label>
             <input class="fs-full <%= error_class('make') %>" type="text"
-                   name="vin[make]" id="make" placeholder="Make"
+                   name="vin[make]" id="make" placeholder="Make" autocapitalize="on"
                    value="<%= posted.fetch('vin', default={})['make'] %>" />
             <label for="model">Model</label>
             <input class="fs-full <%= error_class('model') %>" type="text"
-                   name="vin[model]" id="model" placeholder="Model"
+                   name="vin[model]" id="model" placeholder="Model" autocapitalize="on"
                    value="<%= posted.fetch('vin', default={})['model'] %>" />
             <label for="mileage">Mileage</label>
             <input class="fs-full <%= error_class('mileage') %>" type="text" pattern="\d*"
@@ -88,10 +88,10 @@
             <hr class="fs-break" />
             <label for="vin-ext_color">Exterior Color</label>
             <input class="fs-half <%= error_class('ext_color') %>" type="text"
-                   name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color"
+                   name="vin[ext_color]" id="vin-ext_color" placeholder="Exterior Color" autocapitalize="on"
                    value="<%= posted.fetch('vin', default={})['ext_color'] %>" />
             <label for="vin-int_color">Interior Color</label>
             <input class="fs-half <%= error_class('int_color') %>" type="text"
-                   name="vin[int_color]" id="vin-int_color" placeholder="Interior Color"
+                   name="vin[int_color]" id="vin-int_color" placeholder="Interior Color" autocapitalize="on"
                    value="<%= posted.fetch('vin', default={})['int_color'] %>" />
           </fieldset>

@@ -32,7 +32,10 @@ describe Lynr::Controller::Admin::Vehicle::Edit, if: MongoHelpers.connected? do
     }
 
     it_behaves_like 'Lynr::Controller::Base#valid_request', 302
-    it { expect(response_headers['Location']).to match(%r(/admin/#{saved_empty_dealership.id}/[^/]*/edit)) }
+    it {
+      redirect_uri = "/admin/#{saved_empty_dealership.id}/#{saved_empty_vehicle.id}"
+      expect(response_headers['Location']).to eq(redirect_uri)
+    }
 
   end
 
