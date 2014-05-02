@@ -32,7 +32,7 @@ namespace :lynr do
     server = Rack::Handler::WEBrick
     options = {
       :Port => ENV.fetch('PORT', 9393),
-      :Host => '127.0.0.1',
+      :Host => ENV.fetch('HOST', '127.0.0.1'),
       :AccessLog => [],
       :Path => '/'
     }
