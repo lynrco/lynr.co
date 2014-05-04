@@ -33,12 +33,14 @@
   display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   background: rgba(0, 0, 0, 0.9);
 }
-.vehicle-images-active { display: block; }
+.vehicle-images-active { .flex_box(); }
 .vehicle-image-wrap {
-  display: table-cell; width: 100vw; height: 100vh;
-  vertical-align: middle; text-align: center;
+  display: inherit; width: 100vw; height: 100vh;
+  .flex_box_align(center); .flex_box_pack(center);
 }
-.vehicle-image-full { display: none; margin: 0 auto; border: 0; }
+.vehicle-image-full {
+  display: none; margin: 0 auto; border: 0;
+}
 .vehicle-image-active { display: block; }
 /* Vehicle List */
 .vehicles { margin: 1.25rem @margin_width 0; }
