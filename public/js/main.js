@@ -11,8 +11,7 @@
         'modernizr': 'libs/modernizr.custom.79400',
         'promise': 'libs/lie-2.7.0',
         'spinner': 'libs/spin-1.3.2',
-        'stripe': 'libs/stripe-20140426',
-        'underscore': 'libs/underscore-1.3.3'
+        'stripe': 'libs/stripe-20140426'
       }
     },
     shim: {
