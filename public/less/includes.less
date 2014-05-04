@@ -54,6 +54,24 @@
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
+.flex_box() {
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+}
+.flex_box_align(@align) {
+  -webkit-box-align: @align;
+  -moz-box-align: @align;
+  -ms-flex-align: @align;
+  box-align: @align;
+}
+.flex_box_pack(@pack) {
+  -webkit-box-pack: @pack;
+  -moz-box-pack: @pack;
+  -ms-flex-pack: @pack;
+  box-pack: @pack;
+}
 /* Border Radius */
 .border_radius_a(@radius: 6px) {
   border-radius: @radius;
