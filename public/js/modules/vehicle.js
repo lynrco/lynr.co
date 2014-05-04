@@ -94,8 +94,7 @@ define(
       evt.on(thumb, 'click', enterFullscreen.bind(full));
     }
 
-    //return init;
-    return function() {};
+    return init;
 
   }
 );
