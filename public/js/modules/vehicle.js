@@ -2,12 +2,14 @@ define(
   ['modules/dom-events', 'modules/data-attrs', 'modules/fastdomp', 'promise'],
   function(evt, data, fastdomp, Promise) {
 
+    var fastdom = fastdomp.fastdom;
+
     function createFullImage(image) {
       return fastdomp.read(function(resolve, reject) {
         var src = data.get(image, 'full-src');
         var imageClass = image.className;
         var imageParent = image.parentElement;
-        fastdomp.o.write(function() {
+        fastdom.write(function() {
           var el = document.createElement('img');
           var wrap = document.createElement('div');
           evt.on(el, 'load', onFullLoaded.bind(el, image));
@@ -37,7 +39,7 @@ define(
     function enterFullscreen(e) {
       var full = this;
       getContainer().then(function(container) {
-        fastdomp.o.write(function() {
+        fastdom.write(function() {
           container.className += ' vehicle-images-active';
           full.className += ' vehicle-image-active';
         });
@@ -46,11 +48,11 @@ define(
 
     function exitFullscreen(e) {
       var full = this;
-      fastdomp.o.read(function() {
+      fastdom.read(function() {
         var container = document.querySelector('.vehicle-images');
         var containerClass = container.className;
         var fullClass = full.className;
-        fastdomp.o.write(function() {
+        fastdom.write(function() {
           container.className = containerClass.replace(/ vehicle-images-active/g, '');
           full.className = fullClass.replace(/ vehicle-image-active/g, '');
         });
@@ -82,7 +84,7 @@ define(
     function init() {
       getVehicleImages().then(getExpandedImages).then(createFullContainer).then(function(imagesDiv) {
         getWrapper().then(function(wrapper) {
-          fastdomp.o.write(function() { wrapper.appendChild(imagesDiv); });
+          fastdom.write(function() { wrapper.appendChild(imagesDiv); });
         });
       }).catch(function(err) { console.log(err); });
     }

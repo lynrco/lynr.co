@@ -15,7 +15,7 @@ define(
     }
 
     return {
-      o: fastdom,
+      fastdom: fastdom,
       read: read,
       write: write
     };
