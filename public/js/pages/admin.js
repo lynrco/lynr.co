@@ -5,7 +5,8 @@ define(function(require) {
     account: initAccount,
     billing: initBilling,
     'vehicle-add': initVehicleForm,
-    'vehicle-edit': initVehicleForm
+    'vehicle-edit': initVehicleForm,
+    'vehicle-view': initVehicleView
   };
 
   function init() {
@@ -63,6 +64,10 @@ define(function(require) {
         do { styleSelect(selects[--i]); } while (i)
       }
     );
+  }
+
+  function initVehicleView() {
+    require(['modules/vehicle'], function(vehicle) { vehicle(); });
   }
 
   return api;
