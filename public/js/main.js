@@ -5,7 +5,7 @@
       '*': {
         'domReady': 'libs/domReady-2.0.0',
         'fastdom': 'libs/fastdom-0.8.4',
-        'jquery': 'libs/jquery-1.10.2.min',
+        'jquery': 'libs/jquery-2.1.1',
         'jquery.transloadit': 'libs/jquery.transloadit2-v2.4.0',
         'mixpanel': 'modules/mixpanel',
         'modernizr': 'libs/modernizr.custom.45012',
@@ -15,7 +15,7 @@
       }
     },
     shim: {
-      'libs/jquery-1.10.2.min': {
+      'libs/jquery-2.1.1': {
         exports: 'jQuery'
       },
       'libs/jquery.transloadit2-v2.4.0': {
