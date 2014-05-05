@@ -17,8 +17,8 @@
     "requirejs": "^2.1.11"
   },
   "scripts": {
-    "grunt": "node_modules/.bin/grunt",
-    "build": "node_modules/.bin/grunt heroku",
+    "grunt": "grunt",
+    "build": "grunt heroku",
     "postinstall": "npm run-script build"
   }
 }
