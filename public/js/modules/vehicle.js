@@ -3,6 +3,7 @@ define(
   function(evt, data, fastdomp, assetPath) {
 
     var fastdom = fastdomp.fastdom;
+    var Promise = fastdomp.promise;
 
     // Returns Promise
     function createFullImage(image) {
