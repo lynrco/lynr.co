@@ -110,7 +110,7 @@ module Lynr; module Persist;
         index_options([:background, :unique])
       )
       @dao.collection.ensure_index([['customer_id', Mongo::ASCENDING]], index_options)
-      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], index_options([]))
+      @dao.collection.ensure_index([['slug', Mongo::ASCENDING]], index_options)
       @indexed = true
     end
 
