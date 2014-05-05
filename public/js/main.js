@@ -35,12 +35,11 @@
   });
 
   require(['modernizr'], function(modernizr) { /* nothing to see here */ });
-  require(['modules/grunticon', 'modules/data-attrs'], function(grunticon, data) {
-    var assetPath = data.get(document.body, 'asset-path');
+  require(['modules/grunticon', 'modules/asset-path'], function(grunticon, assetPath) {
     grunticon([
-      assetPath + "/css/icons.data.svg.css",
-      assetPath + "/css/icons.data.png.css",
-      assetPath + "/css/icons.fallback.css"
+      assetPath() + "/css/icons.data.svg.css",
+      assetPath() + "/css/icons.data.png.css",
+      assetPath() + "/css/icons.fallback.css"
     ]);
   });
   require(['domReady'], function(domready) {

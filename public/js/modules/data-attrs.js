@@ -24,8 +24,14 @@ define(function() {
     return value;
   }
 
+  function setData(node, name, value) {
+    if (node.dataset) { node.dataset[camelCase(name)] = value; }
+    else if (node.setAttribute) { node.setAttribute('data-' + name, value); }
+  }
+
   var api = {
-    get: getData
+    get: getData,
+    set: setData
   };
 
   return api;
