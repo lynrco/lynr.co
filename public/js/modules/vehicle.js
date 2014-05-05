@@ -88,7 +88,6 @@ define(
     }
 
     function initModals() {
-      console.log('initModals');
       getVehicleImages().then(getExpandedImages).then(createFullContainer).then(function(imagesDiv) {
         getWrapper().then(function(wrapper) {
           fastdom.write(function() { wrapper.appendChild(imagesDiv); });
