@@ -1,6 +1,6 @@
 define(
-  ['modules/dom-events', 'modules/data-attrs', 'modules/fastdomp', 'modules/asset-path'],
-  function(evt, data, fastdomp, assetPath) {
+  ['modules/dom-events', 'modules/data-attrs', 'modules/clazz', 'modules/fastdomp', 'modules/asset-path'],
+  function(evt, data, clazz, fastdomp, assetPath) {
 
     var fastdom = fastdomp.fastdom;
     var Promise = fastdomp.promise;
@@ -13,14 +13,12 @@ define(
       evt.on(el, 'click', exitFullscreen.bind(el));
       return fastdomp.read(function(resolve, reject) {
         var src = data.get(image, 'full-src');
-        var imageClass = image.className;
-        var imageParent = image.parentElement;
         fastdom.write(function() {
           el.src = assetPath() + '/img/blank-75x25.gif';
           el.alt = image.alt;
-          el.className = imageClass + ' vehicle-image-full';
+          clazz.add(el, 'vehicle-image-full');
           data.set(el, 'full-src', src);
-          wrap.className = 'vehicle-image-wrap';
+          clazz.add(wrap, 'vehicle-image-wrap');
           wrap.appendChild(el);
           resolve({ thumb: image, full: wrap });
         });
@@ -35,7 +33,7 @@ define(
             return memo.appendChild(image.full) && memo;
           }, document.createElement('div')
         );
-        box.className = 'vehicle-images';
+        clazz.add(box, 'vehicle-images');
         resolve(box);
       });
     }
@@ -43,28 +41,19 @@ define(
     function enterFullscreen(e) {
       var full = this;
       getContainer().then(function(container) {
+        clazz.add(container, 'vehicle-images-active');
+        clazz.add(full, 'vehicle-image-active');
         fastdom.read(function() {
           var src = data.get(full, 'full-src');
-          fastdom.write(function() {
-            container.className += ' vehicle-images-active';
-            full.className += ' vehicle-image-active';
-            full.src = src;
-          });
+          fastdom.write(function() { full.src = src; });
         });
       });
     }
 
     function exitFullscreen(e) {
       var full = this;
-      fastdom.read(function() {
-        var container = document.querySelector('.vehicle-images');
-        var containerClass = container.className;
-        var fullClass = full.className;
-        fastdom.write(function() {
-          container.className = containerClass.replace(/ vehicle-images-active/g, '');
-          full.className = fullClass.replace(/ vehicle-image-active/g, '');
-        });
-      });
+      clazz.remove(full, 'vehicle-image-active');
+      getContainer().then(function(container) { clazz.remove(container, 'vehicle-images-active'); });
     }
 
     // Returns Promise
