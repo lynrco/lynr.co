@@ -16,6 +16,7 @@ define(
 
     return {
       fastdom: fastdom,
+      promise: Promise,
       read: read,
       write: write
     };
