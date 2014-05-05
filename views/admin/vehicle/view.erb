@@ -14,6 +14,7 @@
               -%>
               <img class="vehicle-image"
                    src="<%= image.thumb.url %>"
+                   data-full-src="<%= image.full.url %>"
                    alt="" />
               <%-
                 end
@@ -29,6 +30,7 @@
               <%- else -%>
               <img class="vehicle-image"
                    src="<%= @vehicle.image.thumb.url %>"
+                   data-full-src="<%= @vehicle.image.full.url %>"
                    alt="" />
               <%- end -%>
             </span>

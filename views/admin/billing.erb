@@ -23,7 +23,7 @@
           </fieldset>
           <input type="hidden" name="stripeToken" id="stripeToken" value="" />
           <button class="btn btn-half btn-positive" type="submit">Update Billing Information</button>
-          <a class="btn btn-half btn-negative" href="#cancel">Cancel</a>
+          <a class="btn btn-half btn-negative m-billing-toggle" href="#cancel">Cancel</a>
         </form>
         <div class="m-billing <%= if !has_errors? then "m-billing-active" end %>">
           <div class="fs">
@@ -54,7 +54,9 @@
             </p>
             <p id="card_cvv" class="fs-half fs-input">***</p>
           </div>
-          <a class="btn btn-full btn-positive" href="#edit" type="submit">Edit Billing Information</a>
+          <a class="btn btn-full btn-positive m-billing-toggle" href="#edit" type="submit">
+            Edit Billing Information
+          </a>
           <p class="account-link">
             <a href="/admin/<%= @dealership.slug %>/account/cancel">Cancel Account</a>
           </p>

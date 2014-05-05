@@ -138,7 +138,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-svgmin');
 
-  grunt.registerTask('default', ['less:development', 'build-almond', 'watch']);
+  grunt.registerTask('default', ['svgmin', 'less:development', 'build-almond', 'watch']);
   grunt.registerTask('heroku', [
     'svgmin', 'less:production', 'build-almond', 'build', 'copy', 'compress', 'concat'
   ]);
