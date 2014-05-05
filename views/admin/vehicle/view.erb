@@ -41,12 +41,16 @@
             <%= "$#{Lynr::Converter::NumberTranslator.delimit(@vehicle.price)}" %>
           </p>
           <ul class="vehicle-properties">
-            <li class="vehicle-property"><strong>
-              <%= Lynr::Converter::VehicleTranslator.condition(@vehicle.condition) %>
-            </strong></li>
-            <li class="vehicle-property"><strong>
-              <%= Lynr::Converter::NumberTranslator.delimit(@vehicle.mileage) %> Miles
-            </strong></li>
+            <li class="vehicle-property">
+              <strong>
+                <%= Lynr::Converter::VehicleTranslator.condition(@vehicle.condition) %>
+              </strong>
+            </li>
+            <li class="vehicle-property">
+              <strong>
+                <%= Lynr::Converter::NumberTranslator.delimit(@vehicle.mileage) %> Miles
+              </strong>
+            </li>
             <li class="vehicle-property">
               <%= Lynr::Converter::VinTranslator.transmission_type(@vehicle.vin.transmission) %>
             </li>
