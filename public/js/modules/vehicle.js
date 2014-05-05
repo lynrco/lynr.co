@@ -1,6 +1,6 @@
 define(
-  ['modules/dom-events', 'modules/data-attrs', 'modules/fastdomp', 'promise'],
-  function(evt, data, fastdomp, Promise) {
+  ['modules/dom-events', 'modules/data-attrs', 'modules/fastdomp', 'modules/asset-path'],
+  function(evt, data, fastdomp, assetPath) {
 
     var fastdom = fastdomp.fastdom;
 
@@ -15,9 +15,10 @@ define(
         var imageClass = image.className;
         var imageParent = image.parentElement;
         fastdom.write(function() {
-          el.src = src;
+          el.src = assetPath() + '/img/blank-75x25.gif';
           el.alt = image.alt;
           el.className = imageClass + ' vehicle-image-full';
+          data.set(el, 'full-src', src);
           wrap.className = 'vehicle-image-wrap';
           wrap.appendChild(el);
           resolve({ thumb: image, full: wrap });
@@ -41,9 +42,13 @@ define(
     function enterFullscreen(e) {
       var full = this;
       getContainer().then(function(container) {
-        fastdom.write(function() {
-          container.className += ' vehicle-images-active';
-          full.className += ' vehicle-image-active';
+        fastdom.read(function() {
+          var src = data.get(full, 'full-src');
+          fastdom.write(function() {
+            container.className += ' vehicle-images-active';
+            full.className += ' vehicle-image-active';
+            full.src = src;
+          });
         });
       });
     }
