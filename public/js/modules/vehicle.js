@@ -15,9 +15,11 @@ define(
       evt.on(el, 'click', exitFullscreen.bind(el));
       return fastdomp.read(function(resolve, reject) {
         var src = data.get(image, 'full-src');
+        var imageClass = image.className;
         fastdom.write(function() {
           el.src = assetPath() + '/img/blank-75x25.gif';
           el.alt = image.alt;
+          el.className = imageClass;
           clazz.add(el, 'vehicle-image-full');
           data.set(el, 'full-src', src);
           clazz.add(wrap, 'vehicle-image-wrap');
