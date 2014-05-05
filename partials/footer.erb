@@ -1,2 +1,11 @@
     <footer>
+      <%- if !@vehicle.nil? && !@vehicle.vin.number.nil? -%>
+      <p class="copyright copyright-dataone">
+        &copy; Certain automotive content displayed within this website, Copyright
+        <a href="http://www.dataonesoftware.com">DataOne Software</a> and are
+        protected under the United States and international copyright law. Any
+        unauthorized use, reproduction, distribution, recording or modification
+        of this content is strictly prohibited.
+      </p>
+      <%- end -%>
     </footer>
