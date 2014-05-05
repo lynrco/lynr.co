@@ -1,8 +1,17 @@
 define(
-  ['modules/dom-events', 'modules/data-attrs', 'modules/fastdomp', 'promise'],
-  function(evt, data, fastdomp, Promise) {
+  [
+    'modules/dom-events',
+    'modules/data-attrs',
+    'modules/clazz',
+    'modules/fastdomp',
+    'modules/asset-path'
+  ],
+  function(evt, data, clazz, fastdomp, assetPath) {
 
     var fastdom = fastdomp.fastdom;
+    var Promise = fastdomp.promise;
+
+    var containerPromise = false;
 
     // Returns Promise
     function createFullImage(image) {
@@ -13,12 +22,13 @@ define(
       return fastdomp.read(function(resolve, reject) {
         var src = data.get(image, 'full-src');
         var imageClass = image.className;
-        var imageParent = image.parentElement;
         fastdom.write(function() {
-          el.src = src;
+          el.src = assetPath() + '/img/blank-75x25.gif';
           el.alt = image.alt;
-          el.className = imageClass + ' vehicle-image-full';
-          wrap.className = 'vehicle-image-wrap';
+          el.className = imageClass;
+          clazz.add(el, 'vehicle-image-full');
+          data.set(el, 'full-src', src);
+          clazz.add(wrap, 'vehicle-image-wrap');
           wrap.appendChild(el);
           resolve({ thumb: image, full: wrap });
         });
@@ -33,7 +43,7 @@ define(
             return memo.appendChild(image.full) && memo;
           }, document.createElement('div')
         );
-        box.className = 'vehicle-images';
+        clazz.add(box, 'vehicle-images');
         resolve(box);
       });
     }
@@ -41,31 +51,29 @@ define(
     function enterFullscreen(e) {
       var full = this;
       getContainer().then(function(container) {
-        fastdom.write(function() {
-          container.className += ' vehicle-images-active';
-          full.className += ' vehicle-image-active';
+        clazz.add(container, 'vehicle-images-active');
+        clazz.add(full, 'vehicle-image-active');
+        fastdom.read(function() {
+          var src = data.get(full, 'full-src');
+          fastdom.write(function() { full.src = src; });
         });
       });
     }
 
     function exitFullscreen(e) {
       var full = this;
-      fastdom.read(function() {
-        var container = document.querySelector('.vehicle-images');
-        var containerClass = container.className;
-        var fullClass = full.className;
-        fastdom.write(function() {
-          container.className = containerClass.replace(/ vehicle-images-active/g, '');
-          full.className = fullClass.replace(/ vehicle-image-active/g, '');
-        });
-      });
+      clazz.remove(full, 'vehicle-image-active');
+      getContainer().then(function(container) { clazz.remove(container, 'vehicle-images-active'); });
     }
 
     // Returns Promise
     function getContainer() {
-      return fastdomp.read(function(resolve, reject) {
-        resolve(document.querySelector('.vehicle-images'));
-      });
+      if (!containerPromise) {
+        containerPromise = fastdomp.read(function(resolve, reject) {
+          resolve(document.querySelector('.vehicle-images'));
+        });
+      }
+      return containerPromise;
     }
 
     // Returns Promise
