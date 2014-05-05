@@ -1,5 +1,11 @@
 define(
-  ['modules/dom-events', 'modules/data-attrs', 'modules/clazz', 'modules/fastdomp', 'modules/asset-path'],
+  [
+    'modules/dom-events',
+    'modules/data-attrs',
+    'modules/clazz',
+    'modules/fastdomp',
+    'modules/asset-path'
+  ],
   function(evt, data, clazz, fastdomp, assetPath) {
 
     var fastdom = fastdomp.fastdom;
