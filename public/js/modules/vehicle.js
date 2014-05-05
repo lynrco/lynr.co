@@ -4,16 +4,17 @@ define(
 
     var fastdom = fastdomp.fastdom;
 
+    // Returns Promise
     function createFullImage(image) {
+      var el = document.createElement('img');
+      var wrap = document.createElement('div');
+      evt.on(el, 'load', onFullLoaded.bind(el, image));
+      evt.on(el, 'click', exitFullscreen.bind(el));
       return fastdomp.read(function(resolve, reject) {
         var src = data.get(image, 'full-src');
         var imageClass = image.className;
         var imageParent = image.parentElement;
         fastdom.write(function() {
-          var el = document.createElement('img');
-          var wrap = document.createElement('div');
-          evt.on(el, 'load', onFullLoaded.bind(el, image));
-          evt.on(el, 'click', exitFullscreen.bind(el));
           el.src = src;
           el.alt = image.alt;
           el.className = imageClass + ' vehicle-image-full';
@@ -24,6 +25,7 @@ define(
       });
     }
 
+    // Returns Promise
     function createFullContainer(images) {
       return fastdomp.write(function(resolve, reject) {
         var box = images.reduce(
@@ -59,29 +61,34 @@ define(
       });
     }
 
+    // Returns Promise
     function getContainer() {
       return fastdomp.read(function(resolve, reject) {
         resolve(document.querySelector('.vehicle-images'));
       });
     }
 
+    // Returns Promise
     function getExpandedImages(images) {
       return Promise.all(images.map(createFullImage))
     }
 
+    // Returns Promise
     function getVehicleImages() {
       return fastdomp.read(function(resolve, reject) {
         resolve(Array.prototype.slice.call(document.querySelectorAll('.vehicle-image')));
       });
     }
 
+    // Returns Promise
     function getWrapper() {
       return fastdomp.read(function(resolve, reject) {
         resolve(document.querySelector('.window'));
       });
     }
 
-    function init() {
+    function initModals() {
+      console.log('initModals');
       getVehicleImages().then(getExpandedImages).then(createFullContainer).then(function(imagesDiv) {
         getWrapper().then(function(wrapper) {
           fastdom.write(function() { wrapper.appendChild(imagesDiv); });
@@ -89,12 +96,31 @@ define(
       }).catch(function(err) { console.log(err); });
     }
 
+    function initViews() {
+      if (typeof window.DeviceOrientationEvent === 'undefined') { return; }
+      evt.on(window, 'orientationchange', onOrientationChange);
+    }
+
     function onFullLoaded(thumb, e) {
       var full = this;
       evt.on(thumb, 'click', enterFullscreen.bind(full));
     }
 
-    return init;
+    function onOrientationChange(e) {
+      fastdomp.read(function(resolve) {
+        var node = document.querySelector('.vehicle-photos-inner');
+        resolve({ node: node, display: node.style.display });
+      }).then(function(inner) {
+        fastdom.write(function() {
+          inner.node.style.display = inner.display === 'inline-block' ? 'block' : 'inline-block';
+        });
+      }).catch(function(err) { console.log(err); });
+    }
+
+    return {
+      initModals: initModals,
+      initViews: initViews
+    };
 
   }
 );
