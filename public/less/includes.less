@@ -12,6 +12,7 @@
 @brand_color_dark: #8c1c17;
 @brand_color_contrast_light: #5ff4bc;
 @brand_color_contrast_dark: #08bf46;
+/* Text Effects */
 .depth(@padding:50px) {
   position: relative; padding: @padding;
 
@@ -20,6 +21,7 @@
     color: transparent; text-shadow: rgba(255,255,255,0.1) 0px 0px 1.5px;
   }
 }
+/* Gradients */
 .linear_gradient(@start, @stop, @color:~'transparent') {
   background: #fff; /* Old browsers */
   background: @color linear-gradient(to bottom, @start 0%,@stop 100%); /* W3C */
@@ -30,6 +32,7 @@
   background: @color -o-linear-gradient(top, @start 0%,@stop 100%); /* Opera 11.10+ */
   filter: %("progid:DXImageTransform.Microsoft.gradient( startColorstr='%t', endColorstr='%p',GradientType=0 );", @start, @stop) /* IE6-9 */
 }
+/* Shadows and Glow */
 .box_shadow(@xoff, @yoff, @blur, @spread, @color, @inset:~'') {
   box-shadow: @inset @xoff @yoff @blur @spread @color;
   -webkit-box-shadow: @inset @xoff @yoff @blur @spread @color;
@@ -43,6 +46,7 @@
 .inner_glow(@color, @blur:2px, @spread:2px) {
   .box_shadow(0px, 0px, @blur, @spread, @color, inset);
 }
+/* Layout */
 .border_box() {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -50,6 +54,25 @@
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
+.flex_box() {
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+}
+.flex_box_align(@align) {
+  -webkit-box-align: @align;
+  -moz-box-align: @align;
+  -ms-flex-align: @align;
+  box-align: @align;
+}
+.flex_box_pack(@pack) {
+  -webkit-box-pack: @pack;
+  -moz-box-pack: @pack;
+  -ms-flex-pack: @pack;
+  box-pack: @pack;
+}
+/* Border Radius */
 .border_radius_a(@radius: 6px) {
   border-radius: @radius;
   -moz-border-radius: @radius;
@@ -60,12 +83,14 @@
   -moz-border-radius: @tl @tr @br @bl;
   -webkit-border-radius: @tl @tr @br @bl;
 }
+/* Backgrounds */
 .bg(@path, @hpos:left, @vpos:top) {
   background: url("../img/@{path}") no-repeat @hpos @vpos;
 }
 .txt-replace(@width, @height, @path) {
   width: @width; height: @height; text-indent: -9999px; overflow: hidden; .bg(@path);
 }
+/* Clearfix */
 .clearfix() {
   &:after {
     content: ' '; display: block; position: relative; height: 0;

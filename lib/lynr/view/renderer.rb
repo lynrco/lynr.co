@@ -37,6 +37,19 @@ module Lynr::View
       @template = template
     end
 
+    # ## `Base#asset_path`
+    #
+    # Public: Get the asset prefix out of configuration and make it
+    # available to rendering context by way of controller instances.
+    # Since views are rendered in the context of their controller this
+    # value/method will always be available.
+    #
+    # Returns String path to prepend to an asset url (image, JS, CSS).
+    #
+    def asset_path
+      Lynr.config('app').assets
+    end
+
     # ## `Renderer#ctx`
     #
     # Provide access to the `Kernel::Binding` for this instance.
