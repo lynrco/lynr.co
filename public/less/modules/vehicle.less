@@ -12,7 +12,9 @@
          it is where the information about the number of images in the
          container can be found. */
 .vehicle-photos-inner { display: block; max-width: 700vw; .clearfix(); }
-.vehicle-photos .vehicle-image { display: block; float: left; margin-left: 1.6vw; max-width: 93.75vw; }
+.vehicle-photos .vehicle-image {
+  display: block; float: left; margin-left: 1.6vw; max-width: (100vw - @margin_width*2);
+}
 .vehicle-photos .vehicle-image:first-child { margin-left: 3.125vw; }
 .vehicle-photos .vehicle-image:last-child { margin-right: 3.125vw; }
 .vehicle-name, .vehicle-price, .vehicle-properties { padding: 0 @margin_width; }
