@@ -66,8 +66,16 @@ define(function(require) {
     );
   }
 
+  function initVehicleEdit() {
+    initVehicleForm();
+    require(['modules/vehicle'], function(vehicle) { vehicle.initViews(); });
+  }
+
   function initVehicleView() {
-    require(['modules/vehicle'], function(vehicle) { vehicle(); });
+    require(['modules/vehicle'], function(vehicle) {
+      vehicle.initModals();
+      vehicle.initViews();
+    });
   }
 
   return api;
