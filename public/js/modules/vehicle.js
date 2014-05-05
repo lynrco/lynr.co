@@ -5,6 +5,8 @@ define(
     var fastdom = fastdomp.fastdom;
     var Promise = fastdomp.promise;
 
+    var containerPromise = false;
+
     // Returns Promise
     function createFullImage(image) {
       var el = document.createElement('img');
@@ -58,9 +60,12 @@ define(
 
     // Returns Promise
     function getContainer() {
-      return fastdomp.read(function(resolve, reject) {
-        resolve(document.querySelector('.vehicle-images'));
-      });
+      if (!containerPromise) {
+        containerPromise = fastdomp.read(function(resolve, reject) {
+          resolve(document.querySelector('.vehicle-images'));
+        });
+      }
+      return containerPromise;
     }
 
     // Returns Promise
