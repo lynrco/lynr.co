@@ -34,16 +34,10 @@ define(function(require) {
       function(evt, clazz, setupStripeForm) {
         var form = document.querySelector('form.m-billing');
         var div = document.querySelector('div.m-billing');
+        var toggleActive = toggleActiveBilling.bind(this, evt, clazz, form, div);
         setupStripeForm(form);
-        evt.on(document.querySelector('a.btn-positive'), 'click', toggleActive);
-        evt.on(document.querySelector('a.btn-negative'), 'click', toggleActive);
-
-        function toggleActive(e) {
-          if (clazz.has(form, 'm-billing-demo')) { return; }
-          evt.prevent(e);
-          clazz.toggle(form, 'm-billing-active');
-          clazz.toggle(div, 'm-billing-active');
-        }
+        evt.on(document.querySelector('a.btn-positive.m-billing-toggle'), 'click', toggleActive);
+        evt.on(document.querySelector('a.btn-negative.m-billing-toggle'), 'click', toggleActive);
       }
     );
   }
@@ -76,6 +70,12 @@ define(function(require) {
       vehicle.initModals();
       vehicle.initViews();
     });
+  }
+
+  function toggleActiveBilling(evt, clazz, form, div, e) {
+    evt.prevent(e);
+    clazz.toggle(form, 'm-billing-active');
+    clazz.toggle(div, 'm-billing-active');
   }
 
   return api;
