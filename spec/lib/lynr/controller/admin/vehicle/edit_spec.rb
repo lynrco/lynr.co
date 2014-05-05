@@ -21,6 +21,12 @@ describe Lynr::Controller::Admin::Vehicle::Edit, if: MongoHelpers.connected? do
     it_behaves_like 'Lynr::Controller::Base#valid_request'
     it { expect(response_body_document).to have_element('div.vehicle-photos') }
     it { expect(response_body_document).to have_element('form.vehicle-edit') }
+    it { expect(response_body_document).to_not have_element('footer .copyright-dataone') }
+
+    context 'with vehicle having a VIN' do
+      let(:uri) { "/admin/#{saved_empty_dealership.id}/#{saved_vehicle_with_vin.id}/edit" }
+      it { expect(response_body_document).to have_element('footer .copyright-dataone') }
+    end
 
   end
 
