@@ -19,7 +19,7 @@ gem 'nokogiri',         '1.6.1'
 gem 'premailer',        '1.8.2'
 gem 'rack-ssl',         '1.4.1'
 gem 'rack-timeout',     '0.0.4'
-gem 'stripe',           '1.10.1'
+gem 'stripe',           '1.11.0'
 gem 'yajl-ruby',        '1.2.0'
 
 group :development do
