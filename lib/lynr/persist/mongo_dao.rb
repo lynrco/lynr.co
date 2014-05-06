@@ -26,7 +26,7 @@ module Lynr; module Persist;
     # configration is provided to the constructor.
     #
     MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
-    MongoCollectionOptions = { j: true }
+    MongoCollectionOptions = { }
 
     # ## `Lynr::Persist::MongoDao.new`
     #
