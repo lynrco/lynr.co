@@ -5,7 +5,7 @@ ruby '1.9.3'
 
 gem 'bcrypt',           '3.1.7'
 gem 'bson_ext',         '1.10.0'
-gem 'bunny',            '1.1.3'
+gem 'bunny',            '1.2.1'
 gem 'elasticsearch',    '1.0.1'
 gem 'geocoder',         '1.1.9'
 gem 'georuby',          '2.2.1'
