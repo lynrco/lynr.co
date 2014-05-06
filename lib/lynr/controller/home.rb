@@ -21,7 +21,7 @@ module Lynr; module Controller;
     def initialize
       super
       if Lynr.features.demo?
-        self.send(:extend, Home::Demo)
+        send(:extend, Home::Demo)
       end
     end
 
@@ -42,11 +42,15 @@ module Lynr; module Controller;
       end
     end
 
-    def template_path() 'index.erb' end
+    def template_path
+      'index.erb'
+    end
 
     module Demo
 
-      def template_path() 'demo/index.erb' end
+      def template_path
+        'demo/index.erb'
+      end
 
     end
 
