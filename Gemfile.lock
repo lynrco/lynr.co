@@ -142,7 +142,7 @@ GEM
       json (~> 1.8.1)
       mime-types (~> 1.25)
       rest-client (~> 1.4)
-    stripe-ruby-mock (1.10.1.6)
+    stripe-ruby-mock (1.10.1.7)
       dante (>= 0.2.0)
       jimson-temp
       stripe (>= 1.10.1)
@@ -189,6 +189,6 @@ DEPENDENCIES
   rspec
   shotgun (= 0.9)
   stripe (= 1.10.1)
-  stripe-ruby-mock (= 1.10.1.6)
+  stripe-ruby-mock (= 1.10.1.7)
   unicorn (= 4.8.2)
   yajl-ruby (= 1.2.0)
