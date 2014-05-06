@@ -56,7 +56,7 @@ module Lynr::Cache
     # exists (i.e. `#include(key)` is false) return `default` if given, `nil` otherwise.
     #
     def read(key, default=nil)
-      document = @dao.collection.find_one(selector(key), :read => :secondary)
+      document = @dao.collection.find_one(selector(key))
       if !document.nil?
         document['v']
       else

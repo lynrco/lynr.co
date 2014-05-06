@@ -28,7 +28,7 @@ module Lynr; module Persist;
     # Check to see if `email` is used by an existing account.
     #
     def account_exists?(email)
-      @dao.collection.count(query: { 'identity.email' => email }, read: :secondary, limit: 1) > 0
+      @dao.collection.count(query: { 'identity.email' => email }, limit: 1) > 0
     end
 
     # ## `DealershipDao#delete(id)`
@@ -95,7 +95,7 @@ module Lynr; module Persist;
     end
 
     def slug_exists?(slug)
-      @dao.collection.count(query: { 'slug' => slug }, read: :secondary, limit: 1) > 0
+      @dao.collection.count(query: { 'slug' => slug }, limit: 1) > 0
     end
 
     private
