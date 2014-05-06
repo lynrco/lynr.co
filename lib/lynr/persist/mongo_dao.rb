@@ -26,7 +26,7 @@ module Lynr; module Persist;
     # configration is provided to the constructor.
     #
     MongoDefaults = { 'host' => 'localhost', 'port' => '27017', 'database' => 'lynrco' }
-    MongoCollectionOptions = { }
+    MongoCollectionOptions = { read: :secondary }
 
     # ## `Lynr::Persist::MongoDao.new`
     #
@@ -90,7 +90,7 @@ module Lynr; module Persist;
     # ## Operate on the collection
     #
     def count(query={})
-      collection.count({ query: query, read: :secondary })
+      collection.count({ query: query })
     end
 
     def save(record, id=nil)
