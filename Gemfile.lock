@@ -44,7 +44,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
     formatador (0.2.4)
-    geocoder (1.1.9)
+    geocoder (1.2.0)
     georuby (2.2.1)
     guard (2.6.0)
       formatador (>= 0.2.4)
@@ -163,7 +163,7 @@ DEPENDENCIES
   bunny (= 1.2.1)
   codeclimate-test-reporter
   elasticsearch (= 1.0.1)
-  geocoder (= 1.1.9)
+  geocoder (= 1.2.0)
   georuby (= 2.2.1)
   guard
   guard-bundler
