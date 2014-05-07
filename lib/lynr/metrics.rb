@@ -61,9 +61,10 @@ module Lynr
     # instance.
     #
     def client
-      client = Librato::Metrics::Client.new
-      client.authenticate(config.user, config.token)
-      client
+      return @client unless @client.nil?
+      @client = Librato::Metrics::Client.new
+      @client.authenticate(config.user, config.token)
+      @client
     end
 
     # ## `Metrics#config`
@@ -98,11 +99,47 @@ module Lynr
     #
     def measure(processor, type, measurements)
       processor.add(measurements)
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+    rescue Librato::Metrics::ClientError
+      timeshift(processor)
+    rescue Librato::Metrics::MetricsError => err
       log.warn("type=metrics.#{type} err=#{err.class.to_s} msg=#{err.message}")
-    ensure
-      processor.submit
     end
+
+    # ## `Metrics#timeshift(processor)`
+    #
+    # Internal: When metrics fail to submit and raise a `ClientError`
+    # (rescued in `#measure`) attempt to re-submit the metrics data with
+    # older measurements timeshifted to the oldest allowable collection
+    # time (120 minutes ago). If the submission fails again for any reason
+    # clear the data from `processor` and log the error.
+    #
+    # NOTE: This is basically impossible to test without substantial
+    # mocking, it is side-effects all the way down.
+    #
+    # * processor - `Librato::Metrics::Aggregator` or `Librato::Metrics::Queue`
+    #               containing measurements to be sent to the Librato API
+    #
+    # Returns Boolean result from `Librato::Metrics::Processor#submit`
+    # which is called after `processor` measurements have been
+    # timeshifted and re-added to `processor`.
+    #
+    def timeshift(processor)
+      max_age = (Time.now - (60 * 119)).to_i # Go back just under 120 minutes
+      shifted = processor.queued.fetch(:gauges, []).map do |measurement|
+        measure_time = measurement[:measure_time]
+        if !measure_time.nil? && measure_time < max_age
+          measurement[:measure_time] = max_age
+        end
+        measurement
+      end
+      processor.clear
+      processor.add(shifted)
+      processor.submit
+    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+      log.warn("type=metrics.timeshift err=#{err.class.to_s} msg=#{err.message}")
+      processor.clear
+    end
+
 
     # ## `Metrics#processor_options`
     #

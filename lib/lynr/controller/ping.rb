@@ -1,5 +1,6 @@
 require './lib/lynr/controller'
 require './lib/lynr/controller/base'
+require './lib/lynr/metrics'
 
 module Lynr::Controller
 
@@ -27,7 +28,9 @@ module Lynr::Controller
     # Handler for the '/ping' URI.
     #
     def ping(req)
-      Rack::Response.new('PONG', 200, headers)
+      Lynr.metrics.time('time.render:ping') do
+        Rack::Response.new('PONG', 200, headers)
+      end
     end
 
   end

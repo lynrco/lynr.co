@@ -53,8 +53,7 @@ module Lynr
   # Add a memoized universal accessor for a `Lynr::Metrics` instance.
   #
   def self.metrics
-    return @metrics unless @metrics.nil?
-    @metrics = Lynr::Metrics.new
+    @metrics ||= Lynr::Metrics.new
   end
 
   # ## `Lynr.producer(name)`
