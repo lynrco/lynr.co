@@ -61,9 +61,10 @@ module Lynr
     # instance.
     #
     def client
-      client = Librato::Metrics::Client.new
-      client.authenticate(config.user, config.token)
-      client
+      return @client unless @client.nil?
+      @client = Librato::Metrics::Client.new
+      @client.authenticate(config.user, config.token)
+      @client
     end
 
     # ## `Metrics#config`
