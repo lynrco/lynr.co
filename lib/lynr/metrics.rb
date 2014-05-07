@@ -100,8 +100,6 @@ module Lynr
       processor.add(measurements)
     rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
       log.warn("type=metrics.#{type} err=#{err.class.to_s} msg=#{err.message}")
-    ensure
-      processor.submit
     end
 
     # ## `Metrics#processor_options`
