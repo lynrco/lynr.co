@@ -88,6 +88,19 @@ describe Lynr::Metrics do
 
     end
 
+    describe "#timeshift" do
+      before(:each) do
+        metrics.client.persistence = :test
+      end
+      it "should be true if there are no metrics" do
+        expect(metrics.timeshift(queue)).to be_true
+      end
+      it "should be true if there are metrics" do
+        queue.add({ load: 0.0 })
+        expect(metrics.timeshift(queue)).to be_true
+      end
+    end
+
   end
 
   ['user', 'token', 'source'].each do |key|
