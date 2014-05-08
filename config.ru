@@ -18,7 +18,7 @@ use Rack::Static, :urls => [
     "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
   ], :root => if Lynr.env == 'heroku' then 'out/build' else 'public' end
 use Librato::Rack if Lynr.env == 'heroku' && Lynr.metrics.configured?
-use Rack::Middleware::Timer, app.log unless Lynr.env == 'heroku'
+use Rack::Middleware::Timer, app.log if Lynr.features.rack_timer?
 use Rack::Session::Cookie,  :key          => '_lynr',
                             :domain       => config['domain'],
                             :path         => '/',
