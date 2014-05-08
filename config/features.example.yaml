@@ -8,6 +8,8 @@ demo:           'env:feature_demo'           # (true|false)
 ebay_connect:   'env:feature_ebay_connect'   # (true|false)
 # If on then `use Rack::SSL`
 force_ssl:      'env:feature_force_ssl'      # (true|false)
+# If true then use assets built by NPM in `Rack::Static`
+precompiled:    'env:feature_precompiled'    # (true|false)
 # If true then `use Librato::Rack`
 rack_metrics:   'env:feature_rack_metrics'   # (true|false)
 # If true then `use Rack::Middleware::Timer`
