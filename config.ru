@@ -15,7 +15,7 @@ use Rack::Timeout
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
 use Rack::Static, :urls => [
-    "/css", "/js", "/img", "/favicon.ico", "/robots.txt"
+    '/css', '/html', '/js', '/img', '/favicon.ico', '/robots.txt'
   ], :root => if Lynr.features.precompiled? then 'out/build' else 'public' end
 use Librato::Rack if Lynr.features.rack_metrics? && Lynr.metrics.configured?
 use Rack::Middleware::Timer, app.log if Lynr.features.rack_timer?
