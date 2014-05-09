@@ -31,7 +31,7 @@ module Rack; module Middleware;
       status, headers, @response = @app.call(env)
       stop = Time.now
       elapsed_ms = (stop - start) * 1000
-      @log.info("type=measure.response.elapsed \
+      @log.debug("type=measure.response.elapsed \
 method=#{env['REQUEST_METHOD']} \
 path=#{env['PATH_INFO']} \
 status=#{status} \

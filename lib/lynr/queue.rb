@@ -60,6 +60,7 @@ module Lynr
     # removed from the queue.
     #
     def ack(tag)
+      Lynr.metrics.add("queue.ack:#{name}" => 1)
       channel.ack(tag, false)
     end
 
@@ -91,6 +92,7 @@ module Lynr
       # Duplicate @publish_opts because `Bunny::Exchange#publish` method uses
       # delete to get values
       exchange.publish(msg, @publish_opts.merge(opts))
+      Lynr.metrics.add("queue.publish:#{name}" => 1)
       self
     end
 

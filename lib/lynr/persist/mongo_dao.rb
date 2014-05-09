@@ -46,7 +46,7 @@ module Lynr; module Persist;
     #
     def initialize(config=nil)
       defaults = config || MongoDefaults
-      @config = Lynr.config('database', { 'mongo' => defaults }).mongo
+      @config = Lynr::Config.new('database', Lynr.env, { 'mongo' => defaults }).mongo
       @collection_name = @config['collection']
       @db, @client, @collection = nil
     end

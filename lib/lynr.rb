@@ -13,6 +13,7 @@ module Lynr
   # `Lynr::VERSION` is the current version string for the Lynr application.
   VERSION = '0.0.1'
   PRODUCERS = {}
+  CONFIGS = {}
 
   # ## `Lynr.cache`
   #
@@ -27,8 +28,8 @@ module Lynr
   # Helper method to retrieve a `Lynr::Config` instance based on `type` and
   # `Lynr.env`.
   #
-  def self.config(type, defaults = {})
-    Lynr::Config.new(type, Lynr.env, defaults)
+  def self.config(type)
+    CONFIGS[type] ||= Lynr::Config.new(type, Lynr.env)
   end
 
   # ## `Lynr.env(default)`
