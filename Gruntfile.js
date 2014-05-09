@@ -51,9 +51,10 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'out/dist/css/**/*.css',
+          'out/dist/html/**/*.html',
+          'out/dist/img/**/*.(gif|png|jpg)',
           'out/dist/js/**/*.js',
           'out/dist/svg/**/*.svg',
-          'out/dist/img/**/*.(gif|png|jpg)',
           'out/dist/robots.txt',
           'out/dist/favicon.ico'
         ],
