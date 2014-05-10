@@ -5,6 +5,7 @@ require 'librato-rack'
 
 require './lib/lynr/web'
 require './lib/rack/middleware/logger'
+require './lib/rack/middleware/redirect'
 require './lib/rack/middleware/timer'
 
 app = Lynr::Web.new
@@ -14,9 +15,16 @@ Rack::Timeout.timeout = 5
 use Rack::Timeout
 use Rack::Deflater
 use Rack::SSL if Lynr.features.force_ssl?
-use Rack::Static, :urls => [
-    '/css', '/html', '/js', '/img', '/favicon.ico', '/robots.txt'
-  ], :root => if Lynr.features.precompiled? then 'out/build' else 'public' end
+if !config.assets.nil? && !config.assets.empty?
+  use Rack::Middleware::Redirect, [
+      { test: %r(\A/((css|js|html|img).*)), target: "#{config.assets}/\\1" },
+      { test: %r(\A/(favicon\.ico|robots\.txt)), target: "#{config.assets}/\\1" },
+    ]
+else
+  use Rack::Static, :urls => [
+      '/css', '/html', '/js', '/img', '/favicon.ico', '/robots.txt'
+    ], :root => if Lynr.features.precompiled? then 'out/build' else 'public' end
+end
 use Librato::Rack if Lynr.features.rack_metrics? && Lynr.metrics.configured?
 use Rack::Middleware::Timer, app.log if Lynr.features.rack_timer?
 use Rack::Session::Cookie,  :key          => '_lynr',
