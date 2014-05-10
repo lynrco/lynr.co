@@ -18,8 +18,8 @@ use Rack::SSL if Lynr.features.force_ssl?
 if !config.assets.nil? && !config.assets.empty?
   use Rack::Middleware::Redirect, [
       { test: %r(\A/((css|js|html|img).*)), target: "#{config.assets}/\\1" },
-      { test: %r(\A/(favicon\.ico|robots\.txt)), target: "#{config.assets}/\\1" },
     ]
+  use Rack::Static, urls: ['/favicon.ico', '/robots.txt'], root: 'public'
 else
   use Rack::Static, :urls => [
       '/css', '/html', '/js', '/img', '/favicon.ico', '/robots.txt'
