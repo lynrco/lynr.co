@@ -136,7 +136,7 @@ module Lynr::Controller
           customer = create_customer(identity)
           # Create and Save dealership
           dealer = create_dealership(identity, customer)
-          notify('dealership.created', req, dealer)
+          notify('dealership.created.live', req, dealer)
           # Send to admin pages?
           send_to_next(req) || send_to_admin(req, dealer)
         end
