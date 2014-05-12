@@ -72,9 +72,9 @@ module Lynr
     #
     def handlers_for(event)
       types = types_for(event)
-      handlers = @semaphore.synchronize {
-        @backend.fetch(event[:type], [])
-      }
+      handlers = types.reduce([]) do |a, type|
+        a + @semaphore.synchronize { @backend.fetch(type, []) }
+      end
       skippable = event.fetch(:_skippable, [])
       handlers.reject { |handler| skippable.include?(handler.id) }
     end
