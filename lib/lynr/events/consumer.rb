@@ -98,16 +98,27 @@ module Lynr
       consumer.ack(delivery_info.delivery_tag)
     end
 
+    # ## `Events::Consumer#types_for(event)`
+    #
+    # Internal: Get a `Set` of event types consisting of `event[:type]`
+    # and its parents.
+    #
+    # * event - `Hash` of event to be processed including a `:type`
+    #           attribute
+    #
+    # Returns a `Set` of event types for which handlers should be
+    # invoked.
+    #
     def types_for(event)
-      type = event[:type]
+      type = event.fetch(:type, '')
       types = type.split('.').reduce([]) do |a, part|
         if a.empty?
           [part]
         else
-          a + ["#{types.last}.#{part}"]
+          a + ["#{a.last}.#{part}"]
         end
       end
-      types.unshift('*')
+      types.unshift('*').to_set
     end
 
   end
