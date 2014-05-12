@@ -66,9 +66,15 @@ module Lynr
 
     # ## `Events::Consumer#handlers_for(event)`
     #
-    # Retrieves the handlers for the `:type` in a given `event`. This is
-    # used to retrieve the current set of handlers used to process a
+    # Internal: Retrieves the handlers for the `:type` in a given `event`.
+    # Used to retrieve the current set of handlers used to process a
     # received `event`.
+    #
+    # * event - `Hash` of event to be processed including a `:type`
+    #           attribute
+    #
+    # Returns `Array` of `Handler` instances to which `event` must be
+    # passed.
     #
     def handlers_for(event)
       types = types_for(event)
