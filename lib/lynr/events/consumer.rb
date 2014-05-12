@@ -71,6 +71,7 @@ module Lynr
     # received `event`.
     #
     def handlers_for(event)
+      types = types_for(event)
       handlers = @semaphore.synchronize {
         @backend.fetch(event[:type], [])
       }
@@ -95,6 +96,18 @@ module Lynr
         Lynr::Events.emit(event)
       end
       consumer.ack(delivery_info.delivery_tag)
+    end
+
+    def types_for(event)
+      type = event[:type]
+      types = type.split('.').reduce([]) do |a, part|
+        if a.empty?
+          [part]
+        else
+          a + ["#{types.last}.#{part}"]
+        end
+      end
+      types.unshift('*')
     end
 
   end
