@@ -11,21 +11,24 @@
 # handlers are created they are passed the entire event handler
 # configuration as a `Lynr::Config` instance.
 #
+# '*' is a event "type" that is executed for each event.
+#
+'*':
+  - type: Lynr::Events::Handler::Logger
 dealership.created:
-  - type: Lynr::Events::Handler::Email
-    :template: 'auth/account_created'
-    :subject: 'Welcome to Lynr, your inventory and sales system'
-    :from: 'Lynr.co <general@support.lynr.co>'
   - type: Lynr::Events::Handler::MixpanelAlias
     token: 'env:mixpanel_token'
+dealership.created.live:
+  - type: Lynr::Events::Handler::Email
+    :from: 'Lynr.co <general@support.lynr.co>'
+    :subject: 'Welcome to Lynr, your inventory and sales system'
+    :template: 'auth/account_created'
 dealership.created.demo:
   - type: Lynr::Events::Handler::AddDemoVehicles
   - type: Lynr::Events::Handler::Email
-    :template: 'demo/auth/account_created'
     :from: 'Lynr.co <general@support.lynr.co>'
     :subject: 'Welcome to your demo of Lynr, an inventory and sales system'
-  - type: Lynr::Events::Handler::MixpanelAlias
-    token: 'env:mixpanel_token'
+    :template: 'demo/auth/account_created'
 vehicle.deleted:
   - type: Lynr::Events::Handler::UnindexVehicle
 error.internal:

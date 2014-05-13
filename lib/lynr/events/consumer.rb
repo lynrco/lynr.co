@@ -66,14 +66,21 @@ module Lynr
 
     # ## `Events::Consumer#handlers_for(event)`
     #
-    # Retrieves the handlers for the `:type` in a given `event`. This is
-    # used to retrieve the current set of handlers used to process a
+    # Internal: Retrieves the handlers for the `:type` in a given `event`.
+    # Used to retrieve the current set of handlers used to process a
     # received `event`.
     #
+    # * event - `Hash` of event to be processed including a `:type`
+    #           attribute
+    #
+    # Returns `Array` of `Handler` instances to which `event` must be
+    # passed.
+    #
     def handlers_for(event)
-      handlers = @semaphore.synchronize {
-        @backend.fetch(event[:type], [])
-      }
+      types = types_for(event)
+      handlers = types.reduce([]) do |a, type|
+        a + @semaphore.synchronize { @backend.fetch(type, []) }
+      end
       skippable = event.fetch(:_skippable, [])
       handlers.reject { |handler| skippable.include?(handler.id) }
     end
@@ -95,6 +102,29 @@ module Lynr
         Lynr::Events.emit(event)
       end
       consumer.ack(delivery_info.delivery_tag)
+    end
+
+    # ## `Events::Consumer#types_for(event)`
+    #
+    # Internal: Get a `Set` of event types consisting of `event[:type]`
+    # and its parents.
+    #
+    # * event - `Hash` of event to be processed including a `:type`
+    #           attribute
+    #
+    # Returns a `Set` of event types for which handlers should be
+    # invoked.
+    #
+    def types_for(event)
+      type = event.fetch(:type, '')
+      types = type.split('.').reduce([]) do |a, part|
+        if a.empty?
+          [part]
+        else
+          a + ["#{a.last}.#{part}"]
+        end
+      end
+      types.unshift('*').to_set
     end
 
   end
