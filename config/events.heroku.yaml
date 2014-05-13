@@ -11,6 +11,10 @@
 # handlers are created they are passed the entire event handler
 # configuration as a `Lynr::Config` instance.
 #
+# '*' is a event "type" that is executed for each event.
+#
+'*':
+  - type: Lynr::Events::Handler::Logger
 dealership.created:
   - type: Lynr::Events::Handler::MixpanelAlias
     token: 'env:mixpanel_token'
