@@ -28,6 +28,7 @@ group :development do
   gem 'guard-bundler'
   gem 'guard-rake'
   gem 'guard-rspec'
+  gem 'guard-ctags-bundler'
 
   gem 'pry'
   gem 'pry-debugger'

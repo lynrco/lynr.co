@@ -55,6 +55,8 @@ GEM
     guard-bundler (2.0.0)
       bundler (~> 1.0)
       guard (~> 2.2)
+    guard-ctags-bundler (1.0.2)
+      guard (~> 2.0)
     guard-rake (0.0.9)
       guard
       rake
@@ -167,6 +169,7 @@ DEPENDENCIES
   georuby (= 2.2.1)
   guard
   guard-bundler
+  guard-ctags-bundler
   guard-rake
   guard-rspec
   guard-shell
