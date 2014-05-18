@@ -3,6 +3,8 @@
 .env*
 .vagrant*
 !.giturd
+tags
+gems.tags
 /config/*.yaml
 !/config/*.example.yaml
 !/config/*.heroku.yaml
