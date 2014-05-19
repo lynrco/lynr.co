@@ -95,7 +95,8 @@ module Lynr
     # be sent.
     #
     def to(event)
-      event.fetch(:to, config.fetch(:to, dealership(event).identity.email))
+      to = event.fetch(:to, event['to'])
+      to ||= config.fetch(:to, dealership(event).identity.email)
     end
 
   end
