@@ -30,7 +30,7 @@ module Lynr
     # 'job' queue.
     #
     def call(event)
-      mail_data = mail_defaults(event).merge(config.to_hash)
+      mail_data = event.merge(mail_defaults(event)).merge(config.to_hash)
       Lynr.producer('job').publish(Lynr::Queue::EmailJob.new(template, mail_data))
       success
     end
