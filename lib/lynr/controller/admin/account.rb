@@ -79,7 +79,8 @@ module Lynr::Controller;
     def post_account(req)
       notify_by_email(req) if email_changed?
       dealership = dealer_dao.save(dealership(req).set(posted))
-      update_stripe(dealership) if stripe_changed?
+      update_stripe(dealership) if stripe_changed?(dealership)
+      #update_stripe(dealership) if email_changed? || name_changed?
       redirect "/admin/#{dealership.slug}/account"
     end
 
