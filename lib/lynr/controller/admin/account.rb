@@ -79,7 +79,7 @@ module Lynr::Controller;
     def post_account(req)
       notify_by_email(req) if email_changed?
       dealership = dealer_dao.save(dealership(req).set(posted))
-      update_stripe(dealership) if email_changed? || name_changed?
+      update_stripe(dealership) if stripe_changed?
       redirect "/admin/#{dealership.slug}/account"
     end
 
@@ -150,6 +150,20 @@ module Lynr::Controller;
         base_url: req.base_url,
         support_email: Lynr.config('app').support_email,
       }))
+    end
+
+    # ## `AdminAccount#stripe_changed?(dealership)`
+    #
+    # Internal: Check if information stored with Stripe customer was
+    # changed.
+    #
+    # * `dealership` - `Lynr::Model::Dealership` instance to examine for
+    #                  changes.
+    #
+    # Returns true if the data has been changed, false otherwise.
+    #
+    def stripe_changed?(dealership)
+      (email_changed? || name_changed?) && !dealership.customer_id.nil?
     end
 
     # ## `AdminAccount#translate_image`
