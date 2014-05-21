@@ -94,7 +94,7 @@ module Lynr
       # delete to get values
       exchange.publish(msg, @publish_opts.merge(opts))
       Lynr.metrics.add("queue.publish:#{name}" => 1)
-      self
+      self.disconnect
     end
 
     # ## `Lynr::Queue#reject(tag)`
