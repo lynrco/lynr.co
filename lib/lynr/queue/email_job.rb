@@ -57,6 +57,8 @@ module Lynr; class Queue;
     rescue RestClient::Exception => rce
       log.warn("Post to #{url} with #{data} failed... #{rce.to_s}")
       failure("Post to #{url} failed. #{rce.to_s}")
+    rescue StandardError => err
+      failure(err.to_s, :norequeue)
     end
 
     # ## `EmailJob#to_s`

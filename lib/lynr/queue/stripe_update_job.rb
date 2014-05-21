@@ -33,6 +33,8 @@ module Lynr; class Queue;
       customer.email = @dealership.identity.email
       customer.save
       Success
+    rescue StandardError => err
+      failure(err.to_s, :norequeue)
     end
 
     # ## `Lynr::Queue::StripeUpdateJob#setup`
