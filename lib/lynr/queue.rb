@@ -80,6 +80,7 @@ module Lynr
     # provided and false the message is requeued.
     #
     def nack(tag, requeue = true)
+      Lynr.metrics.add("queue.nack:#{name}" => 1)
       channel.reject(tag, requeue)
     end
 
