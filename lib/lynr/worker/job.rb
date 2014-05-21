@@ -18,15 +18,32 @@ module Lynr
       @consumer ||= Lynr::Queue::JobQueue.new(queue_name, config.amqp.consumer)
     end
 
+    # ## `Worker::Job#perform(job)`
+    #
+    # Internal: Invoke `job.perform` and return the `JobResult` it
+    # returns. If `job.perform` raises a `StandardError` then wrap the
+    # error in a failed `JobResult` instance, marked to not requeue.
+    #
+    # Returns a `JobResult` instance with message attributes depending
+    # on the result of `job.perform`.
+    #
+    def perform(job)
+      job.perform
+    rescue StandardError => err
+      JobResult.new(err.to_s, succeeded=false, :norequeue)
+    end
+
     # ## `Worker::Job#process(job)`
     #
-    # Perform the `job` provided by the `#consumer` while subscribed. This
-    # method is the one that makes the action happen. If `perform` returns
+    # Pass `job`s from `#consumer` to `#perform` while subscribed. This
+    # method is the one that makes the action happen. If `#perform` returns
     # a successful result send an `ack` message to the queue, otherwise
-    # send a nack with the option to requeue based on the result.
+    # send a `nack` with the option to requeue based on the result.
+    #
+    # Return value is unspecified.
     #
     def process(job)
-      result = job.perform
+      result = perform(job)
       log.info("#{queue_info} #{job.info} job.result=#{result.info}")
       if result.success?
         consumer.ack(job.delivery_info.delivery_tag)
