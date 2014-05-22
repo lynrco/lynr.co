@@ -1,5 +1,4 @@
 require './lib/lynr/worker'
-require './lib/lynr/queue/job_result'
 
 module Lynr
 
@@ -31,7 +30,7 @@ module Lynr
     def perform(job)
       job.perform
     rescue StandardError => err
-      JobResult.new(err.to_s, succeeded=false, :norequeue)
+      Lynr::Queue::JobResult.new(err.to_s, succeeded=false, :norequeue)
     end
 
     # ## `Worker::Job#process(job)`
