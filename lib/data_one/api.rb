@@ -10,6 +10,16 @@ module DataOne
 
     include Lynr::Converter::DataOne
 
+    # ## `DataOne::Api#dataone_xml_query(vin)`
+    #
+    # Helper method to render query template with the appropriate
+    # `vin` request data.
+    #
+    def dataone_xml_query(vin)
+      path = ::File.join(Lynr.root, 'views/admin/vehicle/dataone_request')
+      Sly::View::Erb.new(path, data: { vin: vin }).result
+    end
+
     # ## `DataOne::Api.fetch(vin)`
     #
     # Request information from the DataOne API about the vehicle
@@ -59,16 +69,6 @@ module DataOne
       Lynr.metrics.time('time.service:dataone.fetch') do
         RestClient.post url, data
       end
-    end
-
-    # ## `DataOne::Api#dataone_xml_query(vin)`
-    #
-    # Helper method to render query template with the appropriate
-    # `vin` request data.
-    #
-    def dataone_xml_query(vin)
-      path = ::File.join(Lynr.root, 'views/admin/vehicle/dataone_request')
-      Sly::View::Erb.new(path, data: { vin: vin }).result
     end
 
   end
