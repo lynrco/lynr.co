@@ -146,10 +146,9 @@ module Lynr
     # The options to give to Librato processor instances.
     #
     def processor_options
-      {
+      @_processor_options ||= {
         client: client,
-        autosubmit_count: 15,
-        autosubmit_interval: 90,
+        autosubmit_interval: 60,
         prefix: 'lynr',
         source: config['source']
       }

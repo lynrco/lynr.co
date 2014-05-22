@@ -43,7 +43,7 @@ describe Lynr::Metrics do
       # NOTE: Dangerous spec, testing implementation details of a dependency,
       # because this value isn't exposed
       it "has an autosubmit_interval set" do
-        expect(aggregator.instance_variable_get(:@autosubmit_interval)).to eq(90)
+        expect(aggregator.instance_variable_get(:@autosubmit_interval)).to eq(60)
       end
       it { expect(aggregator.client).to be_instance_of(Librato::Metrics::Client) }
     end
@@ -64,14 +64,8 @@ describe Lynr::Metrics do
 
       # NOTE: Dangerous spec, testing implementation details of a dependency,
       # because this value isn't exposed
-      it "has an autosubmit_count set" do
-        expect(queue.instance_variable_get(:@autosubmit_count)).to eq(15)
-      end
-
-      # NOTE: Dangerous spec, testing implementation details of a dependency,
-      # because this value isn't exposed
       it "has an autosubmit_interval set" do
-        expect(queue.instance_variable_get(:@autosubmit_interval)).to eq(90)
+        expect(queue.instance_variable_get(:@autosubmit_interval)).to eq(60)
       end
 
       it "has an instance of Librato::Metrics::Client" do
