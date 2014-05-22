@@ -1,4 +1,5 @@
 require './lib/lynr/worker'
+require './lib/lynr/queue/job_result'
 
 module Lynr
 
