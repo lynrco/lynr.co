@@ -2,8 +2,11 @@ require 'rspec/autorun'
 require './spec/spec_helper'
 
 require './lib/data_one'
+require './lib/data_one/api'
 
 describe DataOne::Api do
+
+  MockResponse = Struct.new(:code, :to_hash)
 
   subject(:api) { DataOne::Api.new }
   let(:query) { subject.dataone_xml_query('1HGEJ6229XL063838') }
@@ -179,6 +182,37 @@ describe DataOne::Api do
 
     end
 
+  end
+
+  describe '#request' do
+    let(:data) {
+      {
+        authorization_code: 'hi',
+        client_id:          'hi',
+        decoder_query:      api.dataone_xml_query('1HGEJ6229XL063838'),
+      }
+    }
+    def create_response(code)
+      RestClient::Response.create(
+        File.read('spec/data/1HGEJ6229XL063838.xml'),
+        MockResponse.new(code, { 'Content-Type' => 'text/xml' }),
+        {},
+      )
+    end
+    context 'with 200 response' do
+      before(:each) do
+        RestClient.stub(:post) do |url, data| create_response(200) end
+      end
+      it { expect(api.request('/hi', data).code).to eq(200) }
+    end
+    context 'with 500 response' do
+      before(:each) do
+        RestClient.stub(:post) do |url, data|
+          raise RestClient::InternalServerError.new(create_response(500))
+        end
+      end
+      it { expect(api.request('/hi', data).code).to eq(500) }
+    end
   end
 
 end

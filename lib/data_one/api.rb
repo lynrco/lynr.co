@@ -1,3 +1,5 @@
+require 'rest-client'
+
 require './lib/lynr/converter/data_one'
 
 module DataOne
@@ -67,8 +69,25 @@ module DataOne
         decoder_query:      dataone_xml_query(vin),
       }
       Lynr.metrics.time('time.service:dataone.fetch') do
-        RestClient.post url, data
+        request(url, data)
       end
+    end
+
+    # ## `DataOne::Api#request(url, data)`
+    #
+    # Internal: Perform the API request via `RestClient`. Rescue errors
+    # and return the `RestClient::Response` instance (HTTP respons).
+    #
+    # * `url`  - to which the `data` will POST posted
+    # * `data` - `Hash` of parameters to POST to `url`
+    #
+    # Returns `RestClient::Response` whether the request is successful
+    # (200 OK) or returns an error status.
+    #
+    def request(url, data)
+      RestClient.post url, data
+    rescue => e
+      e.response
     end
 
   end
