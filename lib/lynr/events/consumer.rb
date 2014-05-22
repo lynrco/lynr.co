@@ -95,7 +95,6 @@ module Lynr
       handlers = handlers_for(event)
       results = handlers.map { |handler| handler.call(event) }
       successes = results.select { |result| result.is_a?(Lynr::Events::Handler::Success) }
-      log.debug("type=processed payload=#{event.to_json}")
       if successes.length != handlers.length && event[:_attempts] < 3
         event[:_skippable] = successes
         event[:_attempts] += 1
