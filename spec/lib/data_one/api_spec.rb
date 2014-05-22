@@ -111,7 +111,7 @@ describe DataOne::Api do
 
   end
 
-  describe '#fetch' do
+  describe '#fetch', if: MongoHelpers.connected? do
 
     let(:config) { Lynr.config('app').vin.dataone }
     let(:dataone_response) { File.read('spec/data/1HGEJ6229XL063838.xml') }
@@ -122,7 +122,7 @@ describe DataOne::Api do
       end
     end
 
-    context 'with active DB and primed cache', :if => (MongoHelpers.connected?) do
+    context 'with active DB and primed cache' do
 
       before(:each) do
         Lynr.cache.write('1HG', dataone_response.gsub('1HGEJ6229XL063838', '1HG'))
@@ -138,7 +138,7 @@ describe DataOne::Api do
 
     end
 
-    context 'with active DB and decode', :if => (MongoHelpers.connected?) do
+    context 'with active DB and decode' do
 
       before(:each) do
         Lynr.stub(:features) do |type, defaults|
@@ -161,7 +161,7 @@ describe DataOne::Api do
 
     end
 
-    context 'with active DB and no decode', :if => (MongoHelpers.connected?) do
+    context 'with active DB and no decode' do
 
       before(:each) do
         Lynr.stub(:features) do |type, defaults|
