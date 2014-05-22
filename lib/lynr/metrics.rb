@@ -105,42 +105,6 @@ module Lynr
       log.warn("type=metrics.#{type} err=#{err.class.to_s} msg=#{err.message}")
     end
 
-    # ## `Metrics#timeshift(processor)`
-    #
-    # Internal: When metrics fail to submit and raise a `ClientError`
-    # (rescued in `#measure`) attempt to re-submit the metrics data with
-    # older measurements timeshifted to the oldest allowable collection
-    # time (120 minutes ago). If the submission fails again for any reason
-    # clear the data from `processor` and log the error.
-    #
-    # NOTE: This is basically impossible to test without substantial
-    # mocking, it is side-effects all the way down.
-    #
-    # * processor - `Librato::Metrics::Aggregator` or `Librato::Metrics::Queue`
-    #               containing measurements to be sent to the Librato API
-    #
-    # Returns Boolean result from `Librato::Metrics::Processor#submit`
-    # which is called after `processor` measurements have been
-    # timeshifted and re-added to `processor`.
-    #
-    def timeshift(processor)
-      max_age = (Time.now - (60 * 119)).to_i # Go back just under 120 minutes
-      shifted = processor.queued.fetch(:gauges, []).map do |measurement|
-        measure_time = measurement[:measure_time]
-        if !measure_time.nil? && measure_time < max_age
-          measurement[:measure_time] = max_age
-        end
-        measurement
-      end
-      processor.clear
-      processor.add(shifted)
-      processor.submit
-    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
-      log.warn("type=metrics.timeshift err=#{err.class.to_s} msg=#{err.message}")
-      processor.clear
-    end
-
-
     # ## `Metrics#processor_options`
     #
     # The options to give to Librato processor instances.
@@ -169,6 +133,23 @@ module Lynr
       end
     end
 
+    # ## `Metrics#remove_prefix(name)`
+    #
+    # Internal: Remove `#processor_options[:prefix]` from the start of
+    # `name`.
+    #
+    # * `name` - `String` from which to remove `#processor_options[:prefix]`
+    #
+    # Returns `name` without `#processor_options[:prefix]`.
+    #
+    def remove_prefix(name)
+      if !name.nil?
+        name.gsub(/\A#{processor_options[:prefix]}\./, '')
+      else
+        name
+      end
+    end
+
     # ## `Metrics#time(name, options)`
     #
     # Proxy to `Librato::Metrics::Queue#time` but handle the MetricsError tree
@@ -183,6 +164,42 @@ module Lynr
     end
 
     alias :benchmark :time
+
+    # ## `Metrics#timeshift(processor)`
+    #
+    # Internal: When metrics fail to submit and raise a `ClientError`
+    # (rescued in `#measure`) attempt to re-submit the metrics data with
+    # older measurements timeshifted to the oldest allowable collection
+    # time (120 minutes ago). If the submission fails again for any reason
+    # clear the data from `processor` and log the error.
+    #
+    # NOTE: This is basically impossible to test without substantial
+    # mocking, it is side-effects all the way down.
+    #
+    # * processor - `Librato::Metrics::Aggregator` or `Librato::Metrics::Queue`
+    #               containing measurements to be sent to the Librato API
+    #
+    # Returns Boolean result from `Librato::Metrics::Processor#submit`
+    # which is called after `processor` measurements have been
+    # timeshifted and re-added to `processor`.
+    #
+    def timeshift(processor)
+      max_age = (Time.now - (60 * 119)).to_i # Go back just under 120 minutes
+      gauges = processor.queued.fetch(:gauges, []).dup
+      processor.clear
+      gauges.each do |measurement|
+        name = remove_prefix(measurement.delete(:name))
+        measure_time = measurement[:measure_time]
+        if !measure_time.nil? && measure_time < max_age
+          measurement[:measure_time] = max_age
+        end
+        processor.add(name => measurement)
+      end
+      processor.submit
+    rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
+      log.warn("type=metrics.timeshift err=#{err.class.to_s} msg=#{err.message}")
+      processor.clear
+    end
 
   end
 

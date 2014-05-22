@@ -106,6 +106,21 @@ describe Lynr::Metrics do
       end
     end
 
+    describe "remove_prefix" do
+      it 'should remove prefix from metric name with prefix' do
+        expect(metrics.remove_prefix('lynr.queue.publish')).to eq('queue.publish')
+      end
+      it 'should not change metric name without prefix' do
+        expect(metrics.remove_prefix('queue.publish')).to eq('queue.publish')
+      end
+      it 'should not change metric name with prefix value not prefixed' do
+        expect(metrics.remove_prefix('queue.lynr.publish')).to eq('queue.lynr.publish')
+      end
+      it 'should return nil when name is nil' do
+        expect(metrics.remove_prefix(nil)).to eq(nil)
+      end
+    end
+
   end
 
   ['user', 'token', 'source'].each do |key|
