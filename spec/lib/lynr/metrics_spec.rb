@@ -86,12 +86,23 @@ describe Lynr::Metrics do
       before(:each) do
         metrics.client.persistence = :test
       end
-      it "should be true if there are no metrics" do
-        expect(metrics.timeshift(queue)).to be_true
+      context 'with no metrics' do
+        it 'should be true if there are no metrics' do
+          expect(metrics.timeshift(queue)).to be_true
+        end
       end
-      it "should be true if there are metrics" do
-        queue.add({ load: 0.0 })
-        expect(metrics.timeshift(queue)).to be_true
+      context 'with single metric' do
+        before(:each) do
+          queue.add({ load: 0.0 })
+        end
+        it 'should be true if there are metrics' do
+          expect(metrics.timeshift(queue)).to be_true
+        end
+        it 'should have same metric names after timeshift' do
+          names = queue.queued.fetch(:gauges, []).map { |m| m[:name] }
+          metrics.timeshift(queue)
+          expect(names).to eq(queue.persister.persisted.fetch(:gauges, []).map { |m| m[:name] })
+        end
       end
     end
 
