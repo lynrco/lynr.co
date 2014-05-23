@@ -30,7 +30,8 @@ module Lynr::Controller
     def get(req)
       if dealership(req).subscription.ending?
         customer = Stripe::Customer.retrieve(dealership(req).customer_id)
-        @active_until = Time.at(customer.subscription.current_period_end)
+        subscription = current_subscription(customer)
+        @active_until = Time.at(subscription.current_period_end)
         render 'admin/account/canceled.erb'
       else
         render 'admin/account/cancel.erb'
@@ -44,16 +45,32 @@ module Lynr::Controller
     def post(req)
       customer = Stripe::Customer.retrieve(dealership(req).customer_id)
       subscription =
-        if customer.subscription.cancel_at_period_end
-          customer.subscription
+        if current_subscription(customer).cancel_at_period_end
+          current_subscription(customer)
         else
-          customer.subscription.delete(at_period_end: true)
+          current_subscription(customer).delete(at_period_end: true)
         end
       dealer_dao.save(dealership(req).set({
         'subscription' => dealership(req).subscription.set(canceled_at: subscription.canceled_at)
       }))
       @active_until = Time.at(subscription.current_period_end)
       render 'admin/account/canceled.erb'
+    end
+
+    # ## `AdminAccountCancel#current_subscription(customer)`
+    #
+    # Internal: Get the current subscription from `customer`. The
+    # current subscription is retrieved by cheating because right now
+    # a customer may only have a single subscription.
+    #
+    # * `customer` - `Stripe::Customer` instance from which to retrieve
+    #                subscription
+    #
+    # Returns a `Stripe::Subscription` instance from the `Stripe::Customer`
+    # by finding the one that is currently active.
+    #
+    def current_subscription(customer)
+      customer.subscriptions.first
     end
 
   end
