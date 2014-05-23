@@ -106,7 +106,7 @@ describe Lynr::Metrics do
       end
     end
 
-    describe "remove_prefix" do
+    describe 'remove_prefix' do
       it 'should remove prefix from metric name with prefix' do
         expect(metrics.remove_prefix('lynr.queue.publish')).to eq('queue.publish')
       end
@@ -118,6 +118,27 @@ describe Lynr::Metrics do
       end
       it 'should return nil when name is nil' do
         expect(metrics.remove_prefix(nil)).to eq(nil)
+      end
+    end
+
+    describe '#timeshift_measurement' do
+      it 'should return Hash without :name' do
+        measurement = { name: 'queue.publish', value: 1 }
+        expect(metrics.timeshift_measurement(measurement)).to eq({
+          'queue.publish' => { value: 1 }
+        })
+      end
+      it 'should retain measure_time if recent' do
+        now = Time.now.to_i
+        measurement = { name: 'queue.publish', value: 1, measure_time: now }
+        expect(metrics.timeshift_measurement(measurement)).to eq({
+          'queue.publish' => { value: 1, measure_time: now }
+        })
+      end
+      it 'should replace measure_time if old' do
+        now = Time.now.to_i
+        metric = { name: 'queue.publish', value: 1, measure_time: (now - (60 * 130)) }
+        expect(metrics.timeshift_measurement(metric)[:measure_time]).to_not eq(metric[:measure_time])
       end
     end
 

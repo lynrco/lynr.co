@@ -181,24 +181,39 @@ module Lynr
     #
     # Returns Boolean result from `Librato::Metrics::Processor#submit`
     # which is called after `processor` measurements have been
-    # timeshifted and re-added to `processor`.
+    # timeshifted via `#timeshift_measurement` and re-added to
+    # `processor`.
     #
     def timeshift(processor)
-      max_age = (Time.now - (60 * 119)).to_i # Go back just under 120 minutes
       gauges = processor.queued.fetch(:gauges, []).dup
       processor.clear
-      gauges.each do |measurement|
-        name = remove_prefix(measurement.delete(:name))
-        measure_time = measurement[:measure_time]
-        if !measure_time.nil? && measure_time < max_age
-          measurement[:measure_time] = max_age
-        end
-        processor.add(name => measurement)
-      end
+      gauges.map(&method(:timeshift_measurement)).each(&processor.method(:add))
       processor.submit
     rescue Librato::Metrics::MetricsError, Librato::Metrics::ClientError => err
       log.warn("type=metrics.timeshift err=#{err.class.to_s} msg=#{err.message}")
       processor.clear
+    end
+
+    # ## `Metrics#timeshift_measurement(measurement)`
+    #
+    # Internal: Change `:measure_time` of `measurement` to be
+    # 119 minutes ago.
+    #
+    # * `measurement` - `Hash` of measurement data for Librato metrics
+    #                   containing `:name` and optionally `:measure_time`.
+    #
+    # Returns `Hash` of `measurement[:name] => measurement` where
+    # `measurement` has been updated in place to have a `:measure_time`
+    # less than 120 minutes ago.
+    #
+    def timeshift_measurement(measurement)
+      max_age = (Time.now - (60 * 119)).to_i # Go back just under 120 minutes
+      name = remove_prefix(measurement.delete(:name))
+      measure_time = measurement[:measure_time]
+      if !measure_time.nil? && measure_time < max_age
+        measurement[:measure_time] = max_age
+      end
+      { name => measurement }
     end
 
   end
