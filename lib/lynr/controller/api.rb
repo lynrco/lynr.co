@@ -27,7 +27,7 @@ module Lynr; module Controller;
     #
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
-      log.debug({ type: 'data', stripe_event: json })
+      log.debug("type=data stripe_event=#{json}")
       if json['livemode'] == Lynr.config('app').stripe.live?
         process_stripe_event(req, json)
       else
@@ -43,8 +43,8 @@ module Lynr; module Controller;
     # `json['type']`. If `json['type']` does not have a specific handler method
     # associated then an empty 200 response is returned.
     #
-    def process_stripe_event(json, req)
-      log.debug({ type: 'data', stripe_type: json['type'] })
+    def process_stripe_event(req, json)
+      log.debug("type=data stripe_type=#{json['type']}")
       case json['type']
         when 'customer.deleted' then stripe_customer_deleted(json, req)
         when 'customer.subscription.updated' then stripe_customer_subscription_updated(json, req)
