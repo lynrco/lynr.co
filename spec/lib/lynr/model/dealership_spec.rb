@@ -62,7 +62,8 @@ describe Lynr::Model::Dealership do
         'phone' => '+1 123-123-1234',
         'address' => address,
         'image' => image,
-        'identity' => identity
+        'identity' => identity,
+        'customer_id' => 'cus_45WrY006yzpWjO',
       })
     }
 

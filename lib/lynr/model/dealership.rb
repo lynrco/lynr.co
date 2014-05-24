@@ -56,7 +56,6 @@ module Lynr; module Model;
       data['image'] = @image.view if @image
       data['slug'] = slug unless slug.empty?
       data['subscription'] = @subscription.view unless @subscription.nil?
-      data['customer_id'] = @customer_id unless @customer_id.nil?
       data
     end
 
@@ -79,10 +78,12 @@ module Lynr; module Model;
       {
         'name' => @name,
         'phone' => @phone,
-        'identity' => @identity,
         'accounts' => @accounts,
         'address' => @address,
+        'customer_id' => @customer_id,
+        'identity' => @identity,
         'image' => @image,
+        'subscription' => @subscription,
         'created_at' => @created_at,
         'updated_at' => @updated_at,
       }
