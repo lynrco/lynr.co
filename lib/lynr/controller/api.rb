@@ -27,6 +27,7 @@ module Lynr; module Controller;
     #
     def stripe_hook(req)
       json = JSON.parse(req.body.read)
+      log.debug({ type: 'data', stripe_event: json })
       if json['livemode'] == Lynr.config('app').stripe.live?
         process_stripe_event(req, json)
       else
