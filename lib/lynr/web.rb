@@ -90,8 +90,8 @@ module Lynr
         type: 'error.internal',
         to: 'tech@lynr.co',
         subject: "[#{env['HTTP_HOST']}] #{err.class} on #{env['PATH_INFO']}",
-        err: err,
-        req: env.dup.delete_if { |k, v| k.start_with?('rack.') }
+        err: { class: err.class, message: err.message, backtrace: err.backtrace },
+        req: env.dup.delete_if { |k, v| k.start_with?('rack.') || k.start_with?('puma.') }
       }
     end
 

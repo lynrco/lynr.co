@@ -1,14 +1,16 @@
 <h1>
-  <code><%= err.class %></code> occurred on <code><%= req['HTTP_HOST'] %><%= req['PATH_INFO'] %></code>
+  <code><%= err[:class] %></code>
+  occurred on
+  <code><%= req[:HTTP_HOST] %><%= req[:PATH_INFO] %></code>
 </h1>
 <h2>Message</h2>
 
-<p><%= CGI.escape_html(err.message) %></p>
+<p><%= CGI.escape_html(err[:message]) %></p>
 
 <h2>Backtrace</h2>
 
 <pre><code>
-<%- err.backtrace.each do |line| -%>
+<%- err[:backtrace].each do |line| -%>
 <%= CGI.escape_html(line) %>
 <%- end -%>
 </code></pre>
