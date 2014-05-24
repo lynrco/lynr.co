@@ -1,11 +1,11 @@
-# `<%= err.class %>` occurred on `<%= req['HTTP_HOST'] %><%= req['PATH_INFO'] %>` #
+# `<%= err[:class] %>` occurred on `<%= req[:HTTP_HOST] %><%= req[:PATH_INFO] %>` #
 
 ## Message ##
 
-<%= err.message %>
+<%= err[:message] %>
 
 ## Backtrace ##
 
-    <%- err.backtrace.each do |line| -%>
+    <%- err[:backtrace].each do |line| -%>
     <%= line %>
     <%- end -%>
