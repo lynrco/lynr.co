@@ -1,0 +1,12 @@
+<decoded_data>
+  <decoder_messages>
+    <service_provider>DataOne Software, Inc.</service_provider>
+    <decoder_version>7.0.1</decoder_version>
+    <decoder_errors>
+      <error>
+        <code>VD</code>
+        <message>VIN-less decode does not meet the minimum field requirements: year, make, and model.</message>
+      </error>
+    </decoder_errors>
+  </decoder_messages>
+</decoded_data>

@@ -10,6 +10,8 @@ module DataOne
   #
   class Api
 
+    autoload :Response, './lib/data_one/api/response'
+
     include Lynr::Converter::DataOne
 
     # ## `DataOne::Api#dataone_xml_query(vin)`
