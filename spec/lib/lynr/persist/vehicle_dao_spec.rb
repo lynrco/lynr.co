@@ -103,6 +103,12 @@ describe Lynr::Persist::VehicleDao do
         expect(found.vin).to eq(saved.vin)
       end
 
+      it "returns nil for a non-existant id" do
+        id = BSON::ObjectId.from_time(Time.now)
+        found = dao.get(id)
+        expect(found).to be_nil
+      end
+
     end # #get
 
     describe "#list" do

@@ -25,11 +25,11 @@ describe Lynr::Controller::Admin::Search do
             {
               "_index" => "vehicles",
               "_type" => "Lynr::Model::Vehicle",
-              "_id" => "532cde8e6dbe98f23b000001",
+              "_id" => saved_empty_vehicle.id.to_s,
               "_score" => 0.2360665,
               "_source" => {
                 "condition" => "2",
-                "dealership" => "52d749ae6dbe98c586000001",
+                "dealership" => saved_empty_dealership.id.to_s,
                 "mileage" => "55437",
                 "mpg" => { "city" => "18","highway" => "24" },
                 "notes" => "",
