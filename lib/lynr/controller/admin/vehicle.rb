@@ -75,15 +75,18 @@ module Lynr::Controller
       ) unless @vehicle.nil?
     end
 
-    protected
-
     # ## `Admin::Vehicle#vehicle(req)`
     #
-    # *Protected* Get vehicle object out of `req`.
+    # Get vehicle object out of `req`.
     #
     def vehicle(req)
       return @vehicle unless @vehicle == false
-      @vehicle = vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle'])) unless req['vehicle'].nil?
+      @vehicle ||=
+        if !req['vehicle'].nil? && BSON::ObjectId.legal?(req['vehicle'])
+          vehicle_dao.get(BSON::ObjectId.from_string(req['vehicle']))
+        else
+          nil
+        end
     end
 
   end
