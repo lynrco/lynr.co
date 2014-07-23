@@ -78,6 +78,7 @@ module Lynr; module Persist;
     # instance.
     #
     def record_to_vehicle(record)
+      return nil if record.nil?
       # Mongo is going to give me a record with the _id property set, not id
       record['id'] = record.delete('_id') if !record.nil?
       Lynr::Model::Vehicle.inflate(record)
