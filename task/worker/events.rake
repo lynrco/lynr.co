@@ -3,9 +3,7 @@ namespace :lynr do
 
   namespace :worker do
 
-    desc 'Start the Lynr event processors'
-    task :events do
-
+    def events_workers
       require './lib/lynr'
       require './lib/lynr/events'
       require './lib/lynr/logging'
@@ -24,7 +22,7 @@ namespace :lynr do
       end
 
       count = ENV.fetch("lynr_workers_events", 1).to_i
-      workers = (1..count).map do |n|
+      (1..count).map do |n|
         consumer = Lynr::Events::Consumer.new
         events.each do |event|
           type, handlers = event
@@ -32,9 +30,13 @@ namespace :lynr do
         end
         consumer
       end
+    end
+
+    desc 'Start the Lynr event processors'
+    task :events do
 
       # `start_workers` is defined in the `lynr:worker` namespace
-      start_workers(workers)
+      start_workers(events_workers)
 
     end
 
