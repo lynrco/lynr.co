@@ -1,3 +1,5 @@
+require 'rest-client'
+
 require './lib/lynr/converter/data_one'
 
 module DataOne
@@ -8,7 +10,19 @@ module DataOne
   #
   class Api
 
+    autoload :Response, './lib/data_one/api/response'
+
     include Lynr::Converter::DataOne
+
+    # ## `DataOne::Api#dataone_xml_query(vin)`
+    #
+    # Helper method to render query template with the appropriate
+    # `vin` request data.
+    #
+    def dataone_xml_query(vin)
+      path = ::File.join(Lynr.root, 'views/admin/vehicle/dataone_request')
+      Sly::View::Erb.new(path, data: { vin: vin }).result
+    end
 
     # ## `DataOne::Api.fetch(vin)`
     #
@@ -57,18 +71,25 @@ module DataOne
         decoder_query:      dataone_xml_query(vin),
       }
       Lynr.metrics.time('time.service:dataone.fetch') do
-        RestClient.post url, data
+        request(url, data)
       end
     end
 
-    # ## `DataOne::Api#dataone_xml_query(vin)`
+    # ## `DataOne::Api#request(url, data)`
     #
-    # Helper method to render query template with the appropriate
-    # `vin` request data.
+    # Internal: Perform the API request via `RestClient`. Rescue errors
+    # and return the `RestClient::Response` instance (HTTP respons).
     #
-    def dataone_xml_query(vin)
-      path = ::File.join(Lynr.root, 'views/admin/vehicle/dataone_request')
-      Sly::View::Erb.new(path, data: { vin: vin }).result
+    # * `url`  - to which the `data` will POST posted
+    # * `data` - `Hash` of parameters to POST to `url`
+    #
+    # Returns `RestClient::Response` whether the request is successful
+    # (200 OK) or returns an error status.
+    #
+    def request(url, data)
+      RestClient.post url, data
+    rescue => e
+      e.response
     end
 
   end

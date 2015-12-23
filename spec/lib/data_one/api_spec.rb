@@ -2,9 +2,13 @@ require 'rspec/autorun'
 require './spec/spec_helper'
 
 require './lib/data_one'
+require './lib/data_one/api'
 
 describe DataOne::Api do
 
+  MockResponse = Struct.new(:code, :to_hash)
+
+  subject(:api) { DataOne::Api.new }
   let(:query) { subject.dataone_xml_query('1HGEJ6229XL063838') }
   let(:doc) { LibXML::XML::Document.string(query) }
 
@@ -19,11 +23,11 @@ describe DataOne::Api do
       let(:query_request) { doc.find('.//query_request').first }
 
       it 'has identifier equal to vin' do
-        expect(subject.value(query_request, './@identifier')).to eq('1HGEJ6229XL063838')
+        expect(api.value(query_request, './@identifier')).to eq('1HGEJ6229XL063838')
       end
 
       it 'has a <vin /> with content equal to vin number requested' do
-        expect(subject.content(query_request, './vin')).to eq('1HGEJ6229XL063838')
+        expect(api.content(query_request, './vin')).to eq('1HGEJ6229XL063838')
       end
 
     end
@@ -37,7 +41,7 @@ describe DataOne::Api do
       let(:decoder_settings) { doc.find('.//decoder_settings').first }
 
       it 'has a <version /> of 7.0.1' do
-        expect(subject.content(decoder_settings, './version')).to eq('7.0.1')
+        expect(api.content(decoder_settings, './version')).to eq('7.0.1')
       end
 
       it 'has <style_data_packs /> information' do
@@ -49,11 +53,11 @@ describe DataOne::Api do
       end
 
       it 'has <styles> on' do
-        expect(subject.content(decoder_settings, './styles')).to eq('on')
+        expect(api.content(decoder_settings, './styles')).to eq('on')
       end
 
       it 'has <common_data> on' do
-        expect(subject.content(decoder_settings, './common_data')).to eq('on')
+        expect(api.content(decoder_settings, './common_data')).to eq('on')
       end
 
       context '<style_data_packs>' do
@@ -61,47 +65,47 @@ describe DataOne::Api do
         let(:style_data_packs) { decoder_settings.find('./style_data_packs').first }
 
         it 'has <basic_data> on' do
-          expect(subject.content(style_data_packs, './basic_data')).to eq('on')
+          expect(api.content(style_data_packs, './basic_data')).to eq('on')
         end
 
         it 'has <specifications> on' do
-          expect(subject.content(style_data_packs, './specifications')).to eq('on')
+          expect(api.content(style_data_packs, './specifications')).to eq('on')
         end
 
         it 'has <engines> on' do
-          expect(subject.content(style_data_packs, './engines')).to eq('on')
+          expect(api.content(style_data_packs, './engines')).to eq('on')
         end
 
         it 'has <transmissions> on' do
-          expect(subject.content(style_data_packs, './transmissions')).to eq('on')
+          expect(api.content(style_data_packs, './transmissions')).to eq('on')
         end
 
         it 'has <installed_equipment> off' do
-          expect(subject.content(style_data_packs, './installed_equipment')).to eq('off')
+          expect(api.content(style_data_packs, './installed_equipment')).to eq('off')
         end
 
         it 'has <safety_equipment> off' do
-          expect(subject.content(style_data_packs, './safety_equipment')).to eq('off')
+          expect(api.content(style_data_packs, './safety_equipment')).to eq('off')
         end
 
         it 'has <optional_equipment> off' do
-          expect(subject.content(style_data_packs, './optional_equipment')).to eq('off')
+          expect(api.content(style_data_packs, './optional_equipment')).to eq('off')
         end
 
         it 'has <generic_optional_equipment> off' do
-          expect(subject.content(style_data_packs, './generic_optional_equipment')).to eq('off')
+          expect(api.content(style_data_packs, './generic_optional_equipment')).to eq('off')
         end
 
         it 'has <colors> on' do
-          expect(subject.content(style_data_packs, './colors')).to eq('on')
+          expect(api.content(style_data_packs, './colors')).to eq('on')
         end
 
         it 'has <fuel_efficiency> on' do
-          expect(subject.content(style_data_packs, './fuel_efficiency')).to eq('on')
+          expect(api.content(style_data_packs, './fuel_efficiency')).to eq('on')
         end
 
         it 'has <pricing> on' do
-          expect(subject.content(style_data_packs, './pricing')).to eq('on')
+          expect(api.content(style_data_packs, './pricing')).to eq('on')
         end
 
       end
@@ -110,18 +114,18 @@ describe DataOne::Api do
 
   end
 
-  describe '#fetch' do
+  describe '#fetch', if: MongoHelpers.connected? do
 
     let(:config) { Lynr.config('app').vin.dataone }
     let(:dataone_response) { File.read('spec/data/1HGEJ6229XL063838.xml') }
 
     before(:each) do
-      subject.stub(:fetch_dataone) do |vin|
+      api.stub(:fetch_dataone) do |vin|
         File.read('spec/data/1HGEJ6229XL063838.xml').gsub('1HGEJ6229XL063838', vin)
       end
     end
 
-    context 'with active DB and primed cache', :if => (MongoHelpers.connected?) do
+    context 'with active DB and primed cache' do
 
       before(:each) do
         Lynr.cache.write('1HG', dataone_response.gsub('1HGEJ6229XL063838', '1HG'))
@@ -132,12 +136,12 @@ describe DataOne::Api do
       end
 
       it 'fetches dataone_response for 1HG' do
-        expect(subject.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
+        expect(api.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
       end
 
     end
 
-    context 'with active DB and decode', :if => (MongoHelpers.connected?) do
+    context 'with active DB and decode' do
 
       before(:each) do
         Lynr.stub(:features) do |type, defaults|
@@ -150,17 +154,17 @@ describe DataOne::Api do
       end
 
       it 'fetches dataone_response for 1HG' do
-        expect(subject.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
+        expect(api.fetch('1HG')).to be_instance_of(LibXML::XML::Node)
       end
 
       it 'stores response in cache' do
-        node = subject.fetch('1HG')
+        node = api.fetch('1HG')
         expect(Lynr.cache.include?('1HG')).to be_true
       end
 
     end
 
-    context 'with active DB and no decode', :if => (MongoHelpers.connected?) do
+    context 'with active DB and no decode' do
 
       before(:each) do
         Lynr.stub(:features) do |type, defaults|
@@ -173,11 +177,42 @@ describe DataOne::Api do
       end
 
       it 'gets nil if not decoding' do
-        expect(subject.fetch('1HG')).to be_nil
+        expect(api.fetch('1HG')).to be_nil
       end
 
     end
 
+  end
+
+  describe '#request' do
+    let(:data) {
+      {
+        authorization_code: 'hi',
+        client_id:          'hi',
+        decoder_query:      api.dataone_xml_query('1HGEJ6229XL063838'),
+      }
+    }
+    def create_response(code)
+      RestClient::Response.create(
+        File.read('spec/data/1HGEJ6229XL063838.xml'),
+        MockResponse.new(code, { 'Content-Type' => 'text/xml' }),
+        {},
+      )
+    end
+    context 'with 200 response' do
+      before(:each) do
+        RestClient.stub(:post) do |url, data| create_response(200) end
+      end
+      it { expect(api.request('/hi', data).code).to eq(200) }
+    end
+    context 'with 500 response' do
+      before(:each) do
+        RestClient.stub(:post) do |url, data|
+          raise RestClient::InternalServerError.new(create_response(500))
+        end
+      end
+      it { expect(api.request('/hi', data).code).to eq(500) }
+    end
   end
 
 end
